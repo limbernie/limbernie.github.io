@@ -68,7 +68,7 @@ A fork bomb!
 
 ### HTML Comments
 
-I noticed several HTML comments encoded in `base64` in the source code.
+There were several HTML comments in the source code encoded in `base64`.
 
 ![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
 
@@ -113,7 +113,7 @@ Content-Type: text/html
 </html>
 ```
 
-The binary string above was decoded to:
+The binary string was decoded to:
 
 ```bash
 # for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
@@ -141,11 +141,11 @@ edocrq
 
 _Note that the reverse of "edocrq" is "qrcode"._
 
-Well, in any case, the file `edocrq` is available from the web server and it looks like this.
+Well, in any case, the file `edocrq` is available from the web server and it looked like this.
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-There is slight twist before you can decode the QR code. You need to flip it horizontally like so.
+There is slight twist before the QR code can be decoded. You need to flip it horizontally like so:
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
@@ -225,7 +225,7 @@ Elderberry was a hyperlink to an interesting file - `placeho1der.jpg`:
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
 
-### Solving the Puzzle of `placeho1der.jpg`
+### Solving the puzzle of `placeho1der.jpg`
 
 The image required some transformation before the puzzle can be revealed:
 
@@ -268,7 +268,7 @@ for ports in $(cat sequence.txt); do
 done
 ```
 
-Where `sequence.txt` contains all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so:
+`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so:
 
 ```bash
 # python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
@@ -362,11 +362,11 @@ pw: bakeoff
 Ok. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
 
 ```
-# hydra -L members.txt -p bakeoff -f ftp://192.168.198.128)
+# hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
 [21][ftp] host: 192.168.198.128 login: mary password: bakeoff
 ```
 ```
-# hydra -L members.txt -p bakeoff -f ssh://192.168.198.128)
+# hydra -L members.txt -p bakeoff -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: mary password: bakeoff
 ```
 
@@ -400,7 +400,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It makes sense to use the passwords above to decrypt the file but I don't know which cipher was used. To that end, I wrote a bash script to try all available ciphers until something clicks.
+It made sense to use the passwords above to decrypt the file but I don't know which cipher was used. To that end, I wrote a bash script to try all available ciphers until something clicks.
 
 ```bash
 # cat decrypt.sh
@@ -423,13 +423,13 @@ for c in $(cat ciphers.txt); do
 done
 ```
 
-Where `ciphers.txt` contained the available ciphers. Running the script revealed the following:
+`ciphers.txt` contained the available ciphers. Running the script revealed the following:
 
 ![decrypted.png](/assets/images/posts/cyberry-walkthrough/cyberry-2.png)
 
 It certainly looked like some sort of password!
 
-### `login.php` Reloaded
+### `login.php` reloaded
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
@@ -457,22 +457,22 @@ Bingo! Using this way, I was able to run a reverse shell using `nc` back to me.
 
 Awesome.
 
-### Learning the Root Dance
+### Learning the root dance
 
 During enumeration, I spotted an interesting file - `nb-latin` at `/var/www/html-secure/ub3r-s3cur3`
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
-It's a list of Latin words. Perhaps this is another password list to brute force SSH?
+It was a list of Latin words. Perhaps this is another password list that be used to brute force SSH?
 
 ```
-hydra -L members.txt -P nb-latin -f ssh://192.168.198.128)
+hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: nick password: custodio
 ```
 
-### `sudo` Russian Doll
+### Playing the `sudo` Russian doll
 
-I was able to SSH in to nick's account using the credentials `(nick:custodio)` and here's where the crazy begins.
+I was able to SSH in to nick's account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
@@ -510,7 +510,7 @@ However, at the home directory of `chuck` there was still something interesting 
 
 The file at `/home/chuck/.deleted/deleted` provided hints to the `root` password!
 
-### Guessing the `root` Password
+### Guessing the `root` password
 
 Here's what we know about the `root` password:
 
@@ -534,8 +534,8 @@ I know the first 3 characters of the first word and the last 3 characters of the
 
 The first word must contain the following:
 
-* "che"at the beginning; and
-* one "b"as another "b"is used up in "baca"; or
+* "che" at the beginning; and
+* one "b" as another "b" is used up in "baca"; or
 * one "m"; or
 * one "w"
 
@@ -548,10 +548,10 @@ chew
 
 The last word must contain the following:
 
-* one "b"as another "b"is used up in "baca"; or
+* one "b" as another "b" is used up in "baca"; or
 * at least one "e"as another "e"was used up in "che"; or
 * one "m"; and
-* "rry"at the end
+* "rry" at the end
 
 
 Similarly, finding the last word and meeting the above constraints:
