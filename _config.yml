@@ -1,0 +1,74 @@
+
+###################################
+# Site wide configuration
+###################################
+
+title: /security
+email: 
+description: My security journey
+url: https://limbernie.github.io
+keywords: ["Programming", "PHP", "Ruby"]
+
+
+###################################
+# Jekyll configuration
+###################################
+
+timezone:          UTC
+markdown:          kramdown
+highlighter:       rouge
+excerpt_separator: <!--more-->
+permalink:         /articles/:year-:month/:title
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  enable_coderay: false
+
+
+####################################
+# Site Owner configuration
+####################################
+
+owner:
+  name: Bernard Lim
+  avatar: avatar.png
+  job: 
+  bio: "A security ethusiast."
+  email: #email
+  disqus-shortname: #shortname
+  twitter: limbernie
+  facebook: #username
+  google:
+    plus: #username
+    analytics: UA-62251910-2
+    verify:
+    ad-client:
+    ad-slot:
+  bing-verify:
+  github: limbernie #username
+  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  linkedin: #username
+  xing: #username
+  instagram: #username
+  lastfm: #username
+  tumblr: #username
+  pinterest: #username
+  foursquare: #username
+  steam: #username
+  dribbble: #username
+  youtube: #username
+  soundcloud: #username
+  weibo: #username
+  flickr: #username
+  codepen: #username
+  telegram: #username
+
+####################################
+# Plugins
+####################################
+plugins:
+  - jemoji
+  - jekyll-mentions
