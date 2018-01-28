@@ -141,7 +141,7 @@ edocrq
 
 _Note that the reverse of "edocrq" is "qrcode"._
 
-Well, in any case, the file `edocrq` is available from the web server and it looked like this.
+Well, in any case, the file `edocrq` is available from the web server and it looked like this:
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
@@ -153,7 +153,7 @@ It was decoded to `/berrypedia.html`.
 
 ### Directory/File Enumeration Round 2
 
-In any case, the same conclusion can also be reached with `dirbuster`.
+The same conclusion can also be reached with `dirbuster` without going through the hard way.
 
 ```
 Starting OWASP DirBuster 1.0-RC1
@@ -205,7 +205,7 @@ With this in mind, I was able to perform online password cracking with `hydra`.
 
 ### Berrypedia Admin Panel
 
-Unfortunately, this is not the SSH password for root. I was able to login to the admin panel but there was nothing interesting to see really.
+Unfortunately, this is not the SSH password for `root`. I was able to login to the admin panel but there was nothing interesting to see really.
 
 ![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
 
@@ -244,7 +244,7 @@ The image required some transformation before the puzzle can be revealed:
 
 The photo of each person was intentiionally flipped to throw you off when you are searching in Google Images.
 
-The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them covered the song at some point in time. Combined with Port of Tacoma, it was very obvious that we are looking at port knocking here.
+The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them had covered the song at some point in time. Combined with Port of Tacoma, it was very obvious that we are looking at port knocking here.
 
 Port knocking required connecting to a sequence of ports in the correct order before certain port(s) are revealed. The year which the song was covered by each person makes it a good starting point to guess the correct port sequence.
 
@@ -457,7 +457,7 @@ Bingo! Using this way, I was able to run a reverse shell using `nc` back to me.
 
 Awesome.
 
-### Learning the root dance
+### Learning the `root` dance
 
 During enumeration, I spotted an interesting file - `nb-latin` at `/var/www/html-secure/ub3r-s3cur3`
 
@@ -472,13 +472,13 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 
 ### Playing the `sudo` Russian doll
 
-I was able to SSH in to nick's account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll begins.
+I was able to SSH in to `nick`'s account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
 It appears that `/home/nick/invoke.sh` is a script that runs executable as `terry`.
 
-![invoke.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
+![invoke.png](/assets/images/posts/cyberry-walkthrough/cyberry-20.png)
 
 Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb was present in `.bashrc`? One of the users may have this as a defence mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It ain't pretty but it works.
 
@@ -486,11 +486,11 @@ Let's try to open a shell as `terry`. But before we do that, recall that a `fork
 
 `awk` can be used to escape to shell like so: `awk 'BEGIN { system("/bin/sh") }'`
 
-![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
+![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-22.png)
 
 PHP can run shell commands too. Let's run a reverse shell back to me using `nc`.
 
-![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
+![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-23.png)
 
 On my `netcat` listener, a reverse shell connects.
 
@@ -579,7 +579,7 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 [22][ssh] host: 192.168.198.128 login: root password: chewbacabemerry
 ```
 
-### Root Dance
+### I know the `root` :dancer:!
 
 ![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
 
