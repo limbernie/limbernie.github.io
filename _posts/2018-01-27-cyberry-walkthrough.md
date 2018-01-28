@@ -3,6 +3,7 @@ layout: post
 title: "I Love Berries!"
 categories: walkthrough
 tags: [vulnhub, cyberry]
+comments: true
 ---
 
 > **Spoiler alert.**  
