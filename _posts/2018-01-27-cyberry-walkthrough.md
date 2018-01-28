@@ -399,7 +399,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote a bash script to try all available ciphers until something clicks.
+It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote a `bash` script to try all available ciphers until something clicks.
 
 ```bash
 # cat decrypt.sh
