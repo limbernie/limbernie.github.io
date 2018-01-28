@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "I Love Berries!"
-author: "@limbernie"
 categories: walkthrough
 tags: [vulnhub, cyberry]
 ---
@@ -84,7 +83,7 @@ secretfile.html
 work-in-progress.png
 ```
 
-Requesting for `secretfile.html` resulted in:
+Requesting for `/secretfile.html` resulted in:
 
 ```
 # curl -i 192.168.198.128/secretfile.html
@@ -123,7 +122,7 @@ boss.gif
 
 ![boss.gif](/assets/images/posts/cyberry-walkthrough/boss.gif)
 
-Requesting for `work-in-progress.png` resulted in:
+Requesting for `/work-in-progress.png` resulted in:
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
@@ -151,7 +150,7 @@ There is slight twist before the QR code can be decoded. You need to flip it hor
 
 It was decoded to `/berrypedia.html`.
 
-### Directory/File Enumeration Round 2
+### Directory/File Enumeration - Part 2
 
 The same conclusion can also be reached with `dirbuster` without going through the hard way.
 
@@ -184,9 +183,9 @@ Dir found: /server-status/ - 403
 DirBuster Stopped
 ```
 
-### login.php
+### Login Page `/login.php`
 
-This login page has a weakness in that it leaks information about the existence of a user.
+The login page has a weakness in that it leaks information about the existence of a user.
 
 _If the user does not exist:_
 
@@ -211,7 +210,7 @@ Unfortunately, this is not the SSH password for `root`. I was able to login to t
 
 ### phpMyAdmin 4.6.6
 
-PMA was present as well, which says the machine is capable of running PHP.
+PMA was present as well, which is another way of saying the machine is capable of running PHP.
 
 ![pma.png](/assets/images/posts/cyberry-walkthrough/cyberry-2_2.png)
 
@@ -221,11 +220,11 @@ Requesting for `/berrypedia.html` revealed the following page:
 
 ![berrypedia.png](/assets/images/posts/cyberry-walkthrough/cyberry-8.png)
 
-Elderberry was a hyperlink to an interesting file - `placeho1der.jpg`:
+Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`:
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
 
-### Solving the puzzle of `placeho1der.jpg`
+### Solving the puzzle of `/placeho1der.jpg`
 
 The image required some transformation before the puzzle can be revealed:
 
@@ -242,7 +241,7 @@ The image required some transformation before the puzzle can be revealed:
     <li>Fats Domino (1961)</li>
 </ol>
 
-The photo of each person was intentiionally flipped to throw you off when you are searching in Google Images.
+The photo of each person was intentionally flipped to throw you off when you are searching in Google Images.
 
 The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them had covered the song at some point in time. Combined with Port of Tacoma, it was very obvious that we are looking at port knocking here.
 
@@ -345,7 +344,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting:
 
 ### Brainfuck
 
-The above pattern was coded in the [Brainfuck][3] language. Using an online brainfuck [interpreter][4], it was decoded to:
+Despite its strange looking syntax, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to:
 
 ```
 Hello World!
@@ -380,7 +379,7 @@ Noticed that `.bash_history` is a directory? This is unusual and definitely wort
 
 ![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
 
-`.reminder.enc` is a ciphertext encrypted using openssl (`Salted__` header) while `.trash` is a list of common passwords:
+`.reminder.enc` is a ciphertext encrypted using `openssl enc` (`Salted__` header) while `.trash` is a list of common passwords:
 
 ```
 # cat .trash
@@ -400,7 +399,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It made sense to use the passwords above to decrypt the file but I don't know which cipher was used. To that end, I wrote a bash script to try all available ciphers until something clicks.
+It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote a bash script to try all available ciphers until something clicks.
 
 ```bash
 # cat decrypt.sh
@@ -429,7 +428,7 @@ done
 
 It certainly looked like some sort of password!
 
-### `login.php` reloaded
+### Login page `/login.php` - Part 2
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
@@ -459,7 +458,7 @@ Awesome.
 
 ### Learning the `root` dance
 
-During enumeration, I spotted an interesting file - `nb-latin` at `/var/www/html-secure/ub3r-s3cur3`
+During enumeration, I spotted an interesting file `nb-latin` at `/var/www/html-secure/ub3r-s3cur3`
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
@@ -470,7 +469,7 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: nick password: custodio
 ```
 
-### Playing the `sudo` Russian doll
+### Unstacking the `sudo` Russian doll
 
 I was able to SSH in to `nick`'s account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
 
@@ -535,7 +534,7 @@ I know the first 3 characters of the first word and the last 3 characters of the
 The first word must contain the following:
 
 * "che" at the beginning; and
-* one "b" as another "b" is used up in "baca"; or
+* one "b" (another "b" is in "baca"); or
 * one "m"; or
 * one "w"
 
@@ -548,8 +547,8 @@ chew
 
 The last word must contain the following:
 
-* one "b" as another "b" is used up in "baca"; or
-* at least one "e"as another "e"was used up in "che"; or
+* one "b" (another "b" is in "baca"); or
+* at least one "e" (another "e" is in "che"); or
 * one "m"; and
 * "rry" at the end
 
@@ -579,11 +578,11 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 [22][ssh] host: 192.168.198.128 login: root password: chewbacabemerry
 ```
 
-### I know the `root` :dancer:!
+### I know the `root` dance!
 
 ![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
 
-@limbernie
+@limbernie :dancer:
 
 [1]: https://www.vulnhub.com/entry/cyberry-1,217/
 [2]: https://www.vulnhub.com

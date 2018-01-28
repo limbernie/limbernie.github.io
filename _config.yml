@@ -4,10 +4,9 @@
 ###################################
 
 title: /security
-email: 
-description: My security journey
+description: A blog into my security journey.
 url: https://limbernie.github.io
-keywords: ["Programming", "PHP", "Ruby"]
+keywords: ["security", "walkthrough", "CTF", "reverse engineering", "exploit development"]
 
 
 ###################################
@@ -36,7 +35,7 @@ owner:
   name: Bernard Lim
   avatar: avatar.png
   job: 
-  bio: "A security ethusiast."
+  bio: "A security ethusiast. Likes cats."
   email: #email
   disqus-shortname: #shortname
   twitter: limbernie
