@@ -584,7 +584,7 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 
 ![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
 
-@limbernie :dancer:
+:dancer:
 
 [1]: https://www.vulnhub.com/entry/cyberry-1,217/
 [2]: https://www.vulnhub.com
