@@ -46,7 +46,7 @@ layout: default
 				{{ post.excerpt | number_of_words }} 
 			{% endcapture %} 
 			{% if excerpt_words != content_words %}
-			<p><a class="btn btn-sm btn-primary" href="{{ post.url }}#start" role="button">Continue</a></p>
+			<p><a class="btn" href="{{ post.url }}#start" role="button">Continue</a></p>
       {% endif %}
     </div>
     {% endif %}
