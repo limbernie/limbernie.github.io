@@ -17,7 +17,7 @@ timezone:          UTC
 markdown:          kramdown
 highlighter:       rouge
 excerpt_separator: <!--more-->
-permalink:         /articles/:year-:month/:title
+permalink:         /articles/:year-:month/:title/
 
 kramdown:
   auto_ids: true
