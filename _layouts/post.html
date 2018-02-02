@@ -42,7 +42,7 @@ layout: default
   </header>
 
   <article class="post-content">
-    {{ content }}
+    {{ content | replace: '<!--more-->', '<a class="anchor" id="here"></a>' }}
   </article>
 </div>
 

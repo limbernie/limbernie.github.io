@@ -11,6 +11,8 @@ This post documents the complete walkthrough of Cyberry: 1,
 a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
+<!--more-->
+
 ### Background
 Cyberry are eagerly anticipating the release of their new "Berrypedia" website, 
 a life-long project which offers knowledge and insight into all things Berry!
