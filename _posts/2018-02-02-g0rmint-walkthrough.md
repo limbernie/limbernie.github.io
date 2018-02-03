@@ -446,7 +446,7 @@ The real workhorse of the script is the `encode()` function. This function turns
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
-Simply supply the email, password and command as arguments and the script would display out the output. For example:
+Simply supply the email, password and command as arguments and the script would spit out the result. For example:
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
