@@ -139,7 +139,7 @@ This page proved to be an really informative one.
 
 ### Backup Archive `/backup.zip`
 
-The backup archive can be downloaded at `http://192.168.198.131/g0rmint/s3cretbackupdirect0ry/backup.zip`
+The backup archive can be downloaded at `http://192.168.198.130/g0rmint/s3cretbackupdirect0ry/backup.zip`
 
 ```
 # unzip -l backup.zip 
@@ -378,11 +378,11 @@ This is how the `addlog()` function in `/config.php` looked like:
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication has failed, the value of the email field gets logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the year in 4-digit, `"m"` is the month in 2-digit with a leading zero and `"d"` is the day in 2-digit with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the contents of `dummy.php` was written at the top of the file.
+When authentication has failed, the value of the email field gets logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the contents of `dummy.php` was written at the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
-I wrote a bash script to automate remote command execution as follows:
+I wrote a `bash` script to automate remote command execution as follows:
 
 ```bash
 # cat exploit.sh
@@ -437,7 +437,7 @@ function exploit() {
 authenticate
 exploit
 
-# Remove cookie jar
+# remove cookie jar
 rm -rf cookie
 ```
 
@@ -445,7 +445,7 @@ The real workhorse of the script is the `encode()` function. This function turns
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
-Simply supply the email, username and command as arguments and the script would display out the output. For example:
+Simply supply the email, password and command as arguments and the script would display out the output. For example:
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
