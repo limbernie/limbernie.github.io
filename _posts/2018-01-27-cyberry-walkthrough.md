@@ -144,7 +144,7 @@ edocrq
 
 _Note that the reverse of "edocrq" is "qrcode"._
 
-Well, in any case, the file `edocrq` is available from the web server and it looked like this:
+Well, in any case, the file `edocrq` was available from the web server and it looked like this:
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
@@ -189,7 +189,7 @@ DirBuster Stopped
 
 ### Login Page `/login.php`
 
-The login page has a weakness in that it leaks information about the existence of a user.
+The login page had a weakness - it leaked information about the existence of a user.
 
 _If the user does not exist:_
 
@@ -253,7 +253,7 @@ Port knocking required connecting to a sequence of ports in the correct order be
 
 ### Unlocking `61955/tcp`
 
-I wrote a port knocking script using `nmap` as follows:
+I wrote this port knocking script using `nmap`:
 
 ```bash
 # cat knock.sh
@@ -348,7 +348,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting:
 
 ### Brainfuck
 
-Despite its strange looking syntax, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to:
+Despite its strange looking form, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to:
 
 ```
 Hello World!
@@ -362,7 +362,7 @@ kerry
 pw: bakeoff
 ```
 
-Ok. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
+I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
 
 ```
 # hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
@@ -403,7 +403,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote a `bash` script to try all available ciphers until something clicks.
+It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
 ```bash
 # cat decrypt.sh
@@ -479,11 +479,11 @@ I was able to SSH in to `nick`'s account using the credentials `(nick:custodio)`
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
-It appears that `/home/nick/invoke.sh` is a script that runs executable as `terry`.
+It appeared that `/home/nick/invoke.sh` is a script that runs any executable as `terry`.
 
 ![invoke.png](/assets/images/posts/cyberry-walkthrough/cyberry-20.png)
 
-Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb was present in `.bashrc`? One of the users may have this as a defence mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It ain't pretty but it works.
+Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb was present in `.bashrc`? One of the users may have this as a defense mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It ain't pretty but it works.
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
@@ -503,7 +503,7 @@ Let's start a pseudo-tty.
 
 ![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
 
-Ok, the buck finally stops here.
+OK, the buck finally stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 

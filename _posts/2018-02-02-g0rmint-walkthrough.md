@@ -332,7 +332,7 @@ Archive:  backup.zip
   6183823                     181 files
 ```
 
-Sweet. The archive appears to be the backup of the site.
+Sweet. The archive appeared to be the backup of the site.
 
 ### Resetting Password
 
@@ -344,15 +344,15 @@ Since the site backup is available, let's take a look at the password reset mech
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-12.png)
 
-All we have to do is to guess the email address and username. And, the "new" password would be the first 20 characters from the SHA1 hash of the current GMT date/time. :smirk:
+All we have to do is to guess the email address and username. The "new" password would be the first 20 characters from the SHA1 hash of the current GMT date/time. :smirk:
 
-Another advantage given to us was the current GMT date/time loaded at the bottom of the password reset page.
+Another advantage we had was the current GMT date/time at the bottom of the password reset page.
 
 Let's give a shot to `(email:w3bdrill3r@gmail.com)` and `(username:noman)` and see what we get.
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-14.png)
 
-I wrote a script to simplify the process of getting the "new" password in plaintext:
+I wrote this script to simplify the process of getting the "new" password in plaintext:
 
 ```bash
 # cat reset.sh
@@ -369,7 +369,7 @@ The password reset worked. Awesome!
 
 ### Remote Command Execution
 
-Now that I've gain access to the g0rmint Admin Portal, this is also a good time to review the application source code and determine our attack vector.
+Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and determine our attack vector.
 
 At the beginning of `/login.php`, it was possible to introduce PHP code of my choice into the site through the `addlog()` function.
 
@@ -379,11 +379,11 @@ This is how the `addlog()` function in `/config.php` looked like:
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication has failed, the value of the email field gets logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the contents of `dummy.php` was written at the top of the file.
+When authentication has failed, the value of the email field is logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the contents of `dummy.php` was written at the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
-I wrote a `bash` script to automate remote command execution as follows:
+I wrote this `bash` script to automate remote command execution:
 
 ```bash
 # cat exploit.sh
@@ -442,7 +442,7 @@ exploit
 rm -rf cookie
 ```
 
-The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the `chr()` function and concatenate back as a string. This is to bypass `addslashes()` that was present in `config.php`.
+The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass `addslashes()` that was present in `config.php`.
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
