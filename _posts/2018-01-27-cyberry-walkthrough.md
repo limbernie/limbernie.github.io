@@ -148,7 +148,7 @@ Well, in any case, the file `edocrq` was available from the web server and it lo
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-There is slight twist before the QR code can be decoded. You need to flip it horizontally like so:
+There is a slight twist before the QR code can be decoded. You need to flip it horizontally like so:
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
@@ -195,7 +195,7 @@ _If the user does not exist:_
 
 ![non-exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-5.png)
 
-_If the user exists but the password is not valid:_
+_If the user exists and the password is invalid:_
 
 ![exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-6.png)
 
@@ -362,7 +362,7 @@ kerry
 pw: bakeoff
 ```
 
-I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
+OK. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
 
 ```
 # hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
@@ -503,7 +503,7 @@ Let's start a pseudo-tty.
 
 ![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
 
-OK, the buck finally stops here.
+The buck finally stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 
