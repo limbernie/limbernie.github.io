@@ -77,7 +77,7 @@ Well, the page looked like your normal password reset page. If you know the emai
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-8.png)
 
-At this point in time, I'm not aware of any email address or username :sob:
+At this point in time, I'm not aware of any email address or username. :sob:
 
 ### Menu Page `/mainmenu.php`
 
