@@ -53,15 +53,15 @@
 	
 	.sidebar {
 		float: left;
-		position: fixed;
-		left: 0px;
+		//position: relative;
+		//left: 0px;
 		display: block !important;
 	}
 
   .col {
 		float: left;
-    position: fixed;
-    right: 0px;
+    //position: relative;
+    //right: 0px;
     @include box-sizing(border-box);
     display:block;
 		vertical-align:top;
