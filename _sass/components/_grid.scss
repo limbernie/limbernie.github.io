@@ -52,12 +52,14 @@
   }
 	
 	.sidebar {
+		float: left;
 		position: fixed;
 		left: 0px;
 		display: block !important;
 	}
 
   .col {
+		float: left;
     position: fixed;
     right: 0px;
     @include box-sizing(border-box);
