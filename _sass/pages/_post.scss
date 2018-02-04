@@ -61,7 +61,7 @@ section.post {
 
 // Post meta
 .post-meta {
-  font-size: 13px;
+  font-size: 95%; /* 13px; */
   font-weight: bold;
 	.post-date {
 		color: $secondary;

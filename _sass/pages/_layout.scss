@@ -41,7 +41,7 @@
     margin: -5px auto 10px;
   }
   .author_bio {
-    font-size: 90%;
+    font-size: 95%;
     display: block;
   }
   @include media-query($medium-screen) {
@@ -80,7 +80,7 @@
     & a {
       margin-top: 1em;
       text-transform: lowercase;
-      font-size: 85%;
+      font-size: 90%;
       color: $secondary;
       &:hover,
       &:focus {
@@ -88,4 +88,21 @@
       }
     }
   }
+}
+
+.back-to-top {
+	background: none;
+	margin: 0px;
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	width: 70px;
+	height: 70px;
+	z-index: 100;
+	display: none;
+	text-decoration: none;
+}
+
+.back-to-top i {
+	font-size: 48px;
 }

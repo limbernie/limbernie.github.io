@@ -50,13 +50,20 @@
     display: table;
     clear: both;
   }
+	
+	.sidebar {
+		position: fixed;
+		left: 0px;
+		display: block !important;
+	}
 
   .col {
-    float: left;
+    position: fixed;
+    right: 0px;
     @include box-sizing(border-box);
     display:block;
-  	vertical-align:top;
-  	width:100%;
+		vertical-align:top;
+		width:100%;
 
     $i: 1;
     @while $i <= $num-cols {
