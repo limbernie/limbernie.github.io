@@ -91,7 +91,6 @@
 }
 
 .back-to-top {
-	float: left;
 	background: none;
 	margin: 0px;
 	position: fixed;
@@ -99,7 +98,7 @@
 	right: 0px;
 	width: 70px;
 	height: 70px;
-	z-index: 100;
+	z-index: 999;
 	display: none;
 	text-decoration: none;
 }
