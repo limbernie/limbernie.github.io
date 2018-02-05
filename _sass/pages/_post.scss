@@ -1,9 +1,9 @@
 // Post listing
 .post-listing {
-  background-color: transparent; /* $white; */
-  position: absolute;
+  background-color: $white;
+  //position: absolute;
   top: 400px;
-  z-index: 233;
+  //z-index: 233;
   width: 100%;
   padding: 20px 20px 0;
   -webkit-transform: translate3d(0,0,1px);
