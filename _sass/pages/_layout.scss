@@ -10,6 +10,7 @@
   @include media-query($small-screen) {
     background-position: center;
     padding: 20px;
+    width: 100%;
   }
   @include media-query($medium-screen) {
     height: 100vh;
