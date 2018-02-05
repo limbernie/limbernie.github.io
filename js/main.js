@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var offset = 50;
+	var offset = 250;
 	var duration = 500;
 	$('.post-listing').scroll(function() {
 		if ($(this).scrollTop() > offset) {

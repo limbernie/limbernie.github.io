@@ -52,8 +52,6 @@
   }
 	
   .col {
-  	position: relative;
-  	z-index: 1;
   	float: left;
     @include box-sizing(border-box);
     display:block;
