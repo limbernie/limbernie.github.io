@@ -9,7 +9,7 @@
   z-index: 1;
   @include media-query($small-screen) {
     background-position: center;
-    padding: 30px;
+    padding: 15px;
   }
   @include media-query($medium-screen) {
     height: 100vh;
