@@ -91,6 +91,7 @@
 }
 
 .back-to-top {
+	background-color: blue;
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
@@ -99,6 +100,8 @@
 	height: 50px;
 	display: none;
 	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .back-to-top i {
