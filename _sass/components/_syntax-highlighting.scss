@@ -13,8 +13,7 @@ pre, code {
 code {
   color: #e96900;
   border-radius: 2px;
-  white-space: nowrap;
-  word-wrap: break-all;
+  white-space: pre-wrap; /* nowrap; */
 }
 
 
