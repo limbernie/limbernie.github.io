@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var duration = 500;
+
 	var width = $(window).width();
 
 	backToTop(width);
@@ -12,8 +12,11 @@ $(document).ready(function() {
 	});
 
 	function backToTop(width) {
-		var max_width = 977;
+
+		var max_width = 977;	// trial-n-error
 		var offset = 400;
+		var duration = 500;
+
 		if (width > max_width) {
 			$('.post-listing').scroll(function() {
 				if ($(this).scrollTop() > offset) {
