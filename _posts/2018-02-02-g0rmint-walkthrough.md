@@ -139,8 +139,7 @@ This page proved to be an really informative one.
 
 ### Backup Archive `/backup.zip`
 
-The backup archive can be downloaded at  
-`/g0rmint/s3cretbackupdirect0ry/backup.zip`
+The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.zip`
 
 ```
 # unzip -l backup.zip 
