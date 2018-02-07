@@ -12,12 +12,12 @@
   padding: 0.5em 1em;
 }
 img {
-	display: inline;
+	display: block;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  @include media-query($mobile-screen) {
-  	display: block;
+  @include media-query($medium-screen) {
+  	display: inline;
   }
 }
 
