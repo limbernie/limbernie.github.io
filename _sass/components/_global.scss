@@ -16,7 +16,7 @@ img {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  @include media-query($medium-screen) {
+  @include media-query($large-screen) {
 		display: inline;
   }
 }
