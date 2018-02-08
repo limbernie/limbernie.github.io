@@ -43,4 +43,7 @@ $(document).ready(function() {
 			});
 		}
 	}
+	$(function() {
+		$('.preview').miniPreview();
+	});
 });
