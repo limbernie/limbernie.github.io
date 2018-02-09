@@ -105,7 +105,7 @@ This page appeared to contain the headers of the admin portal. The admin's full 
 
 ![header.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-9.png)
 
-Looking at the HTML source code of this page, one of the CSS proved interesting - `style.css`:
+Looking at the HTML source code of this page, one of the CSS proved interesting - `style.css`.
 
 ```
 /*
@@ -139,7 +139,7 @@ This page proved to be an really informative one.
 
 ### Backup Archive `/backup.zip`
 
-The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file:
+The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file.
 
 ```
 # unzip -l backup.zip 
@@ -351,7 +351,7 @@ Let's give a shot to `(email:w3bdrill3r@gmail.com)` and `(username:noman)` and s
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-14.png)
 
-I wrote this script to simplify the process of getting the "new" password in plaintext:
+I wrote `reset.sh` to simplify the process of getting the "new" password in plaintext.
 
 ```bash
 # cat reset.sh
@@ -374,7 +374,7 @@ At the beginning of `/login.php`, it was possible to introduce PHP code of my ch
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-10.png)
 
-This is how the `addlog()` function in `/config.php` looked like:
+This is how the `addlog()` function in `/config.php` looked like.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
@@ -382,7 +382,7 @@ When authentication has failed, the value of the email field is logged to a PHP 
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
-I wrote this `bash` script to automate remote command execution:
+I wrote this `bash` script to automate remote command execution.
 
 ```bash
 # cat exploit.sh
@@ -482,7 +482,7 @@ sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
 
 ### Backup Archive `/backup.zip` - Part 2
 
-During enumeration, I spotted the presence of another `backup.zip` at `/var/www`:
+During enumeration, I spotted the presence of another `backup.zip` at `/var/www`.
 
 ```
 /var/www:
@@ -493,7 +493,7 @@ drwxr-xr-x 12 root     root        4096 Nov  2 03:42 ..
 drwxr-xr-x  3 www-data www-data    4096 Nov  3 04:08 html
 ```
 
-I helped myself to the file by copying it to the web root like so:
+I helped myself to the file by copying it to the web root like so.
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cp /var/www/backup.zip /var/www/html"

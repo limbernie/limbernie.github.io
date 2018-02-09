@@ -144,11 +144,11 @@ edocrq
 
 _Note that the reverse of "edocrq" is "qrcode"._
 
-Well, in any case, the file `edocrq` was available from the web server and it looked like this:
+Well, in any case, the file `edocrq` was available from the web server and it looked like this.
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-There is a slight twist before the QR code can be decoded. You need to flip it horizontally like so:
+There is a slight twist before the QR code can be decoded. You need to flip it horizontally like so.
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
@@ -253,7 +253,7 @@ Port knocking required connecting to a sequence of ports in the correct order be
 
 ### Unlocking `61955/tcp`
 
-I wrote this port knocking script using `nmap`:
+I wrote this port knocking script using `nmap`.
 
 ```bash
 # cat knock.sh
@@ -271,7 +271,7 @@ for ports in $(cat sequence.txt); do
 done
 ```
 
-`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so:
+`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so.
 
 ```bash
 # python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
@@ -289,7 +289,7 @@ done
 1970,1961,1955,1955
 ```
 
-Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` was unlocked like so:
+Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` was unlocked like so.
 
 `61955/tcp open http syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))`
 
@@ -297,7 +297,7 @@ Another similar site appeared to be running at `61955/tcp`.
 
 ![reloaded.png](/assets/images/posts/cyberry-walkthrough/cyberry-3.png)
 
-Let's repeat another round of directory enumeration with `gobuster` on this site:
+Let's repeat another round of directory enumeration with `gobuster` on this site.
 
 ```
 Gobuster v1.1 OJ Reeves (@TheColonial)
