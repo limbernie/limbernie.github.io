@@ -418,7 +418,7 @@ My guess is that the command ran like this.
 cat /var/log/auth.log /etc/shadow
 ```
 
-I can possibly use command substitution with backticks or `$()` to execute a another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
+I can possibly use command substitution with backticks or `$()` to execute another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
 ![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
 
