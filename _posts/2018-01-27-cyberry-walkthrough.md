@@ -469,7 +469,7 @@ Awesome.
 
 ### Learning the `root` dance
 
-During enumeration, I spotted an interesting file `nb-latin` at `/var/www/html-secure/ub3r-s3cur3`
+During enumeration, I spotted an interesting file at `/var/www/html-secure/ub3r-s3cur3`
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
