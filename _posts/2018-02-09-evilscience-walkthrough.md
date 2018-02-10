@@ -214,7 +214,7 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this l
 [!] Found: http://192.168.198.130/?file=/var/www/html/theEther.com/log/access.log
 ```
 
-### LFI >> Shell
+### LFI to Shell
 
 Now that I've found `access.log`, I can corrupt it by sending PHP code through `netcat`.
 
@@ -393,9 +393,11 @@ Armed with this new knowledge that `cat` was used, let's see if we can display `
 
 Holy smoke! It worked.
 
-My guess is that the command that ran was like so.
+My guess is that the command ran like so.
 
-`cat /var/log/auth.log /etc/shadow`
+```
+cat /var/log/auth.log /etc/shadow
+```
 
 I can possibly use command substitution with backticks or `$()` to execute a another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
@@ -411,7 +413,7 @@ Time to test my hypothesis!
 
 :dancer:
 
-### Getting to the bottom
+### Getting to Bikini Bottom :bikini:
 
 There was a PNG file `flag.png` in `/root` that looked like this.
 
@@ -424,7 +426,7 @@ There was a long `base64` encoded string appended to the end of the file like so
 Finally, the cat is out of the bag!
 
 ```
-# strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d`
+# strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d
 ```
 
 <pre class="wrap">
