@@ -66,7 +66,7 @@ Among the hyperlinks, two of them stood out immediately:
 * `?file=about.php`
 * `?file=research.php`
 
-Could this be a LFI  vulnerability? We shall see.
+Could there be a LFI  vulnerability? We shall see.
 
 ### Directory/File Enumeration
 
