@@ -214,7 +214,7 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this l
 [!] Found: http://192.168.198.130/?file=/var/www/html/theEther.com/log/access.log
 ```
 
-### LFI to shell - `access.log`
+### LFI --> Shell
 
 Now that I've found `access.log`, I can corrupt it by sending PHP code through `netcat`.
 
