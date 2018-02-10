@@ -24,7 +24,6 @@ Let's kick this off with a `nmap` scan to establish the services available in **
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
 ```
 ```
-...
 PORT    STATE  SERVICE REASON         VERSION
 21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
 22/tcp  open   ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
