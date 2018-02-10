@@ -565,7 +565,7 @@ The first word must contain the following:
 * one "m"; or
 * one "w"
 
-I used the following command to find the first word by eliminating the characters that should be not appear and it must be a word in a dictionary.
+I used the following command to find the first word by eliminating the characters that should not appear and it must be a word in a dictionary.
 
 ```bash
 # for word in $(grep -E '^che' /usr/share/dict/words | tr -cd 'chebmw\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
