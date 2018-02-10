@@ -14,7 +14,7 @@ This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] 
 
 ### Background
 
-The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's got the balls to say it like it is. :sunglasses:
+The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss! :sunglasses:
 
 ### Information Gathering
 
@@ -383,7 +383,7 @@ This is how the `addlog()` function in `/config.php` looked like.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication has failed, the value of the email field is logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the contents of `dummy.php` was written at the top of the file.
+When authentication has failed, the value of the email field is logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the content of `dummy.php` was written to the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
@@ -539,7 +539,7 @@ Awesome!
 
 ### Privilege Escalation
 
-Noticed that `g0rmint` has successfully `sudo`'d as `root`?
+Noticed that `g0rmint` had successfully `sudo`'d as `root`?
 
 ![sudo](/assets/images/posts/g0rmint-walkthrough/g0rmint-20.png)
 

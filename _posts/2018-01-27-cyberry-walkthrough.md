@@ -92,7 +92,7 @@ secretfile.html
 work-in-progress.png
 ```
 
-Requesting for `/secretfile.html` resulted in.
+Requesting for `/secretfile.html` further revealed more binary strings.
 
 ```
 # curl -i 192.168.198.128/secretfile.html
@@ -123,7 +123,7 @@ Content-Type: text/html
 </html>
 ```
 
-The binary string was decoded to the following.
+The binary strings were decoded to the following.
 
 ```bash
 # for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
@@ -133,7 +133,7 @@ boss.gif
 
 ![boss.gif](/assets/images/posts/cyberry-walkthrough/boss.gif)
 
-Requesting for `/work-in-progress.png` resulted in.
+Requesting for `/work-in-progress.png` resulted in the following.
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
@@ -457,9 +457,11 @@ Recall from above the site has a login page to the Berrypedia Admin Panel? Well,
 
 ![login.php.png](/assets/images/posts/cyberry-walkthrough/cyberry-11.png)
 
-Let's try and go with `(mary:dangleberry69)` and see what we get.
+Let's try this credential `(mary:dangleberry69)` and see what we get.
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-12.png)
+
+Good. I'm in.
 
 ### Secure Section
 
@@ -614,3 +616,5 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 [2]: https://www.vulnhub.com
 [3]: https://en.wikipedia.org/wiki/Brainfuck
 [4]: https://copy.sh/brainfuck/
+
+*[PMA]: phpMyAdmin
