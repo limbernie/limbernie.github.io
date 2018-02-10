@@ -377,11 +377,11 @@ In any case, let's run `xxxlogauditorxxx.py` and see what I'm up against.
 
 It appeared to be displaying the content of the chosen log file.
 
-For `/var/log/auth.log`:
+_For `/var/log/auth.log`_
 
 ![auth.log](/assets/images/posts/evilscience-walkthrough/evilscience-15.png)
 
-For `/var/log/apache2/access.log`:
+_For `/var/log/apache2/access.log`_
 
 ![access.log](/assets/images/posts/evilscience-walkthrough/evilscience-14.png)
 
