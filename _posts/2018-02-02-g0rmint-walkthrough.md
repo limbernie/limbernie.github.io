@@ -339,7 +339,7 @@ Sweet. The archive appeared to be the backup of the site.
 
 ### Resetting Password
 
-Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credentials. Unfortunately. the credentials `(demo@example.com:demo)` did not work.
+Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Unfortunately, the credential `(demo@example.com:demo)` did not work.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-16.png)
 
