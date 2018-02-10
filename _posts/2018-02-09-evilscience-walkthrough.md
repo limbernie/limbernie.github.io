@@ -38,7 +38,8 @@ PORT   STATE SERVICE REASON         VERSION
 
 As usual, let's start with the web service. Here's what I see in the browser when I navigate to it.
 
-![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png)
+![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png){: style="display: block"} 
+![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-3.png){: style="display: block"}
 
 Let's use `curl` and some `grep`-fu to see if there are any hyperlinks that I can work with.
 
