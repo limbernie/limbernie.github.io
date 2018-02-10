@@ -423,7 +423,9 @@ There was a long `base64` encoded string appended to the end of the file like so
 
 Finally, the cat is out of the bag!
 
-`# strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d`
+```
+# strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d`
+```
 
 <pre class="wrap">
 october 1, 2017.
