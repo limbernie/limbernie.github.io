@@ -465,7 +465,7 @@ Good. I'm in.
 
 ### Secure Section
 
-In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter has 2 pre-defined values: **google.com** and **yahoo.com** as shown below.
+In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter had 2 pre-defined values: **google.com** and **yahoo.com** as shown below.
 
 ![nslookup.png](/assets/images/posts/cyberry-walkthrough/cyberry-13.png)
 
@@ -473,7 +473,7 @@ Let's see if we can exploit the `host` parameter to execute remote commands.
 
 ![remote-command.png](/assets/images/posts/cyberry-walkthrough/cyberry-14.png)
 
-Bingo! Using this way, I was able to run a reverse shell using `nc` back to me.
+Bingo. Using this way, I was able to run a reverse shell using `nc` back to me.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-15.png)
 
@@ -496,7 +496,7 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 
 ### Unstacking the `sudo` Russian Doll
 
-I was able to SSH in to `nick`'s account using the credentials `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
+I was able to SSH in to `nick`'s account using the credential `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
