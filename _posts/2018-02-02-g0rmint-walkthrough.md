@@ -22,18 +22,19 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 `# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
 
 ```
-PORT STATE SERVICE REASON VERSION
-22/tcp open ssh syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey:
-| 2048 e4:4e:fd:98:4e:ae:5d:0c:1d:32:e8:be:c4:5b:28:d9 (RSA)
-|_ 256 9b:48:29:39:aa:f5:22:d3:6e:ae:52:23:2a:ae:d1:b2 (ECDSA)
-80/tcp open http syn-ack ttl 64 Apache httpd 2.4.18
-| http-methods:
-|_ Supported Methods: GET HEAD POST OPTIONS
-| http-robots.txt: 1 disallowed entry
+PORT   STATE SERVICE REASON         VERSION
+22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 e4:4e:fd:98:4e:ae:5d:0c:1d:32:e8:be:c4:5b:28:d9 (RSA)
+|_  256 9b:48:29:39:aa:f5:22:d3:6e:ae:52:23:2a:ae:d1:b2 (ECDSA)
+80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.18
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 1 disallowed entry 
 |_/g0rmint/*
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: 404 Not Found
+
 ```
 
 Let's start with the web service since there is a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in the browser when I navigate to it.

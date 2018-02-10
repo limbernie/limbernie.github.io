@@ -362,7 +362,7 @@ During enumeration, I noticed that user `evilscience` is able to `sudo` as `root
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-10.png)
 
-Interestingly, there was also a file at `/var/www/html/theEther.com/public_html/xxxlogauditorxxx.py` with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy?
+Interestingly, there was also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy?
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-11.png)
 

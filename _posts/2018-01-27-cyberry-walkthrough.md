@@ -22,18 +22,18 @@ Let's kick this off with a `nmap` scan to establish the services available in **
 `# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128`
 
 ```
-PORT STATE SERVICE REASON VERSION
-21/tcp open ftp syn-ack ttl 64 ProFTPD 1.3.5b
-22/tcp open ssh syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
-| ssh-hostkey:
-| 2048 97:7c:74:2b:f1:28:15:dc:8d:67:e0:75:75:44:e9:ad (RSA)
-|_ 256 29:62:8e:10:9b:97:79:3a:18:e6:c0:0b:f7:ec:f8:ee (ECDSA)
-80/tcp open http syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
-| http-methods:
-|_ Supported Methods: HEAD GET POST OPTIONS
+PORT    STATE  SERVICE REASON         VERSION
+21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
+22/tcp  open   ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 97:7c:74:2b:f1:28:15:dc:8d:67:e0:75:75:44:e9:ad (RSA)
+|_  256 29:62:8e:10:9b:97:79:3a:18:e6:c0:0b:f7:ec:f8:ee (ECDSA)
+80/tcp  open   http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
+| http-methods: 
+|_  Supported Methods: HEAD GET POST OPTIONS
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Coming Soon
-666/tcp closed doom reset ttl 64
+666/tcp closed doom    reset ttl 64
 ```
 
 Let's start with the web service first.
