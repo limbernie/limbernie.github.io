@@ -61,7 +61,7 @@ layout/scripts/jquery.mobilemenu.js
 layout/scripts/jquery.flexslider-min.js
 ```
 
-Two of them stood out: `?file=about.php` and `?file=research.php`. Could this be a LFI  vulnerability?
+Two of them stood out: `?file=research.php` and `?file=about.php`. Could this be a LFI  vulnerability? We'll see.
 
 ### Directory/File Enumeration
 
