@@ -580,7 +580,7 @@ The last word must contain the following:
 * "rry" at the end
 
 
-Similarly, finding the last word and meeting the above constraints.
+Similarly, finding the last word that meets the above constraints.
 
 ```bash
 # for word in $(grep -E 'rry$' /usr/share/dict/words | tr -cd 'bemrry\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
@@ -588,7 +588,7 @@ berry
 merry
 ```
 
-It is now trivial to find the remaining word. When the last word is "berry" the remaining word has to be "me" in order to satisfy the constraints. Conversely, when the last word is "merry" the remaining word has to be "be".
+It is now trivial to find the remaining word. When the last word is "berry", the remaining word has to be "me" in order to satisfy the constraints. Conversely, when the last word is "merry" the remaining word has to be "be".
 
 Armed with this information, there are only 4 possible outcomes that meet all the constraints.
 
