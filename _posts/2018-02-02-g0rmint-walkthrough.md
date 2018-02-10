@@ -18,10 +18,11 @@ The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai h
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:  
-`# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+Let's kick this off with a `nmap` scan to establish the services available in the host:
 
 ```
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
@@ -34,7 +35,6 @@ PORT   STATE SERVICE REASON         VERSION
 |_/g0rmint/*
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: 404 Not Found
-
 ```
 
 Let's start with the web service since there is a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in the browser when I navigate to it.

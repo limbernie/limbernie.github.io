@@ -18,10 +18,11 @@ Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!
 
 ### Information Gathering
-Let's kick this off with a `nmap` scan to establish the services available in **cyberry**:  
-`# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128`
+Let's kick this off with a `nmap` scan to establish the services available in **cyberry**:
 
 ```
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
+...
 PORT    STATE  SERVICE REASON         VERSION
 21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
 22/tcp  open   ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
@@ -291,7 +292,13 @@ done
 
 Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` was unlocked like so.
 
-`61955/tcp open http syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))`
+```
+61955/tcp open   http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.25 (Debian)
+|_http-title: Coming Soon
+```
 
 Another similar site appeared to be running at `61955/tcp`.
 
@@ -487,7 +494,10 @@ Let's try to open a shell as `terry`. But before we do that, recall that a `fork
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
-`awk` can be used to escape to shell like so: `awk 'BEGIN { system("/bin/sh") }'`
+`awk` can be used to escape to shell like so:
+```awk
+awk 'BEGIN { system("/bin/sh") }'
+```
 
 ![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-22.png)
 

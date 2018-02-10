@@ -17,10 +17,11 @@ A mysterious company, _The Ether_ has proclaimed an elixir that considerably alt
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in **theEther**:  
-`# map -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+Let's kick this off with a `nmap` scan to establish the services available in **theEther**:
 
 ```
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
+...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
