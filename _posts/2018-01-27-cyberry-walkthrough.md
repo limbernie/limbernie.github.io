@@ -276,8 +276,8 @@ done
 
 `sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so.
 
-```bash
-python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
+```
+# python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
 1955,1955,1961,1970
 1955,1955,1970,1961
 1955,1961,1955,1970
