@@ -253,3 +253,16 @@ a.read-more {
 .wrap {
 	white-space: pre-wrap !important;
 }
+
+abbr[title]:after {
+	content: " (" attr(title) ")";
+}
+
+@media screen and (min-width: 1025px) {
+	abbr[title] {
+		cursor: help;
+	}
+	abbr[title]:after {
+		content: "";
+	}
+}

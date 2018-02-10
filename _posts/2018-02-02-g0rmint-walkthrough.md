@@ -18,7 +18,7 @@ The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai h
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
@@ -122,7 +122,7 @@ Looking at the HTML source code of this page, one of the CSS proved interesting 
 
 Could this be the email address and the username of the admin? Well, there is a high chance looking at the name on the header page.
 
-### Directory/File Enumeration - Part 2
+### Directory/File Enumeration (2)
 
 Taking a leaf from the previous enumeration with `dirbuster`, let's give it another shot starting with this path: `/g0rmint/s3cretbackupdirect0ry`.
 
@@ -446,7 +446,7 @@ The real workhorse of the script is the `encode()` function. This function turns
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
-Simply supply the email, password and command as arguments and the script would spit out the result. For example:
+Simply supply the email, password and command as arguments and the script would spit out the result.
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
@@ -481,7 +481,7 @@ mysql:x:108:117:MySQL Server,,,:/nonexistent:/bin/false
 sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
 ```
 
-### Backup Archive `/backup.zip` - Part 2
+### Backup Archive `/backup.zip` (2)
 
 During enumeration, I spotted the presence of another `backup.zip` at `/var/www`.
 

