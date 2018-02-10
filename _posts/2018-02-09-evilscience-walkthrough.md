@@ -114,7 +114,7 @@ However, I had success displaying the content of `/usr/share/apache2/icons/READM
 
 This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][3]{: target='_blank'} is not your usual `/var/www/html`. :sweat:
 
-Here's what I imagined the PHP code in `/index.php` looked like.
+Here's what I imagined the PHP code in `/index.php` to look like.
 
 ```php
 <?php
