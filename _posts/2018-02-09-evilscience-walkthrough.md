@@ -116,7 +116,7 @@ Here's what I imagined the PHP code in `/index.php` to look like.
 ```php
 <?php
     $file = $_GET["file"];
-    if (preg_match("/(etc|proc|var|php:)/", $file)) {
+    if (preg_match("/(etc|proc|php:)/", $file)) {
         include("/index.php");
     } else {
         include($file);
