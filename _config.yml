@@ -5,7 +5,7 @@
 
 title: /security
 description: My security journey
-url: https://limbernie.github.io
+url: https://limbernie.github.io/
 keywords: ["security", "walkthrough", "CTF", "reverse engineering", "exploit development"]
 
 
@@ -42,13 +42,13 @@ owner:
   facebook: #username
   google:
     plus: #username
-    analytics: UA-62251910-2
+    analytics: #UA-123456
     verify:
     ad-client:
     ad-slot:
   bing-verify:
-  github: limbernie #username
-  stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
+  github: limbernie
+  stackoverflow: #username
   linkedin: #username
   xing: #username
   instagram: #username
