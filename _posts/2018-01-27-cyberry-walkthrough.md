@@ -223,11 +223,11 @@ PMA was present as well, which is another way of saying the machine is capable o
 
 ### Berrypedia
 
-Requesting for `/berrypedia.html` revealed the following page:
+Requesting for `/berrypedia.html` revealed the following page.
 
 ![berrypedia.png](/assets/images/posts/cyberry-walkthrough/cyberry-8.png)
 
-Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`:
+Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`.
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
 
@@ -454,7 +454,7 @@ Good. I'm in.
 
 ### Secure Section
 
-In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter had 2 pre-defined values: **google.com** and **yahoo.com** as shown below.
+In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter had two pre-defined values: **google.com** and **yahoo.com** as shown below.
 
 ![nslookup.png](/assets/images/posts/cyberry-walkthrough/cyberry-13.png)
 
