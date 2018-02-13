@@ -19,6 +19,7 @@ $(document).ready(function() {
 
 	function backToTop(width) {
 
+		var max_width = 977;  // trial-n-error
 		var offset = 400;
 		var duration = 500;
 
