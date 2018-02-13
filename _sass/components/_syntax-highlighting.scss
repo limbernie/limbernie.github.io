@@ -123,9 +123,9 @@ pre code {
   .il { color: #666666 } /* Literal.Number.Integer.Long */
 }
 
-.lineno { 
+.lineno {
+	display: inline-block;
 	color: #ccc; 
-	//display: block;
 	padding: 0 5px; 
 	border-right:1px solid #ccc;
 	-webkit-touch-callout: none;

@@ -20,17 +20,11 @@ excerpt_separator: <!--more-->
 permalink:         /articles/:year-:month/:title/
 
 kramdown:
-  input: GFM
   auto_ids: true
   footnote_nr: 1
   entity_output: as_char
   toc_levels: 1..6
   enable_coderay: false
-  span:
-    line_numbers: false
-  block:
-    line_numbers: true
-    start_line: 1
 
 ####################################
 # Site Owner configuration

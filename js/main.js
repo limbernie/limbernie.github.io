@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	var max_width = 977;  // trial-n-error
 	var width = $(window).width();
 
 	backToTop(width);
@@ -9,11 +10,15 @@ $(document).ready(function() {
 			width = $(this).width();
 			backToTop(width);
 		}
+		if($(this).width() > max_width)	{
+			$('.lineno').show();
+		} else {
+			$('.lineno').hide();
+		}
 	});
 
 	function backToTop(width) {
 
-		var max_width = 977;	// trial-n-error
 		var offset = 400;
 		var duration = 500;
 
