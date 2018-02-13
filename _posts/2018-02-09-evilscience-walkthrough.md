@@ -113,7 +113,7 @@ This would means that absolute path is allowed but some kind of filtering for co
 
 Here's what I imagined the PHP code in `/index.php` to look like.
 
-```php
+{% highlight php linenos %}
 <?php
     $file = $_GET["file"];
     if (preg_match("/(etc|proc|var|php:)/", $file)) {
@@ -123,11 +123,11 @@ Here's what I imagined the PHP code in `/index.php` to look like.
         include($file);
     }
 ?>
-```
+{% endhighlight %}
 
 To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][4]{: target='_blank'} to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
 
-```bash
+{% highlight bash linenos %}
 # cat fuzz.sh
 #!/bin/bash
 
@@ -144,7 +144,7 @@ for word in $(cat "$WORDLIST"); do
         break;
     fi
 done
-```
+{% endhighlight %}
 
 Now, let's give `fuzz.sh` a shot.
 
@@ -169,7 +169,7 @@ Moving up the next level got me stuck for hours. Not knowing how to move forward
 
 Using that as base, I created a custom wordlist with `python`.
 
-```python
+{% highlight python linenos %}
 # cat crunch.py
 #!/usr/bin/env python
 
@@ -182,7 +182,7 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
     print word
 
 #./crunch.py theether.com > custom.txt
-```
+{% endhighlight %}
 
 Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
@@ -248,7 +248,7 @@ Content-Type: text/html; charset=iso-8859-1
 
 With this in mind, I wrote another script to clean up the output from the remote command execution.
 
-```bash
+{% highlight bash linenos %}
 # cat cmd.sh
 #!/bin/bash
 
@@ -278,7 +278,7 @@ curl \
 sed -nr '/<pre>/,/<\/pre>/p;/<\/pre>/q' | \
 sed -e 's/.*<pre>//g' -e 's/<\/pre>.*//g' | \
 sed '$d'
-```
+{% endhighlight %}
 
 Let's give it a shot.
 
@@ -329,7 +329,7 @@ sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 
 Also, not quite the PHP code I imagined but close.
 
-```php
+{% highlight php linenos %}
 # ./cmd.sh -e "cat index.php"
 <?php
     $file = $_GET["file"];
@@ -349,7 +349,7 @@ if ($file == "/var/log/auth.log") {
 }
     include($file);
 ?>
-```
+{% endhighlight %}
 
 Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system.
 

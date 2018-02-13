@@ -258,7 +258,7 @@ Port knocking required connecting to a sequence of ports in the correct order be
 
 I wrote this port knocking script using `nmap`.
 
-```bash
+{% highlight bash linenos %}
 # cat knock.sh
 #!/bin/bash
 
@@ -272,7 +272,7 @@ for ports in $(cat sequence.txt); do
     sleep 3
     nmap -n -v -Pn -p- -A --reason $TARGET -oN ${ports}.txt --send-ip
 done
-```
+{% endhighlight %}
 
 `sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so.
 
@@ -413,7 +413,7 @@ password
 
 It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
-```bash
+{% highlight bash linenos %}
 # cat decrypt.sh
 #!/bin/bash
 
@@ -432,7 +432,7 @@ for c in $(cat ciphers.txt); do
         fi
     done
 done
-```
+{% endhighlight %}
 
 `ciphers.txt` contained the available ciphers. Running the script revealed the following.
 
