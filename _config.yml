@@ -72,3 +72,4 @@ plugins:
   - jemoji
   - jekyll-mentions
   - jekyll-seo-tag
+  - jekyll-sitemap
