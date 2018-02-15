@@ -124,15 +124,20 @@ pre code {
 }
 
 .lineno {
-	display: inline-block;
-	color: #ccc; 
-	padding: 0 5px; 
-	border-right:1px solid #ccc;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+	display: none;
 }
 
+@media screen and (min-width: 1025px) {
+	.lineno {
+		display: inline-block;
+		color: #ccc; 
+		padding: 0 5px; 
+		border-right:1px solid #ccc;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+}

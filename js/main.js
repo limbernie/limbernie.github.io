@@ -10,11 +10,6 @@ $(document).ready(function() {
 			width = $(this).width();
 			backToTop(width);
 		}
-		if($(this).width() > max_width)	{
-			$('.lineno').show();
-		} else {
-			$('.lineno').hide();
-		}
 	});
 
 	function backToTop(width) {
