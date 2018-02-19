@@ -35,7 +35,7 @@ pre code {
   word-wrap: normal;
   color: #525252;
   span {
-    word-break: keep-all; // break-all;
+    word-break: normal; // break-all;
   }
 }
 .highlight {
