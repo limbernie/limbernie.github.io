@@ -333,22 +333,22 @@ Also, not quite the PHP code I imagined but close.
 {% highlight php linenos %}
 # ./cmd.sh -e "cat index.php"
 <?php
- $file = $_GET["file"];
+    $file = $_GET["file"];
 
- $file = str_ireplace("etc","",$file);
- $file = str_ireplace("php:","",$file);
- $file = str_ireplace("expect:","",$file);
- $file = str_ireplace("data:","",$file);
- $file = str_ireplace("proc","",$file);
- $file = str_ireplace("home","",$file);
- $file = str_ireplace("opt","",$file);
+    $file = str_ireplace("etc","",$file);
+    $file = str_ireplace("php:","",$file);
+    $file = str_ireplace("expect:","",$file);
+    $file = str_ireplace("data:","",$file);
+    $file = str_ireplace("proc","",$file);
+    $file = str_ireplace("home","",$file);
+    $file = str_ireplace("opt","",$file);
 
 if ($file == "/var/log/auth.log") {
- header("location: index.php");
+    header("location: index.php");
 } else {
- include($file);
+    include($file);
 }
- include($file);
+    include($file);
 ?>
 {% endhighlight %}
 
