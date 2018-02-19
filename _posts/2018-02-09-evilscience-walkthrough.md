@@ -6,7 +6,6 @@ category: walkthrough
 tags: [vulnhub, "The Ether"]
 ---
 
-**Spoiler Alert**  
 This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
