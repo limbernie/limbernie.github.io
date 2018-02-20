@@ -114,13 +114,13 @@ Here's what I imagined the PHP code in `/index.php` to look like.
 
 {% highlight php linenos %}
 <?php
-	$file = $_GET["file"];
-	if (preg_match("/(etc|proc|var|php:)/", $file)) {
-		include("/index.php");
-	} else {
-		include($file);
-		include($file);
-	}
+    $file = $_GET["file"];
+    if (preg_match("/(etc|proc|var|php:)/", $file)) {
+        include("/index.php");
+    } else {
+        include($file);
+        include($file);
+    }
 ?>
 {% endhighlight %}
 
