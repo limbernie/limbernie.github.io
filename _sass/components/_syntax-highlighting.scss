@@ -20,7 +20,7 @@ code {
 pre { // only apply for code blocks
   overflow: auto;
   display: block;
-  padding: 1em;
+  //padding: 10px;
   margin: 0 0 1em;
   line-height: $base-line-height * 0.925;
   word-break: break-all;
@@ -43,23 +43,7 @@ pre code {
   pre {
     position: relative;
   }
-  pre code {
-    color: #525252;
-    &::before {
-      content: attr(data-lang);
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #ccc;
-      text-align: right;
-      text-transform: uppercase;
-      font-size: 0.85em;
-      padding: 5px 10px 0;
-      line-height: 20px;
-      height: 20px;
-      font-weight: 600;
-    }
-  }
+
   .hll { background-color: #ffffcc }
   .c { color: #B0B2B0; font-style: italic } /* Comment */
   .err {  } /* Error */
@@ -125,15 +109,34 @@ pre code {
 
 .lineno {
 	display: none;
-	width: 0;
 }
 
 @media screen and (min-width: 1025px) {
+	pre { padding: 1em; }
+	pre code {
+		color: #525252;
+		&::before {
+		  content: attr(data-lang);
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  color: #ccc;
+		  text-align: right;
+		  text-transform: uppercase;
+		  font-size: 0.85em;
+		  padding: 5px 10px;
+		  line-height: 20px;
+		  height: 20px;
+		  font-weight: 600;
+		}
+	}
+
 	.lineno {
-		display: inline-block;
-		color: #ccc; 
-		padding: 0 5px; 
-		border-right:1px solid #ccc;
+		display: block;
+		color: #ccc;
+		text-align: right; 
+		padding: 0 5px 0 0;
+		//border-right:1px solid #ccc;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
 		-khtml-user-select: none;
