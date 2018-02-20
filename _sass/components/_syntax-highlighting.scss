@@ -23,10 +23,12 @@ pre { // only apply for code blocks
   padding: 1em;
   // margin: 0 0 1em;
   line-height: $base-line-height * 0.925;
-  word-break: break-all;
-  word-wrap: break-word;
+  //word-break: break-all;
+  white-space: pre; 
+  word-wrap: normal; // break-word;
   border-radius: 0;
   font-weight: normal;
+  -moz-tab-size: 4;
 }
 pre code {
   background: transparent;
