@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "I Love Berries!"
-categories: walkthrough
-tags: [vulnhub, cyberry]
+categories: Walkthrough
+tags: [VulnHub, Cyberry]
 comments: true
 ---
 

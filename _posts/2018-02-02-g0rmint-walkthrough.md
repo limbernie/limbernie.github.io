@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Will the Real Gormint Aunty Please Stand Up?"
+category: Walkthrough
+tags: [VulnHub, g0rmint]
 comments: true
-category: walkthrough
-tags: [vulnhub, g0rmint]
 ---
 
 This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
