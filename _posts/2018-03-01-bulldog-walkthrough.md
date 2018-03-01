@@ -123,13 +123,13 @@ Let's transfer (using `wget`) a single-stage reverse shell payload and then run 
 
 ![screenshot-10](/assets/images/posts/bulldog-walkthrough/screenshot-10.png)
 
-Boom. A low-privilege shell appears but let's spawn a pseudo-TTY for better output control.
+Boom. A low-privilege shell appeared but let's spawn a pseudo-TTY for better output control.
 
 ![screenshot-11](/assets/images/posts/bulldog-walkthrough/screenshot-11.png)
 
 ### Privilege Escalation
 
-During enumeration, I found two users: `django` and `bulldogadmin`, who are able to `sudo` as `root`. Unfortunately, I don't have their passwords.
+During enumeration, I found two users: `django` and `bulldogadmin` able to `sudo` as `root`. Unfortunately, I don't have their passwords.
 
 ![screenshot-12](/assets/images/posts/bulldog-walkthrough/screenshot-12.png)
 
