@@ -61,7 +61,7 @@ A hint to check carefully. But what to check exactly? Perhaps to check the `User
 
 ![screenshot-4](/assets/images/posts/homeless-walkthrough/screenshot-4.png)
 
-The nifty tool `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh` to submit a custom `User-Agent` string and then check for the HTTP response at line 32. 
+The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh` to submit a custom `User-Agent` string and then check for the HTTP response at line 32. 
 
 {% highlight bash linenos %}
 # cat check.sh
@@ -242,7 +242,7 @@ error_reporting(0);
 ?>
 {% endhighlight %}
 
-I'm no cryptography expert but it's apparent that this challenge requires MD5 collisions in order to bypass the Secure Login page. I'll need 3 different strings that will result with the same MD5 hash.
+I'm no cryptography expert but it's apparent that this challenge requires MD5 collisions in order to bypass the Secure Login page. I'll need 3 different strings that will result in the same MD5 hash.
 
 I found a very informative [page][6]{:target='_blank'} detailing how one can generate 2^N collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
