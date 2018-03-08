@@ -6,7 +6,7 @@ tags: [VulnHub, Bulldog]
 comments: true
 ---
 
-This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] created by [Nick Frichette][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
@@ -46,7 +46,7 @@ The HTML source of the landing page as well as its internal link did not provide
 
 ### Directory/File Enumeration
 
-Let's use `gobuster` with `common.txt` from [SecLists][3]{:target='blank'} to enumerate the site and see what we can discover.
+Let's use `gobuster` with `common.txt` from [SecLists][4]{:target='blank'} to enumerate the site and see what we can discover.
 
 ```
 # gobuster -w /usr/share/seclists/Discovery/Web_Content/common.txt -e -u http://192.168.36.3
@@ -103,7 +103,7 @@ Sweet. However, it appeared that only certain commands were allowed.
 
 ### Command Substitution
 
-One of my favorite features in `bash` is [command substitution][4]{:target='_blank'} using backtick (`).
+One of my favorite features in `bash` is [command substitution][5]{:target='_blank'} using backtick (`).
 
 > "Bash performs the expansion by executing command in a subshell environment and replacing the command substitution with the standard output of the command, with any trailing newlines deleted."
 
@@ -183,6 +183,7 @@ If I have to guess, I'll say the other way to get root is perhaps through the Di
 Well, to an attacker, a shell is a shell is a shell. Period. :smiling_imp:
 
 [1]: https://www.vulnhub.com/entry/bulldog-1,211/
-[2]: https://www.vulnhub.com
-[3]: https://github.com/danielmiessler/SecLists
-[4]: https://www.gnu.org/s/bash/manual/html_node/Command-Substitution.html
+[2]: https://twitter.com/@frichette_n
+[3]: https://www.vulnhub.com
+[4]: https://github.com/danielmiessler/SecLists
+[5]: https://www.gnu.org/s/bash/manual/html_node/Command-Substitution.html

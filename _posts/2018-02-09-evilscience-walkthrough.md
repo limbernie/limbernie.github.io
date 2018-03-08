@@ -6,7 +6,7 @@ tags: [VulnHub, "The Ether"]
 comments: true
 ---
 
-This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] created by [f1re_w1re][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
@@ -108,7 +108,7 @@ However, I had success displaying the content of `/usr/share/apache2/icons/READM
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
 
-This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][3]{: target='_blank'} is not your usual `/var/www/html`. :sweat:
+This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4]{: target='_blank'} is not your usual `/var/www/html`. :sweat:
 
 Here's what I imagined the PHP code in `/index.php` to look like.
 
@@ -124,7 +124,7 @@ Here's what I imagined the PHP code in `/index.php` to look like.
 ?>
 {% endhighlight %}
 
-To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][4]{: target='_blank'} to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
+To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][5]{: target='_blank'} to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
 
 {% highlight bash linenos %}
 # cat fuzz.sh
@@ -471,8 +471,9 @@ We have decided to stop conducting these experiments due to the lack of antidote
 _Not for the feint of heart_ :broken_heart:
 
 [1]: https://www.vulnhub.com/entry/the-ether-evilscience-v101,212/
-[2]: https://www.vulnhub.com/
-[3]: https://httpd.apache.org/docs/2.4/mod/core.html#documentroot
-[4]: https://github.com/danielmiessler/SecLists
+[2]: https://twitter.com/@F1reW
+[3]: https://www.vulnhub.com/
+[4]: https://httpd.apache.org/docs/2.4/mod/core.html#documentroot
+[5]: https://github.com/danielmiessler/SecLists
 
 *[LFI]: Local File Inclusion

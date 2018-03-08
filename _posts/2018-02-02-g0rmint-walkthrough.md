@@ -6,7 +6,7 @@ tags: [VulnHub, g0rmint]
 comments: true
 ---
 
-This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] created by [Noman Riffat][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
@@ -518,7 +518,7 @@ It appeared to be just like the previous `backup.zip` with a twist. This time ro
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-17.png)
 
-The password was revealed to be `"tayyab123"` after going through an online MD5 [cracker][3].
+The password was revealed to be `"tayyab123"` after going through an online MD5 [cracker][4].
 
 ### SSH Login
 
@@ -541,5 +541,6 @@ I sensed the end is near...
 :dancer:
 
 [1]: https://www.vulnhub.com/entry/g0rmint-1,214/
-[2]: https://www.vulnhub.com/
-[3]: http://md5decrypt.net/
+[2]: https://twitter.com/@nomanriffat
+[3]: https://www.vulnhub.com/
+[4]: http://md5decrypt.net/

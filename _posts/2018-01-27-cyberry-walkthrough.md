@@ -7,7 +7,7 @@ comments: true
 ---
 
 This post documents the complete walkthrough of Cyberry: 1, 
-a boot2root [VM][1] hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+a boot2root [VM][1] created by [Cyberry][2] and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
@@ -356,7 +356,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ### Brainfuck
 
-Despite its strange looking form, the code above was written in the esoteric [Brainfuck][3] language. Using an online [interpreter][4], it was deciphered to the following.
+Despite its strange looking form, the code above was written in the esoteric [Brainfuck][4] language. Using an online [interpreter][5], it was deciphered to the following.
 
 ```
 Hello World!
@@ -601,8 +601,9 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 :dancer:
 
 [1]: https://www.vulnhub.com/entry/cyberry-1,217/
-[2]: https://www.vulnhub.com
-[3]: https://en.wikipedia.org/wiki/Brainfuck
-[4]: https://copy.sh/brainfuck/
+[2]: https://twitter.com/@cyberrysec
+[3]: https://www.vulnhub.com
+[4]: https://en.wikipedia.org/wiki/Brainfuck
+[5]: https://copy.sh/brainfuck/
 
 *[PMA]: phpMyAdmin
