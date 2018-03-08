@@ -196,7 +196,7 @@ LOGLEVEL=low
 
 That explained why there was only one open port from the earlier `nmap` scan. SSH was probably blocked by the firewall.
 
-### The Key to Man's Heart Is Through his Stomach
+### The Key to a Man's Heart Is Through His Stomach
 
 With a script like `cat.sh`, combined with directory listing from `test.jsp`, I was able to discover and extract `tomcat8`'s SSH key pair at its home directory from `/etc/passwd`.
 
