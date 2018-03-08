@@ -6,7 +6,7 @@ tags: [VulnHub, Homeless]
 comments: true
 ---
 
-This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1] created by [Min Ko Ko][2] hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1] created by [Min Ko Ko][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
