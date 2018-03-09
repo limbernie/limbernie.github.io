@@ -180,7 +180,7 @@ And this is how `test.jsp` (only the JSP portion is shown) looked like.
 %>
 {% endhighlight %}
 
-Fortunately, I was able to run `ps faux` and noticed that `sshd` was running. In addition, `ufw` also appeared to be running from `/etc/ufw/ufw.conf`.
+Fortunately, I was able to run `ps faux` and noticed that `sshd` was running. In addition, `ufw` was also running from `/etc/ufw/ufw.conf`.
 
 ```
 # ./cat.sh /etc/ufw/ufw.conf
