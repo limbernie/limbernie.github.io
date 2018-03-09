@@ -135,7 +135,9 @@ Noticed that `tomcat8` has a `.ssh` directory?
 
 ![screenshot-4](/assets/images/posts/depth-walkthrough/screenshot-4.png)
 
-Noticed `bill` is on the `sudoers` list? And this is how `test.jsp` (only the JSP portion is shown) looked like.
+Noticed that `bill` is on the `sudoers` list? 
+
+And this is how `test.jsp` (only the JSP portion is shown) looked like.
 
 {% highlight jsp linenos %}
 # ./cat.sh ./webapps/ROOT/test.jsp
