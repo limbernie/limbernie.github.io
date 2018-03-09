@@ -204,11 +204,11 @@ With `cat.sh` combined with the directory listing from `test.jsp` I was able to 
 
 ![screenshot-3](/assets/images/posts/depth-walkthrough/screenshot-3.png)
 
-I took an educated guess, put two and two together and gathered that `tomcat8` probably had its public key listed in `/home/bill/.ssh/authorized_keys`. If there's the case, I should be able to login to `bill`'s account via SSH in **localhost**. Well, there's only one way to find out and as Yoda put it, "**_Do. Or do not. There is no try._**"
+I took an educated guess, put two and two together and gathered that `tomcat8` probably had its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to login to `bill`'s account via SSH in **localhost**. Well, there's only one way to find out and as Yoda put it, "**_Do. Or do not. There is no try._**"
 
 ### Kill Bill: Vol. 1
 
-I knew one can login via SSH and execute a command. Let's validate I'm indeed logged in as `bill` with `tomcat8`'s private key.
+I knew one can execute a command upon login via SSH. But first, let's see if I can login as `bill` with `tomcat8`'s private key.
 
 ![screenshot-6](/assets/images/posts/depth-walkthrough/screenshot-6.png)
 
