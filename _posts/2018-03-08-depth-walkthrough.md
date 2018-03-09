@@ -39,7 +39,7 @@ Only one open port?! Well, I guess I have to brute force my way to an attack sur
 
 ### Directory/File Enumeration
 
-Let's start with file/directory enumeration using `wfuzz` with its associated wordlists.
+Let's start with directory/file enumeration using `wfuzz` with its associated wordlists.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt -c --hc 404 http://192.168.100.4:8080/FUZZFUZ2Z
