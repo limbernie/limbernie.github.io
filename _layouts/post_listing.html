@@ -2,7 +2,7 @@
 layout: default
 ---
 
-{% for post in site.posts %}
+{% for post in paginator.posts %}
 <section class="post">
   <header class="post-header">
     <p class="post-meta">
@@ -69,3 +69,5 @@ layout: default
 
 </section>
 {% endfor %}
+
+{% include pagination.html %}

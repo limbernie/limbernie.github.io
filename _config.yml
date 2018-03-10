@@ -73,3 +73,6 @@ plugins:
   - jekyll-mentions
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-paginate
+  
+paginate: 1
