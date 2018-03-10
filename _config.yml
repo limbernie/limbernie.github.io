@@ -75,4 +75,4 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
   
-paginate: 1
+paginate: 3

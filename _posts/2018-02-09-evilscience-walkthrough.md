@@ -471,7 +471,7 @@ We have decided to stop conducting these experiments due to the lack of antidote
 _Not for the feint of heart_ :broken_heart:
 
 [1]: https://www.vulnhub.com/entry/the-ether-evilscience-v101,212/
-[2]: https://twitter.com/@F1reW
+[2]: https://securityshards.wordpress.com/
 [3]: https://www.vulnhub.com/
 [4]: https://httpd.apache.org/docs/2.4/mod/core.html#documentroot
 [5]: https://github.com/danielmiessler/SecLists
