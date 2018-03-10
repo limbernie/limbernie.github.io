@@ -466,7 +466,7 @@ We have decided to stop conducting these experiments due to the lack of antidote
 --Document scheduled to be shredded on October 15th after PSA.
 </pre>
 
-### Afternote
+### Afterthought
 
 _Not for the feint of heart_ :broken_heart:
 
