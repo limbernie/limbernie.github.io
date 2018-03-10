@@ -172,3 +172,23 @@
 	border-top-right-radius:.25rem;
 	border-bottom-right-radius:.25rem
 }
+
+/* Postination */
+.postination {
+	font-size: 14px;
+	display: block;
+	width: auto;
+	overflow: hidden;
+}
+        
+.postination a {
+	display: block;
+	width: 50%;
+	float: left;
+	margin: 1em 0;
+}
+                
+.postination .next {
+	float: right;
+	text-align: right;
+}

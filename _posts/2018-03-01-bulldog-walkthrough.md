@@ -129,7 +129,7 @@ Boom. A low-privilege shell appeared but let's spawn a pseudo-TTY for better out
 
 ### Privilege Escalation
 
-During enumeration, I found two users: `django` and `bulldogadmin` able to `sudo` as `root`. Unfortunately, I don't have their passwords.
+During enumeration, I found two users: `django` and `bulldogadmin`. They were able to `sudo` as `root`. Unfortunately, I don't have their passwords.
 
 ![screenshot-12](/assets/images/posts/bulldog-walkthrough/screenshot-12.png)
 
@@ -153,7 +153,7 @@ The first thing to do in reverse engineering is to look for interesting strings 
 
 ![screenshot-18](/assets/images/posts/bulldog-walkthrough/screenshot-18.png)
 
-If you look past `"H"`, you'll see "`SUPERultimatePASSWORDyouCANTget`". I'll hit the jackpot if this is the password belonging to any of the users since they can all `sudo` to `root`. Let's find out with `hydra`.
+If you look past the "`H`", you'll see "`SUPERultimatePASSWORDyouCANTget`". I'll hit the jackpot if this is the password belonging to any of the users since they can all `sudo` to `root`. Let's find out with `hydra`.
 
 ```
 # cat users.txt

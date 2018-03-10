@@ -253,7 +253,7 @@ The common denominator that linked each person was the song "_I Hear You Knockin
 
 Port knocking required connecting to a sequence of ports in the correct order before certain port(s) are revealed. The year which the song was covered by each person makes it a good starting point to guess the correct port sequence.
 
-### Knock Knock :door:
+### Knockin' on Heaven's Door
 
 I wrote this port knocking script using `nmap`.
 
