@@ -138,23 +138,23 @@
 	display:block;
 	margin-bottom:0.25em;
 	padding:0.5em 1em;
-	color:#999;
+	color: #42b983; /* #999; */
 	font-size:14px;
 	font-weight:bold;
 	line-height:1.5;
 	text-align:center;
 	text-decoration:none;
-	border:1px solid #ccc;
+	border:1px solid #75cea5; /* #ccc; */
 	border-radius:0
 }
 
 .pagination li a.current,.pagination li a.current.disabled {
-	background-color:#999;
+	background-color: #42b983; /* #999; */
 	color:#fff
 }
 
 .pagination li a.disabled {
-	color:#ccc;
+	color: #75cea5; /* #ccc; */
 	pointer-events:none;
 	cursor:not-allowed
 }
