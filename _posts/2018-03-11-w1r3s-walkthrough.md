@@ -141,7 +141,7 @@ It wasn't long before I saw that `w1r3s` is on the `sudoers` list.
 
 ![screenshot-4](/assets/images/posts/w1r3s-walkthrough/screenshot-4.png)
 
-Becoming root is just one command away.
+Becoming `root` is just one command away.
 
 ![screenshot-5](/assets/images/posts/w1r3s-walkthrough/screenshot-5.png)
 
