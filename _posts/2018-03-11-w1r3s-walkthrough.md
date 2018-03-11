@@ -122,7 +122,7 @@ I'm not quite sure if `/etc/shadow` was intentionally made world-readable which 
 
 ### John the Ripper
 
-Well, what's done is done. With both `passwd` and `shadow` made available, I can simply `unshadow` them and send them to JtR for offline cracking with a password list like "rockyou".
+Well, what's done is done. With both `passwd` and `shadow` made available, I can `unshadow` them and send them to JtR for offline cracking with a password list like "rockyou".
 
 The cracking was completed in seconds.
 
@@ -131,7 +131,7 @@ The cracking was completed in seconds.
 w1r3s:computer:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 ```
 
-With the password of `w1r3s` made available, I can simple login to the box via SSH.
+With the password of `w1r3s` made available, I can simply login to the box via SSH.
 
 ![screenshot-3](/assets/images/posts/w1r3s-walkthrough/screenshot-3.png)
 
