@@ -70,7 +70,7 @@ This is what I see when I navigated to `http://192.168.100.4:8080/test.jsp` with
 
 ![screenshot-1](/assets/images/posts/depth-walkthrough/screenshot-1.png)
 
-After some tinkering with `test.jsp` to solicit output, I observed that command execution is possible but output from the command must conform to the following:
+After some tinkering with `test.jsp` to solicit output, I observed that command execution is possible but the command output must conform to the following:
 
 * Output must not be empty; and
 * Output must be more than 8 tokens, delimited by one or more space; and
@@ -212,7 +212,7 @@ I knew one can execute a command upon login via SSH. But first, let's see if I c
 
 ![screenshot-6](/assets/images/posts/depth-walkthrough/screenshot-6.png)
 
-Holy smoke! I can execute remote commands. I was also able to overcome the output display restrictions by adding my own placeholders.
+Holy smoke! Not only was I able to execute remote commands, I was also able to overcome the output display restrictions by adding my own placeholders.
 
 With this in mind, I wrote `cmd.sh`, a script that displayed the proper output from the commands as if executed by `bill` in a shell.
 
@@ -275,17 +275,17 @@ Rule added
 Rule added (v6)
 ```
 
-From my attacking machine, I can now finally login as `bill`.
+From my attacking machine, I can now login as `bill` and `sudo` as `root`.
 
 ![screenshot-7](/assets/images/posts/depth-walkthrough/screenshot-7.png)
 
 :dancer:
 
-### What the Flag?
+### Where Is the Flag?
 
 ![screenshot-8](/assets/images/posts/depth-walkthrough/screenshot-8.png)
 
-Well, that was not too difficult, was it?
+Well, that wasn't too difficult, was it?
 
 [1]: https://www.vulnhub.com/entry/depth-1,213/
 [2]: https://twitter.com/@fang0654
