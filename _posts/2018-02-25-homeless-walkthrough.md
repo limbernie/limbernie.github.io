@@ -81,7 +81,7 @@ Indeed. Line 32 of the HTTP response always showed the supplied `User-Agent` str
 
 ### Finding the Way Home
 
-Recall the hint about the "rockyou" password list? Maybe, the secret to finding the way home is by submitting one of the entries in the list as `User-Agent` to the site?
+Recall the hint about the "rockyou" password list? Maybe the secret to finding the way home is by submitting one of the entries in the list as `User-Agent` to the site?
 
 There is just one problem. Rockyou password list has about 14 million entries. It'll take ages to submit the entries one at a time. Surely some form of parallelism is needed. 
 
