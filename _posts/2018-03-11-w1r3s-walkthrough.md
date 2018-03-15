@@ -66,7 +66,7 @@ OK. We have two interesting directories: `administrator` and `wordpress`.
 
 ### Cuppa CMS
 
-The `administrator` directory turned out to be the installation setup for Cuppa CMS. This is how it looked like when you point the browser to `/administrator`.
+The `administrator` directory turned out to be the installation setup for Cuppa CMS. This is how it looked like when the browser was pointed to `/administrator`.
 
 ![screenshot-1](/assets/images/posts/w1r3s-walkthrough/screenshot-1.png)
 
