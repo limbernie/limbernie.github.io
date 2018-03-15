@@ -45,9 +45,6 @@ layout: default
 			{% capture excerpt_words %} 
 				{{ post.excerpt | number_of_words }} 
 			{% endcapture %} 
-			{% if excerpt_words != content_words %}
-			<p><a class="btn" href="{{ post.url }}#start">Continue</a></p>
-      {% endif %}
     </div>
     {% endif %}
 
@@ -67,6 +64,9 @@ layout: default
     </div><!-- /.image-wrap -->
     {% endif %}
 
+		{% if excerpt_words != content_words %}
+			<a href="{{ post.url }}#start">Read more&hellip;</a>
+		{% endif %}
 </section>
 {% endfor %}
 

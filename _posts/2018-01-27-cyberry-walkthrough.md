@@ -4,6 +4,8 @@ title: "I Love Berries!"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true
+image:
+  feature: cyberry.jpg
 ---
 
 This post documents the complete walkthrough of Cyberry: 1, 
