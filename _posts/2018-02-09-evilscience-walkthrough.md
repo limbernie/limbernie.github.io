@@ -4,6 +4,8 @@ title: "This Isn't Bad Science. It's Evil Science"
 category: Walkthrough
 tags: [VulnHub, "The Ether"]
 comments: true
+image:
+  feature: tubes.jpg
 ---
 
 This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] created by [f1re_w1re][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.

@@ -4,6 +4,8 @@ title: "Ghost in the Wires"
 category: Walkthrough
 tags: [VulnHub, W1R3S]
 comments: true
+image:
+  feature: ghost.jpg
 ---
 
 This post documents the complete walkthrough of W1R3S: 1.0.1, a boot2root [VM][1] created by SpecterWires and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
@@ -70,7 +72,7 @@ The `administrator` directory turned out to be the installation setup for Cuppa 
 
 ![screenshot-1](/assets/images/posts/w1r3s-walkthrough/screenshot-1.png)
 
-According to the official [documentation](https://www.cuppacms.com/en/docs/installation){:target="_blank"}, in order for the installation to be completed, the database have to be created first.
+According to the official [documentation](https://www.cuppacms.com/en/docs/installation){:target="_blank"}, in order for the installation to be completed, the database has to be created first.
 
 >On step 2, configure the database and user administrator setting and click in next. Remember, the database should be created before to install Cuppa CMS.
 
