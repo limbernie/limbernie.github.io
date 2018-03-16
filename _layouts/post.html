@@ -48,10 +48,14 @@ layout: default
 <!-- previous, next post -->
 <div class="postination">
 	{% if page.previous.url %}
-		<a class="prev" href="{{ page.previous.url }}">&laquo; {{ page.previous.title }}</a>
+		<a class="prev" href="{{ page.previous.url }}">
+			<h5>&laquo; {{ page.previous.title }}</h5>
+		</a>
 	{% endif %}
 	{% if page.next.url %}
-		<a class="next" href="{{ page.next.url }}">{{ page.next.title }} &raquo;</a>
+		<a class="next" href="{{ page.next.url }}">
+			<h5>{{ page.next.title }} &raquo;</h5>
+		</a>
 	{% endif %}
 </div>
 
