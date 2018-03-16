@@ -68,9 +68,9 @@ http://192.168.36.3/robots.txt (Status: 200)
 =====================================================
 ```
 
-The `robots.txt` probably doesn't conform to specifications or it'll will appear in the `nmap` scan. Now, I've two more new pages: **Django Administration** and **Under Development**.
+The `robots.txt` probably doesn't conform to specifications or it'll will appear in the `nmap` scan. Now, I've two more new directories: `admin` and `dev`.
 
-### Under Development Page
+### Under Development
 
 This page contained interesting information. There's a link to `/dev/shell`, purportedly a web shell. Under the hood in the HTML source, there were SHA1 password hashes of members from the development team.
 
@@ -91,7 +91,7 @@ Thank goodness authentication is required to use the web shell.
 
 ### Django Site Administration
 
-Let's use one of the credentials `(nick:bulldog)` and see if we can authenticate with the server in order to use the web shell.
+Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate with the server in order to use the web shell.
 
 ![screenshot-4](/assets/images/posts/bulldog-walkthrough/screenshot-4.png)
 

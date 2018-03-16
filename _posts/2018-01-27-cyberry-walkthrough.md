@@ -447,7 +447,7 @@ Recall from above the site has a login page to the Berrypedia Admin Panel? Well,
 
 ![login.php.png](/assets/images/posts/cyberry-walkthrough/cyberry-11.png)
 
-Let's try this credential `(mary:dangleberry69)` and see what we get.
+Let's try this credential (`mary:dangleberry69`) and see what we get.
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-12.png)
 
@@ -486,7 +486,7 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 
 ### Unstacking the `sudo` Russian Doll
 
-I was able to SSH in to `nick`'s account using the credential `(nick:custodio)` and here's where the crazy `sudo` Russian doll fun begins.
+I was able to SSH in to `nick`'s account using the credential (`nick:custodio`) and here's where the crazy `sudo` Russian doll fun begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 

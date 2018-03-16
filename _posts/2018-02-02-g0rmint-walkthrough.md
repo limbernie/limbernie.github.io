@@ -335,7 +335,7 @@ Sweet. The archive appeared to be the backup of the site.
 
 ### Resetting Password
 
-Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Unfortunately, the credential `(demo@example.com:demo)` did not work.
+Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Unfortunately, the credential (`demo@example.com:demo`) did not work.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-16.png)
 
@@ -347,7 +347,7 @@ All we have to do is to guess the email address and username. The "new" password
 
 Another advantage we had was the current GMT date/time at the bottom of the password reset page.
 
-Let's give a shot to `(email:w3bdrill3r@gmail.com)` and `(username:noman)` and see what we get.
+Let's give a shot to (`email:w3bdrill3r@gmail.com`) and (`username:noman`) and see what we get.
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-14.png)
 
@@ -522,7 +522,7 @@ The password was revealed to be `"tayyab123"` after going through an online MD5 
 
 ### SSH Login
 
-Let's try using the credentials `(g0rmint:tayyab123)` for a low-privilege shell.
+Let's try using the credentials (`g0rmint:tayyab123`) for a low-privilege shell.
 
 ![g0rmint](/assets/images/posts/g0rmint-walkthrough/g0rmint-18.png)
 
