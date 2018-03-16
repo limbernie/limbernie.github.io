@@ -5,7 +5,7 @@ categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true
 image:
-  feature: cyberry.jpg
+  feature: berries.jpg
 ---
 
 This post documents the complete walkthrough of Cyberry: 1, 
