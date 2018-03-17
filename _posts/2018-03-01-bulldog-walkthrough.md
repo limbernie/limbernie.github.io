@@ -6,8 +6,8 @@ tags: [VulnHub, Bulldog]
 comments: true
 image:
   feature: bulldogs.jpg
-  credit: kim_hester / Pixelbay
-  creditlink: https://pixabay.com/en/puppy-puppies-cute-bulldog-1785772/
+  credit: 984943 / Pixelbay
+  creditlink: https://pixabay.com/en/beach-playing-bulldogs-1749854/
 ---
 
 This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] created by [Nick Frichette][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
