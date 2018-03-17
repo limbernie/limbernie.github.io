@@ -25,7 +25,7 @@ blockquote {
 	position: relative;
   padding-left: 20px;
   font-style: italic;
-  border-left: 5px solid $secondary;
+  border-left: 5px solid $primary;
 }
 
 //
@@ -50,12 +50,6 @@ a {
 h1, h2, h3, h4, h5, h6 {
 	font-weight: 600;
   line-height: 1.7;
-}
-
-h3 {
-  border-width: 0.5px;
-  border-bottom-style: dotted;
-  border-bottom-color: #8d7edc;
 }
 
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
