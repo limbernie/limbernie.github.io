@@ -270,10 +270,10 @@ TARGET=$1
 for ports in $(cat sequence.txt); do
     echo "[*] Trying sequence $ports..."
     for p in $(echo $ports | tr ',' ' '); do
-        nmap -n -v0 -Pn --max-retries 0 -p $p $TARGET --send-ip
+        nmap -n -v0 -Pn --max-retries 0 -p $p $TARGET
     done
     sleep 3
-    nmap -n -v -Pn -p- -A --reason $TARGET -oN ${ports}.txt --send-ip
+    nmap -n -v -Pn -p- -A --reason $TARGET -oN ${ports}.txt
 done
 {% endhighlight %}
 
@@ -424,7 +424,7 @@ FILE=.reminder.enc
 
 for c in $(cat ciphers.txt); do
     for pw in $(sed -n 3,12p .trash); do
-       openssl enc $c -d -salt -in $FILE -pass pass:$pw -out /dev/null &>/dev/null
+        openssl enc $c -d -salt -in $FILE -pass pass:$pw -out /dev/null &>/dev/null
         if [ $? -eq 0 ]; then
             dec=$(openssl enc $c -d -salt -in $FILE -pass pass:$pw | tr -cd '[:print:]')
             if [ $? -eq 0 ]; then

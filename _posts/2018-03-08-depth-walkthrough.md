@@ -97,7 +97,7 @@ _PATH=path
 __CAT="hexdump -C "
 __CMD="${__CAT}$1"
 
-urlencode() {
+function urlencode() {
     old_lc_collate=$LC_COLLATE
     LC_COLLATE=C
 

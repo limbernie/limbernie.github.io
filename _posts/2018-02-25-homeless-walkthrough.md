@@ -74,9 +74,9 @@ The nifty `curl` has an option to submit user-supplied `User-Agent` string as pa
 HOST=192.168.198.130
 UA=$1
 
-RESP=$(curl -s -A "$UA" $HOST | \
-    sed '32!d' | \
-    sed -r -e 's/^[ \t]+//' -e 's/\t+.*$//')
+RESP=$(curl -s -A "$UA" $HOST \
+       | sed '32!d' \
+       | sed -r -e 's/^[ \t]+//' -e 's/\t+.*$//')
 
 echo $RESP
 {% endhighlight %}
@@ -101,17 +101,17 @@ HOST=192.168.198.130
 UA=$1
 
 die() {
-    for pid in $(ps aux | \
-        grep -v grep | \
-            grep brute | \
-                awk '{ print $2 }'); do
+    for pid in $(ps aux \
+                 | grep -v grep \
+                 | grep brute \
+                 | awk '{ print $2 }'); do
         kill -9 $pid &>/dev/null
     done
 }
 
-RESP=$(curl -s -A "$UA" $HOST | \
-    sed '32!d' | \
-    sed -r -e 's/^[ \t]+//' -e 's/\t+.*$//')
+RESP=$(curl -s -A "$UA" $HOST \
+       | sed '32!d' \
+       | sed -r -e 's/^[ \t]+//' -e 's/\t+.*$//')
 
 if [ "$UA" != "$RESP" ]; then
     echo "[!] Found: \"$UA\" - $RESP"
@@ -275,9 +275,9 @@ sha1sum 00 01 10 11
 
 for file in 00 01 10 11; do
     tmp=$(mktemp -u)
-    xxd -p $file | \
-        tr -d '\n' | \
-            sed -r 's/(..)/%\1/g' > $tmp
+    xxd -p $file \
+    | tr -d '\n' \
+    | sed -r 's/(..)/%\1/g' > $tmp
     rm $file && mv $tmp $file
 done
 {% endhighlight %}
