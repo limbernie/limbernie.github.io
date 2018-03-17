@@ -16,7 +16,7 @@ layout: default
   alt="{{ page.title }} feature image">
 
   {% if page.image.credit %}
-  <span class="image-credit">{{ page.image.credit | upcase }}</span>
+  <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
   {% endif %}
 </div><!-- /.image-wrap -->
 {% endif %}

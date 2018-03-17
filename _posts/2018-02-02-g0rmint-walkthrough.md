@@ -6,7 +6,8 @@ tags: [VulnHub, g0rmint]
 comments: true
 image:
   feature: protest.jpg
-  credit: Yawar Nazir / Getty Images
+  credit: LoggaWiggler / Pixelbay
+  creditlink: https://pixabay.com/en/strike-protest-human-group-51212/
 ---
 
 This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] created by [Noman Riffat][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.

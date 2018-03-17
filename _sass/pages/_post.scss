@@ -19,13 +19,13 @@
   }
 }
 
-.image-credit {
+.image-credit * {
   float: right;
   font-weight: bold;
   font-style: italic;
   color: #ccc; /* $info; */
   font-size: 10px;
-  padding-right: 20px;
+  padding-right: 2px;
 }
 
 // Post Section

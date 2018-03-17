@@ -6,6 +6,8 @@ tags: [VulnHub, Homeless]
 comments: true
 image:
   feature: homeless.jpg
+  credit: AD_Images / Pixelbay
+  creditlink: https://pixabay.com/en/walls-urban-reflection-dirty-3197310/
 ---
 
 This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1] created by [Min Ko Ko][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.

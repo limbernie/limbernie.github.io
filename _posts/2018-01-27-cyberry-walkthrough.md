@@ -6,6 +6,8 @@ tags: [VulnHub, Cyberry]
 comments: true
 image:
   feature: berries.jpg
+  credit: PublicDomainPictures / Pixelbay
+  creditlink: https://pixabay.com/en/background-berries-berry-2277/
 ---
 
 This post documents the complete walkthrough of Cyberry: 1, 

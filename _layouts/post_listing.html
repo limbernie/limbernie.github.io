@@ -59,7 +59,7 @@ layout: default
       alt="{{ post.title }} feature image">
 
       {% if post.image.credit %}
-      <span class="image-credit">{{ post.image.credit | upcase }}</span>
+      <span class="image-credit"><a href="{{ post.image.creditlink }}">{{ post.image.credit }}</a></span>
       {% endif %}
     </div><!-- /.image-wrap -->
     {% endif %}
