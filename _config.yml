@@ -70,6 +70,7 @@ owner:
 
 plugins:
   - jemoji
+  - jekyll-feed
   - jekyll-mentions
   - jekyll-seo-tag
   - jekyll-sitemap
