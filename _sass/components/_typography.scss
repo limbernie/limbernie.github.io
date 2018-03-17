@@ -25,7 +25,7 @@ blockquote {
 	position: relative;
   padding-left: 20px;
   font-style: italic;
-  border-left: 5px solid $primary;
+  border-left: 5px solid lighten($text-color, 70%);
 }
 
 //
