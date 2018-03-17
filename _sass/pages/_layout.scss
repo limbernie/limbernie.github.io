@@ -146,23 +146,23 @@
 	display:block;
 	margin-bottom:0.25em;
 	padding:0.5em 1em;
-	color: #42b983; /* #999; */
+	color: #111; /* #42b983; */
 	font-size:14px;
 	font-weight:bold;
 	line-height:1.5;
 	text-align:center;
 	text-decoration:none;
-	border:1px solid #75cea5; /* #ccc; */
+	border: 1px solid #838383; /* #75cea5; */
 	border-radius:0
 }
 
 .pagination li a.current,.pagination li a.current.disabled {
-	background-color: #42b983; /* #999; */
+	background-color: #111; /* #42b983; */
 	color:#fff
 }
 
 .pagination li a.disabled {
-	color: #75cea5; /* #ccc; */
+	color: #ccc; /* #75cea5; */
 	pointer-events:none;
 	cursor:not-allowed
 }
@@ -186,6 +186,8 @@
 	display: block;
 	width: auto;
 	overflow: hidden;
+	margin: 20px 0;
+	clear: both;
 }
         
 .postination a {
@@ -193,6 +195,7 @@
 	width: 50%;
 	float: left;
 	margin: 1em 0;
+	color: black;
 }
                 
 .postination .next {
