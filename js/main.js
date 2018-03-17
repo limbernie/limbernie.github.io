@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 		if (width > max_width) {
 			$('.post-listing').scroll(function() {
-				if ($(this).scrollTop() > offset) {
+				if ($(this).scrollTop() > offset - 20) {
 					$('.back-to-top').fadeIn(duration);
 				} else {
 					$('.back-to-top').fadeOut(duration);
