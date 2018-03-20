@@ -90,9 +90,9 @@ Here's the test result from `sqlmap`.
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-walkthrough/screenshot-9.png)
 
-Awesome. We have a injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
+Awesome. We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
 
-Now that we have an injection point, we can enumerate the tables with `--tables` like so.
+Moving on, we can enumerate the tables with `--tables` like so.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php --tables
