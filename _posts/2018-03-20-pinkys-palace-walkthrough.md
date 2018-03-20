@@ -66,7 +66,7 @@ This was the attack surface I saw when the browser was pointed to `http://pinkys
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
-The form on this page points to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`).
+The form on this page pointed to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`).
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-walkthrough/screenshot-7.png)
 
@@ -80,7 +80,7 @@ According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/
 
 >Note that also the HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
 
-Similarly, we need to setup proxy for `sqlmap` like we did for `dirbuster` in order to reach `pinky-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command like so.
+Similarly, we need to set up proxy for `sqlmap` like we did for `dirbuster` in order to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command like so.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php
@@ -115,7 +115,7 @@ pinkymanage:3pinkysaf33pinkysaf3::::::
 
 ### Low Privilege Shell
 
-I was able to login to `pinkmanage`'s account via SSH.
+I was able to login to `pinkymanage`'s account via SSH.
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-walkthrough/screenshot-12.png)
 
@@ -135,7 +135,7 @@ I've placed the decoded RSA private key in `/tmp` and changed its permissions. U
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
 
-Looking at `/etc/passwd` confirmed the existence of the user `pinky`.
+Looking at `/etc/passwd` confirmed the existence of `pinky`.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
 
@@ -161,17 +161,17 @@ _ASLR is disabled_
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-walkthrough/screenshot-19.png)
 
-_Stack execution is possible (`readelf -l adminhelper`)_
+_Stack execution is possible_
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-walkthrough/screenshot-20.png)
 
-The executable `adminhelper` was really small and simple. This is how the disassembly of the main function looked like.
+Good thing `adminhelper` was really small and simple. This is how the disassembly of the main function looked like.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
 
 This certainly brought back fond memories of 32-bit Linux exploit development. I'm glad to have this opportunity to try my hands on 64-bit Linux exploit development. Noticed that the 64-bit registers and arguments are passed through registers instead of the stack?
 
-I downloaded a copy of `adminhelper` (through `scp` with the help of the RSA private key) to my Kali VM where [PEDA](https://github.com/longld/peda) is available. PEDA will greatly assist in the exploit development such as finding the right offset as well as presenting the disassembly context in color. 
+I downloaded a copy of `adminhelper` (through `scp` with the help of the RSA private key) to my Kali VM where [PEDA](https://github.com/longld/peda) is available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color. 
 
 Here, I've created a random pattern of 80 bytes saved in `buf`. Why 80 bytes? Even though it's optional, noticed that 80 (`0x50`) bytes of space was allocated in the stack? This is to make way for the destination buffer to be supplied to `strcpy()`. 
 
