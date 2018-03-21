@@ -48,7 +48,7 @@ In full pink glory!
 
 ### Directory/File Enumeration
 
-Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate what are the available directories/files. But first, we need to set up the proxy in `dirbuster` like so.
+Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate what are the available directories/files. But first, we need to set up the proxy in `dirbuster`.
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
 
@@ -66,7 +66,7 @@ This was the attack surface I saw when the browser was pointed to `http://pinkys
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
-The form on this page pointed to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`).
+The form on this page pointed to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`) to log in.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-walkthrough/screenshot-7.png)
 
@@ -80,7 +80,7 @@ According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/
 
 >Note that also the HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
 
-Similarly, we need to set up proxy for `sqlmap` like we did for `dirbuster` in order to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command like so.
+Similarly, we need to set up proxy for `sqlmap` like we did for `dirbuster` in order to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php
@@ -92,7 +92,7 @@ Here's the test result from `sqlmap`.
 
 Awesome. We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
 
-Moving on, we can enumerate the tables with `--tables` like so.
+Moving on, we can enumerate the tables.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php --tables
@@ -100,7 +100,7 @@ Moving on, we can enumerate the tables with `--tables` like so.
 
 ![screenshot-10](/assets/images/posts/pinkys-palace-walkthrough/screenshot-10.png)
 
-Let's dump the users table from `pinky_sec_db`.
+Let's dump the `users` table from `pinky_sec_db`.
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-walkthrough/screenshot-11.png)
 
@@ -125,7 +125,7 @@ During enumeration, I spotted the presence of `ultrasecretadminf1l35` in `little
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
-The file `.ultrasecret` turned out to the `base64` encoded version of a RSA private key as hinted by `note.txt`.
+The file `.ultrasecret` turned out to be the `base64` encoded version of a RSA private key as hinted by `note.txt`.
 
 ```
 Hmm just in case I get locked out of my server I put this rsa key here.. Nobody will find it heh..
