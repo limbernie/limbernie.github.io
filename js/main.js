@@ -37,7 +37,7 @@ function backToTop(width) {
 			if ($(this).scrollTop() > offset + 340) {
 				$('.back-to-top').fadeIn(duration);
 			} else {
-				$('.back-to-top').fadeOut(duratino);
+				$('.back-to-top').fadeOut(duration);
 			}
 		});
 		$('.back-to-top').click(function() {
