@@ -6,8 +6,11 @@ $(document).ready(function() {
 	backToTop(width);
 
 	$(window).resize(function() {
-		location = location;
-		backToTop($(window).width());
+		//if($(this).width() != width) {
+		//	width = $(this).width();
+		//	$('.back-to-top').hide();
+			backToTop($(window).width());
+		//}
 	});
 
 	function backToTop(width) {
@@ -43,4 +46,7 @@ $(document).ready(function() {
 			});
 		}
 	}
+	$(function() {
+		$('.preview').miniPreview();
+	});
 });
