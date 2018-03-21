@@ -6,7 +6,7 @@ tags: [VulnHub, "The Ether"]
 comments: true
 image:
   feature: science.jpg
-  credit: qimono / Pixelbay
+  credit: qimono / Pixabay
   creditlink: https://pixabay.com/en/dna-string-biology-3d-1811955/
 ---
 

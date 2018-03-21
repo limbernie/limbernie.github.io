@@ -6,7 +6,7 @@ tags: [VulnHub, Bulldog]
 comments: true
 image:
   feature: bulldogs.jpg
-  credit: 984943 / Pixelbay
+  credit: 984943 / Pixabay
   creditlink: https://pixabay.com/en/beach-playing-bulldogs-1749854/
 ---
 

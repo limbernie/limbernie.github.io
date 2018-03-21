@@ -6,7 +6,7 @@ tags: [VulnHub, W1R3S]
 comments: true
 image:
   feature: ghosts.jpg
-  credit: Alexas_Fotos / Pixelbay
+  credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/halloween-ghosts-happy-halloween-1746354/
 ---
 

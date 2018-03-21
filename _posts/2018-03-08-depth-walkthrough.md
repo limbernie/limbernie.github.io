@@ -6,7 +6,7 @@ tags: [VulnHub, Depth]
 comments: true
 image:
   feature: depth.jpg
-  credit: Bilderandi / Pixelbay
+  credit: Bilderandi / Pixabay
   creditlink: https://pixabay.com/en/autos-technology-vw-214033/
 ---
 

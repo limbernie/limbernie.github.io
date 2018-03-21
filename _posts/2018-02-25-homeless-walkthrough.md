@@ -6,7 +6,7 @@ tags: [VulnHub, Homeless]
 comments: true
 image:
   feature: homeless.jpg
-  credit: AD_Images / Pixelbay
+  credit: AD_Images / Pixabay
   creditlink: https://pixabay.com/en/walls-urban-reflection-dirty-3197310/
 ---
 

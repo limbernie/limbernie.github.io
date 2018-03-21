@@ -6,7 +6,7 @@ tags: [VulnHub, g0rmint]
 comments: true
 image:
   feature: crowds.jpg
-  credit: geralt / Pixelbay
+  credit: geralt / Pixabay
   creditlink: https://pixabay.com/en/human-smilies-emoticons-masks-1602493/
 ---
 
