@@ -42,7 +42,7 @@ function backToTop(width) {
 		});
 		$('.back-to-top').click(function() {
 			$('html, body').animate({
-				scrollTop: 0}, duration, function() {
+				scrollTop: 400}, duration, function() {
 					location.reload();
 			});
 		});
