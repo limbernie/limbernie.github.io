@@ -29,7 +29,7 @@ function backToTop(width) {
 		$('.back-to-top').click(function() {
 			$('.post-listing').animate({
 				scrollTop: 0}, duration, function() {
-					location.reload();
+					$('.post-listing').stop(true, false);
 			});
 		});
 	} else {
@@ -43,7 +43,7 @@ function backToTop(width) {
 		$('.back-to-top').click(function() {
 			$('html, body').animate({
 				scrollTop: 400}, duration, function() {
-					location.reload();
+					$('html, body').stop(true, false);
 			});
 		});
 	}
