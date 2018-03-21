@@ -23,11 +23,9 @@ $(document).ready(function() {
 		if (width > max_width) {
 			$('.post-listing').scroll(function() {
 				if ($(this).scrollTop() > offset - 20) {
-					//$('.back-to-top').fadeIn(duration);
-					$('.back-to-top').show();
+					$('.back-to-top').fadeIn(duration);
 				} else {
-					$('.back-to-top').hide();
-					//$('.back-to-top').fadeOut(duration);
+					$('.back-to-top').fadeOut(duration);
 				}
 			});
 			$('.back-to-top').click(function() {
@@ -37,11 +35,9 @@ $(document).ready(function() {
 		} else {
 			$(window).scroll(function() {
 				if ($(this).scrollTop() > offset + 340) {
-					//$('.back-to-top').fadeIn(duration);
-					$('.back-to-top').show();
+					$('.back-to-top').fadeIn(duration);
 				} else {
-					$('.back-to-top').hide();
-					//$('.back-to-top').fadeOut(duration);
+					$('.back-to-top').fadeOut(duration);
 				}
 			});
 			$('.back-to-top').click(function() {
