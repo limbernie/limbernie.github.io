@@ -6,7 +6,7 @@ $(document).ready(function() {
 	backToTop(width);
 
 	$(window).resize(function() {
-		location = location;
+		location = location; // is this the best?
 		backToTop($(window).width());
 	});
 
