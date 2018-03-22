@@ -169,7 +169,7 @@ Good thing `adminhelper` was really small and simple. This is how the disassembl
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
 
-This certainly brought back fond memories of 32-bit Linux exploit development. I'm glad to have this opportunity to try my hands on 64-bit Linux exploit development. Noticed that the 64-bit registers and arguments are passed through registers instead of the stack?
+This certainly brought back fond memories of 32-bit Linux exploit development. I'm glad to have this opportunity to try my hands on 64-bit Linux exploit development. Noticed the 64-bit registers (r??) and how arguments are passed through registers instead of the stack?
 
 I downloaded a copy of `adminhelper` (through `scp` with the help of the RSA private key) to my Kali VM where [PEDA](https://github.com/longld/peda) is available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color. 
 
