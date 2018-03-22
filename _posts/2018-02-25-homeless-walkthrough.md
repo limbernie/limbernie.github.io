@@ -250,7 +250,14 @@ I'm no cryptography expert but it's apparent that this challenge requires MD5 co
 
 I found a very informative [page][7]{:target='_blank'} detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
-Suffice to say, I've downloaded the source code of `fastcoll` and compiled it with `libboost-all-dev`. Following the steps from the page, I wrote `gen.sh`, a helper script to generate 4 colliding blobs encoded with [Percent-encoding][8]{:target='_blank'}.
+Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compiled it with `libboost-all-dev`.
+
+```
+# apt-get install libboost-all-dev
+# g++ -O3 *.cpp -lboost_filesystem -lboost_program_options -lboost_system -o fastcoll
+```
+
+Following the steps from the page, I wrote `gen.sh`, a helper script to generate 4 colliding blobs encoded with [Percent-encoding][8]{:target='_blank'}.
 
 {% highlight bash linenos %}
 # cat gen.sh
