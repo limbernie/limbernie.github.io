@@ -228,7 +228,7 @@ Now let's get the party going after we've copied `getenvaddr.c` over with `scp`.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-28.png)
 
-A perfectionist may argue that `euid=0` is not a proper proper root shell. Well, that can be fixed rather easily.
+A perfectionist may argue that `euid=0` is not a proper proper `root` shell. Well, that can be fixed rather easily.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-29.png)
 
