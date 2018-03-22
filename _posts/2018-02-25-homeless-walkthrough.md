@@ -197,7 +197,7 @@ This is how I imagined the PHP code of the uploader page to look like.
 Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. Fortunately, PHP supports [short open tag][5]{:target='_blank'} (<tt><?=</tt>) and [execution operators][6]{:target='_blank'} (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
 
 ```
-echo -n "<?=`ls`;" > test.php
+echo -n '<?=`ls`;' > test.php
 ```
 
 ![screenshot-6](/assets/images/posts/homeless-walkthrough/screenshot-6.png)
