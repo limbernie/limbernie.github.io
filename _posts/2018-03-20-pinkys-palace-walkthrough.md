@@ -62,8 +62,7 @@ After `dirbuster` has completed doing its thing, this is what I got.
 
 ### Pinky's Admin Files Login
 
-This was the attack surface I saw when the browser was pointed to  
-`http://pinkys-palace:8080/littlesecrets-main/`.
+This was the attack surface I saw when the browser was pointed to `http://pinkys-palace:8080/littlesecrets-main/`.
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
