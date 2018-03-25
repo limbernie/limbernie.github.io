@@ -62,7 +62,8 @@ After `dirbuster` has completed doing its thing, this is what I got.
 
 ### Pinky's Admin Files Login
 
-This was the attack surface I saw when the browser was pointed to `http://pinkys-palace:8080/littlesecrets-main/`.
+This was the attack surface I saw when the browser was pointed to  
+`http://pinkys-palace:8080/littlesecrets-main/`.
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
@@ -78,7 +79,7 @@ Noticed that three parameters (`user`, `pass` and `User-Agent`) were logged? Thi
 
 According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/Usage),
 
->Note that also the HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
+>The HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
 
 Similarly, we need to set up proxy for `sqlmap` like we did for `dirbuster` in order to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
 
