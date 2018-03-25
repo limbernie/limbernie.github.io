@@ -42,7 +42,7 @@ No matter what I did, the web server always returned `403 Forbidden` which was f
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-walkthrough/screenshot-1.png)
 
-In full pink glory!
+Now in full pink glory!
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-walkthrough/screenshot-2.png)
 
