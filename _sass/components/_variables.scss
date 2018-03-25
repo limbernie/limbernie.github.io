@@ -3,7 +3,7 @@
  */
 
 // Google font import
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,400,400italic|Roboto+Mono);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:600,400,400italic|Source+Serif+Pro:600,400,400italic|Source+Code+Pro);
 
 // Custom variables
 
@@ -56,11 +56,11 @@ $background-color: #f5f5f5;
 
 $white:            #fff;
 $primary:          darken($text-color, 45%);
-$secondary:        #8d7edc;
-$success:          #65e892;
-$danger:           #f83e4b;
-$warning:          #F5A623;
-$info:             #09ABF6;
+$secondary:        $primary; // #8d7edc;
+$success:          $primary; // #65e892;
+$danger:           $primary; // #f83e4b;
+$warning:          $primary; // #F5A623;
+$info:             $primary; // #09ABF6;
 
 // Tables
 $table-border-color: #d0d0d0 !default;

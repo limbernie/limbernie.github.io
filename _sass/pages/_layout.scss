@@ -28,7 +28,7 @@
   }
   .author_name {
     display: block;
-    color: #F36170;
+    color: $primary; // #F36170;
     font-size: 1.75em;
     text-transform: lowercase;
   }
@@ -200,4 +200,8 @@
 .postination .next {
 	float: right;
 	text-align: right;
+}
+
+.more-link {
+	margin-top: -2em;
 }
