@@ -284,7 +284,7 @@ exploit
 rm -rf cookie
 {% endhighlight %}
 
-The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php) that was present in `config.php`.
+The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php){: .external}{: target="_blank"} that was present in `config.php`.
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 

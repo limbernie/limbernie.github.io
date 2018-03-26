@@ -118,6 +118,7 @@
 
 .external {
 	border-bottom: solid 2px;
+	&:hover { text-decoration: none !important; }
 }
 
 /* Pagination */
