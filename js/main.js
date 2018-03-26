@@ -23,11 +23,11 @@ function backToTop(width) {
 		$('.post-listing').scroll(function() {
 			if ($(this).scrollTop() > Math.ceil(offset - 56)) {
 				btt.fadeIn(duration, function() {
-					btt.stop(true, false);
+					btt.stop(true, true);
 				});
 			} else {
 				btt.fadeOut(duration, function() {
-					btt.stop(true, false);
+					btt.stop(true, true);
 				});
 			}
 		});
@@ -41,11 +41,11 @@ function backToTop(width) {
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > offset + 340) {
 				btt.fadeIn(duration, function() {
-					btt.stop(true, false);
+					btt.stop(true, true);
 				});
 			} else {
 				btt.fadeOut(duration, function() {
-					btt.stop(true, false);
+					btt.stop(true, true);
 				});
 			}
 		});
