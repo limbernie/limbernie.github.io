@@ -34,6 +34,7 @@ section.post {
 
 // Post Link
 .post-description a, #post a {
+	color: #36c; // Wikipedia's link color
 	&:hover {
 		text-decoration: underline;
 	}
