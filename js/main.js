@@ -34,7 +34,7 @@ function backToTop(width) {
 		btt.click(function() {
 			$('.post-listing').animate({
 				scrollTop: 0}, duration, function() {
-					$('.post-listing').stop(true, true);
+					$('.post-listing').stop(true, false);
 			});
 		});
 	} else {
@@ -52,7 +52,7 @@ function backToTop(width) {
 		btt.click(function() {
 			$('html, body').animate({
 				scrollTop: 0}, duration, function() {
-					$('html, body').stop(true, true);
+					$('html, body').stop(true, false);
 			});
 		});
 	}
