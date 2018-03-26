@@ -51,7 +51,7 @@ function backToTop(width) {
 		});
 		btt.click(function() {
 			$('html, body').animate({
-				scrollTop: 400}, duration, function() {
+				scrollTop: 0}, duration, function() {
 					$('html, body').stop(true, false);
 			});
 		});
