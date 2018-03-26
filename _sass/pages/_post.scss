@@ -32,6 +32,13 @@ section.post {
 	margin-bottom: 40px; /* 80px; */
 }
 
+// Post Link
+.post-description a, #post a {
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 // Back home button
 
 .back-home a {

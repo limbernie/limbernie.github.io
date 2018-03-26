@@ -20,7 +20,7 @@ You've been warned. This challenge is not for beginners. :smiling_imp:
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in **creatigon**:
+Let's kick this off with a `nmap` scan to establish the services available in the host:
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130

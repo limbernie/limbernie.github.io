@@ -20,7 +20,7 @@ A mysterious company, _The Ether_ has proclaimed an elixir that considerably alt
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in **theEther**.
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130

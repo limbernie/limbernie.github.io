@@ -25,7 +25,7 @@ In Dan's own words:
   
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in **b2r**:
+Let's kick this off with a `nmap` scan to establish the services available in the host:
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.100.4

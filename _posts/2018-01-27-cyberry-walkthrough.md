@@ -21,7 +21,7 @@ Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!
 
 ### Information Gathering
-Let's kick this off with a `nmap` scan to establish the services available in **cyberry**.
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.128
