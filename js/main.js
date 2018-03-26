@@ -4,7 +4,7 @@ $(document).ready(function() {
 });
 
 $(window).resize(debounce(function() {
-	var width = $(window).width();
+	var width = $(this).width();
 	backToTop(width);
 }, 500));
 
@@ -24,8 +24,8 @@ function debounce(func, wait, immediate) {
 };
 
 function backToTop(width) {
-	var max_width = 977;  // trial-n-error
-	var offset = 400;
+	var max_width = 977;
+	var offset = 345;
 	var duration = 500;
 	var btt = $('.back-to-top');
 
@@ -33,28 +33,30 @@ function backToTop(width) {
 	if ( $('.notice').length ) offset += $('.notice').height();
 
 	if (width > max_width) {
+		var threshold = Math.ceil(offset) - 1;
 		$('.post-listing').scroll(function() {
-			if ($(this).scrollTop() > Math.ceil(offset - 56)) {
-				btt.fadeIn(duration);
+			if ($(this).scrollTop() > threshold) {
+				btt.show();
 			} else {
-				btt.fadeOut(duration);
+				btt.hide();
 			}
 		});
 		btt.click(function() {
 			$('.post-listing').animate({
-				scrollTop: 0}, duration);
+				scrollTop: 0}, duration, function() { $(this).finish(); });
 		});
 	} else {
+		var threshold = 400 + Math.ceil(offset) + 1;
 		$(window).scroll(function() {
-			if ($(this).scrollTop() > offset + 340) {
-				btt.fadeIn(duration);
+			if ($(this).scrollTop() > threshold) {
+				btt.show();
 			} else {
-				btt.fadeOut(duration);
+				btt.hide();
 			}
 		});
 		btt.click(function() {
 			$('html, body').animate({
-				scrollTop: 0}, duration);
+				scrollTop: 0}, duration, function() { $(this).finish(); });
 		});
 	}
 }
