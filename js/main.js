@@ -23,36 +23,36 @@ function backToTop(width) {
 		$('.post-listing').scroll(function() {
 			if ($(this).scrollTop() > Math.ceil(offset - 56)) {
 				btt.fadeIn(duration, function() {
-					btt.stop(true, true);
+					btt.stop(true, false);
 				});
 			} else {
 				btt.fadeOut(duration, function() {
-					btt.stop(true, true);
+					btt.stop(true, false);
 				});
 			}
 		});
 		btt.click(function() {
 			$('.post-listing').animate({
 				scrollTop: 0}, duration, function() {
-					$('.post-listing').stop(true, false);
+					$('.post-listing').stop(true, true);
 			});
 		});
 	} else {
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > offset + 340) {
 				btt.fadeIn(duration, function() {
-					btt.stop(true, true);
+					btt.stop(true, false);
 				});
 			} else {
 				btt.fadeOut(duration, function() {
-					btt.stop(true, true);
+					btt.stop(true, false);
 				});
 			}
 		});
 		btt.click(function() {
 			$('html, body').animate({
 				scrollTop: 0}, duration, function() {
-					$('html, body').stop(true, false);
+					$('html, body').stop(true, true);
 			});
 		});
 	}
