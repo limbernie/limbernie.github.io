@@ -112,7 +112,7 @@ However, I had success displaying the content of `/usr/share/apache2/icons/READM
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
 
-This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4]{: target='_blank'} is not your usual `/var/www/html`. :sweat:
+This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4] is not your usual `/var/www/html`. :sweat:
 
 Here's what I imagined the PHP code in `/index.php` to look like.
 
@@ -128,7 +128,7 @@ Here's what I imagined the PHP code in `/index.php` to look like.
 ?>
 {% endhighlight %}
 
-To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][5]{: target='_blank'} to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
+To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][5] to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
 
 {% highlight bash linenos %}
 # cat fuzz.sh

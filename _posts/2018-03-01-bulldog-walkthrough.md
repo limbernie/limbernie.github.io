@@ -50,7 +50,7 @@ The HTML source of the landing page as well as its internal link did not provide
 
 ### Directory/File Enumeration
 
-Let's use `gobuster` with `common.txt` from [SecLists][4]{:target='blank'} to enumerate the site and see what we can discover.
+Let's use `gobuster` with `common.txt` from [SecLists][4] to enumerate the site and see what we can discover.
 
 ```
 # gobuster -w /usr/share/seclists/Discovery/Web_Content/common.txt -e -u http://192.168.36.3
@@ -107,7 +107,7 @@ Sweet. However, it appeared that only certain commands were allowed.
 
 ### Command Substitution
 
-One of my favorite features in `bash` is [command substitution][5]{:target='_blank'} using backtick (`).
+One of my favorite features in `bash` is [command substitution][5] using backtick (`).
 
 > "Bash performs the expansion by executing command in a subshell environment and replacing the command substitution with the standard output of the command, with any trailing newlines deleted."
 

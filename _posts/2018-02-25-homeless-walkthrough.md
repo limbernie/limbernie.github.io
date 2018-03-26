@@ -89,7 +89,7 @@ Recall the hint about the "rockyou" password list? Maybe the secret to finding t
 
 There is just one problem. Rockyou password list has about 14 million entries. It'll take ages to submit the entries one at a time. Surely some form of parallelism is needed. 
 
-For that I'm using [parallel][4]{:target='_blank'}, a command-line driven utility for Linux and other Unix-like operating systems which allows the user to execute shell scripts in parallel.
+For that I'm using [parallel][4], a command-line driven utility for Linux and other Unix-like operating systems which allows the user to execute shell scripts in parallel.
 
 I expanded `check.sh` to include logic to stop when line 32 of the HTTP response is different from the supplied `User-Agent` string.
 
@@ -194,7 +194,7 @@ This is how I imagined the PHP code of the uploader page to look like.
 
 ### PHP Tags and Execution Operators
 
-Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. Fortunately, PHP supports [short open tag][5]{:target='_blank'} (<tt><?=</tt>) and [execution operators][6]{:target='_blank'} (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
+Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. Fortunately, PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
 
 ```
 echo -n '<?=`ls`;' > test.php
@@ -248,7 +248,7 @@ error_reporting(0);
 
 I'm no cryptography expert but it's apparent that this challenge requires MD5 collisions in order to bypass the Secure Login page. I'll need 3 different strings that will result in the same MD5 hash.
 
-I found a very informative [page][7]{:target='_blank'} detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
+I found a very informative [page][7] detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
 Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compiled it with `libboost-all-dev`.
 
@@ -257,7 +257,7 @@ Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastco
 # g++ -O3 *.cpp -lboost_filesystem -lboost_program_options -lboost_system -o fastcoll
 ```
 
-Following the steps from the page, I wrote `gen.sh`, a helper script to generate 4 colliding blobs encoded with [Percent-encoding][8]{:target='_blank'}.
+Following the steps from the page, I wrote `gen.sh`, a helper script to generate 4 colliding blobs encoded with [Percent-encoding][8].
 
 {% highlight bash linenos %}
 # cat gen.sh
