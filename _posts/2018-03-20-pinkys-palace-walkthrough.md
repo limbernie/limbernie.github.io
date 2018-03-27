@@ -94,10 +94,6 @@ Awesome. We have an injection point. Time-based blind SQLi as the name suggests 
 
 Moving on, we can enumerate the tables.
 
-```
-# sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php --tables
-```
-
 ![screenshot-10](/assets/images/posts/pinkys-palace-walkthrough/screenshot-10.png)
 
 Let's dump the `users` table from `pinky_sec_db`.
@@ -200,7 +196,7 @@ Even though the stack is aligned along 8 bytes boundary, the return address in t
 Now that we can control RIP with the offset at 72 bytes, we can place our shellcode in an environment variable and use the following code to determine the memory address of the environment variable where the shellcode begins. This will be our return address in the exploit.
 
 {% highlight c linenos %}
-# cat getenvaddr.c
+/* cat getenvaddr.c */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
