@@ -42,13 +42,13 @@ No matter what I did, the web server always returned `403 Forbidden` which was f
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-walkthrough/screenshot-1.png)
 
-Now in full pink glory!
+Woohoo. In full pink glory!
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-walkthrough/screenshot-2.png)
 
 ### Directory/File Enumeration
 
-Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate what are the available directories/files. But first, we need to set up the proxy in `dirbuster`.
+Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate the available directories/files out there. But first, we need to set up the proxy in `dirbuster`.
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
 
@@ -92,7 +92,7 @@ Here's the test result from `sqlmap`.
 
 Awesome. We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
 
-Moving on, we can enumerate the tables.
+Moving on, we can now enumerate the tables.
 
 ![screenshot-10](/assets/images/posts/pinkys-palace-walkthrough/screenshot-10.png)
 
@@ -100,7 +100,7 @@ Let's dump the `users` table from `pinky_sec_db`.
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-walkthrough/screenshot-11.png)
 
-Let's crack those hashes.
+Let's crack these hashes.
 
 ```
 # john --format=raw-md5 --show hashes.txt 
@@ -117,7 +117,7 @@ I was able to login to `pinkymanage`'s account via SSH with the cracked password
 
 ### Ultra Secret Admin Files
 
-During enumeration, I spotted the presence of `ultrasecretadminf1l35` in `littlesecrets-main`.
+During enumeration with `pinkymanage`'s account, the presence of `ultrasecretadminf1l35` was spotted in `littlesecrets-main`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
@@ -151,13 +151,13 @@ There was an accompanying note to the executable as well.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
 
-I suspect we have a classic stack buffer overflow here. The following supported that suspicion. 
+It's likely that we are looking at a classic stack buffer overflow. The following supported that suspicion. 
 
-_ASLR is disabled_
+_ASLR disabled_
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-walkthrough/screenshot-19.png)
 
-_Stack execution is possible_
+_Stack execution_
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-walkthrough/screenshot-20.png)
 
@@ -165,11 +165,11 @@ Good thing `adminhelper` was really small and simple. This is how the disassembl
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
 
-This certainly brought back fond memories of 32-bit Linux exploit development. I'm glad to have this opportunity to try my hands on 64-bit Linux exploit development. Noticed the 64-bit registers (r??) and how arguments are passed through registers instead of the stack?
+This certainly brought back fond memories of 32-bit Linux exploit development. I'm pretty excited to try my hands on 64-bit Linux exploit development. Noticed the 64-bit registers (r??) and how arguments are passed through registers instead of the stack?
 
 I downloaded a copy of `adminhelper` (through `scp` with the help of the RSA private key) to my Kali VM where [PEDA](https://github.com/longld/peda) is available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color. 
 
-Here, I've created a random pattern of 80 bytes saved in `buf`. Why 80 bytes? Even though it's optional, noticed that 80 (`0x50`) bytes of space was allocated in the stack? This is to make way for the destination buffer to be supplied to `strcpy()`. 
+Here I've created a random pattern of 80 bytes saved in `buf`. Why 80 bytes? Even though it's optional, noticed that 80 (`0x50`) bytes of space was allocated in the stack? This is to make way for the destination buffer to be supplied to `strcpy()`. 
 
 ![screenshot-22](/assets/images/posts/pinkys-palace-walkthrough/screenshot-22.png)
 
@@ -215,7 +215,7 @@ int main(int argc, char *argv[]) {
 }
 {% endhighlight %}
 
-Since we are using the environment variable to store our payload, the size of the payload shouldn't be an issue. Having said that, I still prefer a minimalist approach and decided to use the shortest [shellcode](http://shell-storm.org/shellcode/files/shellcode-806.php) (27 bytes) to execute `/bin/sh` in x86-64.
+Since we are using the environment variable to store our payload, the size of the payload shouldn't be an issue. Having said that, I still prefer a minimalist approach and decided to use the shortest possible [shellcode](http://shell-storm.org/shellcode/files/shellcode-806.php) (27 bytes) to execute `/bin/sh` in x86-64.
 
 ```
 \x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05
