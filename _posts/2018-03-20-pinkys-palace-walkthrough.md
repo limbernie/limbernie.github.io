@@ -197,6 +197,7 @@ Now that we can control RIP with the offset at 72 bytes, we can place our shellc
 
 {% highlight c linenos %}
 /* cat getenvaddr.c */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
