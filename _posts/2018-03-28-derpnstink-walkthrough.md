@@ -418,7 +418,7 @@ The resolution can be found at `https://pastebin.com/RzK9WfGw`.
 
 ![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
 
-This is in fact also the answer to privilege escalation, unbeknownst to poor Mr. Derp and Uncle Stinky!
+This is in fact also the answer to privilege escalation unbeknownst to poor Mr. Derp and Uncle Stinky!
 
 ### Privilege Escalation
 
