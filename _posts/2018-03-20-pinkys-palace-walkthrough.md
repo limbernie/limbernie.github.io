@@ -52,7 +52,7 @@ Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate t
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
 
-Next, use the `directory-list-lowercase-2.3-medium.txt` wordlist to maximize the chances of getting a hit.
+Next, use a bigger wordlist to maximize the chances of getting a hit.
 
 ![screenshot-4](/assets/images/posts/pinkys-palace-walkthrough/screenshot-4.png)
 
@@ -66,7 +66,7 @@ This was the attack surface I saw when the browser was pointed to `http://pinkys
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
-The form on this page pointed to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`) to log in.
+The form on this page was pointed to `login.php` and any failed login attempts were logged at `logs.php`. Here's an example when I used the credential (`admin:admin`) to log in.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-walkthrough/screenshot-7.png)
 
@@ -90,7 +90,9 @@ Here's the test result from `sqlmap`.
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-walkthrough/screenshot-9.png)
 
-Awesome. We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
+Awesome. 
+
+We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to ascertain its existence.
 
 Moving on, we can now enumerate the tables.
 
@@ -117,7 +119,7 @@ I was able to login to `pinkymanage`'s account via SSH with the cracked password
 
 ### Ultra Secret Admin Files
 
-During enumeration with `pinkymanage`'s account, the presence of `ultrasecretadminf1l35` was spotted in `littlesecrets-main`.
+During enumeration with `pinkymanage`'s account, `ultrasecretadminf1l35` was spotted in `littlesecrets-main`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
@@ -143,7 +145,7 @@ Sweet!
 
 ### Privilege Escalation
 
-During enumeration with `pinky`'s account, an executable - `adminhelper` at the home directory was observed to have the `setuid` attribute enabled.
+During enumeration with `pinky`'s account, an executable `adminhelper` at the home directory was observed to have the `setuid` attribute enabled.
 
 ![screenshot-17](/assets/images/posts/pinkys-palace-walkthrough/screenshot-17.png)
 
@@ -151,7 +153,7 @@ There was an accompanying note to the executable as well.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
 
-It's likely that we are looking at a classic stack buffer overflow. The following supported that suspicion. 
+It's likely that we are looking at a classic stack buffer overflow as the following supported that suspicion. 
 
 _ASLR disabled_
 
@@ -221,7 +223,7 @@ Since we are using the environment variable to store our payload, the size of th
 \x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05
 ```
 
-Now let's get the party going after we've copied `getenvaddr.c` over with `scp`. 
+Once we've copied `getenvaddr.c` over with `scp` and compiled it, time to get the party going.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-28.png)
 

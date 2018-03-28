@@ -76,11 +76,11 @@ The `administrator` directory turned out to be the installation setup for Cuppa 
 
 According to the official [documentation](https://www.cuppacms.com/en/docs/installation), in order for the installation to be completed, the database has to be created first.
 
->On step 2, configure the database and user administrator setting and click in next. Remember, the database should be created before to install Cuppa CMS.
+>Remember, the database should be created before to install Cuppa CMS.
 
-The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. Suffice to say, I downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
+The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I've downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
 
-It was certainly a pleasant surprise when I found one. I'm not sure if this is a new vulnerability but there is a LFI vulnerability with `alertConfigField.php` at line 77.
+It was certainly a pleasant surprise when one was found. I'm not sure if this is a new vulnerability but THERE IS a LFI vulnerability with `alertConfigField.php` at line 77.
 
 ![screenshot-2](/assets/images/posts/w1r3s-walkthrough/screenshot-2.png)
 
