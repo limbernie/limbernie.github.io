@@ -313,7 +313,7 @@ define('DB_PASSWORD', 'mysql');
 Let's proceed to dump and view the database.
 
 ```
-# mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
+$ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
 Two things stood out from the dump: **flag** and **password hashes**.
