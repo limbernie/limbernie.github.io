@@ -384,7 +384,7 @@ log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=htt
 log=mrderp&pwd=derpderpderpderpderpderpderp&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 ```
-Let's login to Mr. Derp's account.
+Let's login to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) recovered from the packet capture.
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
