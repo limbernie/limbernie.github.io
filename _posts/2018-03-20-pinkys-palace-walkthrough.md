@@ -119,7 +119,7 @@ I was able to login to `pinkymanage`'s account via SSH with the cracked password
 
 ### Ultra Secret Admin Files
 
-During enumeration with `pinkymanage`'s account, `ultrasecretadminf1l35` was spotted in `littlesecrets-main`.
+During enumeration of `pinkymanage`'s account, `ultrasecretadminf1l35` was spotted in `littlesecrets-main`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
@@ -145,7 +145,7 @@ Sweet!
 
 ### Privilege Escalation
 
-During enumeration with `pinky`'s account, an executable `adminhelper` at the home directory was observed to have the `setuid` attribute enabled.
+During enumeration of `pinky`'s account, an executable `adminhelper` at the home directory was observed to have the `setuid` attribute enabled.
 
 ![screenshot-17](/assets/images/posts/pinkys-palace-walkthrough/screenshot-17.png)
 
