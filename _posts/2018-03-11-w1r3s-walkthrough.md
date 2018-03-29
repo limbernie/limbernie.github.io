@@ -80,7 +80,7 @@ According to the official [documentation](https://www.cuppacms.com/en/docs/insta
 
 The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I've downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
 
-It was certainly a pleasant surprise when one was found. I'm not sure if this is a new vulnerability but THERE IS a LFI vulnerability with `alertConfigField.php` at line 77.
+It was certainly a pleasant surprise when one was found. I'm not sure if this is a new vulnerability but there is a LFI vulnerability with `alertConfigField.php` at line 77.
 
 ![screenshot-2](/assets/images/posts/w1r3s-walkthrough/screenshot-2.png)
 
@@ -126,7 +126,7 @@ I'm not quite sure if `/etc/shadow` was intentionally made world-readable which 
 
 ### John the Ripper
 
-Well, what's done is done. With both `passwd` and `shadow` made available, I can `unshadow` them and send them to JtR for offline cracking with a password list like "rockyou".
+Well, what's done is done. With both `passwd` and `shadow` made available, I can `unshadow` them and send them to John the Ripper for offline cracking with a wordlist like "rockyou".
 
 The cracking was completed in seconds.
 

