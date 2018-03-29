@@ -25,6 +25,13 @@
     color: $primary;
     border-color: $primary;
   }
+  @media only screen and (max-width: 600px) {
+		padding: 5px !important;
+		width: 48px !important;
+		height: auto !important;
+		text-align: center !important;
+		vertical-align: middle !important;
+  }
 }
 
 // Success button
