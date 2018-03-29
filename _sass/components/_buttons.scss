@@ -25,6 +25,9 @@
     color: $primary;
     border-color: $primary;
   }
+}
+
+.social {
   @media only screen and (max-width: 600px) {
 		padding: 5px !important;
 		width: 48px !important;
