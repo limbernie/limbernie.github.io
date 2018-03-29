@@ -316,7 +316,7 @@ Let's proceed to dump and view the database.
 $ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
-Two things stood out from the dump: **flag** and **password hash**.
+Two things stood out from the dump: **second flag** and **password hashes**.
 
 ```
 'flag2(a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6)','Flag.txt','','draft','open','open'
@@ -354,7 +354,7 @@ Let's see if we can login to Uncle Stinky's account with the password (`wedgie57
 
 ![screenshot-4](/assets/images/posts/derpnstink-walkthrough/screenshot-4.png)
 
-During enumeration of Uncle Stinky's account, the third flag was discovered in `/home/stinky/Desktop`.
+During enumeration of Uncle Stinky's account, the third flag was discovered at `/home/stinky/Desktop/flag.txt`.
 
 Enumerating further, a conversation between Mr. Derp and Uncle Stinky was uncovered. It appeared that Mr. Derp couldn't login to WordPress and Uncle Stinky has captured some network traffic to assist in troubleshooting the issue.
 
@@ -437,7 +437,7 @@ And since we already knew the password to Mr. Derp's account.
 
 Boom.
 
-The fourth flag was at `/root/Desktop/flag.txt`.
+The fourth flag was discovered at `/root/Desktop/flag.txt`.
 
 :dancer:
 
