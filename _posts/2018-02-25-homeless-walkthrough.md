@@ -6,8 +6,8 @@ tags: [VulnHub, Homeless]
 comments: true
 image:
   feature: homeless.jpg
-  credit: josemdelaa / Pixabay
-  creditlink: https://pixabay.com/en/homeless-blankets-charity-poverty-2090507/
+  credit: MichiArt / Pixabay
+  creditlink: https://pixabay.com/en/homeless-beggar-sleeping-street-2182114/
 ---
 
 This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1] created by [Min Ko Ko][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
