@@ -14,7 +14,7 @@
   <ul>
     {% if author.email %}
       <li>
-      <script>gen_mail_to_link('{{ author.email }}', 'Hello from website');</script>
+      <script>gen_mail_to_link('{{ author.email }}', 'Howdie');</script>
       </li>
     {% endif %}
     {% if author.twitter %}<li><a href="http://twitter.com/{{ author.twitter }}" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>{% endif %}
@@ -37,5 +37,6 @@
     {% if author.flickr %}<li><a href="http://www.flickr.com/{{ author.flickr }}" class="social-link-item" target="_blank"><i class="fa fa-fw fa-flickr"></i></a></li>{% endif %}
     {% if author.codepen %}<li><a href="http://codepen.io/{{ author.codepen }}" class="social-link-item" target="_blank"><i class="fa fa-fw fa-codepen"></i></a></li>{% endif %}
     {% if author.telegram %}<li><a href="https://t.me/{{ author.telegram }}" class="social-link-item" target="_blank"><i class="fa fa-fw fa-telegram"></i></a></li>{% endif %}
+    <li><a href="{{ site.url }}/feed.xml" class="social-link-item"><i class="fa fa-rss"></i></a></li>
   </ul>
 </div>
