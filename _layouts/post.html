@@ -74,13 +74,13 @@ layout: default
 <!-- previous, next post -->
 <div class="postination">
 	{% if page.previous.url %}
-		<a class="prev" href="{{ page.previous.url }}">
+		<a class="prev" href="{{ page.previous.url }}" rel="prev">
 			<h5>Previous</h5>
 			<span><i class="fa fa-arrow-left" /> {{ page.previous.title }}</span>
 		</a>
 	{% endif %}
 	{% if page.next.url %}
-		<a class="next" href="{{ page.next.url }}">
+		<a class="next" href="{{ page.next.url }}" rel="next">
 			<h5>Next</h5>
 			<span>{{ page.next.title }} <i class="fa fa-arrow-right" /></span>
 		</a>
