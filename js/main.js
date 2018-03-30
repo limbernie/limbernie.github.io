@@ -26,7 +26,7 @@ function debounce(func, wait, immediate) {
 function backToTop(width) {
 	var max_width = 977;
 	var offset = 345;
-	var duration = 300;
+	var duration = 600;
 	var btt = $('.back-to-top');
 
 	if ( $('.feature-image').length ) offset += $('.feature-image').height();
@@ -43,7 +43,9 @@ function backToTop(width) {
 		});
 		btt.click(function() {
 			$('.post-listing').animate({
-				scrollTop: 0}, duration, function() { $(this).finish(); });
+				scrollTop: 0},
+				duration,
+				function() { $(this).finish(); });
 		});
 	} else {
 		var threshold = 400 + Math.ceil(offset) + 1;
@@ -56,7 +58,9 @@ function backToTop(width) {
 		});
 		btt.click(function() {
 			$('html, body').animate({
-				scrollTop: 0}, duration, function() { $(this).finish(); });
+				scrollTop: 0},
+				duration,
+				function() { $(this).finish(); });
 		});
 	}
 }
