@@ -8,7 +8,7 @@ pre, code {
   color: #586e75; // #525252;
   font-size: 0.95em;
   background-color: #fafafa; // #f8f8f8;
-  font-size: ($font-size-base - 3);
+  //font-size: ($font-size-base - 3);
 }
 code {
   color: #586e75; // #e96900;
@@ -321,11 +321,11 @@ pre code {
 		  content: attr(data-lang);
 		  position: absolute;
 		  top: 0;
-		  right: 0;
+		  left: 0;
 		  color: #ccc;
 		  text-align: right;
 		  text-transform: uppercase;
-		  font-size: 0.9em;
+		  font-size: 0.95em;
 		  padding: 5px 10px 0;
 		  line-height: 20px;
 		  height: 20px;

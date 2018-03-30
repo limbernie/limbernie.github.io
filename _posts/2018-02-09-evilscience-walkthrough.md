@@ -185,7 +185,7 @@ s = sys.argv[1]
 for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
     print word
 
-#./crunch.py theether.com > custom.txt
+# ./crunch.py theether.com > custom.txt
 {% endhighlight %}
 
 Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
