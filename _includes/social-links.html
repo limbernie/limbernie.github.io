@@ -14,7 +14,11 @@
   <ul>
     {% if author.email %}
       <li>
-      <script>gen_mail_to_link('{{ author.email }}', 'Howdie');</script>
+      {% if page.title %}
+      	<script>gen_mail_to_link('{{ author.email }}', '{{ page.title | escape }}');</script>
+      {% else %}
+      	<script>gen_mail_to_link('{{ author.email }}', 'Howdie');</script>
+      {% endif %} 
       </li>
     {% endif %}
     {% if author.twitter %}<li><a href="http://twitter.com/{{ author.twitter }}" class="social-link-item" target="_blank"><i class="fa fa-fw fa-twitter"></i></a></li>{% endif %}
