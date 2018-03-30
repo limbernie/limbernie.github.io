@@ -26,7 +26,7 @@ function debounce(func, wait, immediate) {
 function backToTop(width) {
 	var max_width = 977;
 	var offset = 345;
-	var duration = 500;
+	var duration = 300;
 	var btt = $('.back-to-top');
 
 	if ( $('.feature-image').length ) offset += $('.feature-image').height();
@@ -36,9 +36,9 @@ function backToTop(width) {
 		var threshold = Math.ceil(offset) - 1;
 		$('.post-listing').scroll(function() {
 			if ($(this).scrollTop() > threshold) {
-				btt.show();
+				btt.fadeIn(duration);
 			} else {
-				btt.hide();
+				btt.fadeOut(duration);
 			}
 		});
 		btt.click(function() {
@@ -49,14 +49,14 @@ function backToTop(width) {
 		var threshold = 400 + Math.ceil(offset) + 1;
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > threshold) {
-				btt.show();
+				btt.fadeIn(duration);
 			} else {
-				btt.hide();
+				btt.fadeOut(duration);
 			}
 		});
 		btt.click(function() {
 			$('html, body').animate({
-				scrollTop: 0}, duration, function() { $(this).finish(); });
+				scrollTop: 400}, duration, function() { $(this).finish(); });
 		});
 	}
 }
