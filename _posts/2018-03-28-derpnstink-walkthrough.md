@@ -149,15 +149,15 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$ 
 ```
-Several things were noted:
+The following was noted:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
-* DocumentRoot is at `/var/www/html`.
+* **DocumentRoot** is at `/var/www/html`.
 
 ### Directory/File Enumeration
 
-Using `gobuster` for a quick enumeration, the following additional directories were found.
+Using `gobuster` with one of the big wordlists for a quick enumeration, these additional directories were found.
 
 ```
 Gobuster v1.2                OJ Reeves (@TheColonial)
@@ -180,7 +180,7 @@ http://192.168.10.130/temporary (Status: 301)
 
 Both `/php` and `/temporary` were already listed in `robots.txt`.
 
-Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists) more interesting stuff can be found.
+Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), further directories were found.
 
 ```
 http://192.168.10.130/php/info.php (Status: 200)

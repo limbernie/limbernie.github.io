@@ -223,7 +223,7 @@ Since we are using the environment variable to store our payload, the size of th
 \x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05
 ```
 
-Once we've copied `getenvaddr.c` over with `scp` and compiled it, time to get the party going.
+Once we've copied `getenvaddr.c` over with `scp` and compiled it, it's time to get the party going.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-28.png)
 
