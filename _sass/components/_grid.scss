@@ -123,3 +123,24 @@
 
   }
 }
+
+.column {
+  float: left;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+}
+
+.left {
+  width: 30%;
+}
+
+.right {
+  width: 70%;
+}
+
+.r0w:after {
+  content: "";
+  display: table;
+  clear: both;
+}
