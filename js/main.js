@@ -26,7 +26,7 @@ function debounce(func, wait, immediate) {
 function backToTop(width) {
 	var max_width = 977;
 	var offset = 345;
-	var duration = 300;
+	var duration = 600;
 	var btt = $('.back-to-top');
 
 	if ( $('.feature-image').length ) offset += $('.feature-image').height();
