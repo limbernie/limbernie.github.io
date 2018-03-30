@@ -6,8 +6,8 @@ tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
   feature: pink.jpg
-  credit: jill111 / Pixabay
-  creditlink: https://pixabay.com/en/flower-nature-flora-petal-summer-3140492/
+  credit: pixel2013 / Pixabay
+  creditlink: https://pixabay.com/en/macarons-raspberries-mint-pastries-2548827/
 ---
 
 This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_P4nther][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
