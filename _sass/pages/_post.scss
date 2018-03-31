@@ -175,7 +175,7 @@ a.read-more {
     list-style: none;
     li {
       display: inline-block;
-      margin-right: 0.5em;
+      // margin-right: 0.5em;
       span {
         display: none;
         @include media-query($small-screen) {
