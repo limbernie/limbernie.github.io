@@ -15,6 +15,9 @@ html {
   text-rendering: optimizeLegibility;
   font-size: $font-size-base;
   @media (min-width: 48em) {
+	font-size: 16px;
+  }
+  @media (min-width: 58em) {
     font-size: 20px;
   }
 }

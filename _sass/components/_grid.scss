@@ -10,8 +10,8 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 16rem;
-    text-align: left;
+    width: 18rem;
+    text-align: right;
   }
 }
 
@@ -36,14 +36,14 @@
 @media (min-width: 48em) {
   .content {
     max-width: 38rem;
-    margin-left: 18rem;
+    margin-left: 20rem;
     margin-right: 2rem;
   }
 }
 
 @media (min-width: 64em) {
   .content {
-    margin-left: 18rem;
-    margin-right: 2rem;
+    margin-left: 22rem;
+    margin-right: 4rem;
   }
 }
