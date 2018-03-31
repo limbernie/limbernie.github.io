@@ -178,7 +178,7 @@ a.read-more {
       // margin-right: 0.5em;
       span {
         display: none;
-        @include media-query($small-screen) {
+        @media (min-width: 1280px) {
           display: inline;
           margin: 0.5em;
         }
