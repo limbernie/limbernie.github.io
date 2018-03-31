@@ -75,7 +75,7 @@
   list-style: none;
   .nav-item {
     display: inline-block;
-    *display: inline;
+    //*display: inline;
     zoom: 1;
     & a {
       margin-top: 1em;
@@ -154,7 +154,7 @@
 	margin-bottom:0.25em;
 	padding:0.5em 1em;
 	color: $primary;
-	font-size:14px;
+	font-size: 0.9em;
 	font-weight:bold;
 	line-height:1.5;
 	text-align:center;

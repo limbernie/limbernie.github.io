@@ -14,6 +14,9 @@ html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-size: $font-size-base;
+  @media (min-width: 38em) {
+    font-size: 18px;
+  }
 }
 
 //
