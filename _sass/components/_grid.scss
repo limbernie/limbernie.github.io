@@ -11,22 +11,13 @@
 }
 
 .column {
-  @media screen and (max-width: 600px) {
-    width: 100%;
-  }
+  float: left;
 }
 
 .sidebar {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 30%;
 }
 
 .content {
-  margin-left: 30%;
   width: 70%;
-  @media screen and (max-width: 600px) {
-    margin-left: 0;
-  }
 }
