@@ -329,7 +329,7 @@ INSERT INTO `wp_users` VALUES (1,'unclestinky','$P$BW6NTkFvboVVCHU2R9qmNai1WfHSC
 
 ### John the Ripper
 
-Using John the Ripper with a wordlist like "rockyou" on Kali cracking WordPress password hash has never been easier.
+Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hash has never been easier.
 
 ```
 # john --format=phpass --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
