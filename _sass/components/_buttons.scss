@@ -25,6 +25,9 @@
     color: $primary;
     border-color: $primary;
   }
+  @media (min-width: 64em) {
+    font-size: 0.70em;
+  }
 }
 
 .social {

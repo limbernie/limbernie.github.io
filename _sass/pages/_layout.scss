@@ -1,25 +1,6 @@
-/* LAYOUT CSS */
-.cover {
-  background-color: $background-color;
-  position: fixed;
-  text-align: center;
-  width: 100%;
-  min-height: 400px;
-  padding: 30px 15px 20px;
-  z-index: 1;
-  @include media-query($small-screen) {
-    background-position: center;
-    padding: 15px;
-  }
-  @include media-query($medium-screen) {
-    height: 100vh;
-    position: initial;
-    width: 100%;
-  }
-}
 .cover-card {
   color: $text-color;
-  padding: 0 30px;
+  padding: 1rem; // 0 30px;
   .avatar {
     border-radius: 50%;
     width: 100px;
@@ -47,7 +28,7 @@
   @include media-query($medium-screen) {
     text-align: right;
     margin: 0 auto;
-    padding: 0 0px 80px;
+    padding: 0; // 0 0px 80px;
   }
 }
 .social-links {
@@ -92,12 +73,6 @@
 
 /* Customizations */
 
-.anchor {
-	margin-top: 20px;
-	padding: 0;
-	position: fixed;
-}
-
 .back-to-top {
 	opacity:0.35;
 	position: fixed;
@@ -112,10 +87,6 @@
 	cursor: pointer;
 	text-align: center;
 	vertical-align: middle;
-
-	@include media-query($medium-screen) {
-		margin-right: 20px;
-	}
 }
 
 .back-to-top i {
