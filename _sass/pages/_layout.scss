@@ -192,3 +192,9 @@
 		display: none;
 	}
 }
+
+@media (max-width: 48em) {
+	.overlay {
+		visibility: hidden !important;
+	}
+}

@@ -5,11 +5,11 @@
   	<div class="menu"><i class="fa fa-bars"></i></div>
     <div class="back-to-top"><i class="fa fa-chevron-circle-up"></i></div>
       {% include sidebar.html %}
-
-      <div class="content container">
-        {{ content }}
-        {% include footer.html %}
-      </div>
+    <div class="overlay" style="visibility: hidden;position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 9;background: rgba(0,0,0,0.5);"></div>
+    <div class="content container">
+      {{ content }}
+      {% include footer.html %}
+    </div>
     {% include js.html %}
   </body>
 </html>
