@@ -80,7 +80,7 @@ function backToTop(width) {
 
 function menu() {
 	sidebar();
-	content();
+	//content();
 }
 
 function sidebar() {
