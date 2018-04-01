@@ -179,3 +179,12 @@
 	float: right;
 	text-align: right;
 }
+
+.menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 1em 2em;
+	font-size: 1.5em;
+	z-index: 30;
+}
