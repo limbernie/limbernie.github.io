@@ -1,18 +1,35 @@
 var max_width = 768;
+var em = 16;
 var btt = $('.back-to-top');
-var mn = $('.menu');
+var sb  = $('.sidebar');
+var mn  = $('.menu');
+var btn = $('.btn');
+var ph  = $('.post-header');
+var fi  = $('.feature-image');
+var no  = $('.notice');
+var c   = $('.content');
+
+var _ml = parseInt(c.css('margin-left').replace(/[^\d.]/g, ''));
+var _mr = parseInt(c.css('margin-right').replace(/[^\d.]/g, ''));
 
 $(document).ready(function() {
 	var width = $(window).width();
 	backToTop(width);
+
 	mn.click(function() {
-		move();
+		menu();
 	});
 });
 
 $(window).resize(debounce(function() {
 	var width = $(window).width();
 	backToTop(width);
+
+	_ml = parseInt(c.css('margin-left').replace(/[^\d.]/g, ''));
+	_mr = parseInt(c.css('margin-right').replace(/[^\d.]/g, ''));
+
+	c.removeAttr('style');
+	sb.removeAttr('style');
 }, 500));
 
 function debounce(func, wait, immediate) {
@@ -32,26 +49,26 @@ function debounce(func, wait, immediate) {
 
 function backToTop(width) {
 	var offset = 65
-				 + $('.sidebar').outerHeight(true)
-				 + $('.post-header').outerHeight(true)
-				 + $('.btn').outerHeight(true);
+				 + sb.outerHeight(true)
+				 + ph.outerHeight(true)
+				 + btn.outerHeight(true);
 
-	if ( $('.feature-image').length ) offset += $('.feature-image').outerHeight(true);
-	if ( $('.notice').length ) offset += $('.notice').outerHeight(true);
+	if ( fi.length ) offset += fi.outerHeight(true);
+	if ( no.length ) offset += no.outerHeight(true);
 
 	if (width < max_width) {
 		var threshold = Math.ceil(offset);
 		$(window).scroll(function() {
 			if ($(this).scrollTop() > threshold) {
-				btt.fadeIn('slow');
+				btt.show();
 			} else {
-				btt.fadeOut('slow');
+				btt.hide();
 			}
 		});
 		btt.click(function() {
 			$('html, body').animate({
 				scrollTop: 0},
-				'fast',
+				'slow',
 				function() { $(this).finish(); });
 		});
 	} else {
@@ -61,9 +78,23 @@ function backToTop(width) {
 	}
 }
 
-function move() {
-	var sb = $('.sidebar');
-	var sbm = sb.outerWidth(true) - 20;
+function menu() {
+	sidebar();
+	content();
+}
 
-	sb.animate({'margin-left' : '-' + sbm + 'px'}, 'slow');
+function sidebar() {
+	var sbm = sb.outerWidth(true);
+	sb.toggle();
+}
+
+function content() {
+	var ml = parseInt(c.css('margin-left').replace(/[^\d.]/g, ''));
+
+	if (ml === _ml) {
+		c.css('margin-left' , '20rem');
+		c.css('margin-right', '2rem');
+	} else {
+		c.removeAttr('style');
+	}
 }
