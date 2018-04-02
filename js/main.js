@@ -3,6 +3,7 @@ var em = 16;
 var btt = $('.back-to-top');
 var sb  = $('.sidebar');
 var mn  = $('.menu');
+var ic  = mn.find('i');
 var btn = $('.btn');
 var ph  = $('.post-header');
 var fi  = $('.feature-image');
@@ -73,6 +74,7 @@ function backToTop(width) {
 function toggle() {
 	sb.toggle('slide', 'slow');
 	blind();
+	menu();
 }
 
 function blind() {
@@ -80,4 +82,11 @@ function blind() {
 		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'slow');
 	else
 		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'slow');
+}
+
+function menu() {
+	if (ic.attr('class') === 'fa fa-bars')
+		ic.toggleClass('fa-bars fa-times');
+	else
+		ic.toggleClass('fa-times fa-bars');
 }
