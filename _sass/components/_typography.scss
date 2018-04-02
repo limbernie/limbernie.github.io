@@ -13,9 +13,12 @@ html {
   color: $text-color;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-size: $font-size-base;
+  font-size: 14px;
+  @media (min-width: 38em) {
+    font-size: 16px;
+  }
   @media (min-width: 48em) {
-	font-size: 16px;
+	font-size: 18px;
   }
   @media (min-width: 58em) {
     font-size: 20px;

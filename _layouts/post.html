@@ -50,19 +50,19 @@ layout: default
   <!--<h6>Share: </h6>-->
   <ul>
     <li>
-      <a href="https://twitter.com/intent/tweet?text={{ site.url }}{{ page.url }}" class="twitter btn social" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+      <a href="https://twitter.com/intent/tweet?text={{ site.url }}{{ page.url }}" class="twitter btn social" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fab fa-twitter"></i><span> Twitter</span></a>
     </li>
 		<li>
-			<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}" class="linkedin btn social" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin"></i><span>LinkedIn</span></a>
+			<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}" class="linkedin btn social" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fab fa-linkedin-in"></i><span>LinkedIn</span></a>
 		</li>
     <li>
-      <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" class="facebook btn social" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" class="facebook btn social" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fab fa-facebook-f"></i><span> Facebook</span></a>
     </li>
     <li>
-      <a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" class="google-plus btn social" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+      <a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" class="google-plus btn social" title="Share on Google+" rel="nofollow" target="_blank"><i class="fab fa-google-plus-g"></i><span> Google+</span></a>
     </li>
     <li>
-      <a href="https://www.reddit.com/submit?url={{ site.url }}{{ page.url }}" class="reddit btn social" title="Share on Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+      <a href="https://www.reddit.com/submit?url={{ site.url }}{{ page.url }}" class="reddit btn social" title="Share on Reddit" rel="nofollow" target="_blank"><i class="fab fa-reddit-alien"></i><span> Reddit</span></a>
     </li>
   </ul>
 </div><!-- end share-buttons -->
@@ -77,13 +77,13 @@ layout: default
 	{% if page.previous.url %}
 		<a class="prev" href="{{ page.previous.url }}" rel="prev">
 			<h5>Previous</h5>
-			<span><i class="fa fa-arrow-left" /> {{ page.previous.title }}</span>
+			<span><i class="fas fa-arrow-left" /> {{ page.previous.title }}</span>
 		</a>
 	{% endif %}
 	{% if page.next.url %}
 		<a class="next" href="{{ page.next.url }}" rel="next">
 			<h5>Next</h5>
-			<span>{{ page.next.title }} <i class="fa fa-arrow-right" /></span>
+			<span>{{ page.next.title }} <i class="fas fa-arrow-right" /></span>
 		</a>
 	{% endif %}
 </div>

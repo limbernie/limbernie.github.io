@@ -74,15 +74,12 @@
 /* Customizations */
 
 .back-to-top {
-	opacity:0.35;
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	margin-right: 5px;
-	margin-bottom: 5px;
 	z-index: 234;
-	width: 40px;
-	height: 40px;
+	width: 3em;
+	height: 3rem;
 	display: none;
 	cursor: pointer;
 	text-align: center;
@@ -90,7 +87,7 @@
 }
 
 .back-to-top i {
-	font-size: 40px;
+	font-size: 2rem;
 }
 
 .external {
@@ -196,5 +193,30 @@
 @media (max-width: 47em) {
 	.overlay {
 		visibility: hidden !important;
+	}
+}
+
+.credit, .copyright {
+	display: inline-block;
+	&:after {
+		content: ". ";
+	}
+}
+
+@media (max-width: 20em) {
+	footer {
+		display: table;
+		margin: 0 auto;
+	}
+	.credit, .copyright {
+		&:after {
+			content: "";
+		}
+	}
+	.credit {
+		display: table-header-group;
+	}
+	.copyright {
+		display: table-footer-group;
 	}
 }

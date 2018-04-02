@@ -85,7 +85,7 @@ function blind() {
 }
 
 function menu() {
-	if (ic.attr('class') === 'fa fa-bars')
+	if (ic.attr('class') === 'fas fa-bars')
 		ic.toggleClass('fa-bars fa-times');
 	else
 		ic.toggleClass('fa-times fa-bars');
