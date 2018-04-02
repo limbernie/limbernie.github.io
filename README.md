@@ -1,13 +1,14 @@
-[limbernie.github.io](https://limbernie.github.io)
+# Potion
 
-This customized theme is derived partially from the work of others, namely:
+Potion is a customized Jekyll theme partially derived from the work of others, namely:
 
 * [Leonids](https://github.com/renyuanz/leonids) by Renyuan Zou
 * [So Simple](https://github.com/mmistakes/so-simple-theme) by Micheal Rose
 * [Hyde](https://github.com/poole/hyde) by Mark Otto
 
-I shall call it Potion since it's a concoction of other themes. 
-You know, the site is powered by Jekyll and Potion :wink:
+It's called Potion since it represents a concoction of the parts I liked 
+about from the other themes. Furthermore, it's pretty awesome to put in the 
+footer the site is powered by Jekyll and Potion :wink:
 
 I first started with Leonids. I loved the sidebar. It was tastefully designed.
 However, as I moved along I needed a clean and simple layout. Hyde came to mind
