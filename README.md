@@ -12,7 +12,7 @@ footer the site is powered by Jekyll and Potion :wink:
 
 I first started with Leonids. I loved the sidebar. It was tastefully designed.
 However, as I moved along I needed a clean and simple layout. Hyde came to mind
-and so I adopted it. And when I added pagination, I was so inspired by the  
+and so I adopted it. And when I added pagination, I was so inspired by the
 navigation from So Simple and I included that into the mix as well.
 
 All mistakes are mine and mine alone.
