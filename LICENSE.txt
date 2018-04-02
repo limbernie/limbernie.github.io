@@ -1,4 +1,4 @@
-Copyright (c) 2015 Renyuan Zou
+Copyright (c) 2018 Bernie Lim
 
 MIT License
 
