@@ -202,7 +202,7 @@ footer {
 }
 
 .credit, .copyright {
-	&:after {
+	&::after {
 		content: "";
 	}
 }
@@ -218,8 +218,9 @@ footer {
 @media (min-width: 360px) {
 	.credit, .copyright {
 		display: inline-block;
-		&:after {
-			content: ". ";
+		&::after {
+			content: ".";
+			margin-right: 0.1rem;
 		}
 	}
 }
