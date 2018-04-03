@@ -196,27 +196,30 @@
 	}
 }
 
+footer {
+	display: table;
+	margin: 0 auto;
+}
+
 .credit, .copyright {
-	display: inline-block;
 	&:after {
-		content: ". ";
+		content: "";
 	}
 }
 
-@media (max-width: 320px) {
-	footer {
-		display: table;
-		margin: 0 auto;
-	}
+.credit {
+	display: table-header-group;
+}
+
+.copyright {
+	display: table-footer-group;
+}
+
+@media (min-width: 360px) {
 	.credit, .copyright {
+		display: inline-block;
 		&:after {
-			content: "";
+			content: ". ";
 		}
-	}
-	.credit {
-		display: table-header-group;
-	}
-	.copyright {
-		display: table-footer-group;
 	}
 }
