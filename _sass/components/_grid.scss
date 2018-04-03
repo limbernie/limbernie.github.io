@@ -11,10 +11,9 @@
   .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     bottom: 0;
     width: 18rem;
-    text-align: right;
     z-index: 10;
     display: none;
   }
@@ -46,20 +45,7 @@
   }
 }
 
-@media all and (orientation:landscape) {
-	.sidebar { 
-		height: 100vh;
-		overflow-y: hidden;
-	}
-
-	.avatar {
-		float: left !important;
-		@media (max-width: 288px) {
-			display: none;
-		}
-	}
-	
-	.non_avatar {
-		float: left;
-	}
+@media all and (orientation: landscape) {
+	.sidebar { height: 100vh }
+	.cover-card > * { display: inline-block }
 }

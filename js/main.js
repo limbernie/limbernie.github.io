@@ -61,7 +61,7 @@ function backToTop(width) {
 		btt.click(function() {
 			$('html, body').animate({
 				scrollTop: 0},
-				'slow',
+				'fast',
 				function() { $(this).finish(); });
 		});
 	} else {
@@ -72,16 +72,16 @@ function backToTop(width) {
 }
 
 function toggle() {
-	sb.toggle('slide', 'slow');
+	sb.toggle('slide', { direction: 'right' }, 'fast');
 	blind();
 	menu();
 }
 
 function blind() {
 	if (ol.css('visibility') == 'hidden')
-		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'slow');
+		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'fast');
 	else
-		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'slow');
+		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'fast');
 }
 
 function menu() {
