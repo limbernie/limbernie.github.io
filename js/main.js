@@ -1,5 +1,4 @@
 var max_width = 768;
-var em = 16;
 var btt = $('.back-to-top');
 var sb  = $('.sidebar');
 var mn  = $('.menu');
@@ -15,7 +14,7 @@ $(document).ready(function() {
 	backToTop(width);
 
 	mn.click(function() {
-		toggle();
+		draw();
 	});
 });
 
@@ -71,20 +70,23 @@ function backToTop(width) {
 	}
 }
 
-function toggle() {
+function draw() {
 	sb.toggle('slide', { direction: 'right' }, 'fast');
-	blind();
-	menu();
+	overlay();
+	toggle();
 }
 
-function blind() {
-	if (ol.css('visibility') == 'hidden')
+function overlay() {
+	if (ol.css('visibility') === 'hidden') {
 		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'fast');
-	else
+		ol.on('click', function() { draw(); });
+	} else {
 		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'fast');
+		ol.off('click');
+	}
 }
 
-function menu() {
+function toggle() {
 	if (ic.attr('class') === 'fas fa-bars')
 		ic.toggleClass('fa-bars fa-times');
 	else
