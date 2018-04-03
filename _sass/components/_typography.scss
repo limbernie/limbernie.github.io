@@ -11,8 +11,6 @@ html {
   font-family: $font-family-base;
   font-weight: normal;
   color: $text-color;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
   font-size: 14px;
   @media (min-width: 38em) {
     font-size: 16px;

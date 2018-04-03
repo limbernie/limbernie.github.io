@@ -5,6 +5,7 @@
   {% if author.avatar %}
   <img src="{{ site.url }}/img/{{ author.avatar }}" alt="" class="avatar">
   {% endif %}
+  <div class="non_avatar">
   <a href="{{ site.url }}/" class="author_name">{{ author.name }}</a>
   <span class="author_job">{{ author.job }}</span>
   <span class="author_bio mbm">{{ author.bio }}</span>
@@ -25,6 +26,7 @@
     </ul>
   </nav>
   {% include social-links.html %}
+  </div>
 </div>
 </div>
 </div>
