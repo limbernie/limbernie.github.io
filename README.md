@@ -3,8 +3,8 @@
 Potion is a customized Jekyll theme partially derived from the work of others, namely:
 
 * [Leonids](https://github.com/renyuanz/leonids) by Renyuan Zou
-* [So Simple](https://github.com/mmistakes/so-simple-theme) by Micheal Rose
 * [Hyde](https://github.com/poole/hyde) by Mark Otto
+* [So Simple](https://github.com/mmistakes/so-simple-theme) by Micheal Rose
 
 It's called Potion since it represents a concoction of the parts I liked 
 about from the other themes. Furthermore, it's pretty awesome to put in the 
