@@ -21,10 +21,11 @@
 
 .image-credit * {
   float: right;
-  font-style: italic;
-  color: #ccc; /* $info; */
-  font-size: 0.55em;
+  font-weight: normal !important;
+  color: #ccc;
+  font-size: 0.5em;
   padding-right: 2px;
+  text-rendering: optimizeLegibility;
 }  
 
 // Post Section
@@ -40,17 +41,6 @@ section.post {
 	}
 }
 
-// Back home button
-
-.back-home a {
-  font-size: 13px;
-  font-weight: bold;
-  color: $info;
-  border: 1px solid lighten($text-color, 45%);
-  border-radius: 0.4em;
-  padding: 0.5em 1em;
-}
-
 // Post title
 .post-title {
 
@@ -58,8 +48,7 @@ section.post {
 
 .post-title-link {
 	color: $primary;
-	font-size: 14px;
-	margin-left: 10px;
+	font-size: 0.7em;
 	&:hover,
 	&:focus {
 		color: lighten($primary, 14%);
@@ -68,7 +57,7 @@ section.post {
 
 // Post meta
 .post-meta {
-  font-size: 95%; /* 13px; */
+  font-size: 0.9em;
   font-weight: bold;
 	.post-date {
 		color: $secondary;
@@ -125,38 +114,6 @@ a.read-more {
   }
 }
 
-.post-navigation {
-  background-color: #f6f6f6;
-  @include box-shadow;
-}
-.leonids-icon {
-  margin: 0 auto;
-  padding: 20px 30px;
-  text-align: center;
-  color: $warning;
-  font-size: 16px;
-  line-height: 16px;
-}
-.post-nav-prev,
-.post-nav-next {
-  min-height: 10px;
-  width: 100%;
-}
-.post-nav-next {
-  text-align: right;
-}
-.post-nav-btn {
-  width: 100%;
-  padding: 20px 30px;
-  .post-nav-text {
-    font-size: 16px;
-    line-height: 16px;
-    font-weight: bold;
-  }
-  .table-cell {
-    vertical-align: middle;
-  }
-}
 .post-image-feature {
   margin-bottom: 40px;
   .feature-image {
