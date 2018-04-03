@@ -238,7 +238,7 @@ abbr[title]:after {
 	content: " (" attr(title) ")";
 }
 
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 768px) {
 	abbr[title] {
 		cursor: help;
 	}

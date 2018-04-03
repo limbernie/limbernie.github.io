@@ -185,12 +185,12 @@
 	padding-right: 0.45em;
 	font-size: 1.25em;
 	z-index: 30;
-	@media (max-width: 47em) {
+	@media (max-width: 768px) {
 		display: none;
 	}
 }
 
-@media (max-width: 47em) {
+@media (max-width: 768px) {
 	.overlay {
 		visibility: hidden !important;
 	}

@@ -25,18 +25,15 @@
     color: $primary;
     border-color: $primary;
   }
-  @media (min-width: 64em) {
-    font-size: 0.70em;
-  }
 }
 
 .social {
   @media (max-width: 1280px) {
-		padding: 5px !important;
-		width: 48px !important;
-		height: auto !important;
-		text-align: center !important;
-		vertical-align: middle !important;
+    padding: 5px !important;
+    width: 48px !important;
+    height: auto !important;
+    text-align: center !important;
+    vertical-align: middle !important;
   }
 }
 
