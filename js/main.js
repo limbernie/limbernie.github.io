@@ -7,7 +7,8 @@ var btn = $('.btn');
 var ph  = $('.post-header');
 var fi  = $('.feature-image');
 var no  = $('.notice');
-var ol   = $('.overlay');
+var ol  = $('.overlay');
+var b   = $('body');
 
 $(document).ready(function() {
 	var width = $(window).width();
@@ -80,11 +81,13 @@ function overlay() {
 	if (ol.css('visibility') === 'hidden') {
 		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'fast');
 		ol.on('click', function() { draw(); });
-		$('body').css('overflow-y', 'hidden');
+		b.css('overflow-y', 'hidden');
+		sb.on('mouseout', function() { b.css('overflow-y', 'auto'); });
 	} else {
 		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'fast');
 		ol.off('click');
-		$('body').css('overflow-y', 'auto');
+		b.css('overflow-y', 'auto');
+		sb.on('mouseover', function() { b.css('overflow-y', 'hidden'); });
 	}
 }
 
