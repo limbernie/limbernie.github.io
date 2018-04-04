@@ -82,12 +82,10 @@ function overlay() {
 		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'fast');
 		ol.on('click', function() { draw(); });
 		b.css('overflow-y', 'hidden');
-		sb.on('mouseout', function() { b.css('overflow-y', 'auto'); });
 	} else {
 		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'fast');
 		ol.off('click');
 		b.css('overflow-y', 'auto');
-		sb.on('mouseover', function() { b.css('overflow-y', 'hidden'); });
 	}
 }
 
