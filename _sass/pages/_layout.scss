@@ -26,9 +26,8 @@
     display: block;
   }
   @include media-query($medium-screen) {
-    text-align: left;
     margin: 0 auto;
-    padding: 0; // 0 0px 80px;
+    padding: 0;
   }
 }
 .social-links {
@@ -181,8 +180,8 @@
 	cursor: pointer;
 	position: fixed;
 	top: 0;
-	right: 0;
-	padding-right: 0.45em;
+	left: 0;
+	padding-left: 0.3em;
 	font-size: 1.25em;
 	z-index: 30;
 	@media (max-width: 768px) {

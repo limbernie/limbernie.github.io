@@ -72,7 +72,7 @@ function backToTop(width) {
 }
 
 function draw() {
-	sb.toggle('slide', { direction: 'right' }, 'fast');
+	sb.toggle('slide', { direction: 'left' }, 'fast');
 	overlay();
 	toggle();
 }
