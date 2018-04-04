@@ -80,9 +80,11 @@ function overlay() {
 	if (ol.css('visibility') === 'hidden') {
 		ol.css({'visibility':'visible','opacity':0.0}).animate({'opacity':1.0}, 'fast');
 		ol.on('click', function() { draw(); });
+		$('body').css('overflow-y', 'hidden');
 	} else {
 		ol.css({'visibility':'hidden','opacity':1.0}).animate({'opacity':0.0}, 'fast');
 		ol.off('click');
+		$('body').css('overflow-y', 'auto');
 	}
 }
 

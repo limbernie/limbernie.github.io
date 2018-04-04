@@ -5,13 +5,13 @@
 
 pre, code {
   font-family: $font-family-monospace;
-  color: #586e75; // #525252;
-  font-size: 0.95em;
-  background-color: #fafafa; // #f8f8f8;
+  color: #586e75;
+  font-size: 0.9em;
+  background-color: #fafafa;
   //font-size: ($font-size-base - 3);
 }
 code {
-  color: #586e75; // #e96900;
+  color: #586e75;
   border-radius: 2px;
   white-space: nowrap;
 }
@@ -314,9 +314,8 @@ pre code {
 }
 
 @media screen and (min-width: 1025px) {
-	// pre { padding: 0.5em; }
 	pre code {
-		color: #586e75; // #525252;
+		color: #586e75;
 		&::before {
 		  content: attr(data-lang);
 		  position: absolute;
@@ -325,7 +324,7 @@ pre code {
 		  color: #ccc;
 		  text-align: right;
 		  text-transform: uppercase;
-		  font-size: 0.95em;
+		  font-size: 0.9em;
 		  padding: 5px 10px 0;
 		  line-height: 20px;
 		  height: 20px;
