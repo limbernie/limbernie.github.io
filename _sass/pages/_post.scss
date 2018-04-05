@@ -132,14 +132,17 @@ a.read-more {
     list-style: none;
     li {
       display: inline-block;
-      // margin-right: 0.5em;
       span {
         display: none;
         @media (min-width: 1280px) {
+          //font-size: 0.8em;
           display: inline;
           margin: 0.5em;
         }
       }
+     a { 
+       font-weight: normal;
+     }
     }
   }
 }
