@@ -90,8 +90,13 @@ function overlay() {
 }
 
 function toggle() {
-	if (ic.attr('class') === 'fas fa-bars')
-		ic.toggleClass('fa-bars fa-times');
+	var e = 'fa-ellipsis-';
+	var s = 'fas' + ' ' + v;
+	var h = e + 'h';
+	var v = e + 'v';
+
+	if (ic.attr('class') === s)
+		ic.toggleClass(v + ' ' + h);
 	else
-		ic.toggleClass('fa-times fa-bars');
+		ic.toggleClass(h + ' ' + v);
 }
