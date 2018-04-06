@@ -7,7 +7,7 @@ Potion is a customized Jekyll theme partially derived from the work of others, n
 * [So Simple](https://github.com/mmistakes/so-simple-theme) by Micheal Rose
 
 It's called Potion since it represents a concoction of the parts I liked 
-about from the other themes. Furthermore, it's pretty awesome to put in the 
+about from the other themes. Furthermore, I think it's pretty awesome to put at the 
 footer the site is powered by Jekyll and Potion :wink:
 
 I first started with Leonids. I loved the sidebar. It was tastefully designed.
