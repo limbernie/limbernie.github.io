@@ -190,9 +190,10 @@
 	}
 }
 
-@media (max-width: 768px) {
-	.overlay {
-		visibility: hidden !important;
+.overlay {
+	visibility: hidden;
+	@media (min-width: 768px) {
+		visibility: visible;
 	}
 }
 
