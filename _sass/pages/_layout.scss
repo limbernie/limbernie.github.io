@@ -184,8 +184,9 @@
 	padding-left: 0.3em;
 	font-size: 1.25em;
 	z-index: 30;
-	@media (max-width: 768px) {
-		display: none;
+	visibility: hidden
+	@media (min-width: 768px) {
+		visibility: visible;
 	}
 }
 
