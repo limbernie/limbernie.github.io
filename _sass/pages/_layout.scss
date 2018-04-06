@@ -179,12 +179,14 @@
 .menu {
 	cursor: pointer;
 	position: fixed;
-	top: 0;
-	left: 0;
+	top: 1rem;
+	left: 1rem;
 	padding-left: 0.3em;
 	font-size: 1.25em;
 	z-index: 30;
 	visibility: hidden;
+	width: 2rem;
+	height: 2rem;
 	@media (min-width: 768px) {
 		visibility: visible;
 	}

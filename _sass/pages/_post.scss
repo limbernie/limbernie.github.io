@@ -1,24 +1,3 @@
-// Post listing
-.post-listing {
-  background-color: $white;
-  position: absolute;
-  top: 400px;
-  z-index: 233;
-  width: 100%;
-  padding: 20px 20px 0;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  @include media-query($small-screen) {
-    padding: 20px 30px 0;
-  }
-  @include media-query($medium-screen) {
-    height: 100vh;
-    overflow-y: scroll;
-    position: initial;
-    top: 0;
-  }
-}
-
 .image-credit * {
   float: right;
   font-weight: normal !important;
@@ -30,7 +9,7 @@
 
 // Post Section
 section.post {
-	margin-bottom: 40px; /* 80px; */
+	margin-bottom: 40px;
 }
 
 // Post Link
