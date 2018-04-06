@@ -4,10 +4,8 @@
   <body style="overflow-y: auto">
   
 	<!-- CSS files -->
-	<!--
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
-	<link rel="stylesheet" href="{{ site.url }}/css/main.css">
-	-->
+	<link rel="preload" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous" as="style">
+	<link rel="preload" href="{{ site.url }}/css/main.css" as="style">
 	
   	<div class="menu"><i class="fas fa-ellipsis-v"></i></div>
       {% include sidebar.html %}
