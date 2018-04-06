@@ -14,7 +14,7 @@ layout: default
   {% else %}
   "{{ site.url }}/img/{{ page.image.feature }}"
   {% endif %}
-  alt="{{ page.title }} feature image">
+  alt="{{ page.title | escape }}">
 
   {% if page.image.credit %}
   <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
