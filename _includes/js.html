@@ -1,3 +1,19 @@
+<!-- page loading time -->
+<script>
+/* shamelessly lifted from http://timkadlec.com */
+window.onload = function(){
+  setTimeout(function(){
+    window.performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {};
+    var t = performance.timing || {};
+
+    if (!t) return;
+    var start = t.navigationStart, end = t.loadEventEnd;
+    var loadTime = (end - start) / 1000;
+    var loaded = document.querySelector('.loaded');
+    loaded.innerHTML += "<p>This page loaded in <strong>" + loadTime + "</strong> seconds</p>";
+  }, 0); 
+}
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ site.url }}/js/main.js"></script>
