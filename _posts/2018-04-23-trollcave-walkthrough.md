@@ -222,7 +222,7 @@ The first obstacle I encountered was that file uploading is disabled. Well, I'm 
 
 ![screenshot-9](/assets/images/posts/trollcave-walkthrough/screenshot-9.png)
 
-Now that I can upload file, what kind of file should I upload? RoR is not PHP and there's no point in uploading Ruby files.
+Now that I can upload file, what kind of file should I upload? RoR is not PHP and there's no point in uploading `.rb` files if you knew the directory structure of a RoR application.
 
 ![screenshot-10](/assets/images/posts/trollcave-walkthrough/screenshot-10.png)
 
@@ -360,7 +360,7 @@ On my `netcat` listener, this is what I got.
 
 This was an excellent opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js) both which I've heard many good things but never really got the chance to dig deeper until now.
 
-I rate this exercise highly "fun and educational".
+I rate this VM highly "fun and educational".
 
 [1]: https://www.vulnhub.com/entry/trollcave-12,230/
 [2]: https://twitter.com/@davidyat_es
