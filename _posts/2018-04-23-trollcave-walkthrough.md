@@ -210,7 +210,7 @@ Noticed the name of the user in the password reset URL? We could very well abuse
 
 Boom! I'm the King (**Superadmin**) :crown:.
 
-### File Mananger
+### File Manager
 
 The sight of **File manager** caught my attention immediately since that's a pretty common way of putting files under the attacker's control into the environment.
 
