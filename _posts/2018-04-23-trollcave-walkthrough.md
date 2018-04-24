@@ -292,7 +292,7 @@ Awesome!
 
 ### Node.js
 
-During enumeration, I noticed a service was running at `tcp/8888`.
+During enumeration, I noticed a service running at `tcp/8888`.
 
 ![screenshot-18](/assets/images/posts/trollcave-walkthrough/screenshot-18.png)
 
@@ -358,9 +358,9 @@ On my `netcat` listener, this is what I got.
 
 ### Afterthought
 
-This was an excellent opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js) both which I've heard many good things but never really got the chance to dig deeper until now.
+This was an excellent opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js) both I've heard many good things but never really got the chance to dig deeper until now.
 
-I rate this VM highly "fun and educational".
+I rate this VM highly educational and fun.
 
 [1]: https://www.vulnhub.com/entry/trollcave-12,230/
 [2]: https://twitter.com/@davidyat_es
