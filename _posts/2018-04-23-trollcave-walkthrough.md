@@ -208,7 +208,7 @@ Noticed the name of the user in the password reset URL? We could very well abuse
 
 ![screenshot-7](/assets/images/posts/trollcave-walkthrough/screenshot-7.png)
 
-Boom! I'm the King (**Superadmin**) :crown:.
+Boom! I'm the King (**Superadmin**) :crown:
 
 ### File Manager
 
