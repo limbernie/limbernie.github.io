@@ -255,7 +255,7 @@ $ find /var/www -perm /o+w
 /var/www/html/apache/wp-config.php
 ```
 
-I could edit `wp-config.php` like so and run a reverse shell back to me so that I can at least study `qsub` in greater detail.
+I could edit `wp-config.php` like so and run a reverse shell back to me so that I could at least study `qsub` in greater detail.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
@@ -294,7 +294,7 @@ The steps are slightly convoluted but the end result is deeply satisfying:
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
-The objective of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh` and include this line and run a reverse shell back to me as `demon`.
+The objective of gaining control of `pinky`'s account is so that I could edit `/usr/local/bin/backup.sh` and include this line and run a reverse shell back to me as `demon`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-13.png)
 
@@ -306,7 +306,7 @@ Now I can use the same Jedi trick of copying over a RSA public key I control, lo
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
-But the work is far from done. The final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
+But the work is far from complete. The final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
