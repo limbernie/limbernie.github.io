@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/macarons-raspberries-mint-pastries-2548827/
 ---
 
-This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_P4nther][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_Panther][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
