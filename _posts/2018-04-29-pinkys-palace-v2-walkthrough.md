@@ -139,7 +139,7 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-Where `sequence.txt` is a text file containing all the permutations of `666,7000,8890` and it can be generated with Python like so.
+`sequence.txt` is a text file containing all the permutations of `666,7000,8890` and it can be generated with Python like so.
 
 ```
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
