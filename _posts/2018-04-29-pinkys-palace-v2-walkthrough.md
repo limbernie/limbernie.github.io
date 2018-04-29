@@ -302,11 +302,11 @@ On my machine I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now, I can use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account, complete with auto-completion and full output control.
+Now I can use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account, complete with auto-completion and full output control.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
-But the work is far from done. The final piece of the privilege escalation puzzle is in fact at `/daemon/panel`.
+But the work is far from done. The final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
