@@ -25,7 +25,7 @@ A realistic and ***hellish*** (emphasis mine) boot2root. The objective is to gai
 Let's kick this off with a `nmap` scan to establish the services available in the host:
 
 ```
-nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
 ...
 PORT      STATE    SERVICE REASON         VERSION
 80/tcp    open     http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
@@ -46,6 +46,7 @@ Alas, only `tcp/80` is open. And no SSH service as there usually is although the
 Let's press on with more enumeration. Using `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) again suggested two WordPress blogs residing in the host and the presence of one very interesting directory `/secret`.
 
 ```
+# wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
 ********************************************************
 * Wfuzz 2.2.11 - The Web Fuzzer                        *
 ********************************************************
@@ -67,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-There was a text file at `http://pinkydb/secret/bambam.txt`.
+A text file was found at `http://pinkydb/secret/bambam.txt`.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -139,7 +140,7 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` is a text file containing all the permutations of `666,7000,8890` and it can be generated with Python like so.
+`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and it can be generated with Python like so.
 
 ```
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
@@ -148,7 +149,7 @@ python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))
 When the sequence `7000,666,8890` was reached, three additional services were revealed, including the familiar SSH service.
 
 ```
-./knock.sh 192.168.10.130
+# ./knock.sh 192.168.10.130
 [*] Trying sequence 7000,666,8890...
 ...
 PORT      STATE SERVICE REASON         VERSION
@@ -242,7 +243,7 @@ With the password out of the way, logging in to `stefano`'s account is almost tr
 
 ### Privilege Escalation
 
-During enumeration of `stefano`'s account, an executable `/home/stefano/tools/qsub` and a bash script `/usr/local/bin/backup.sh` were observed which I believe were the key pieces to the privilege escalation puzzle.
+During enumeration of `stefano`'s account, an executable `/home/stefano/tools/qsub` and a bash script `/usr/local/bin/backup.sh` were observed which I believed to be the key pieces to the privilege escalation puzzle.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
 
@@ -332,11 +333,11 @@ The breakpoint at `*handlecmd+70` was hit.
 
 ![screenshot-23](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-23.png)
 
-Using the command `pattern_offset` to search for the pattern, the offset can be seen to be at 120 bytes.
+Using the command `pattern_offset` to search for the pattern, the offset was found to be 120 bytes.
 
 ![screenshot-24](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-24.png)
 
-The basic exploit structure can then constructed like this.
+The basic exploit structure can then be constructed like this.
 
 `# perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address yet to be determined.
 
