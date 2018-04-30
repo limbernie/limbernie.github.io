@@ -266,7 +266,7 @@ I could copy `qsub` encoded in `base64` (shown above) over to my analysis machin
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
-Now that `qsub` is on my machine I could perform preliminary reverse engineering and after stepping through the `main()` and `send()` function, the following can be summarized:
+Now that `qsub` is on my machine I could perform preliminary reverse engineering and after stepping through the `main()` and `send()` functions, the following can be summarized:
 
 * The program `qsub` has one argument - the message to `pinky`
 * The input password is less than or equal to 40 characters and is the value of `TERM` environment variable
@@ -315,13 +315,13 @@ I used `scp` to grab a copy of `/daemon/panel` to my analysis machine (running 6
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
-As seen above, ASLR was enabled and fortunately, the stack was executable.
+As seen above, ASLR was enabled and the stack was executable.
 
 Using `readelf`, I spotted the `main()` function along with the `handlecmd()` function which I guessed handles the input provided to the program listening at `tcp/31337`.
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-Disassembling the function with `gdb`, a breakpoint should be placed at `*handlecmd+70` before control is passed back to the program. It's here where I can analyze the stack overflow and the offset with which to control the RIP.
+Disassembling the function with `gdb`, a breakpoint could be placed at `*handlecmd+70` before control is passed back to the program. It's here where I can analyze the stack overflow and the offset with which to control the RIP.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
@@ -349,7 +349,7 @@ Here we are, back at the breakpoint. Before is `BBBBBB` returned, noticed the to
 
 Using the command `jmpcall`, we can pinpoint the exact address within `./panel` that has a `call rsp`. This will be our return address.
 
-We can now proceed to generate a payload with `msfvenom`. I've always fancied single-stage reverse shells. 
+We can now proceed to generate a payload with `msfvenom`. I've always fancied single-stage reverse shells. That's what I'll use.
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-27.png)
 
@@ -367,7 +367,7 @@ On my `netcat` listener, a `root` shell is returned.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-28.png)
 
-With a few more keystrokes to get a better looking shell, the flag is there for the taking.
+With a few more keystrokes to get a better looking shell, the flag is basically there for the taking.
 
 ![screenshot-29](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-29.png)
 
@@ -377,9 +377,9 @@ With a few more keystrokes to get a better looking shell, the flag is there for 
 
 Honestly, I thought Pinky's Palace was a misnomer. More like Pinky's Dungeon :sweat_smile: 
 
-Walking through this VM took longer than usual because of the hidden twists and turns. It encouraged me to document the crucial sections meticulously and I certainly took more screen captures. It lived up to its name of being harder than the first one, particularly with the reverse engineering of `qsub` and the exploit development for `panel`.
+Walking through this VM took longer than usual because of the numerous twists and turns. It encouraged me to document down the crucial sections meticulously and I took more screen captures. It certainly lived up to its name of being harder than the first one, particularly with the reverse engineering of `qsub` and the exploit development for `panel`.
 
-I must say it was extremely well-designed :+1:
+Overall. I must say it was extremely well-designed :+1:
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v2,229/
 [2]: https://twitter.com/@Pink_P4nther
