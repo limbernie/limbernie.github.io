@@ -379,7 +379,7 @@ Honestly, I thought Pinky's Palace was a misnomer. More like Pinky's Dungeon :sw
 
 Walking through this VM took longer than usual because of the numerous twists and turns. It encouraged me to document down the crucial sections meticulously and I took more screen captures. It certainly lived up to its name of being harder than the first one, particularly with the reverse engineering of `qsub` and the exploit development for `panel`.
 
-Overall. I must say it was extremely well-designed :+1:
+Overall, I must say it was extremely well-designed :+1:
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v2,229/
 [2]: https://twitter.com/@Pink_P4nther
