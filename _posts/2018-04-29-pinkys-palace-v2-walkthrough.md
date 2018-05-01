@@ -206,7 +206,7 @@ Recall the wordlist that we built from WordPress? Perhaps we could use it with `
 [7654][http-post-form] host: pinkydb   login: pinky1337   password: entry
 ```
 
-We got lucky with `pinky`!
+We got lucky with `pinky`.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-2.png)
 
@@ -307,7 +307,7 @@ Now I'm able to use the same Jedi trick of copying over a RSA public key I contr
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
-But the work is far from complete. The final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
+The work is far from complete. The final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
