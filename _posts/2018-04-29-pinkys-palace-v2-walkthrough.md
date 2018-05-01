@@ -22,7 +22,7 @@ A realistic and ***hellish*** (emphasis mine) boot2root. The goal is to gain `ro
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
@@ -229,7 +229,7 @@ stefano:x:1002:1002::/home/stefano:/bin/bash
 
 It appeared that `stefano` has an account in `pinkydb`. On top of that, `stefano` also has his SSH private key as seen above. I guess that's an open invitation to login to his account via SSH.
 
-When I tried to login, I found his RSA private key protected by a password. Nonetheless, using `ssh2john` and `John the Ripper` to recover the password was a piece of cake.
+When I tried to login, I found his RSA private key protected by a password. Nonetheless, using `ssh2john` and John the Ripper to recover the password was a piece of cake.
 
 ```
 # ssh2john id_rsa > id_rsa.hash

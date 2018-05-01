@@ -23,7 +23,7 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
 ### Information Gathering
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.128
@@ -129,7 +129,7 @@ I was able to enumerate the users of the site using nothing more than `curl` and
   "created_at": "2017-10-23T09:39:41.494Z",
   "updated_at": "2018-04-11T15:07:37.557Z"
 }
-...
+…
 {
   "id": 17,
   "name": "xer",
@@ -179,7 +179,7 @@ Using the same technique against `/reports`, I was able to enumerate four passwo
   "created_at": "2017-10-23T09:39:42.998Z",
   "updated_at": "2017-10-23T09:39:42.998Z"
 }
-...
+…
 ```
 
 The passwords hashed with `bcrypt` had salt and a computational cost of 10 rounds, cracking them would be a futile exercise and a waste of CPU cycles. We need a better way.
@@ -206,7 +206,7 @@ Noticed the username in the password reset URL? We could abuse it to reset the K
 
 ![screenshot-7](/assets/images/posts/trollcave-walkthrough/screenshot-7.png)
 
-Boom! I'm the King (**Superadmin**) now :crown:
+Boom. I'm the King (**Superadmin**) now :crown:
 
 ### File Manager
 
@@ -286,7 +286,7 @@ Let's see if we can SSH into the `rails` account.
 
 ![screenshot-17](/assets/images/posts/trollcave-walkthrough/screenshot-17.png)
 
-Awesome!
+Awesome.
 
 ### Node.js
 

@@ -16,27 +16,27 @@ This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] 
 <!--more-->
 
 ### Background
-Bulldog Industries recently had its website defaced and owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :) 
+Bulldog Industries had its website defaced and owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :)
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.36.3
-...
+…
 PORT     STATE SERVICE REASON         VERSION
 23/tcp   open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 20:8b:fc:9e:d9:2e:28:22:6b:2e:0e:e3:72:c5:bb:52 (RSA)
 |_  256 cd:bd:45:d8:5c:e4:8c:b6:91:e5:39:a9:66:cb:d7:98 (ECDSA)
 80/tcp   open  http    syn-ack ttl 64 WSGIServer 0.1 (Python 2.7.12)
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD OPTIONS
 |_http-server-header: WSGIServer/0.1 Python/2.7.12
 |_http-title: Bulldog Industries
 8080/tcp open  http    syn-ack ttl 64 WSGIServer 0.1 (Python 2.7.12)
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD OPTIONS
 |_http-server-header: WSGIServer/0.1 Python/2.7.12
 |_http-title: Bulldog Industries
@@ -70,7 +70,7 @@ http://192.168.36.3/robots.txt (Status: 200)
 =====================================================
 ```
 
-The `robots.txt` probably doesn't conform to specifications or it'll will appear in the `nmap` scan. Now, I've two more new directories: `admin` and `dev`.
+The `robots.txt` probably doesn't conform to specifications or it'll will appear in the `nmap` scan. Now, I've two more directories - `admin` and `dev`.
 
 ### Under Development
 
@@ -82,28 +82,28 @@ Let's clean up the hashes and submit to John the Ripper for offline cracking.
 
 ```
 # curl -s 192.168.36.3/dev/ | sed '49,55!d' | awk -F': ' '{ print $2 }' | sed -r -e 's/(<br>)+<!--/:/' -e 's/-->/:::::/' > hashes.txt && john --format=raw-sha1 --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
-...
+…
 nick@bulldogindustries.com:bulldog:::::
 sarah@bulldogindustries.com:bulldoglover:::::
 ```
 
-Thank goodness authentication is required to use the web shell.
+Thank goodness authentication is a must to use the web shell.
 
 ![screenshot-3](/assets/images/posts/bulldog-walkthrough/screenshot-3.png)
 
 ### Django Site Administration
 
-Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate with the server in order to use the web shell.
+Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate with the server to use the web shell.
 
 ![screenshot-4](/assets/images/posts/bulldog-walkthrough/screenshot-4.png)
 
 ![screenshot-5](/assets/images/posts/bulldog-walkthrough/screenshot-5.png)
 
-We see that a session with the site has been established. Now, are we able to use the web shell by going to `/dev/shell`?
+We saw a session established with the site. Now, are we able to use the web shell by going to `/dev/shell`?
 
 ![screenshot-6](/assets/images/posts/bulldog-walkthrough/screenshot-6.png)
 
-Sweet. However, it appeared that only certain commands were allowed.
+Sweet. The web shell appeared to restrict itself to certain commands.
 
 ### Command Substitution
 
@@ -133,7 +133,7 @@ Boom. A low-privilege shell appeared but let's spawn a pseudo-TTY for better out
 
 ### Privilege Escalation
 
-During enumeration, I found two users: `django` and `bulldogadmin`. They were able to `sudo` as `root`. Unfortunately, I don't have their passwords.
+During enumeration, I found two users: `django` and `bulldogadmin`. They were able to `sudo` as `root`. It's a shame I don't have their passwords.
 
 ![screenshot-12](/assets/images/posts/bulldog-walkthrough/screenshot-12.png)
 
@@ -153,7 +153,7 @@ Seemed like reverse engineering the ELF binary is my ticket to `root`.
 
 ### What the ELF?
 
-The first thing to do in reverse engineering is to look for interesting strings and that's exactly what I did.
+The first thing to do in reverse engineering is to look for interesting strings and that's what I did.
 
 ![screenshot-18](/assets/images/posts/bulldog-walkthrough/screenshot-18.png)
 

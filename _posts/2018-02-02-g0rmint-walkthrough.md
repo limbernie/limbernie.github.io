@@ -17,7 +17,7 @@ This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] 
 
 ### Background
 
-The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss! :sunglasses:
+The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss :sunglasses:
 
 ### Information Gathering
 
@@ -25,22 +25,22 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.198.130
-...
+…
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 e4:4e:fd:98:4e:ae:5d:0c:1d:32:e8:be:c4:5b:28:d9 (RSA)
 |_  256 9b:48:29:39:aa:f5:22:d3:6e:ae:52:23:2a:ae:d1:b2 (ECDSA)
 80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.18
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
-| http-robots.txt: 1 disallowed entry 
+| http-robots.txt: 1 disallowed entry
 |_/g0rmint/*
 |_http-server-header: Apache/2.4.18 (Ubuntu)
 |_http-title: 404 Not Found
 ```
 
-Let's start with the web service since there is a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in the browser when I navigate to it.
+Let's start with the web service since there is a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I saw in the browser when I navigated to it.
 
 ![robots.txt](/assets/images/posts/g0rmint-walkthrough/g0rmint-3.png)
 
@@ -66,7 +66,7 @@ File found: /g0rmint/profile.php - 302
 File found: /g0rmint/secrets.php - 302
 ```
 
-Among the PHP pages, we can disregard those that returned **302** (because they got redirected back to `/login.php`) and those that returned nothing of value. Only the following pages were interesting:
+Among the PHP pages, we can disregard those that returned **302** (because they got redirected back to `/login.php`) and those that returned nothing of value. The following pages were interesting:
 
 * `/header.php`
 * `/login.php`
@@ -81,27 +81,27 @@ Well, the page looked like your normal password reset page. If you know the emai
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-8.png)
 
-At this point in time, I'm not aware of any email address or username. :sob:
+At this point, I'm not aware of any email address or username :sob:
 
 ### Main Menu
 
-This page appeared interesting on the surface but it was the HTML source code that offered a clue on how to proceed.
+This page appeared interesting on the surface but the HTML source code offered a clue on how to proceed.
 
 ![mainmenu.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-4.png)
 
-Here's the source code. Noticed that `/secretlogfile.php` was commented out?
+Here's the source code. Noticed `/secretlogfile.php`?
 
 ![mainmenu.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-5.png)
 
-Navigating to the page got me redirected back to `/login.php`. No luck there. However, it gave me the idea to look at the HTML source code closer for further hints.
+Navigating to the page got me redirected back to `/login.php`. No luck there. At least, it gave me the idea to look at the HTML source code closer for further hints.
 
 ### Login Page
 
-Indeed, if you look very closely at the HTML source code of `/login.php`, there was something that stood out.
+Indeed, if you look at the HTML source code of `/login.php`, something stood out.
 
 ![login.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-6.png)
 
-A secret backup directory??!!
+A secret backup directory?!
 
 ### Header
 
@@ -137,16 +137,16 @@ Good. One more page made available.
 
 ### Information Page
 
-This page proved to be an really informative one despite the lack of aesthetics. 
+This page proved to be an informative one despite the lack of aesthetics.
 
 ![info.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-7.png)
 
 ### Backup Archive
 
-The backup archive can be downloaded at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file.
+I was able to download the backup archive at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file.
 
 ```
-# unzip -l backup.zip 
+# unzip -l backup.zip
 Archive:  backup.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
@@ -177,7 +177,7 @@ Sweet. The archive appeared to be the backup of the site.
 
 ### Resetting Password
 
-Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Unfortunately, the credential (`demo@example.com:demo`) did not work.
+Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Too bad the credential (`demo@example.com:demo`) did not work.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-16.png)
 
@@ -206,13 +206,13 @@ echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 {% endhighlight %}
 ![access](/assets/images/posts/g0rmint-walkthrough/g0rmint-13.png)
 
-The password reset worked!
+The password reset worked.
 
 ### Remote Command Execution
 
 Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and determine our attack vector.
 
-At the beginning of `/login.php`, it was possible to introduce PHP code of my choice into the site through the `addlog()` function.
+At the beginning of `/login.php`, I was able to introduce PHP code into the site through the `addlog()` function.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-10.png)
 
@@ -220,7 +220,7 @@ This is how the `addlog()` function in `/config.php` looked like.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication has failed, the value of the email field is logged to a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs`, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. However, an authenticated session must first be established before the PHP file can be viewed or you'll get redirected to the login page. This is because the content of `dummy.php` was written to the top of the file.
+When authentication has failed, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logged the value of the email field, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. To view the PHP file, you must also establish an authenticated session or you'll get redirected to the login page. This is because of the content of `dummy.php` at the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
@@ -288,12 +288,12 @@ The real workhorse of the script is the `encode()` function. This function turns
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
-Simply supply the email, password and command as arguments and the script would spit out the result.
+Supply the email, password and command as arguments and the script would spit out the result.
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
 root:x:0:0:root:/root:/bin/bash
-...
+…
 g0rmint:x:1000:1000:Noman Riffat,,,:/home/g0rmint:/bin/bash
 mysql:x:108:117:MySQL Server,,,:/nonexistent:/bin/false
 sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
@@ -333,11 +333,11 @@ backup.zip 100%[==================================>] 3.57M --.-KB/s in 0.1s
 2018-02-02 14:46:19 (27.6 MB/s) - ‘backup.zip’ saved [3747496/3747496]
 ```
 
-It appeared to be just like the previous `backup.zip` with a twist. This time round, `db.sql` showed the original admin password hash!
+It appeared to be like the previous `backup.zip` with a twist. This time round, `db.sql` showed the original admin password hash.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-17.png)
 
-The password was revealed to be `"tayyab123"` after going through an online MD5 [cracker][4].
+The password was `"tayyab123"` after going through an online MD5 [cracker][4].
 
 ### SSH Login
 
@@ -349,11 +349,11 @@ Awesome!
 
 ### Privilege Escalation
 
-Noticed that `g0rmint` had successfully `sudo`'d as `root`?
+Noticed that `g0rmint` was able to `sudo` as `root`?
 
 ![sudo](/assets/images/posts/g0rmint-walkthrough/g0rmint-20.png)
 
-I sensed the end is near...
+I sensed the end is near…
 
 ![end](/assets/images/posts/g0rmint-walkthrough/g0rmint-21.png)
 

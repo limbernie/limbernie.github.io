@@ -22,7 +22,7 @@ Mr. Derp and Uncle Stinky are two system administrators who are starting their o
 
 ### Information Gathering
 
-Let's kick this off with a `nmap` scan to establish the services available in the host:
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
@@ -105,7 +105,7 @@ NOTICE: The expiration date displayed in this record is the date the
 registrar's sponsorship of the domain name registration in the registry is
 currently set to expire. This date does not necessarily reflect the expiration
 date of the domain name registrant's agreement with the sponsoring
-registrar.  Users may consult the sponsoring registrar's Whois database to
+registrar. Users may consult the sponsoring registrar's Whois database to
 view the registrar's reported date of expiration for this registration.
 
 TERMS OF USE: You are not authorized to access or query our Whois
@@ -128,7 +128,7 @@ use electronic processes that are automated and high-volume to access or
 query the Whois database except as reasonably necessary to register
 domain names or modify existing registrations. VeriSign reserves the right
 to restrict your access to the Whois database in its sole discretion to ensure
-operational stability.  VeriSign may restrict or terminate your access to the
+operational stability. VeriSign may restrict or terminate your access to the
 Whois database for failure to abide by these terms of use. VeriSign
 reserves the right to modify these terms at any time.
 
@@ -299,7 +299,7 @@ Now that I've access to a low privilege shell, let's dump the WordPress database
 
 ```
 $ cat wp-config.php
-...
+…
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'wordpress');
@@ -344,7 +344,7 @@ Remember that we are still in the low-privileged shell? And since `/etc/passwd` 
 ```
 $ cat /etc/passwd
 root:x:0:0:root:/root:/bin/bash
-...
+…
 sshd:x:117:65534::/var/run/sshd:/usr/sbin/nologin
 stinky:x:1001:1001:Uncle Stinky,,,:/home/stinky:/bin/bash
 ftp:x:118:126:ftp daemon,,,:/srv/ftp:/bin/false
