@@ -213,7 +213,7 @@ There was also another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan`, it's simple to enumerate vulnerable WordPress plugins. As it turned out, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan` to enumerate vulnerable WordPress plugins, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
 I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
 
