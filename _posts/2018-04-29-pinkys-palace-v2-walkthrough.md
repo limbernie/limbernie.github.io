@@ -243,7 +243,7 @@ With the password out of the way, logging in to `stefano`'s account is almost tr
 
 ### Privilege Escalation
 
-During enumeration of `stefano`'s account, I observed an executable `/home/stefano/tools/qsub` and a bash script `/usr/local/bin/backup.sh` believed to be the key pieces to the privilege escalation puzzle.
+During enumeration of `stefano`'s account, I saw `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` which I believed to be the key pieces to the privilege escalation puzzle.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
 
@@ -256,13 +256,13 @@ $ find /var/www -perm /o+w
 /var/www/html/apache/wp-config.php
 ```
 
-I could edit `wp-config.php` like so and run a reverse shell back to me so that I could at least study `qsub` in greater detail.
+I edited `wp-config.php` like so and ran a reverse shell back to me so that I could at least study `qsub` in greater detail.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
 ![screenshot-8](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-8.png)
 
-I could copy `qsub` encoded in `base64` over to my analysis machine and decode it back to the binary form.
+I copied `qsub` encoded in `base64` over to my analysis machine and decoded it back to the binary form.
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
@@ -280,7 +280,7 @@ _`system()` library function executes shell command `/bin/echo`_
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-11.png)
 
-Since I knew how `qsub` worked and it has been `setuid` to `pinky`, I could exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
+Since I knew the logic behind `qsub` and it has been `setuid` to `pinky`, I could exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
 
 The steps are slightly convoluted but the end result is deeply satisfying:
 
@@ -303,7 +303,7 @@ On my machine I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now I can use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account.
+Now I'm able to use the same Jedi trick of copying over a RSA public key I control, login with SSH and take full control of `demon`'s account.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
@@ -321,7 +321,7 @@ Using `readelf`, I spotted the `main()` function along with the `handlecmd()` fu
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-Disassembling the function with `gdb`, I placed a breakpoint at `<handlecmd+70>` before the program took back control. I can analyze the stack overflow and the offset with which to control the RIP at this point.
+Disassembling the function with `gdb`, I placed a breakpoint at `<handlecmd+70>` before the program took back control. I'm able to analyze the stack overflow and the offset with which to control the RIP at this point.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
