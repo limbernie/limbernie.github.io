@@ -29,7 +29,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.100.4
-…
+...
 PORT     STATE SERVICE REASON         VERSION
 8080/tcp open  http    syn-ack ttl 64 Apache Tomcat/Coyote JSP engine 1.1
 | http-methods:
@@ -125,7 +125,7 @@ This is how `/etc/passwd` (I showed the relevant ones) looked like.
 
 ```
 # ./cat.sh /etc/passwd
-…
+...
 tomcat8:x:112:115::/usr/share/tomcat8:/bin/false
 bill:x:1000:1000:bill,,,:/home/bill:/bin/bash
 ```
@@ -145,7 +145,7 @@ And this is how `test.jsp` looked like.
 {% highlight jsp linenos %}
 # ./cat.sh ./webapps/ROOT/test.jsp
 <%@ page import="java.util.*,java.io.*,java.util.regex.*"%>
-…
+...
 <%
     if (request.getParameter("path") != null) {
         String delims = "[ ]+";

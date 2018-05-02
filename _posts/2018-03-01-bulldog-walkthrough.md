@@ -24,7 +24,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.36.3
-…
+...
 PORT     STATE SERVICE REASON         VERSION
 23/tcp   open  ssh     syn-ack ttl 64 OpenSSH 7.2p2 Ubuntu 4ubuntu2.2 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey:
@@ -82,7 +82,7 @@ Let's clean up the hashes and submit to John the Ripper for offline cracking.
 
 ```
 # curl -s 192.168.36.3/dev/ | sed '49,55!d' | awk -F': ' '{ print $2 }' | sed -r -e 's/(<br>)+<!--/:/' -e 's/-->/:::::/' > hashes.txt && john --format=raw-sha1 --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
-…
+...
 nick@bulldogindustries.com:bulldog:::::
 sarah@bulldogindustries.com:bulldoglover:::::
 ```

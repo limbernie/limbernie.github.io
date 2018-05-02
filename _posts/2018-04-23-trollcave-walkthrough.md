@@ -129,7 +129,7 @@ I was able to enumerate the users of the site using nothing more than `curl` and
   "created_at": "2017-10-23T09:39:41.494Z",
   "updated_at": "2018-04-11T15:07:37.557Z"
 }
-…
+...
 {
   "id": 17,
   "name": "xer",
@@ -179,7 +179,7 @@ Using the same technique against `/reports`, I was able to enumerate four passwo
   "created_at": "2017-10-23T09:39:42.998Z",
   "updated_at": "2017-10-23T09:39:42.998Z"
 }
-…
+...
 ```
 
 The passwords hashed with `bcrypt` had salt and a computational cost of 10 rounds, cracking them would be a futile exercise and a waste of CPU cycles. We need a better way.

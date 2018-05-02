@@ -24,7 +24,7 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.4
-…
+...
 PORT      STATE SERVICE    REASON         VERSION
 8080/tcp  open  http       syn-ack ttl 64 nginx 1.10.3
 |_http-server-header: nginx/1.10.3

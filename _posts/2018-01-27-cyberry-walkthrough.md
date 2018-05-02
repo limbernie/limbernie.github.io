@@ -10,14 +10,14 @@ image:
   creditlink: https://pixabay.com/en/berries-raspberries-blackberries-3237884/
 ---
 
-This post documents the complete walkthrough of Cyberry: 1, 
+This post documents the complete walkthrough of Cyberry: 1,
 a boot2root [VM][1] created by [Cyberry][2] and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
 
 ### Background
-Cyberry are eagerly anticipating the release of their new "Berrypedia" website, 
+Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!
 
 ### Information Gathering
@@ -29,11 +29,11 @@ Let's kick this off with a `nmap` scan to establish the services available in th
 PORT    STATE  SERVICE REASON         VERSION
 21/tcp  open   ftp     syn-ack ttl 64 ProFTPD 1.3.5b
 22/tcp  open   ssh     syn-ack ttl 64 OpenSSH 7.4p1 Debian 10+deb9u1 (protocol 2.0)
-| ssh-hostkey: 
+| ssh-hostkey:
 |   2048 97:7c:74:2b:f1:28:15:dc:8d:67:e0:75:75:44:e9:ad (RSA)
 |_  256 29:62:8e:10:9b:97:79:3a:18:e6:c0:0b:f7:ec:f8:ee (ECDSA)
 80/tcp  open   http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
-| http-methods: 
+| http-methods:
 |_  Supported Methods: HEAD GET POST OPTIONS
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Coming Soon
@@ -75,7 +75,7 @@ A fork bomb!
 
 ### HTML Comments
 
-There were several HTML comments in the source code encoded in `base64`.
+There were a couple of HTML comments in the source code encoded in `base64`.
 
 ![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
 
@@ -122,7 +122,7 @@ Content-Type: text/html
 </html>
 ```
 
-The binary strings were decoded to the following.
+The binary strings decodes to the following.
 
 ```
 for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
@@ -154,15 +154,15 @@ Well, in any case, the file `edocrq` was available from the web server and it lo
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-There is a slight twist before the QR code can be decoded. You need to flip it horizontally like so.
+There's a slight twist before I decode the QR code. It needs to flip it horizontally like so.
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
-It was decoded to `/berrypedia.html`.
+It's decoded to `/berrypedia.html`.
 
 ### Directory/File Enumeration (2)
 
-The same conclusion can also be reached with `dirbuster` without going through the hard way.
+`dirbuster` got to the same conclusion without going through the hard way.
 
 ```
 Starting OWASP DirBuster 1.0-RC1
@@ -214,7 +214,7 @@ With this in mind, I was able to perform online password cracking with `hydra`.
 
 ### Berrypedia Admin Panel
 
-Unfortunately, this is not the SSH password for `root`. I was able to login to the admin panel but there was nothing interesting to see really.
+Too bad this is not the SSH password for `root`. I was able to login to the admin panel but there was nothing interesting to see.
 
 ![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
 
@@ -236,7 +236,7 @@ Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`.
 
 ### Solving the Puzzle
 
-The image required some transformation before the puzzle can be revealed:
+The image required some transformation to reveal the puzzle:
 
 * Flip vertical
 * Invert colors
@@ -253,9 +253,9 @@ The image required some transformation before the puzzle can be revealed:
 
 The photo of each person was intentionally flipped to throw you off when you are searching in Google Images.
 
-The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them had covered the song at some point in time. Combined with Port of Tacoma, it was very obvious that we are looking at port knocking here.
+The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them had covered the song. Combined with Port of Tacoma, it's obvious that we are looking at port knocking here.
 
-Port knocking required connecting to a sequence of ports in the correct order before certain port(s) are revealed. The year which the song was covered by each person makes it a good starting point to guess the correct port sequence.
+Port knocking required connecting to a sequence of ports in the correct order. The year each person covered the song makes it a good starting point to guess the correct port sequence.
 
 ### Knockin' on Heaven's Door
 
@@ -277,7 +277,7 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and it can be generated like so.
+`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and Python can generate it like so.
 
 ```
 # python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
@@ -295,11 +295,11 @@ done
 1970,1961,1955,1955
 ```
 
-Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` was unlocked like so.
+Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` appeared.
 
 ```
 61955/tcp open   http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
-| http-methods: 
+| http-methods:
 |_  Supported Methods: GET HEAD POST OPTIONS
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Coming Soon
@@ -360,7 +360,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ### Brainfuck
 
-Despite its strange looking form, the code above was written in the esoteric [Brainfuck][4] language. Using an online [interpreter][5], it was deciphered to the following.
+Despite its strange looking form, the code above was in the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphered it to the following.
 
 ```
 Hello World!
@@ -374,7 +374,7 @@ kerry
 pw: bakeoff
 ```
 
-OK. I have the team members' names and a password but to whom does the password belong to? This can be verified very easily using `hydra`.
+OK. I have the team members' names and a password but to whom does the password belong to? I can verify it using `hydra`.
 
 ```
 # hydra -L members.txt -p bakeoff -f ftp://192.168.198.128
@@ -390,7 +390,7 @@ Too bad `mary` did not have a shell. Let's see what we can discover from FTP ins
 
 ![ftp.png](/assets/images/posts/cyberry-walkthrough/cyberry-9.png)
 
-Noticed that `.bash_history` is a directory? This is unusual and definitely worth taking a closer look.
+Noticed that `.bash_history` is a directory? This is unusual and worth taking a closer look.
 
 ![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
 
@@ -414,7 +414,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher was used. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
+It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
 {% highlight bash linenos %}
 # cat decrypt.sh
@@ -479,7 +479,7 @@ During enumeration of this account, I spotted an interesting file at `/var/www/h
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
-It was a list of Latin words. Perhaps this is another password list that be used to brute force SSH?
+It's a list of Latin words. Perhaps this is another password list that I can use to brute force SSH?
 
 ```
 hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
@@ -500,7 +500,7 @@ Let's try to open a shell as `terry`. But before we do that, recall that a `fork
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
-`awk` can be used to escape to shell like so.
+`awk` can escape to shell like so.
 ```awk
 awk 'BEGIN { system("/bin/sh") }'
 ```
@@ -519,11 +519,11 @@ Let's spawn a pseudo-tty.
 
 ![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
 
-The buck finally stops here.
+The buck stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 
-However, at the home directory of `chuck` there was still something interesting to look out for.
+At the home directory of `chuck` there was still something interesting to look out for.
 
 ![deleted.png](/assets/images/posts/cyberry-walkthrough/cyberry-27.png)
 
@@ -536,20 +536,20 @@ Here's what we know about the `root` password.
 ```
 The password starts with "che" and ends with "rry"
 
-letter e is used three times
-letter c is used twice
-letter r is used twice
-letter b is used twice
-letter a is used twice
+letter e appears three times
+letter c appears twice
+letter r appears twice
+letter b appears twice
+letter a appears twice
 
-The only other letters in the password were h,w,m & y
+The other letters in the password were h,w,m & y
 
 It's a concatenated 4-word password
 
 There's a 99% chance one of the words is a latin word: baca
 ```
 
-I know the first 3 characters of the first word and the last 3 characters of the last word. In between the first and last word are the Latin word "baca" and another unknown word.
+I know the first 3 characters of the first word and the last 3 characters of the last word. Between the first and last word are the Latin word "baca" and another unknown word.
 
 The first word must contain the following:
 
@@ -581,9 +581,9 @@ berry
 merry
 ```
 
-It is now trivial to find the remaining word. When the last word is "berry", the remaining word has to be "me" in order to satisfy the constraints. Conversely, when the last word is "merry" the remaining word has to be "be".
+It's now trivial to find the remaining word. When the last word is "berry", the remaining word has to be "me" to meet the constraints. Conversely, when the last word is "merry" the remaining word has to be "be".
 
-Armed with this information, there are only 4 possible outcomes that meet all the constraints.
+Armed with this information, there are 4 possible outcomes that meet all the constraints.
 
 ```
 chewbacameberry
@@ -598,7 +598,7 @@ One of the above got to be the `root` password. Using `hydra`, verifying the pas
 [22][ssh] host: 192.168.198.128 login: root password: chewbacabemerry
 ```
 
-### I Know the `root` Dance!
+### I Know the `root` Dance
 
 ![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
 
