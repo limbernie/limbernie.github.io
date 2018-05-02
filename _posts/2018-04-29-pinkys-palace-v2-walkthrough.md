@@ -43,7 +43,7 @@ PORT      STATE    SERVICE REASON         VERSION
 
 ### Directory/File Enumeration
 
-Let's continue with the enumeration. I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz directories and/or files and find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+Let's continue with the enumeration. I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz directories and/or files, and find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-I see a text file at `http://pinkydb/secret/bambam.txt`, when I navigate to `/secret`, with the following content.
+I see a text file at `http://pinkydb/secret/bambam.txt`, when I navigate to `/secret`, with the following contents.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -146,7 +146,7 @@ done
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
 ```
 
-When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services including the familiar SSH service.
+When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service.
 
 ```
 # ./knock.sh 192.168.10.130
@@ -188,7 +188,7 @@ Now that I've determined the correct sequence to unlock those ports, I can alway
 # for p in 7000 666 8890; do nmap -n -v0 -Pn --max-retries 0 -p $p 192.168.10.130; done
 ```
 
-The service at `tcp/7654` appears to be running `nginx` while the service at `tcp/31337` appears to be `echo`ing whatever that's thrown at it.
+The service at `tcp/7654` appears to be running `nginx`, while the service at `tcp/31337` appears to be `echo`ing whatever that's thrown at it.
 
 ### Pinky's Database
 
@@ -280,7 +280,7 @@ _`system()` library function executes shell command `/bin/echo`_
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-11.png)
 
-Since I know the logic behind `qsub` and it has been `setuid` to `pinky`, I can exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
+Since I know the logic behind `qsub`, and it has been `setuid` to `pinky`, I can exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
 
 The steps are slightly convoluted but the end result is deeply satisfactory:
 
@@ -295,7 +295,7 @@ The steps are slightly convoluted but the end result is deeply satisfactory:
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
-The aim of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh`, add this line and run a reverse shell back to me as `demon`.
+The aim of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh`, add this line, and run a reverse shell back to me as `demon`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-13.png)
 
@@ -303,7 +303,7 @@ On my machine, I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now I'm able to use the same Jedi trick of copying over a RSA public key I control, log in with SSH and take full control of `demon`'s account.
+Now I'm able to use the same Jedi trick of copying over a RSA public key I control, log in with SSH, and take full control of `demon`'s account.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
@@ -317,7 +317,7 @@ I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (runs 64-bi
 
 As seen above, ASLR is not disabled and the stack is executable.
 
-Using `readelf`, I'm able to spot the `main()` function along with the `handlecmd()` function, which I suppose handles the input provided to the program listening at `tcp/31337`.
+Using `readelf`, I'm able to spot the `main()` function, along with the `handlecmd()` function, which I suppose handles the input provided to the program listening at `tcp/31337`.
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
@@ -353,7 +353,7 @@ We can now proceed to generate a payload with `msfvenom`. I've always fancy sing
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-27.png)
 
-The generated payload is 119 bytes and fits in nicely onto the given 120 bytes of space with one byte to spare :smirk:
+The generated payload is 119 bytes, and fits in nicely onto the given 120 bytes of space with one byte to spare :smirk:
 
 ### Getting to the `root` of the matter
 
@@ -377,7 +377,7 @@ With a bunch of keystrokes to get a better looking shell, and the flag is basica
 
 To be honest, I thought Pinky's Palace was a misnomer. It should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one with the reverse engineering of `qsub` and the exploit development for `panel`.
+Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub` and the exploit development for `panel`.
 
 I give it a :+1:
 
