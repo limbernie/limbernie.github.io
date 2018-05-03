@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Who Doesn't like Pink?"
+title: "In the Pink"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
   feature: pink.jpg
-  credit: pixel2013 / Pixabay
-  creditlink: https://pixabay.com/en/macarons-raspberries-mint-pastries-2548827/
+  credit: Alexas_Fotos / Pixabay
+  creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653920/
 ---
 
 This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_Panther][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.

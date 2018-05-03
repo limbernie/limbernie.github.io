@@ -1,14 +1,14 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-title: "A Dungeon That Happens to Be Pink"
+title: "A Pink Dungeon"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
-  feature: dice.jpg
-  credit: SaeLoveart / Pixabay
-  creditlink: https://pixabay.com/en/rpg-game-play-dice-dungeons-468917/
+  feature: ponder.jpg
+  credit: Alexas_Fotos / Pixabay
+  creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653913/
 ---
 
 This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root [VM][1] created by [Pink_Panther][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
@@ -375,7 +375,7 @@ With a bunch of keystrokes to get a better looking shell; the flag is basically 
 
 To be honest, I thought Pinky's Palace was a misnomer; it should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, adding with the reverse engineering of `qsub`, and the exploit development for `panel`.
+Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
 I give it a :+1:
 

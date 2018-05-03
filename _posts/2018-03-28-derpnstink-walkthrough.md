@@ -6,9 +6,9 @@ category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
 comments: true
 image:
-  feature: careless.jpg
-  credit: mohamed_hassan / Pixabay
-  creditlink: https://pixabay.com/en/life-suicide-leaving-reaching-3089646/
+  feature: stanley.jpg
+  credit: leks / Pixabay
+  creditlink: https://pixabay.com/en/stanley-stan-marsh-south-park-265670/
 ---
 
 This post documents the complete walkthrough of DerpNStink: 1, a boot2root [VM][1] created by [Bryan Smith][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
