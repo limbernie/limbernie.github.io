@@ -241,7 +241,7 @@ With the password out of the way, it's almost trivial to log in to `stefano`'s a
 
 ### Privilege Escalation
 
-I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account. They may be key pieces to the privilege escalation puzzle.
+I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account. I suspect they may be key pieces to the privilege escalation puzzle.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
 
@@ -267,7 +267,7 @@ I copy `qsub`, encoded in `base64`, over to my analysis machine, and decode it b
 Now that `qsub` is on my machine, I'm able to perform reverse engineering, and after stepping through the `main()` and `send()` functions:
 
 * The program `qsub` has one argument — the message to `pinky`
-* The input password is the value of the `TERM` environment variable, and must be less than or equal to 40 characters
+* The input password is the value of the `TERM` environment variable, and must be less than or equal to forty characters
 * The `send()` function is an abstraction for `/bin/echo [Message] >> /home/pinky/messages/stefano_msg.txt`
 
 _The image shows `qsub` compares the input password with the value of the `TERM` environment variable_
@@ -347,7 +347,7 @@ Here we are, back at the breakpoint. Before `BBBBBB` returns, notice the top of 
 
 Using the command `jmpcall`, we are able to pinpoint the exact address within `./panel` that has a `call rsp`. This is our return address.
 
-We proceed to generate a payload with `msfvenom`. I prefer to use single-stage to multi-stage reverse shell as the payload.
+We proceed to generate a payload with `msfvenom`. I prefer to use a single-stage reverse shell as the payload to a multi-stage one. Although single-stage payload has a bigger size, it gets everything done in shorter time.
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-27.png)
 
