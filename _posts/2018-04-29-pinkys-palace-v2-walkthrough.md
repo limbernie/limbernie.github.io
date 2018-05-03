@@ -39,11 +39,11 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `tcp/80` and no SSH service although the rest of the filtered ports may prove interesting later.
+At this stage, `nmap` finds one open port `tcp/80` and no SSH service although the rest of the filtered ports may prove interesting later.
 
 ### Directory/File Enumeration
 
-I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz the directories and/or files; I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz the directories and/or files; and I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-I see a text file at `http://pinkydb/secret/bambam.txt`, when I navigate to `/secret`, with the following contents.
+When I navigate to `/secret`, I see a text file `bambam.txt`, with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -80,7 +80,7 @@ pinkydb
 ```
 ### WordPress
 
-Since there is WordPress installed in `pinkydb`, let's use `wpscan` to scan for WordPress vulnerabilities, if any.
+Since WordPress is installed in `pinkydb`, let's use `wpscan` to scan for WordPress vulnerabilities, if any.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -110,7 +110,7 @@ _______________________________________________________________
     +----+-----------+---------------------+
 ```
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password, and this is an opportunity to build a custom wordlist with `cewl` for a dictionary attack. It's a pity none of the words yields any results for the WordPress login.
+I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` when the need for a dictionary attack arises.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
@@ -225,7 +225,7 @@ demon:x:1001:1001::/home/demon:/bin/bash
 stefano:x:1002:1002::/home/stefano:/bin/bash
 ```
 
-`stefano` has an account in `pinkydb`. He also has his SSH private key as seen above. I guess that's an open invitation to log in to his account via SSH.
+`stefano` has an account in `pinkydb` and also his SSH private key from above. I guess that's an open invitation to log in to his account via SSH.
 
 I log in to find his RSA private key protected by a password. It's not difficult to use `ssh2john` and John the Ripper to recover the password.
 
@@ -247,14 +247,14 @@ I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumer
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-6.png)
 
-To read `/home/stefano/tools/qsub`, I need to be `pinky` or `www-data`. Since I don't know `pinky`'s password, the other way is to edit any of the `.php` files in `/var/www` (the home directory of `www-data`) where `stefano` has permission to write.
+To read `/home/stefano/tools/qsub` and to study it in greater detail, I need to be `pinky` or `www-data`. Since I don't know `pinky`'s password, the other way is to edit any of the `.php` files in `/var/www` (the home directory of `www-data`) where `stefano` has permission to write.
 
 ```
 $ find /var/www -perm /o+w
 /var/www/html/apache/wp-config.php
 ```
 
-I edit `wp-config.php` to run a reverse shell so that I'm able to study `qsub` in greater detail.
+I edit `wp-config.php` to run a reverse shell.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
@@ -309,7 +309,7 @@ The work is far from complete; the final piece of the privilege escalation puzzl
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible), and so that I'm able to analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it.
+I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I'm able to analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
@@ -319,7 +319,7 @@ Using `readelf`, I'm able to spot the `main()` function, along with the `handlec
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-After disassembling the function with `gdb`, I place a breakpoint at `<handlecmd+70>` before the program takes back control. At this point, I'm able to analyze the stack overflow and the offset with which to control the RIP.
+After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At this point, I'm able to analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
@@ -365,7 +365,7 @@ On my `netcat` listener, a `root` shell appears.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-28.png)
 
-With a bunch of keystrokes to get a better looking shell; the flag is basically there for the taking.
+After spawning a better looking shell with a bunch of keystrokes, the flag is basically there for the taking.
 
 ![screenshot-29](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-29.png)
 
@@ -375,7 +375,7 @@ With a bunch of keystrokes to get a better looking shell; the flag is basically 
 
 To be honest, I thought Pinky's Palace was a misnomer; it should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
+Walking through this VM took longer than usual because I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
 I give it a :+1:
 
