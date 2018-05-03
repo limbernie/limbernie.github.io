@@ -38,7 +38,7 @@ PORT      STATE SERVICE    REASON         VERSION
 |_  256 0a:ad:aa:c7:16:f7:15:07:f0:a8:50:23:17:f3:1c:2e (ECDSA)
 ```
 
-The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still receive the same response. An idea struck me when I navigated to the proxy at `http://192.168.30.4:31337` — I should be using the hostname instead of the IP address!
+The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still get the same response. An idea struck me when I went to the proxy at `http://192.168.30.4:31337` — I should be using the hostname instead of the IP address!
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-walkthrough/screenshot-1.png)
 

@@ -375,7 +375,7 @@ With a bunch of keystrokes to get a better looking shell; the flag is basically 
 
 To be honest, I thought Pinky's Palace was a misnomer; it should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub` and the exploit development for `panel`.
+Walking through this VM took longer than usual because of the twists and turns. I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, adding with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
 I give it a :+1:
 

@@ -150,7 +150,7 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$
 ```
-From above, I can infer the following:
+I can infer the following from above:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
