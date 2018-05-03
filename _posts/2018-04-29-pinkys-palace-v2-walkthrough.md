@@ -43,7 +43,7 @@ At this stage, `nmap` finds one open port `tcp/80` and no SSH service although t
 
 ### Directory/File Enumeration
 
-I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz the directories and/or files; and I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files, and I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -264,7 +264,7 @@ I copy `qsub`, encoded in `base64`, over to my analysis machine, and decode it b
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
-Now that `qsub` is on my machine, I'm able to perform reverse engineering, and after stepping through the `main()` and `send()` functions:
+Now that `qsub` is on my machine, I can perform reverse engineering, and after stepping through the `main()` and `send()` functions:
 
 * The program `qsub` has one argument — the message to `pinky`
 * The input password is the value of the `TERM` environment variable, and must be less than or equal to forty characters
@@ -293,7 +293,7 @@ The steps are slightly convoluted but the end result is deeply satisfactory:
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
-The aim of gaining control of `pinky`'s account is so that I'm able to edit `/usr/local/bin/backup.sh`, add this line, and run a reverse shell as `demon`.
+The aim of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh`, add this line, and run a reverse shell as `demon`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-13.png)
 
@@ -301,7 +301,7 @@ On my machine, I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now I'm able to use the same Jedi trick of copying over a RSA public key I control, log in with SSH, and take full control of `demon`'s account.
+Now, I can use the same Jedi trick of copying over a RSA public key I control, log in with SSH, and take full control of `demon`'s account.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
@@ -309,7 +309,7 @@ The work is far from complete; the final piece of the privilege escalation puzzl
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I'm able to analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it.
+I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
@@ -319,7 +319,7 @@ Using `readelf`, I'm able to spot the `main()` function, along with the `handlec
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At this point, I'm able to analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
+After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At this point, I can analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
@@ -341,7 +341,7 @@ The basic exploit structure looks like this.
 
 ![screenshot-25](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-25.png)
 
-Here we are, back at the breakpoint. Before `BBBBBB` returns, notice the top of the stack? We see 120 `'A'`s followed by `BBBBBB`. If we can find a return address with `jmp rsp` or `call rsp`, we are able to execute a 120-byte payload placed in the stack.
+Here we are, back at the breakpoint. Before `BBBBBB` returns, we see 120 `'A'`s followed by `BBBBBB` at the top of the stack. If we can find a return address with `jmp rsp` or `call rsp`, we are able to execute a 120-byte payload placed in the stack.
 
 ![screenshot-26](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-26.png)
 
