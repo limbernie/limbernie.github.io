@@ -357,7 +357,7 @@ Let's see if we can log in to Uncle Stinky's account with the password (`wedgie5
 
 During enumeration of Uncle Stinky's account, I discover the third flag at `/home/stinky/Desktop/flag.txt`.
 
-Enumerating further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears Mr. Derp can't login to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
+Enumerating further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears Mr. Derp can't log in to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
 
 ```
 $ cd ~/ftp/files/network-logs
@@ -385,7 +385,7 @@ log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=htt
 log=mrderp&pwd=derpderpderpderpderpderpderp&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 ```
-Let's login to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) we recover from the packet capture.
+Let's log in to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) we recover from the packet capture.
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
