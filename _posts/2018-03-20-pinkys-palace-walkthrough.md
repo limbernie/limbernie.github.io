@@ -38,17 +38,17 @@ PORT      STATE SERVICE    REASON         VERSION
 |_  256 0a:ad:aa:c7:16:f7:15:07:f0:a8:50:23:17:f3:1c:2e (ECDSA)
 ```
 
-No matter what I did, the web server always returned `403 Forbidden` which was frustrating. Even when I passed the HTTP request through the proxy (squid), I was still greeted with the same response. Then it struck me when I navigated to the proxy at `http://192.168.30.4:31337`. I should be using the hostname instead of the IP address!
+The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still receive the same response. An idea struck me when I navigated to the proxy at `http://192.168.30.4:31337` — I should be using the hostname instead of the IP address!
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-walkthrough/screenshot-1.png)
 
-Woohoo. In full pink glory!
+Now, in full pink glory.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-walkthrough/screenshot-2.png)
 
 ### Directory/File Enumeration
 
-Now that I've gotten over the first hurdle, let's use `dirbuster` to enumerate the available directories/files out there. But first, we need to set up the proxy in `dirbuster`.
+Now that I've gotten over the first hurdle, let's use `dirbuster` to fuzz the available directories/files out there. But first, we need to set up the proxy in `dirbuster`.
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
 
@@ -56,23 +56,23 @@ Next, use a bigger wordlist to maximize the chances of getting a hit.
 
 ![screenshot-4](/assets/images/posts/pinkys-palace-walkthrough/screenshot-4.png)
 
-After `dirbuster` has completed doing its thing, this is what I got.
+After `dirbuster` has completed doing its thing, this is what I get.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-walkthrough/screenshot-5.png)
 
 ### Pinky's Admin Files Login
 
-This was the attack surface I saw at `http://pinkys-palace:8080/littlesecrets-main/`.
+This is the attack surface I see at `http://pinkys-palace:8080/littlesecrets-main/`.
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
 
-The form on this page points to `login.php` and `logs.php` logs any failed login attempts. Here's an example when I used the credential (`admin:admin`) to login.
+The form on this page points to `login.php` and `logs.php` logs any failed login attempts. Here's an example when I use the credential (`admin:admin`) to log in.
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-walkthrough/screenshot-7.png)
 
 ![screenshot-8](/assets/images/posts/pinkys-palace-walkthrough/screenshot-8.png)
 
-Noticed `logs.php` showed three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap` which can test these parameters for SQLi far better and faster than I can.
+Noticed `logs.php` showed three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap`, which can test these parameters for SQLi far better and faster than I can.
 
 ### SQL Injection
 
@@ -80,7 +80,7 @@ According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/
 
 >The HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
 
-Similarly, we need to set up proxy for `sqlmap` like we did for `dirbuster` to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
+Similarly, we need to set up proxy for `sqlmap`, as in for `dirbuster`, to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php
@@ -119,71 +119,71 @@ I was able to login to `pinkymanage`'s account via SSH with the cracked password
 
 ### Ultra Secret Admin Files
 
-During enumeration of `pinkymanage`'s account, I spotted `ultrasecretadminf1l35` in `littlesecrets-main`.
+I saw `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
-The file `.ultrasecret` turned out to be the `base64` encoded version of a RSA private key as hinted by `note.txt`.
+The file `.ultrasecret` turns out to be the `base64` encoded version of a RSA private key as hinted by `note.txt`.
 
 ```
 Hmm just in case I get locked out of my server I put this rsa key here.. Nobody will find it heh..
 ```
 
-I've placed the decoded RSA private key in `/tmp` and changed its permissions. The key owner's information was not stored in the key itself.
+I place the decoded RSA private key in `/tmp` and change its permissions; the key owner's information is not stored in the key.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
 
-Looking at `/etc/passwd` confirmed the existence of `pinky`.
+Looking at `/etc/passwd` confirms the existence of `pinky`.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
 
-Perhaps the RSA private key could login to `pinky`'s account assuming `/home/pinky/.ssh/authorized_keys` had the corresponding public key? Well, let's find out.
+Perhaps I can use the RSA private key to log in to `pinky`'s account, assuming `/home/pinky/.ssh/authorized_keys` had the corresponding public key? Well, let's find out.
 
 ![screenshot-16](/assets/images/posts/pinkys-palace-walkthrough/screenshot-16.png)
 
-Sweet!
+Sweet.
 
 ### Privilege Escalation
 
-During enumeration of `pinky`'s account, I saw `adminhelper` at the home directory and it has been `setuid` to `root`.
+I see `adminhelper` at the home directory and it has been `setuid` to `root` during enumeration of `pinky`'s account.
 
 ![screenshot-17](/assets/images/posts/pinkys-palace-walkthrough/screenshot-17.png)
 
-There was an accompanying note as well.
+There is an accompanying note as well.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
 
-It's certain that we are looking at a classic stack buffer overflow as the following supported that suspicion.
+It's certain that we are looking at a classic stack buffer overflow as the following supports that suspicion.
 
-_ASLR disabled_
+_ Image shows ASLR is disabled._
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-walkthrough/screenshot-19.png)
 
-_Stack execution_
+_Image shows the stack is executable._
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-walkthrough/screenshot-20.png)
 
-Good thing `adminhelper` was small and simple. This is how the disassembly of the main function looked like.
+It's fortunate `adminhelper` is small and simple. This is how the disassembly of the main function looks like.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
 
-This certainly brought back fond memories of 32-bit Linux exploit development. I'm pretty excited to try my hands on 64-bit Linux exploit development. Noticed the 64-bit registers (r??) and how arguments passed through registers instead of the stack?
+This certainly brought back fond memories of 32-bit Linux exploit development. I'm pretty excited to try my hands on 64-bit Linux exploit development. Notice the 64-bit registers (e.g. rax) and how arguments pass through registers instead of the stack?
 
-I downloaded a copy of `adminhelper` (through `scp` with the help of the RSA private key) to my Kali VM where [PEDA](https://github.com/longld/peda) is available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color.
+I use `scp` to download a copy of `adminhelper` to my Kali VM where `gdb` and  [PEDA](https://github.com/longld/peda) are available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color.
 
-Here I've created a random pattern of 80 bytes saved in `buf`. Why 80 bytes? Even though it's optional, noticed the 80 (`0x50`) bytes of space allocated in the stack? This is to make way for the destination buffer in `strcpy()`.
+Here, I create a random pattern of 80 bytes and save it in `buf`. Why 80 bytes? Even though it's optional, notice the 80 (`0x50`) bytes of space allocated in the stack? This is to make way for the destination buffer in `strcpy()`.
 
 ![screenshot-22](/assets/images/posts/pinkys-palace-walkthrough/screenshot-22.png)
 
-Next, I ran `adminhelper` with the supplied argument.
+Next, I run `adminhelper` with the supplied argument.
 
 ![screenshot-23](/assets/images/posts/pinkys-palace-walkthrough/screenshot-23.png)
 
-This will trigger a segmentation fault.
+This triggers a segmentation fault.
 
 ![screenshot-24](/assets/images/posts/pinkys-palace-walkthrough/screenshot-24.png)
 
-Examine the string ("`IAAEAA4A`") at the stack to determine the offset.
+Next, examine the string ("`IAAEAA4A`") at the stack to determine the offset.
 
 ![screenshot-25](/assets/images/posts/pinkys-palace-walkthrough/screenshot-25.png)
 
