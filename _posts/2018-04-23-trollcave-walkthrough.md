@@ -84,7 +84,7 @@ ID	Response   Lines      Word         Chars          Payload
 018906:  C=302      0 L	       5 W	     93 Ch	  "users"
 ```
 
-All those with HTTP response code `302` redirects to `/login`. The rest of the HTTP response code 200 redirects to their respective error pages, e.g. `/404` redirects to `404.html`.
+All those with HTTP response code `302` redirects to `/login`. The rest of the HTTP response code `200` redirects to their respective error pages, e.g. `/404` redirects to `/404.html`.
 
 ### Ruby on Rails
 
