@@ -39,11 +39,11 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: Apache Tomcat
 ```
 
-One open port? Well, I guess I have to brute-force my way to an attack surface.
+One open port? Well, I guess I've to brute-force my way to an attack surface.
 
 ### Directory/File Enumeration
 
-Let's start with directory/file enumeration using `wfuzz` with its associated wordlists.
+Let's start with directory/file enumeration using `wfuzz` and its associated wordlists.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt -c --hc 404 http://192.168.100.4:8080/FUZZFUZ2Z
@@ -68,18 +68,20 @@ Filtered Requests: 26597
 Requests/sec.: 365.5435
 ```
 
+Well, we have `/test.jsp` that appears interesting.
+
 ### File Listing Checker
 
-This is what I see when I navigated to `http://192.168.100.4:8080/test.jsp` with a browser.
+This is what I see when I navigate to `http://192.168.100.4:8080/test.jsp` with my browser.
 
 ![screenshot-1](/assets/images/posts/depth-walkthrough/screenshot-1.png)
 
-After some tinkering with `test.jsp` to get output, I saw that command execution is possible but the command output must conform to the following:
+After some tinkering with `test.jsp` to get output, I see that command execution is possible but the command output must conform to the following:
 
 * Output must not be empty; and
 * Output must be more than 8 tokens, delimited by one or more space.
 
-For some reason, the HTML table shows token 2, 3, 4, and 8+. I was able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
+For some reason, the HTML table shows token 2, 3, 4, and 8+. I'm able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
 
 ![screenshot-2](/assets/images/posts/depth-walkthrough/screenshot-2.png)
 
@@ -121,7 +123,7 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=$CMD \
 | tr '.' '\n'
 {% endhighlight %}
 
-This is how `/etc/passwd` (I showed the relevant ones) looked like.
+This is how `/etc/passwd` looks like — `tomcat8` and `bill`.
 
 ```
 # ./cat.sh /etc/passwd
@@ -130,17 +132,17 @@ tomcat8:x:112:115::/usr/share/tomcat8:/bin/false
 bill:x:1000:1000:bill,,,:/home/bill:/bin/bash
 ```
 
-This is how their respective home directories looked like.
+This is how their respective home directories look like.
 
 ![screenshot-5](/assets/images/posts/depth-walkthrough/screenshot-5.png)
 
-Noticed that `tomcat8` has a `.ssh` directory?
+Notice that `tomcat8` has a `.ssh` directory?
 
 ![screenshot-4](/assets/images/posts/depth-walkthrough/screenshot-4.png)
 
-Noticed that `bill` is on the `sudoers` list?
+Notice that `bill` can `sudo` as `root`?
 
-And this is how `test.jsp` looked like.
+This is how `test.jsp` looks like.
 
 {% highlight jsp linenos %}
 # ./cat.sh ./webapps/ROOT/test.jsp
@@ -183,7 +185,7 @@ And this is how `test.jsp` looked like.
 %>
 {% endhighlight %}
 
-I was able to run `ps faux` and notice that `sshd` was running. I also saw that `ufw` was running based on what was in `/etc/ufw/ufw.conf`.
+I'm able to run `ps faux` and notice that `sshd` is running. I also see that `ufw`, a firewall, is running based on what's in `/etc/ufw/ufw.conf`.
 
 ```
 # ./cat.sh /etc/ufw/ufw.conf
@@ -199,23 +201,23 @@ ENABLED=yes
 LOGLEVEL=low
 ```
 
-This explained why I saw one open port from the earlier `nmap` scan. SSH was probably blocked by the firewall.
+This explains why I see one open port from the earlier `nmap` scan. SSH is probably blocked by the firewall.
 
 ### The Key to a Man's Heart Is Through His Stomach
 
-With `cat.sh` combined with the directory listing from `test.jsp` I was able to discover and extract `tomcat8`'s SSH key pair at its home directory from `/etc/passwd`.
+With `cat.sh`, combined with the directory listing from `test.jsp`, I'm able to discover and extract `tomcat8`'s SSH key pair from its home directory.
 
 ![screenshot-3](/assets/images/posts/depth-walkthrough/screenshot-3.png)
 
-I took an educated guess, put two and two together and gathered that `tomcat8` probably had its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to login to `bill`'s account via SSH in **localhost**. Well, let's find out and as Yoda put it, "**_Do. Or do not._**"
+I take an educated guess, put two and two together, and gather that `tomcat8` probably has its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to log in to `bill`'s account via SSH in **localhost**. Well, let's find out and as Yoda put it, "**Do or do not. There's no try.**"
 
 ### Kill Bill: Vol. 1
 
-I knew one can execute a command upon login via SSH. But first, let's see if I can login as `bill` with `tomcat8`'s private key.
+I know one can execute a command upon login via SSH. But first, let's see if I can log in as `bill` with `tomcat8`'s private key.
 
 ![screenshot-6](/assets/images/posts/depth-walkthrough/screenshot-6.png)
 
-Holy smoke. I was able to execute remote commands and overcome the output display restrictions by adding my own placeholders.
+Holy smoke. I'm able to execute remote commands and overcome the output display restrictions by adding my own placeholders.
 
 With this in mind, I wrote `cmd.sh`, a script that displayed the proper output from the commands as if executed by `bill` in a shell.
 
@@ -270,7 +272,7 @@ User bill may run the following commands on b2r:
     (ALL : ALL) NOPASSWD: ALL
 ```
 
-As expected, let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
+As expected. Let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
 
 ```
 # ./cmd.sh "sudo ufw allow ssh"
