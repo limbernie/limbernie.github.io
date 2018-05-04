@@ -80,11 +80,11 @@ According to the official [documentation](https://www.cuppacms.com/en/docs/insta
 
 The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
 
-I'm not sure if this is a new vulnerability but there is a LFI vulnerability in `alertConfigField.php` at line 77.
+I'm not sure if this is a new vulnerability but it's a pleasant surprise to find an LFI vulnerability in `alertConfigField.php` at line 77.
 
 ![screenshot-2](/assets/images/posts/w1r3s-walkthrough/screenshot-2.png)
 
-To test it, I wrote `cat.sh`, a simple script that will display any file as long as there is permission to do so.
+To test it, I wrote `cat.sh`, a simple script that will display any file as long as there's permission to do so.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -126,7 +126,7 @@ I'm not sure if `/etc/shadow` is intentionally made world-readable; it should no
 
 ### John the Ripper
 
-Well, what's done is in the past. With both `passwd` and `shadow` made available, I'm able to `unshadow` them, and send them to `john` for offline cracking with a wordlist like "rockyou".
+With both `passwd` and `shadow` available, I can `unshadow` them, and send them to `john` for offline cracking with a wordlist like "rockyou".
 
 The cracking completes in seconds.
 
@@ -135,7 +135,7 @@ The cracking completes in seconds.
 w1r3s:computer:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 ```
 
-I'm can now log in to the box via SSH with the password of `w1r3s`.
+I can now log in to the box via SSH with the cracked password.
 
 ![screenshot-3](/assets/images/posts/w1r3s-walkthrough/screenshot-3.png)
 
