@@ -72,7 +72,7 @@ The form on this page points to `login.php` and `logs.php` logs any failed login
 
 ![screenshot-8](/assets/images/posts/pinkys-palace-walkthrough/screenshot-8.png)
 
-Noticed `logs.php` showed three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap`, which can test these parameters for SQLi far better and faster than I can.
+Notice `logs.php` shows three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap`, which can test these parameters for SQLi far better and faster .
 
 ### SQL Injection
 
@@ -80,7 +80,7 @@ According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/
 
 >The HTTP `User-Agent` header is tested against SQL injection if the `--level` is set to 3 or above.
 
-Similarly, we need to set up proxy for `sqlmap`, as in for `dirbuster`, to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
+Similarly, we need to set up proxy for `sqlmap` to reach `pinkys-palace`. Armed with all the information that we've gathered so far, it's time to construct the `sqlmap` command.
 
 ```
 # sqlmap --level=3 --proxy=http://192.168.30.4:31337 --data="user=admin&pass=admin" --url=http://pinkys-palace:8080/littlesecrets-main/login.php
@@ -92,9 +92,9 @@ Here's the test result from `sqlmap`.
 
 Awesome.
 
-We have an injection point. Time-based blind SQLi as the name suggests is pretty time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
+We have an injection point. Time-based blind SQLi as the name suggests, is time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
 
-Moving on, we can now enumerate the tables.
+Moving on, we can now determine the tables in the database.
 
 ![screenshot-10](/assets/images/posts/pinkys-palace-walkthrough/screenshot-10.png)
 
@@ -102,7 +102,7 @@ Let's dump the `users` table from `pinky_sec_db`.
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-walkthrough/screenshot-11.png)
 
-Let's crack these hashes.
+Let's crack these hashes with John the Ripper and "rockyou".
 
 ```
 # john --format=raw-md5 --show hashes.txt
@@ -113,17 +113,17 @@ pinkymanage:3pinkysaf33pinkysaf3::::::
 
 ### Low Privilege Shell
 
-I was able to login to `pinkymanage`'s account via SSH with the cracked password.
+I'm able to login to `pinkymanage`'s account with the cracked password.
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-walkthrough/screenshot-12.png)
 
 ### Ultra Secret Admin Files
 
-I saw `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
+I spot `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
-The file `.ultrasecret` turns out to be the `base64` encoded version of a RSA private key as hinted by `note.txt`.
+The file `.ultrasecret` turns out to be the `base64` encoded version of the RSA private key as hinted by `note.txt`.
 
 ```
 Hmm just in case I get locked out of my server I put this rsa key here.. Nobody will find it heh..
@@ -137,7 +137,7 @@ Looking at `/etc/passwd` confirms the existence of `pinky`.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
 
-Perhaps I can use the RSA private key to log in to `pinky`'s account, assuming `/home/pinky/.ssh/authorized_keys` had the corresponding public key? Well, let's find out.
+Perhaps I can use the RSA private key to log in to `pinky`'s account, assuming `/home/pinky/.ssh/authorized_keys` has the corresponding public key? Well, let's find out.
 
 ![screenshot-16](/assets/images/posts/pinkys-palace-walkthrough/screenshot-16.png)
 
@@ -149,13 +149,13 @@ I see `adminhelper` at the home directory and it has been `setuid` to `root` dur
 
 ![screenshot-17](/assets/images/posts/pinkys-palace-walkthrough/screenshot-17.png)
 
-There is an accompanying note as well.
+There's an accompanying note as well.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
 
 It's certain that we are looking at a classic stack buffer overflow as the following supports that suspicion.
 
-_ Image shows ASLR is disabled._
+_Image shows ASLR disabled._
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-walkthrough/screenshot-19.png)
 
@@ -163,7 +163,7 @@ _Image shows the stack is executable._
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-walkthrough/screenshot-20.png)
 
-It's fortunate `adminhelper` is small and simple. This is how the disassembly of the main function looks like.
+It's fortunate that `adminhelper` is small and simple. This is how the disassembly of the main function looks like.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
 
@@ -191,7 +191,7 @@ Verify that the offset is able to control the RIP register.
 
 ![screenshot-26](/assets/images/posts/pinkys-palace-walkthrough/screenshot-26.png)
 
-Even though the stack aligns along a 8-byte boundary, the return address in the stack is 6 bytes.
+Even though the stack aligns along the 8-byte boundary, the return address in the stack is 6 bytes.
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-walkthrough/screenshot-27.png)
 
@@ -217,13 +217,13 @@ int main(int argc, char *argv[]) {
 }
 {% endhighlight %}
 
-Since we are using the environment variable to store our payload, the size of the payload shouldn't be an issue. Having said that, I still prefer a minimalist approach and decided to use the shortest possible [shellcode](http://shell-storm.org/shellcode/files/shellcode-806.php) (27 bytes) to execute `/bin/sh` in x86-64.
+Since we are using the environment variable to store our payload, the size of the payload shouldn't be an issue. Having said that, I still prefer a minimalist approach and decide to use the shortest possible 64-bit [shellcode](http://shell-storm.org/shellcode/files/shellcode-806.php) (27 bytes) to execute `/bin/sh`.
 
 ```
 \x31\xc0\x48\xbb\xd1\x9d\x96\x91\xd0\x8c\x97\xff\x48\xf7\xdb\x53\x54\x5f\x99\x52\x57\x54\x5e\xb0\x3b\x0f\x05
 ```
 
-Once we've copied `getenvaddr.c` over with `scp` and compiled it, it's time to get the party going.
+Once we copy `getenvaddr.c` over with `scp` and compile it, it's time to get the party going.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-28.png)
 
@@ -232,6 +232,8 @@ A perfectionist may argue that `euid=0` is not a real `root` shell. Well, that's
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-29.png)
 
 ### Eyes on the Prize
+
+I set my eyes on the prize.
 
 ![screenshot-30](/assets/images/posts/pinkys-palace-walkthrough/screenshot-30.png)
 

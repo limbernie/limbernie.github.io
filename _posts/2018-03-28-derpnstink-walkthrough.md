@@ -48,7 +48,7 @@ My usual game plan is to target the web service first whenever `nmap` tells me `
 
 ### HTML Source Code
 
-I manage to capture the first flag using `curl` and some `grep`-fu on the HTML source code.
+I manage to capture the first flag using `curl` and some `grep`-fu on the HTML source code. Easy.
 
 ```
 # curl -s 192.168.10.130 | grep -P 'href=|src=|<!?--' | sed -r 's/^\s+//'
@@ -150,11 +150,11 @@ PING derpnstink.local (127.0.0.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.015/0.022/0.026/0.003 ms
 stinky@DeRPnStiNK:~$
 ```
-I can infer the following from above:
+I'm able to infer the following from `/webnotes`:
 
 * The FQDN of the host is `derpnstink.local`; and
 * User `stinky` exists; and
-* **DocumentRoot** is at `/var/www/html`.
+* DocumentRoot is at `/var/www/html`.
 
 ### Directory/File Enumeration
 
@@ -181,7 +181,7 @@ http://192.168.10.130/temporary (Status: 301)
 
 Both `/php` and `/temporary` are already in `robots.txt`.
 
-It appears that `/weblog` is the root directory for WordPress, and there's a need to place the FQDN `derpnstink.local` in `/etc/hosts` according to the redirection.
+It appears that `/weblog` is the root directory for WordPress, and there's a need to place the FQDN `derpnstink.local` in `/etc/hosts` as seen in the redirection below.
 
 ```
 curl -i 192.168.10.130/weblog/
@@ -320,7 +320,7 @@ INSERT INTO `wp_users` VALUES (1,'unclestinky','$P$BW6NTkFvboVVCHU2R9qmNai1WfHSC
 
 ### John the Ripper
 
-Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hashes have never been easier.
+Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hashes is easy.
 
 ```
 # john --format=phpass --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
