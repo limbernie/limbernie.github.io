@@ -44,6 +44,10 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Trollcave
 ```
 
+`nmap` finds two open ports — `tcp/22` and `tcp/80`. Nothing unusual here.
+
+### Trollcave Blog
+
 This is how the site looks like in my browser.
 
 ![screenshot-1](/assets/images/posts/trollcave-walkthrough/screenshot-1.png)
@@ -80,9 +84,11 @@ ID	Response   Lines      Word         Chars          Payload
 018906:  C=302      0 L	       5 W	     93 Ch	  "users"
 ```
 
+All the HTTP response code `302` redirects to `/login`. Boring.
+
 ### Ruby on Rails
 
-I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a RoR web application. Looks like the blog post at `/blogs/6` nails it.
+I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a RoR web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -109,6 +115,8 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/4
 /users/5
 ```
+
+The cat is out of the bag when I read the blog post at `/blogs/6`. The site is a RoR web application. At least now we know what we are dealing with.
 
 ![screenshot-2](/assets/images/posts/trollcave-walkthrough/screenshot-2.png)
 
@@ -180,7 +188,7 @@ Using the same technique against `/reports`, I'm also able to get four password 
 ...
 ```
 
-The `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking them is a futile exercise and a waste of CPU cycles. We need a better way.
+Too bad the `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking them is a futile exercise and a waste of CPU cycles. We need a better way.
 
 ### Password Reset
 
@@ -218,7 +226,7 @@ I encounter the first obstacle — no upload. Well, I'm the **Superadmin** remem
 
 ![screenshot-9](/assets/images/posts/trollcave-walkthrough/screenshot-9.png)
 
-Now that I'm able to upload files, what kind of file do I upload? RoR is not PHP and there's no point in uploading `.rb` files if you know the directory structure of a RoR application.
+Now that I'm able to upload files, what kind of file should I upload? RoR is not PHP and there's no point in uploading `.rb` files if you know the directory structure of a RoR application.
 
 ![screenshot-10](/assets/images/posts/trollcave-walkthrough/screenshot-10.png)
 
@@ -226,13 +234,13 @@ Let's see what happens when I upload a text file.
 
 ![screenshot-11](/assets/images/posts/trollcave-walkthrough/screenshot-11.png)
 
-After I upload the file, I'm able to view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json`.
+After the upload, I can view the file information by going to `/user_files/[file_number]` or `/user_files/[file_number].json`.
 
 ![screenshot-12](/assets/images/posts/trollcave-walkthrough/screenshot-12.png)
 
 Now that we know the file's absolute path, we can start to think about exploitation. At the upload page, we see that we can provide an alternative file name. Is this our ticket in?
 
-When I gain access to **Superadmin** , I unlock more blog posts and I see a particular blog post and comment that may potentially be the key information to gaining access.
+When I gain access to **Superadmin** , I unlock more blog posts and there is a particular blog post and comment that may potentially be the key information to gaining access.
 
 _Image shows user `rails` is present — SSH is possible?_
 
@@ -242,9 +250,9 @@ _Image shows file upload is vulnerable._
 
 ![screenshot-14](/assets/images/posts/trollcave-walkthrough/screenshot-14.png)
 
-As we look at the above information, perhaps we can make use of the file upload vulnerability to upload a SSH public key I control to `/home/rails/.ssh/authorized_keys`?
+As we look at the above information, perhaps we can make use of the file upload vulnerability to upload the RSA public key I control to `/home/rails/.ssh/authorized_keys`?
 
-First, let's generate a SSH keypair (RSA) with `ssh-keygen`
+First, let's generate the RSA keypair with `ssh-keygen`.
 
 ```
 # ssh-keygen -t rsa -b 2048
@@ -300,7 +308,7 @@ If I've to guess, I say this is the way to gain `root` privileges because King i
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
-It's interesting to note that this application is using `eval()`, which I firmly believe is our golden ticket.
+It's interesting to note that this application is using `eval()`, which I now believe firmly, is our golden ticket.
 
 ![screenshot-21](/assets/images/posts/trollcave-walkthrough/screenshot-21.png)
 
