@@ -111,7 +111,7 @@ pinkymanage:3pinkysaf33pinkysaf3::::::
 1 password hash cracked, 1 left
 ```
 
-### Low Privilege Shell
+### Low-Privilege Shell
 
 I'm able to log in to `pinkymanage`'s account with the cracked password.
 
@@ -119,7 +119,7 @@ I'm able to log in to `pinkymanage`'s account with the cracked password.
 
 ### Ultra Secret Admin Files
 
-I spot `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
+I see `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
 
@@ -129,7 +129,7 @@ The file `.ultrasecret` turns out to be the `base64` encoded version of the RSA 
 Hmm just in case I get locked out of my server I put this rsa key here.. Nobody will find it heh..
 ```
 
-I place the decoded RSA private key in `/tmp` and change its permissions; I still can't determine who is the key owner because the information is not stored in the key.
+I place the decoded RSA private key in `/tmp` and change its permissions, but I still can't determine who is the key owner because the information is not stored in the key.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
 
@@ -169,7 +169,7 @@ It's fortunate that `adminhelper` is small and simple. This is how the disassemb
 
 This certainly brought back fond memories of 32-bit Linux exploit development. I'm pretty excited to try my hands on 64-bit Linux exploit development. Notice the 64-bit registers (e.g. rax) and how arguments pass through registers instead of the stack?
 
-I use `scp` to download a copy of `adminhelper` to my Kali VM where `gdb` and  [PEDA](https://github.com/longld/peda) are available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color.
+I use `scp` to download a copy of `adminhelper` to my Kali VM where `gdb` and [PEDA](https://github.com/longld/peda) are available. PEDA will greatly assist in the exploit development such as finding the correct offset as well as presenting the disassembly context in color.
 
 Here, I create a random pattern of 80 bytes and save it in `buf`. Why 80 bytes? Even though it's optional, notice the 80 (`0x50`) bytes of space allocated in the stack? This is to make way for the destination buffer in `strcpy()`.
 
