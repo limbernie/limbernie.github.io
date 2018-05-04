@@ -18,7 +18,7 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 ### Background
 
-A realistic and ***hellish*** (emphasis mine) boot2root. The goal is to gain `root` access and read `/root/root.txt`. Remember to map `pinkydb` to the assigned IP address through `/etc/hosts`.
+This is a realistic and ***hellish*** (emphasis mine) boot2root. The goal is to gain `root` access and read `/root/root.txt`. Remember to map `pinkydb` to the assigned IP address through `/etc/hosts`.
 
 ### Information Gathering
 
@@ -39,11 +39,11 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `tcp/80` and no SSH service although the rest of the filtered ports may prove interesting later.
+`nmap` finds one open port `tcp/80`, no SSH service, and a bunch of filter ports. Although I don't know what to make of them at this point, they may prove interesting later.
 
 ### Directory/File Enumeration
 
-I use `wfuzz` with `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files, and I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+I always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-When I navigate to `/secret`, I see a text file `bambam.txt`, with the following content.
+When I look at `/secret`, I see a text file `bambam.txt`, with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -79,7 +79,7 @@ When I navigate to `/secret`, I see a text file `bambam.txt`, with the following
 pinkydb
 ```
 ### WordPress
-Let's use `wpscan` to scan for WordPress vulnerabilities, if any.
+Since we know there's WordPress installed in `pinkydb`, let's use `wpscan` to scan for WordPress vulnerabilities, if any.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -109,9 +109,9 @@ _______________________________________________________________
     +----+-----------+---------------------+
 ```
 
-`wpscan` finds no exploitable vulnerabilities, and identifies one WordPress user `pinky1337`.
+`wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`.
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` when the need for a dictionary attack arises.
+I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` , so that when the need for a dictionary attack arises, I can use it.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
@@ -120,7 +120,7 @@ I spotted non-English words while I was skimming through the blog. Based on expe
 
 ### Knock Knock. Who's There?
 
-Looking at the numbers in `bambam.txt`, and if I've to guess, I'm probably looking at port numbers (`0-65535`) and that means port-knocking is in the works.
+Looking at the numbers in `bambam.txt`, and if I've to guess, I'm probably looking at port numbers (`0-65535`) and that suggests port-knocking is in the works.
 
 To that end, I wrote a port-knocking script, `knock.sh` using `nmap`.
 
@@ -139,13 +139,13 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and you can use the following Python code to generate it.
+`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and I use the following Python code to generate it.
 
 ```
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
 ```
 
-When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service.
+When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service. See? What did I say about the filtered ports becoming interesting?
 
 ```
 # ./knock.sh 192.168.10.130
@@ -191,11 +191,11 @@ The service at `tcp/7654` appears to be running `nginx`, while the service at `t
 
 ### Pinky's Database
 
-The page at `http://pinkydb:7654/login.php` appears to be the login to Pinky's database — the first attack surface.
+The page at `http://pinkydb:7654/login.php` appears to be Pinky's database login — the attack surface.
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-1.png)
 
-Remember the custom wordlist we built earlier? Perhaps we can use it with `hydra` and see what we get?
+Remember the custom wordlist we built earlier? Perhaps it's time we put it to good use with `hydra` and see what we get?
 
 ```
 # echo pinky > usernames.txt
@@ -205,15 +205,15 @@ Remember the custom wordlist we built earlier? Perhaps we can use it with `hydra
 [7654][http-post-form] host: pinkydb   login: pinky1337   password: entry
 ```
 
-I was able to log in with the credential (`pinky:Passione`).
+The credential (`pinky:Passione`) lets me in.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-2.png)
 
-It's easy to spot the LFI vulnerability with `pageegap.php`. [Palindrome](https://en.wikipedia.org/wiki/Palindrome) anyone?
+It's easy to spot the LFI vulnerability with `pageegap.php`. Also, notice that `pageegap` is a [palindrome](https://en.wikipedia.org/wiki/Palindrome)?
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-3.png)
 
-With that in mind, let's see if we can make use of the vulnerability to display `/etc/passwd`.
+With the LFI vulnerability in mind, let's see if we can make use of it to display `/etc/passwd`.
 
 ```
 # curl http://pinkydb:7654/pageegap.php?1337=/etc/passwd
@@ -228,7 +228,7 @@ stefano:x:1002:1002::/home/stefano:/bin/bash
 
 `stefano` has an account in `pinkydb` and we have his SSH private key from above. I guess that's an open invitation to log in to his account via SSH.
 
-I log in to find his RSA private key protected by a password. It's not difficult to use `ssh2john` and John the Ripper to recover the password.
+I log in to find his RSA private key protected by a password. In case you are wondering, it's not difficult to use `ssh2john` and John the Ripper to recover the password.
 
 ```
 # ssh2john id_rsa > id_rsa.hash
@@ -242,9 +242,13 @@ With the password out of the way, it's almost trivial to log in to `stefano`'s a
 
 ### Privilege Escalation
 
-I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account; they may be key pieces to the privilege escalation puzzle.
+I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account; I think they may be key pieces to the privilege escalation puzzle. Here's why.
+
+_Image shows `pinky` and `www-data` have the rights to read `qsub`._
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
+
+_Image shows `demon` and `pinky` have the rights to edit `backup.sh`._
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-6.png)
 
@@ -255,13 +259,17 @@ $ find /var/www -perm /o+w
 /var/www/html/apache/wp-config.php
 ```
 
-I edit `wp-config.php` to run a reverse shell.
+I edit `wp-config.php` to run a reverse shell as `www-data`.
+
+_Image shows that I can execute remote command on `pinkydb` as `www-data`._
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
+_Image shows `qsub` encoded in `base64`._
+
 ![screenshot-8](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-8.png)
 
-I copy `qsub`, encoded in `base64`, over to my analysis machine, and decode it back to its binary form.
+I copy `qsub` over to my analysis machine, and decode it back to its binary form.
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
@@ -275,7 +283,7 @@ _The image shows `qsub` compares the input password with the value of the `TERM`
 
 ![screenshot-10](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-10.png)
 
-_The image shows `system()` library function executes shell command `/bin/echo`_
+_The image shows `system()` library function executes shell command `/bin/echo` with output redirection to a file._
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-11.png)
 
@@ -284,7 +292,7 @@ Since I know how `qsub` works, and it has been `setuid` to `pinky`, I can exploi
 The steps are slightly convoluted but the end result is deeply satisfactory:
 
 1. Generate the RSA key pair on my machine
-2. Exploit `qsub` to run a `netcat` reverse shell
+2. Exploit `qsub` to run a `netcat` reverse shell with `pinky`'s privileges
 3. Copy and paste the RSA public key to `/home/pinky/.ssh/authorized_keys`
 4. Log in to `pinky`'s account with the RSA private key
 
@@ -312,11 +320,11 @@ Now, I can use the same Jedi trick of copying over the RSA public key I control,
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
-The work is far from complete; the final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
+To recap, the work is far from complete; the final piece of the privilege escalation puzzle is in fact `/daemon/panel`.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it.
+I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it so that I can debug it — a kind of dynamic analysis technique as opposed to reverse engineering.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
@@ -344,7 +352,7 @@ The command `pattern_offset` finds the pattern at an offset of 120 bytes.
 
 The basic exploit structure looks like this.
 
-`# perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address we have yet to determine.
+`perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address yet undetermined.
 
 ![screenshot-25](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-25.png)
 
@@ -352,7 +360,7 @@ Here we are, back at the breakpoint. Before `BBBBBB` returns, we see 120 `'A'`s 
 
 ![screenshot-26](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-26.png)
 
-Using the command `jmpcall`, we are able to pinpoint the exact address within `./panel` that has a `call rsp`. This is our return address.
+Using the command `jmpcall`, we can pinpoint the exact address within `./panel` that has a `call rsp`. This is our return address.
 
 We proceed to generate a payload with `msfvenom`. I prefer to use a single-stage reverse shell as the payload to a multi-stage one. Although single-stage payload has a bigger size, it gets everything done in shorter time.
 
@@ -382,7 +390,7 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 To be honest, I thought Pinky's Palace was a misnomer; it should be Pinky's Dungeon instead :sweat_smile:
 
-Walking through this VM took longer than usual because I had to document down the crucial sections and took more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
+Walking through this VM took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
 I give it a :+1:
 
