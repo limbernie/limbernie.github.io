@@ -113,7 +113,7 @@ pinkymanage:3pinkysaf33pinkysaf3::::::
 
 ### Low Privilege Shell
 
-I'm able to login to `pinkymanage`'s account with the cracked password.
+I'm able to log in to `pinkymanage`'s account with the cracked password.
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-walkthrough/screenshot-12.png)
 
