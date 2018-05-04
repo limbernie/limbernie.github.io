@@ -129,11 +129,11 @@ The file `.ultrasecret` turns out to be the `base64` encoded version of the RSA 
 Hmm just in case I get locked out of my server I put this rsa key here.. Nobody will find it heh..
 ```
 
-I place the decoded RSA private key in `/tmp` and change its permissions; the key owner's information is not stored in the key.
+I place the decoded RSA private key in `/tmp` and change its permissions; I still can't determine who is the key owner because the information is not stored in the key.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
 
-Looking at `/etc/passwd` confirms the existence of `pinky`.
+Looking at `/etc/passwd` confirms the existence of `pinky`. Thank goodness.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
 

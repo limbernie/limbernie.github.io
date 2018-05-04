@@ -17,7 +17,7 @@ This post documents the complete walkthrough of W1R3S: 1.0.1, a boot2root [VM][1
 
 ### Background
 
-Someone hired you to do a penetration test on the W1R3S.inc individual server and report all findings. They have asked you to gain `root` access and find the flag (located in `/root` directory).
+Someone hires you to do a penetration test on the W1R3S.inc individual server and report all findings. They ask you to gain `root` access and find the flag (located in `/root` directory).
 
 ### Information Gathering
 
@@ -70,7 +70,7 @@ OK. We have two interesting directories: `administrator` and `wordpress`.
 
 ### Cuppa CMS
 
-The `administrator` directory turned out to be the installation setup for Cuppa CMS. This is how it looked like when I pointed the browser to `/administrator`.
+The `administrator` directory turns out to be the installation setup for Cuppa CMS. This is how it looks like when I point the browser to `/administrator`.
 
 ![screenshot-1](/assets/images/posts/w1r3s-walkthrough/screenshot-1.png)
 
@@ -78,9 +78,9 @@ According to the official [documentation](https://www.cuppacms.com/en/docs/insta
 
 >Remember, the database should be created before to install Cuppa CMS.
 
-The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I've downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
+The Cuppa CMS installation was never completed in the first place or I'll not be seeing the setup page. I downloaded a [copy](http://cuppacms.com/files/cuppa_cms.zip) of the Cuppa CMS code to see if I can discover any vulnerabilities.
 
-It surprised me when I found a vulnerability. I'm not sure if this is a new vulnerability but there was a LFI vulnerability in `alertConfigField.php` at line 77.
+I'm not sure if this is a new vulnerability but there is a LFI vulnerability in `alertConfigField.php` at line 77.
 
 ![screenshot-2](/assets/images/posts/w1r3s-walkthrough/screenshot-2.png)
 
@@ -122,26 +122,26 @@ ftp:*:17554:0:99999:7:::
 mysql:!:17554:0:99999:7:::
 ```
 
-I'm not sure if `/etc/shadow` was intentionally made world-readable. It should not be the case.
+I'm not sure if `/etc/shadow` is intentionally made world-readable; it should not be the case.
 
 ### John the Ripper
 
-Well, what's done is in the past. With both `passwd` and `shadow` made available, I was able to `unshadow` them, and send them to `john` for offline cracking with a wordlist like "rockyou".
+Well, what's done is in the past. With both `passwd` and `shadow` made available, I'm able to `unshadow` them, and send them to `john` for offline cracking with a wordlist like "rockyou".
 
-The cracking completed in seconds.
+The cracking completes in seconds.
 
 ```
 # john --format=crypt --show hashes.txt
 w1r3s:computer:1000:1000:w1r3s,,,:/home/w1r3s:/bin/bash
 ```
 
-With the password of `w1r3s` made available, I'm now able to login to the box via SSH.
+I'm can now log in to the box via SSH with the password of `w1r3s`.
 
 ![screenshot-3](/assets/images/posts/w1r3s-walkthrough/screenshot-3.png)
 
 ### Privilege Escalation
 
-It wasn't long before I saw that `w1r3s` is on the `sudoers` list.
+It isn't long before I see that `w1r3s` is on the `sudoers` list.
 
 ![screenshot-4](/assets/images/posts/w1r3s-walkthrough/screenshot-4.png)
 
