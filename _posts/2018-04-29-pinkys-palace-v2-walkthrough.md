@@ -39,7 +39,7 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-At this stage, `nmap` finds one open port `tcp/80` and no SSH service although the rest of the filtered ports may prove interesting later.
+`nmap` finds one open port `tcp/80` and no SSH service although the rest of the filtered ports may prove interesting later.
 
 ### Directory/File Enumeration
 
@@ -79,8 +79,7 @@ When I navigate to `/secret`, I see a text file `bambam.txt`, with the following
 pinkydb
 ```
 ### WordPress
-
-Since WordPress is installed in `pinkydb`, let's use `wpscan` to scan for WordPress vulnerabilities, if any.
+Let's use `wpscan` to scan for WordPress vulnerabilities, if any.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -109,6 +108,8 @@ _______________________________________________________________
     | 1  | pinky1337 | pinky1337 – Pinky's |
     +----+-----------+---------------------+
 ```
+
+`wpscan` finds no exploitable vulnerabilities, and identifies one WordPress user `pinky1337`.
 
 I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` when the need for a dictionary attack arises.
 
@@ -180,7 +181,7 @@ PORT      STATE SERVICE REASON         VERSION
 |_    into Pinky's Palace.
 ```
 
-Now that I've determined the correct sequence to unlock those ports, I can always use `nmap` to unlock them again.
+Now that I know the correct sequence to unlock those ports, I can always use `nmap` to unlock them again.
 
 ```
 # for p in 7000 666 8890; do nmap -n -v0 -Pn --max-retries 0 -p $p 192.168.10.130; done
@@ -225,7 +226,7 @@ demon:x:1001:1001::/home/demon:/bin/bash
 stefano:x:1002:1002::/home/stefano:/bin/bash
 ```
 
-`stefano` has an account in `pinkydb` and also his SSH private key from above. I guess that's an open invitation to log in to his account via SSH.
+`stefano` has an account in `pinkydb` and we have his SSH private key from above. I guess that's an open invitation to log in to his account via SSH.
 
 I log in to find his RSA private key protected by a password. It's not difficult to use `ssh2john` and John the Ripper to recover the password.
 
@@ -241,7 +242,7 @@ With the password out of the way, it's almost trivial to log in to `stefano`'s a
 
 ### Privilege Escalation
 
-I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account. I suspect they may be key pieces to the privilege escalation puzzle.
+I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account; they may be key pieces to the privilege escalation puzzle.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-5.png)
 
@@ -278,18 +279,24 @@ _The image shows `system()` library function executes shell command `/bin/echo`_
 
 ![screenshot-11](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-11.png)
 
-Since I know how `qsub` works, and it has been `setuid` to `pinky`, I can exploit it to create `/home/pinky/.ssh/authorized_keys` with a RSA key pair I control.
+Since I know how `qsub` works, and it has been `setuid` to `pinky`, I can exploit it to create `/home/pinky/.ssh/authorized_keys` with the RSA key pair I control.
 
 The steps are slightly convoluted but the end result is deeply satisfactory:
 
-1. Generate a RSA key pair on my machine
-2. Run a `netcat` reverse shell
+1. Generate the RSA key pair on my machine
+2. Exploit `qsub` to run a `netcat` reverse shell
 3. Copy and paste the RSA public key to `/home/pinky/.ssh/authorized_keys`
 4. Log in to `pinky`'s account with the RSA private key
 
+_Image shows the exploit on `qsub` to run `netcat` reverse shell._
+
 ![screenshot-17](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-17.png)
 
+_Image shows copying and pasting the RSA public key to `/home/pinky/.ssh/authorized_keys`._
+
 ![screenshot-16](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-16.png)
+
+_Image shows `pinky`'s account after logging in with the RSA private key._
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
@@ -301,7 +308,7 @@ On my machine, I've set up a `netcat` listener to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
-Now, I can use the same Jedi trick of copying over a RSA public key I control, log in with SSH, and take full control of `demon`'s account.
+Now, I can use the same Jedi trick of copying over the RSA public key I control, log in with SSH, and take full control of `demon`'s account.
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-15.png)
 
