@@ -272,7 +272,7 @@ User bill may run the following commands on b2r:
     (ALL : ALL) NOPASSWD: ALL
 ```
 
-As expected. Let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
+As expected, let's abuse this privilege to enable SSH in the firewall and give myself a proper shell.
 
 ```
 # ./cmd.sh "sudo ufw allow ssh"
