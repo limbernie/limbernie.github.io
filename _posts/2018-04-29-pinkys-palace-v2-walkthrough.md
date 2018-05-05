@@ -39,7 +39,7 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `tcp/80`, no SSH service, and a bunch of filter ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
+`nmap` finds one open port `80/tcp`, no SSH service, and a bunch of filter ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
 
 ### Directory/File Enumeration
 
