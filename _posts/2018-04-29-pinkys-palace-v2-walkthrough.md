@@ -43,7 +43,7 @@ PORT      STATE    SERVICE REASON         VERSION
 
 ### Directory/File Enumeration
 
-I've always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files because they produce results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+I've always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files because they produce actionable results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-When I point my browser to `/secret`, I see a text file `bambam.txt`, with the following content.
+Directory listing is enabled at `/secret`, and a text file `bambam.txt` with the following content is present.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -193,7 +193,7 @@ The service at `tcp/7654` appears to be running `nginx`, while the service at `t
 
 ### Pinky's Database
 
-The attack surface is at `http://pinkydb:7654/login.php` — Pinky's database login.
+The attack surface is at `http://pinkydb:7654/login.php` — Pinky's Database Login.
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-1.png)
 
@@ -207,11 +207,11 @@ Remember the custom wordlist we built earlier? Now it's the time we put it to go
 [7654][http-post-form] host: pinkydb   login: pinky1337   password: entry
 ```
 
-The credential (`pinky:Passione`) lets me in.
+The credential (`pinky:Passione`) is the right one. Good.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-2.png)
 
-It's easy to spot the LFI vulnerability with `pageegap.php`. Also, notice that `pageegap` is a [palindrome](https://en.wikipedia.org/wiki/Palindrome)?
+It's easy to spot the LFI vulnerability with `pageegap.php`. Also, notice something different? `pageegap` is a [palindrome](https://en.wikipedia.org/wiki/Palindrome). Creative file naming.
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-3.png)
 
@@ -356,7 +356,7 @@ The command `pattern_offset` finds the pattern at an offset of 120 bytes.
 
 The basic exploit structure looks like this.
 
-`perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address yet undetermined.
+`perl -e 'print "A" x 120 . "BBBBBB"'` where `BBBBBB` is the return address we have yet to determine.
 
 ![screenshot-25](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-25.png)
 
@@ -392,7 +392,7 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 ### Afterthought
 
-To be honest, I feel that Pinky's Palace is a misnomer; it should be Pinky's Dungeon :sweat_smile:
+To be honest, "Pinky's Palace" is a misnomer; it should be "Pinky's Dungeon", don't you think? :sweat_smile:
 
 Walking through this dungeon took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
