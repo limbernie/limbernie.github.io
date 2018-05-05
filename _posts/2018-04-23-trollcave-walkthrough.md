@@ -23,7 +23,7 @@ This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM]
 Your first goal is to abuse the services on the machine to gain unauthorized shell access. Your ultimate goal is to read a text file in the `root` user's home directory (`/root/flag.txt`).
 
 ### Information Gathering
-I always start with a `nmap` scan to establish the services available in the host.
+Let's start with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.128
@@ -116,7 +116,7 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/5
 ```
 
-I come across a blog post at `/blogs/6` and it says something about "_a resource in rails_" which lends further support that the site is indeed a RoR web application. OK, and check out the ruby avatar too; at least now we know what we are dealing with.
+I come across a blog post at `/blogs/6` and it says something about "_a resource in rails_" which lends further support that the site is indeed a RoR web application. OK, and check out the Ruby avatar too, isn't that another clue? At least now we know what we are dealing with.
 
 _Image shows that the site is a RoR web application._
 
@@ -310,7 +310,7 @@ If I've to guess, I say this is the way to gain `root` privileges since King is 
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
-It's interesting to note that this application is using `eval()`. Now, there's no doubt that `eval()` is our golden ticket.
+It's interesting to note that this application is using `eval()`. Now, I've no doubt that `eval()` is our golden ticket.
 
 ![screenshot-21](/assets/images/posts/trollcave-walkthrough/screenshot-21.png)
 
