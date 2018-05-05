@@ -48,7 +48,7 @@ As usual, let's go with directory/file enumeration on the web service and see wh
 
 ### Directory/File Enumeration
 
-I've always like to use `gobuster` with one of the big directory wordlists.
+I like to use `gobuster` with one of the big directory wordlists.
 
 ```
 Gobuster v1.1                OJ Reeves (@TheColonial)
@@ -66,7 +66,7 @@ http://192.168.100.130/wordpress (Status: 301)
 =====================================================
 ```
 
-OK. We have two interesting directories: `administrator` and `wordpress`.
+OK. We find two interesting directories: `administrator` and `wordpress`.
 
 ### Cuppa CMS
 
@@ -111,7 +111,7 @@ sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 ftp:x:122:129:ftp daemon,,,:/srv/ftp:/bin/false
 mysql:x:123:130:MySQL Server,,,:/nonexistent:/bin/false
 ```
-Imagine my surprise when I requested for `/etc/shadow` and it showed up in the output.
+Imagine my surprise when I request for `/etc/shadow` and it shows up in the output.
 
 ```
 # ./cat.sh /etc/shadow

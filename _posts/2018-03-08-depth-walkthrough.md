@@ -43,7 +43,7 @@ One open port? Well, I guess I've to brute-force my way to an attack surface.
 
 ### Directory/File Enumeration
 
-Let's start with directory/file enumeration using `wfuzz` and its associated wordlists.
+Let's start with directory/file enumeration, using `wfuzz` and its associated wordlists.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/common.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt -c --hc 404 http://192.168.100.4:8080/FUZZFUZ2Z
@@ -68,7 +68,7 @@ Filtered Requests: 26597
 Requests/sec.: 365.5435
 ```
 
-Well, we have `/test.jsp` that appears interesting.
+We find `/test.jsp`. It may be interesting.
 
 ### File Listing Checker
 
@@ -76,12 +76,12 @@ This is what I see when I navigate to `http://192.168.100.4:8080/test.jsp` with 
 
 ![screenshot-1](/assets/images/posts/depth-walkthrough/screenshot-1.png)
 
-After some tinkering with `test.jsp` to get output, I see that command execution is possible but the command output must conform to the following:
+After some tinkering with `test.jsp` to get output, command execution is possible but the command output must conform to the following:
 
 * Output must not be empty; and
-* Output must be more than 8 tokens, delimited by one or more space.
+* Output must be more than eight tokens, delimited by one or more space.
 
-For some reason, the HTML table shows token 2, 3, 4, and 8+. I'm able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
+For some reason, the HTML table shows token two, three, four, eight, and beyond. I'm able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
 
 ![screenshot-2](/assets/images/posts/depth-walkthrough/screenshot-2.png)
 
@@ -185,7 +185,7 @@ This is how `test.jsp` looks like.
 %>
 {% endhighlight %}
 
-I'm able to run `ps faux` and notice that `sshd` is running. I also see that `ufw`, a firewall, is running based on what's in `/etc/ufw/ufw.conf`.
+I'm able to run `ps faux` and notice that `sshd` is running. `ufw`, a firewall, is also running based on what's in `/etc/ufw/ufw.conf`.
 
 ```
 # ./cat.sh /etc/ufw/ufw.conf
@@ -201,7 +201,7 @@ ENABLED=yes
 LOGLEVEL=low
 ```
 
-This explains why I see one open port from the earlier `nmap` scan. SSH is probably blocked by the firewall.
+This explains why there's one open port from the earlier `nmap` scan. SSH is probably blocked by the firewall.
 
 ### The Key to a Man's Heart Is Through His Stomach
 
@@ -219,7 +219,7 @@ I know one can execute a command upon login via SSH. But first, let's see if I c
 
 Holy smoke. I'm able to execute remote commands and overcome the output display restrictions by adding my own placeholders.
 
-With this in mind, I wrote `cmd.sh`, a script that displayed the proper output from the commands as if executed by `bill` in a shell.
+With this in mind, I wrote `cmd.sh`, a script that displays the proper output from the commands as if `bill` is the one executing in a shell.
 
 {% highlight bash linenos %}
 # cat cmd.sh
@@ -290,7 +290,7 @@ From my attacking machine, I can now login as `bill` and `sudo` as `root`.
 
 ![screenshot-8](/assets/images/posts/depth-walkthrough/screenshot-8.png)
 
-Well, that wasn't too difficult, was it?
+Well, that wasn't difficult, was it?
 
 [1]: https://www.vulnhub.com/entry/depth-1,213/
 [2]: https://twitter.com/@fang0654

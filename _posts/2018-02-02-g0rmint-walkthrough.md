@@ -40,7 +40,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: 404 Not Found
 ```
 
-Let's start with the web service since there is a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I saw in the browser when I navigated to it.
+`nmap` finds `80/tcp` open and there's a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in my browser when I navigate `/g0rmint`.
 
 ![robots.txt](/assets/images/posts/g0rmint-walkthrough/g0rmint-3.png)
 
@@ -48,7 +48,7 @@ Let's start with the web service since there is a disallowed entry `/g0rmint/*` 
 
 ### Directory/File Enumeration
 
-Let's enumerate the site with `dirbuster` and see what we get.
+Let's find out the directories and/or files with `dirbuster`.
 
 ![dirbuster](/assets/images/posts/g0rmint-walkthrough/g0rmint-2.png)
 
@@ -66,7 +66,7 @@ File found: /g0rmint/profile.php - 302
 File found: /g0rmint/secrets.php - 302
 ```
 
-Among the PHP pages, we can disregard those that returned **302** (because they got redirected back to `/login.php`) and those that returned nothing of value. The following pages were interesting:
+Among the PHP pages, we can disregard those that returns **302** (because they redirect back to `/login.php`) and those that returns nothing of value. The following pages are interesting:
 
 * `/header.php`
 * `/login.php`
@@ -77,7 +77,7 @@ Let's explore each page in turn in reverse order starting with `/reset.php`.
 
 ### Password Reset Page
 
-Well, the page looked like your normal password reset page. If you know the email address and the username, you'll be able to reset the password.
+Well, the page looks like your normal password reset page. If you know the email address and the username, you'll be able to reset the password.
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-8.png)
 
@@ -85,19 +85,19 @@ At this point, I'm not aware of any email address or username :sob:
 
 ### Main Menu
 
-This page appeared interesting on the surface but the HTML source code offered a clue on how to proceed.
+This page appears interesting on the surface and the HTML source code offers a clue on how to proceed.
 
 ![mainmenu.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-4.png)
 
-Here's the source code. Noticed `/secretlogfile.php`?
+Here's the source code. Notice `/secretlogfile.php`?
 
 ![mainmenu.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-5.png)
 
-Navigating to the page got me redirected back to `/login.php`. No luck there. At least, it gave me the idea to look at the HTML source code closer for further hints.
+Navigating to the page redirects back to `/login.php`. No luck there. At least, it gives me the idea to look at the HTML source code closer for further hints.
 
 ### Login Page
 
-Indeed, if you look at the HTML source code of `/login.php`, something stood out.
+Indeed, if you look at the HTML source code of `/login.php`, something stands out.
 
 ![login.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-6.png)
 
@@ -105,11 +105,11 @@ A secret backup directory?!
 
 ### Header
 
-This page appeared to contain the headers of the admin portal. The admin's full name was also hardcoded at the dropdown menu - **Noman Riffat.**
+This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu - **Noman Riffat.**
 
 ![header.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-9.png)
 
-Looking at the HTML source code of this page, one of the CSS proved interesting - `style.css`.
+Looking at the HTML source code of this page, one of the CSS proves interesting — `style.css`.
 
 ```
 /*
@@ -123,7 +123,7 @@ Looking at the HTML source code of this page, one of the CSS proved interesting 
 */
 ```
 
-Could this be the email address and the username of the admin? Well, there is a high chance looking at the name on the header page.
+Could this be the email address and the username of the admin? Well, there is a high chance if you look at the name on the header page.
 
 ### Directory/File Enumeration (2)
 
@@ -133,17 +133,17 @@ Taking a leaf from the previous enumeration with `dirbuster`, let's give it anot
 File found: /g0rmint/s3cretbackupdirect0ry/info.php - 200
 ```
 
-Good. One more page made available.
+Good. One more page is available.
 
 ### Information Page
 
-This page proved to be an informative one despite the lack of aesthetics.
+This page proves to be informative despite its lack of aesthetics.
 
 ![info.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-7.png)
 
 ### Backup Archive
 
-I was able to download the backup archive at `/g0rmint/s3cretbackupdirect0ry/backup.zip`. Let's peek inside the file.
+Let's peek inside the backup archive at `/g0rmint/s3cretbackupdirect0ry/backup.zip`.
 
 ```
 # unzip -l backup.zip
@@ -173,11 +173,11 @@ Archive:  backup.zip
   6183823                     181 files
 ```
 
-Sweet. The archive appeared to be the backup of the site.
+Sweet. The archive appears to be the backup of the site.
 
 ### Resetting Password
 
-Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Too bad the credential (`demo@example.com:demo`) did not work.
+Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Too bad the credential (`demo@example.com:demo`) isn't the correct one.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-16.png)
 
@@ -185,13 +185,15 @@ Since the site backup is available, let's take a look at the password reset mech
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-12.png)
 
-All we have to do is to guess the email address and username. The "new" password would be the first 20 characters from the SHA1 hash of the current GMT date/time. :smirk:
+All we have to do is to guess the email address and username. The "new" password is the first twenty characters from the SHA1 hash of the current GMT date/time.
 
-Another advantage we had was the current GMT date/time at the bottom of the password reset page.
+Another advantage we have, is the current GMT date/time at the bottom of the password reset page.
 
 Let's give a shot to (`email:w3bdrill3r@gmail.com`) and (`username:noman`) and see what we get.
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-14.png)
+
+The email address and username are correct.
 
 I wrote `reset.sh` to simplify the process of getting the "new" password in plaintext.
 
@@ -206,25 +208,25 @@ echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 {% endhighlight %}
 ![access](/assets/images/posts/g0rmint-walkthrough/g0rmint-13.png)
 
-The password reset worked.
+The password reset works.
 
 ### Remote Command Execution
 
-Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and determine our attack vector.
+Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and to determine our attack.
 
-At the beginning of `/login.php`, I was able to introduce PHP code into the site through the `addlog()` function.
+At the beginning of `/login.php`, I can introduce PHP code into the site through the `addlog()` function.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-10.png)
 
-This is how the `addlog()` function in `/config.php` looked like.
+This is how the `addlog()` function in `/config.php` looks like.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication has failed, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logged the value of the email field, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. To view the PHP file, you must also establish an authenticated session or you'll get redirected to the login page. This is because of the content of `dummy.php` at the top of the file.
+When authentication fails, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logs the value of the email field, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. To view the PHP file, you must first establish an authenticated session or redirect to the login page. This is because of the content of `dummy.php` at the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
-I wrote this `bash` script to automate remote command execution.
+I wrote `exploit.sh`, a `bash` script to automate remote command execution.
 
 {% highlight bash linenos %}
 # cat exploit.sh
@@ -284,11 +286,11 @@ exploit
 rm -rf cookie
 {% endhighlight %}
 
-The real workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php){: .external}{: target="_blank"} that was present in `config.php`.
+The workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php){: .external}{: target="_blank"} that is present in `config.php`.
 
 ![addslashes](/assets/images/posts/g0rmint-walkthrough/g0rmint-15.png)
 
-Supply the email, password and command as arguments and the script would spit out the result.
+Supply the email, password, and command as arguments, and the script spits out the result.
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cat /etc/passwd"
@@ -301,7 +303,7 @@ sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
 
 ### Backup Archive (2)
 
-During enumeration, I spotted the presence of another `backup.zip` at `/var/www`.
+There's another `backup.zip` at `/var/www`.
 
 ```
 /var/www:
@@ -312,13 +314,13 @@ drwxr-xr-x 12 root     root        4096 Nov  2 03:42 ..
 drwxr-xr-x  3 www-data www-data    4096 Nov  3 04:08 html
 ```
 
-I helped myself to the file by copying it to the web root like so.
+I help myself to the file by copying it to the web root.
 
 ```
 # ./exploit.sh w3bdrill3r@gmail.com 30e1a63a8968b727f276 "cp /var/www/backup.zip /var/www/html"
 ```
 
-Next, I downloaded the file using `wget`.
+Next, I download the file using `wget`.
 
 ```
 # wget http://192.168.198.130/backup.zip
@@ -333,15 +335,15 @@ backup.zip 100%[==================================>] 3.57M --.-KB/s in 0.1s
 2018-02-02 14:46:19 (27.6 MB/s) - ‘backup.zip’ saved [3747496/3747496]
 ```
 
-It appeared to be like the previous `backup.zip` with a twist. This time round, `db.sql` showed the original admin password hash.
+It appears to be like the previous `backup.zip` with a twist. This time round, `db.sql` shows the original admin password hash.
 
 ![db.sql](/assets/images/posts/g0rmint-walkthrough/g0rmint-17.png)
 
-The password was `"tayyab123"` after going through an online MD5 [cracker][4].
+The password hash was already cracked by an online MD5 [cracker][4]. The password is `tayyab123`.
 
 ### SSH Login
 
-Let's try using the credentials (`g0rmint:tayyab123`) for a low-privilege shell.
+Let's try the credential (`g0rmint:tayyab123`) and see if we can get a low-privilege shell.
 
 ![g0rmint](/assets/images/posts/g0rmint-walkthrough/g0rmint-18.png)
 
@@ -349,11 +351,11 @@ Awesome!
 
 ### Privilege Escalation
 
-Noticed that `g0rmint` was able to `sudo` as `root`?
+Notice that `g0rmint` is able to `sudo` as `root`?
 
 ![sudo](/assets/images/posts/g0rmint-walkthrough/g0rmint-20.png)
 
-I sensed the end is near...
+I sense the end is near…
 
 ![end](/assets/images/posts/g0rmint-walkthrough/g0rmint-21.png)
 

