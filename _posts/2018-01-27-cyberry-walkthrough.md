@@ -216,7 +216,7 @@ With this in mind, let's do a online password cracking with `hydra`.
 
 ### Berrypedia Admin Panel
 
-Too bad this is not the SSH password for `root`. I was able to login to the admin panel but there is nothing interesting to see.
+Too bad this is not the SSH password for `root`. I can login to the admin panel but there's nothing interesting to see.
 
 ![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
 
@@ -467,7 +467,7 @@ Let's see if we can exploit the `host` parameter to execute remote commands.
 
 ![remote-command.png](/assets/images/posts/cyberry-walkthrough/cyberry-14.png)
 
-Bingo. I can run a reverse shell using `netcat` using this way.
+Bingo. I can run a reverse shell with `netcat`.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-15.png)
 
@@ -509,7 +509,7 @@ awk 'BEGIN { system("/bin/sh") }'
 
 ![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-22.png)
 
-PHP can run shell commands too. Let's run a reverse shell back to me using `nc`.
+PHP can run shell commands too. Let's run a reverse shell back to me using `netcat`.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-23.png)
 
@@ -525,11 +525,11 @@ The buck stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 
-At the home directory of `chuck` there is still something interesting to look out for.
+At the home directory of `chuck` there's still something interesting to look out for.
 
 ![deleted.png](/assets/images/posts/cyberry-walkthrough/cyberry-27.png)
 
-The file at `/home/chuck/.deleted/deleted` provides hints to the `root` password.
+The file `/home/chuck/.deleted/deleted` provides hints to the `root` password.
 
 ### Guessing the `root` Password
 
