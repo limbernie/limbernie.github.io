@@ -79,7 +79,7 @@ When I point my browser to `/secret`, I see a text file `bambam.txt`, with the f
 pinkydb
 ```
 ### WordPress
-Let's use `wpscan` to scan for WordPress vulnerabilities since there's WordPress installed in `pinkydb`.
+Let's use `wpscan` to scan for WordPress vulnerabilities and to identify users.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -111,7 +111,7 @@ _______________________________________________________________
 
 `wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`.
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` , so that I can use it when the need for a dictionary attack arises.
+I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl`, so that when the need for a dictionary attack arises, I can use it.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
