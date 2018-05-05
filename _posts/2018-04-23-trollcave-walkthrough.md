@@ -44,7 +44,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Trollcave
 ```
 
-`nmap` finds two open ports — `tcp/22` and `tcp/80`. Nothing unusual here.
+`nmap` finds two open ports — `22/tcp` and `80/tcp`. Nothing unusual here.
 
 ### Trollcave Blog
 
@@ -116,7 +116,7 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/5
 ```
 
-I come across a blog post at `/blogs/6 and it says something about "a resource in rails" which further lends support that the site is indeed a RoR web application. OK, check out the ruby avatar too; at least now we know what we are dealing with.
+I come across a blog post at `/blogs/6` and it says something about "_a resource in rails_" which lends further support that the site is indeed a RoR web application. OK, and check out the ruby avatar too; at least now we know what we are dealing with.
 
 _Image shows that the site is a RoR web application._
 
