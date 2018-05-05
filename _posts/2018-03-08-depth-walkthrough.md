@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deep Abyss"
+title: "This Is Deep"
 category: Walkthrough
 tags: [VulnHub, Depth]
 comments: true
@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/autos-technology-vw-214033/
 ---
 
-This post documents the complete walkthrough of Depth: 1, a boot2root [VM][1] created by [Dan Lawson][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Depth: 1, a boot2root [VM][1] created by [Dan Lawson][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

@@ -11,7 +11,7 @@ image:
   creditlink: https://pixabay.com/en/fairy-tales-gnome-troll-1662427/
 ---
 
-This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM][1] created by [David Yates][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Trollcave: 1.2, a boot2root [VM][1] created by [David Yates][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

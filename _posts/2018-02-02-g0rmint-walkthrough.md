@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/human-smilies-emoticons-masks-1602493/
 ---
 
-This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] created by [Noman Riffat][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] created by [Noman Riffat][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

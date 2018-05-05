@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/dna-string-biology-3d-1811955/
 ---
 
-This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] created by [f1re_w1re][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of The Ether: EvilScience, a boot2root [VM][1] created by [f1re_w1re][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

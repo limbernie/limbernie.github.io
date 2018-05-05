@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/halloween-ghosts-happy-halloween-1746354/
 ---
 
-This post documents the complete walkthrough of W1R3S: 1.0.1, a boot2root [VM][1] created by SpecterWires and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of W1R3S: 1.0.1, a boot2root [VM][1] created by SpecterWires, and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

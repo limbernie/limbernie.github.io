@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/beach-playing-bulldogs-1749854/
 ---
 
-This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] created by [Nick Frichette][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] created by [Nick Frichette][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

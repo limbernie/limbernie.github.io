@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "In the Pink"
+title: "In the Pink — I Survived"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
@@ -10,7 +10,7 @@ image:
   creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653920/
 ---
 
-This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_Panther][2] and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [VM][1] created by [Pink_Panther][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
