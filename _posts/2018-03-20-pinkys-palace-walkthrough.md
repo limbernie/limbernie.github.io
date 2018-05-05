@@ -48,7 +48,7 @@ Now, in full pink glory.
 
 ### Directory/File Enumeration
 
-Now that I've gotten over the first hurdle, let's use `dirbuster` to fuzz the available directories/files out there. But first, we need to set up the proxy in `dirbuster`.
+Now that I've gotten over the first hurdle, let's use `dirbuster` to fuzz the directories/files. But first, we need to set up the proxy in `dirbuster`.
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
 
@@ -92,7 +92,7 @@ Here's the test result from `sqlmap`.
 
 Awesome.
 
-We have an injection point. Time-based blind SQLi as the name suggests, is time-consuming for enumeration because the technique is a lot like fishing - `sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
+We have an injection point. Time-based blind SQLi as the name suggests, is time-consuming for enumeration because the technique is a lot like fishing — `sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
 
 Moving on, we can now determine the tables in the database.
 
@@ -133,7 +133,7 @@ I place the decoded RSA private key in `/tmp` and change its permissions, but I 
 
 ![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
 
-Looking at `/etc/passwd` confirms the existence of `pinky`. Thank goodness.
+Looking at `/etc/passwd` confirms the existence of `pinky`. Thank goodness!
 
 ![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
 
@@ -153,7 +153,7 @@ There's an accompanying note as well.
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
 
-It's certain that we are looking at a classic stack buffer overflow as the following supports that suspicion.
+I'm certain that we are looking at a classic stack buffer overflow as the following supports that suspicion.
 
 _Image shows ASLR disabled._
 
@@ -195,7 +195,7 @@ Even though the stack aligns along the 8-byte boundary, the return address in th
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-walkthrough/screenshot-27.png)
 
-Now that we can control RIP with the offset at 72 bytes, we can place our shellcode in an environment variable and use the following code to determine the memory address of the environment variable where the shellcode begins. This will be our return address in the exploit.
+Now that we can control RIP with the offset at 72 bytes, we can place our shellcode in an environment variable and use the following code to determine the memory address of the environment variable, where the shellcode is. This will be our return address in the exploit.
 
 {% highlight c linenos %}
 /* cat getenvaddr.c */
@@ -232,8 +232,6 @@ A perfectionist may argue that `euid=0` is not a real `root` shell. Well, that's
 ![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-29.png)
 
 ### Eyes on the Prize
-
-I set my eyes on the prize.
 
 ![screenshot-30](/assets/images/posts/pinkys-palace-walkthrough/screenshot-30.png)
 
