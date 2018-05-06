@@ -115,7 +115,7 @@ _______________________________________________________________
     +----+-----------+---------------------+
 ```
 
-`wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`. Disappointed? Don't be. We are still in the early stages of enumeration.
+`wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`. Disappointed? Don't be. We are still in the beginning stages of enumeration.
 
 While I was skimming through the blog, I spotted non-English words. Based on experience, there's a good chance one of these words is a password. I built a custom wordlist from the blog using `cewl`, and together with `hydra`, I attempted a dictionary attack on WordPress. Although none of the words yielded any results, the wordlist is not gone to waste. I could always use it when the need for another dictionary attack arises.
 
