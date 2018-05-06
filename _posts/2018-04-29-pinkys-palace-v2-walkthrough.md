@@ -39,7 +39,7 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `80/tcp`, no SSH service, and a bunch of filter ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
+`nmap` finds one open port `80/tcp`, no SSH service, and a bunch of filtered ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
 
 ### Directory/File Enumeration
 
@@ -68,7 +68,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-Directory listing is enabled at `/secret`, and a text file `bambam.txt` with the following content is present.
+Directory listing is enabled at `/secret`, and a text file `bambam.txt` is present with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -111,7 +111,7 @@ _______________________________________________________________
 
 `wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`.
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yields any results for WordPress, it's still a good time to build a custom wordlist with `cewl`, so that when the need for a dictionary attack arises, I can use it.
+I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yielded any results for WordPress, it has not been a wasted effort to build a custom wordlist with `cewl`. I could always use it when the need for a dictionary attack next arises.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
@@ -141,7 +141,7 @@ for ports in $(cat permutation.txt); do
 done
 {% endhighlight %}
 
-`permutation.txt` is a text file containing all the permutations of `8890,7000,666` and I use the following Python code to generate it.
+`permutation.txt` contains all the permutations of `8890,7000,666` and I use the following Python code to generate it.
 
 ```
 python -c 'import itertools; print list(itertools.permutations([8890,7000,666]))' | sed 's/), /\n/g' | tr -cd '0-9,\n' | sort | uniq > permutation.txt
@@ -392,9 +392,9 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 ### Afterthought
 
-To be honest, "Pinky's Palace" is a misnomer; it should be "Pinky's Dungeon", don't you think? :sweat_smile:
+"Pinky's Palace" is a misnomer; it should be "Pinky's Dungeon", don't you think? :sweat_smile:
 
-Walking through this dungeon took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one, with the reverse engineering of `qsub`, and the exploit development for `panel`.
+Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one — the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all fun but tough challenges.
 
 I give it a :+1:
 
