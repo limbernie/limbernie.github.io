@@ -88,7 +88,7 @@ The ones with the HTTP response code `302` redirect to `/login`. The top three w
 
 ### Ruby on Rails
 
-These [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs I notice during my cursory browsing of the site, look like URLs you get from a RoR web application.
+These [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs I notice during my cursory browsing of the site, look a lot like the URLs you get from a RoR web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -116,7 +116,7 @@ These [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful U
 /users/5
 ```
 
-The blog post below at `/blogs/6` describes something about "_… resource in rails_", which lends further support that the site is a RoR web application. And OK, check out the Ruby avatar, isn't that obvious enough? At least we know what we are dealing with.
+The blog post below at `/blogs/6` describes something about "_… resource in rails_", which lends further credence that the site is a RoR web application. And OK, check out the Ruby avatar, isn't that obvious enough? At least now we know what we are dealing with.
 
 _Image shows that the site is a RoR web application._
 
@@ -124,7 +124,7 @@ _Image shows that the site is a RoR web application._
 
 ### Enumerating Users
 
-A RoR web application will, by default, produce JSON output, by appending a `.json`. Knowing this will help in enumeration. Here, I'm able to determine the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
+A RoR web application will, by default, produce JSON output, by appending `.json`. Knowing this will help in enumeration. Here, I'm able to determine the users of the site using nothing more than `curl` and a command-line JSON parser `jq`.
 
 ```
 # curl -s 192.168.30.128/users/{1..20}.json | jq -raM
