@@ -40,7 +40,7 @@ PORT    STATE  SERVICE REASON         VERSION
 666/tcp closed doom    reset ttl 64
 ```
 
-`nmap` finds three open ports — `21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for — gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with it first.
+`nmap` finds three open ports — `21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for — the gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as the web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with that.
 
 ### Directory/File Enumeration
 
@@ -77,7 +77,7 @@ A fork bomb! A fork bomb replicates itself until it depletes system resources, c
 
 ### HTML Comments
 
-Another popular place to look for clues is in the HTML source code. Here, I look at the source code and find a couple of HTML comments that look like `base64`.
+Another popular place to look for clues is in the HTML source code. Here, I find a couple of HTML comments that look like `base64`.
 
 ![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
 
@@ -150,13 +150,13 @@ Content-Type: image/png
 edocrq
 ```
 
-Notice that the reverse of "edocrq" is "qrcode"?
+Notice that the flip side of "edocrq" is "qrcode"?
 
 The file `edocrq` is available from the web server and it looks like this.
 
 ![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
 
-Flip it horizontally to decode, as in the reverse of "edocrq" to "qrcode"
+Flip it horizontally to decode, as in the flipping of "edocrq" to "qrcode"
 
 ![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
 
@@ -164,7 +164,7 @@ It decodes to `/berrypedia.html`.
 
 ### Directory/File Enumeration (2)
 
-`dirbuster` reaches the same conclusion without going through the hard way.
+`dirbuster` reaches the same conclusion without going through the hard way. Duh?!
 
 ```
 Starting OWASP DirBuster 1.0-RC1
@@ -216,7 +216,7 @@ With this in mind, let's do a online password cracking with `hydra`.
 
 ### Berrypedia Admin Panel
 
-Too bad this is not the SSH password for `root`. I can login to the admin panel but there's nothing interesting to see.
+It's a shame that `password` is not the SSH password for `root`. I can log in to the admin panel, and … there's nothing interesting to see.
 
 ![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
 
@@ -238,10 +238,12 @@ Elderberry is a hyperlink to an interesting file — `/placeho1der.jpg`.
 
 ### Solving the Puzzle
 
-The image requires some transformation to reveal the puzzle:
+Here's how to reveal the puzzle:
 
-* Flip vertical
-* Invert colors
+* Flip the image vertically
+* Invert the colors
+
+You're welcome.
 
 ![puzzle.jpg](/assets/images/posts/cyberry-walkthrough/puzzle.jpg)
 
@@ -362,7 +364,7 @@ A request for `http://192.168.198.128:61955/H` reveals something interesting.
 
 ### Brainfuck
 
-Despite its strange looking form, the code above is in the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphers it to the following.
+Despite its strange looking form, what you see above is the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphers it to the following.
 
 ```
 Hello World!
@@ -386,7 +388,7 @@ OK. I have the team members' names and a password but to whom does the password 
 [22][ssh] host: 192.168.198.128 login: mary password: bakeoff
 ```
 
-Too bad `mary` doesn't have a shell. Let's see what we can discover from FTP instead.
+The password to both `ftp` and `ssh` is `bakeoff`. Although it's a pity that `mary` doesn't have a shell, I'm sure we'll have better luck with `ftp`.
 
 ### FTP Access
 
@@ -396,7 +398,7 @@ Notice that `.bash_history` is a directory? This is unusual and worth taking a c
 
 ![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
 
-`.reminder.enc` is a ciphertext encrypted using `openssl enc` (`Salted__` header) while `.trash` is a list of common passwords.
+`.reminder.enc` is a ciphertext encrypted with `openssl` while `.trash` is a list of common passwords.
 
 ```
 # cat .trash
@@ -439,7 +441,7 @@ for c in $(cat ciphers.txt); do
 done
 {% endhighlight %}
 
-`ciphers.txt` contain the available ciphers. Running the script reveals the following.
+`ciphers.txt` contains all the ciphers. Running the script reveals the following.
 
 ![decrypted.png](/assets/images/posts/cyberry-walkthrough/cyberry-2.png)
 
@@ -455,7 +457,7 @@ Let's try this credential (`mary:dangleberry69`) and see what we get.
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-12.png)
 
-Good. I'm in.
+Good, I'm in.
 
 ### Secure Section
 
@@ -467,7 +469,7 @@ Let's see if we can exploit the `host` parameter to execute remote commands.
 
 ![remote-command.png](/assets/images/posts/cyberry-walkthrough/cyberry-14.png)
 
-Bingo. I can run a reverse shell with `netcat`.
+Bingo, I can run a reverse shell with `netcat`.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-15.png)
 
@@ -481,16 +483,18 @@ I spot an interesting file at `/var/www/html-secure/ub3r-s3cur3` during enumerat
 
 ![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
 
-It's a list of Latin words. Perhaps this is another password list that I can use to brute-force SSH?
+It's a list of Latin words. Perhaps it's another password list that I can use to brute-force SSH?
 
 ```
 hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 [22][ssh] host: 192.168.198.128 login: nick password: custodio
 ```
 
+The password to `nick`'s account is `custodio`.
+
 ### Unstacking the `sudo` Russian Doll
 
-I'm able to SSH in to `nick`'s account using the credential (`nick:custodio`) and here's where the crazy `sudo` Russian doll fun begins.
+Here's where the crazy `sudo` Russian doll fun begins.
 
 ![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
 
@@ -502,14 +506,14 @@ Let's try to open a shell as `terry`. But before we do that, recall that a `fork
 
 ![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
 
-`awk` can escape to shell like so.
+You can escape to shell with `awk` like so.
 ```awk
 awk 'BEGIN { system("/bin/sh") }'
 ```
 
 ![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-22.png)
 
-PHP can run shell commands too. Let's run a reverse shell back to me using `netcat`.
+PHP can run shell commands too. Let's run a reverse shell back using `netcat`.
 
 ![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-23.png)
 
@@ -521,7 +525,7 @@ Let's spawn a pseudo-tty.
 
 ![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
 
-The buck stops here.
+At long last, the buck stops here.
 
 ![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
 
@@ -560,7 +564,7 @@ The first word must contain the following:
 * one "m"; or
 * one "w"
 
-I use the following command to find the first word by eliminating the characters that should not appear and it's a word in a dictionary.
+I use the following command to find the first word — by eliminating the characters that shouldn't appear, and if it's a word from a dictionary.
 
 ```
 # for word in $(grep -E '^che' /usr/share/dict/words | tr -cd 'chebmw\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
@@ -575,7 +579,7 @@ The last word must contain the following:
 * "rry" at the end
 
 
-Similarly, finding the last word that meets the above constraints.
+Similarly, I use the following command to find the last word.
 
 ```
 # for word in $(grep -E 'rry$' /usr/share/dict/words | tr -cd 'bemrry\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done
