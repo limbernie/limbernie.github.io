@@ -18,7 +18,9 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 ### Background
 
-This is a realistic and ***hellish*** (emphasis mine) boot2root. The goal is to gain `root` access and read `/root/root.txt`. Remember to map `pinkydb` to the assigned IP address through `/etc/hosts`.
+This is a realistic and **hellish** (emphasis mine) boot2root, a name given to a safe and controlled environment (typically distributed as a virtual machine) where you can perform real-world penetration testing on intentionally vulnerable applications and/or services. You **boot** up the virtual machine and you **root** it. The ultimate goal is to gain `root` access and read `/root/root.txt`.
+
+Hint: Remember to map `pinkydb` to the assigned IP address through `/etc/hosts`.
 
 ### Information Gathering
 
@@ -39,11 +41,11 @@ PORT      STATE    SERVICE REASON         VERSION
 31337/tcp filtered Elite   no-response
 ```
 
-`nmap` finds one open port `80/tcp`, no SSH service, and a bunch of filtered ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows?
+`nmap` finds `80/tcp` open, no SSH service, and a bunch of filtered ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows, right?
 
 ### Directory/File Enumeration
 
-I've always like to use `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) to fuzz for directories and/or files because they produce actionable results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
+The combination of `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) is my go-to weapon and ammunition to fuzz for directories and/or files because they produce actionable results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 http://pinkydb/FUZZ
@@ -68,7 +70,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-Directory listing is enabled at `/secret`, and a text file `bambam.txt` is present with the following content.
+The directory `/secret` lists down the files in it and I find a text file `bambam.txt` with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -78,8 +80,12 @@ Directory listing is enabled at `/secret`, and a text file `bambam.txt` is prese
 
 pinkydb
 ```
+
+Three numbers and the host name `pinkydb` I already knew.
+
 ### WordPress
-Let's use `wpscan` to scan for WordPress vulnerabilities and to identify users.
+
+The best tool, hands down and bar none, to scan for WordPress vulnerabilities and to identify users, is `wpscan`.
 
 ```
 # wpscan --url pinkydb --enumerate u
@@ -109,9 +115,9 @@ _______________________________________________________________
     +----+-----------+---------------------+
 ```
 
-`wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`.
+`wpscan` finds no exploitable vulnerabilities and identifies one WordPress user `pinky1337`. Disappointed? Don't be. We are still in the early stages of enumeration.
 
-I spotted non-English words while I was skimming through the blog. Based on experience, there's a good chance one of these words is a password. Although none of the words yielded any results for WordPress, it has not been a wasted effort to build a custom wordlist with `cewl`. I could always use it when the need for a dictionary attack next arises.
+While I was skimming through the blog, I spotted non-English words. Based on experience, there's a good chance one of these words is a password. I built a custom wordlist from the blog using `cewl`, and together with `hydra`, I attempted a dictionary attack on WordPress. Although none of the words yielded any results, the wordlist is not gone to waste. I could always use it when the need for another dictionary attack arises.
 
 ```
 # cewl -m3 pinkydb 2>/dev/null | sed 1d | tee cewl.txt
@@ -120,7 +126,7 @@ I spotted non-English words while I was skimming through the blog. Based on expe
 
 ### Knock Knock. Who's There?
 
-Looking at the numbers in `bambam.txt`, and if I've to guess, I'm probably looking at port numbers (`0-65535`) and that suggests port-knocking.
+Back to the numbers in `bambam.txt`. If I've to guess, I say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
 
 Although we have three port numbers, the order or sequence of knocking, to unlock the ports, is unknown at this point.
 
@@ -193,7 +199,7 @@ The service at `tcp/7654` appears to be running `nginx`, while the service at `t
 
 ### Pinky's Database
 
-The attack surface is at `http://pinkydb:7654/login.php` — Pinky's Database Login.
+Pinky's Database Login (`http://pinkydb:7654/login.php`) is the attack surface we've been looking for!
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-1.png)
 
@@ -207,11 +213,11 @@ Remember the custom wordlist we built earlier? Now it's the time we put it to go
 [7654][http-post-form] host: pinkydb   login: pinky1337   password: entry
 ```
 
-The credential (`pinky:Passione`) is the right one. Good.
+The credential (`pinky:Passione`) is the right one. Awesome.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-2.png)
 
-It's easy to spot the LFI vulnerability with `pageegap.php`. Also, notice something different? `pageegap` is a [palindrome](https://en.wikipedia.org/wiki/Palindrome). Creative file naming.
+It's easy to spot the LFI vulnerability with `pageegap.php`. Also, notice something different? `pageegap` is a [palindrome](https://en.wikipedia.org/wiki/Palindrome). Creative file naming, eh?
 
 ![screenshot-3](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-3.png)
 
@@ -230,7 +236,7 @@ stefano:x:1002:1002::/home/stefano:/bin/bash
 
 `stefano` has an account in `pinkydb` and we have his SSH private key from above. I guess that's an open invitation to log in to his account via SSH.
 
-I log in to find his RSA private key protected by a password. In case you are wondering, it's not difficult to use `ssh2john` and John the Ripper to recover the password.
+I log in to find his RSA private key protected by a password. In case you are panicking, it's not difficult to use `ssh2john` and John the Ripper to recover the password.
 
 ```
 # ssh2john id_rsa > id_rsa.hash
