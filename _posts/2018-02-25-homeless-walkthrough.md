@@ -16,7 +16,7 @@ This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1]
 <!--more-->
 
 ### Background
-This challenge is not for beginners :smiling_imp:
+**Warning**, this challenge is not for beginners. :smiling_imp:
 
 ### Information Gathering
 
@@ -150,20 +150,20 @@ The script took about 21 minutes to complete. The result is in `booyah.txt`.
 [!] Found: "cyberdog" - Nice Cache!.. Go there.. myuploader_priv
 ```
 
-As long as the password contain "cyberbog", it's able to unlock the path to home.
+As long as the password has "cyberbog", it's able to unlock the path to home.
 
 ```
 # ./check.sh "old school cyberdog"
 [!] Found: "old school cyberdog" - Nice Cache!.. Go there.. myuploader_priv
 ```
 
-On hindsight, I could also unlock the secret backdoor by looking at the `favicon`. The title says "Cyberdog Starting Point", paying a little homage to Cyberdog, an Internet suite of applications, developed by Apple.
+On hindsight, I could have unlocked the secret backdoor by looking at the `favicon`. The title says "Cyberdog Starting Point", paying a little homage to Cyberdog, an Internet suite of applications, developed by Apple.
 
 ![favicon](/assets/images/posts/homeless-walkthrough/favicon.jpg)
 
 ### Uploader Page
 
-I navigate to `/myuploader_priv` to find the uploader page.
+There's an uploader page at `/myuploader_priv`.
 
 ![screenshot-5](/assets/images/posts/homeless-walkthrough/screenshot-5.png)
 
@@ -210,11 +210,11 @@ echo -n '<?=`ls`;' > test.php
 
 ### Secure Login Page
 
-Navigating to `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`, reveals the Secure Login page.
+There's a Secure Login page at `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`.
 
 ![screenshot-9](/assets/images/posts/homeless-walkthrough/screenshot-9.png)
 
-There's a hint at the top right corner of the "Sign In" form revealing the PHP code of this page.
+A hint is at the top right corner of the "Sign In" form. Clicking it reveals the PHP code of this page.
 
 {% highlight php linenos %}
 <?php
@@ -252,7 +252,7 @@ I'm no cryptography expert but it's obvious that this challenge requires MD5 col
 
 I found an informative [page][7] detailing how one can generate 2<sup>N</sup> collisions using `fastcoll`, a fast MD5 collision generator written by Marc Stevens.
 
-Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compile it with `libboost-all-dev`.
+Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastcoll) code of `fastcoll` and compile it with `libboost-all-dev` dependency.
 
 ```
 # apt-get install libboost-all-dev
@@ -372,7 +372,7 @@ A minute later, a `root` shell appears on my `netcat` listener.
 
 ### All Your Base Are Belong to Us
 
-With a `root` shell, getting the flag is trivial.
+Getting the flag when you have a `root` shell, is trivial. :laughing:
 
 ![screenshot-18](/assets/images/posts/homeless-walkthrough/screenshot-18.png)
 

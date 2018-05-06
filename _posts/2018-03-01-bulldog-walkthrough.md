@@ -184,7 +184,7 @@ If I have to guess, I say the other way to get root is perhaps through the Dirty
 
 ![screenshot-21](/assets/images/posts/bulldog-walkthrough/screenshot-21.png)
 
-To an attacker, a shell is a shell is a shell.
+To an attacker, a shell is a shell is a shell. :imp:
 
 [1]: https://www.vulnhub.com/entry/bulldog-1,211/
 [2]: https://twitter.com/@frichette_n

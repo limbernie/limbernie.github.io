@@ -259,7 +259,7 @@ The photo of each person is intentionally flipped to throw you off when you sear
 
 The common denominator that links each person is the song "_I Hear You Knocking_". Each of them had covered the song at some point. Together with Port of Tacoma, it's obvious that we are looking at port-knocking here.
 
-Port-knocking requires sending network packets with the `SYN` flag set, to a sequence of ports in the correct order. The year each person covered the song makes it a good starting point to guess the correct sequence.
+Port-knocking requires sending network packets with the `SYN` flag set, to a sequence of ports in the correct order. The cover year of the song makes it a good starting point to guess the correct sequence.
 
 ### Knockin' on Heaven's Door
 

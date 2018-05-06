@@ -438,7 +438,7 @@ The fourth flag is at `/root/Desktop/flag.txt`.
 
 ### Flags
 
-All the captured flags :smirk:
+All the captured flags. :smirk:
 
 ```
 flag1(52E37291AEDF6A46D7D0BB8A6312F4F9F1AA4975C248C3F0E008CBA09D6E9166)

@@ -17,7 +17,7 @@ This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] 
 
 ### Background
 
-The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss :sunglasses:
+The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss. :sunglasses:
 
 ### Information Gathering
 
@@ -40,7 +40,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: 404 Not Found
 ```
 
-`nmap` finds `80/tcp` open and there's a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in my browser when I navigate `/g0rmint`.
+`nmap` finds `80/tcp` open and there's a disallowed entry `/g0rmint/*` in `robots.txt`. Here's what I see in my browser when I navigate to `/g0rmint`.
 
 ![robots.txt](/assets/images/posts/g0rmint-walkthrough/g0rmint-3.png)
 
@@ -81,11 +81,11 @@ Well, the page looks like your normal password reset page. If you know the email
 
 ![reset.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-8.png)
 
-At this point, I'm not aware of any email address or username :sob:
+At this point, I'm not aware of any email address or username. :sob:
 
 ### Main Menu
 
-This page appears interesting on the surface and the HTML source code offers a clue on how to proceed.
+Although this page appears interesting on the surface, the HTML source code offers a clue on how to proceed.
 
 ![mainmenu.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-4.png)
 
@@ -101,15 +101,15 @@ Indeed, if you look at the HTML source code of `/login.php`, something stands ou
 
 ![login.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-6.png)
 
-A secret backup directory?!
+A secret backup directory?! Take a mental note. :heavy_check_mark:
 
 ### Header
 
-This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu - **Noman Riffat.**
+This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu — **Noman Riffat.**
 
 ![header.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-9.png)
 
-Looking at the HTML source code of this page, one of the CSS proves interesting — `style.css`.
+Again, looking at the HTML source code of this page, one of the CSS proves interesting — `style.css`.
 
 ```
 /*
@@ -123,17 +123,17 @@ Looking at the HTML source code of this page, one of the CSS proves interesting 
 */
 ```
 
-Could this be the email address and the username of the admin? Well, there is a high chance if you look at the name on the header page.
+Could this be the email address and the username of the admin? Well, there's a high chance if you compare it with the name on the header page.
 
 ### Directory/File Enumeration (2)
 
-Taking a leaf from the previous enumeration with `dirbuster`, let's give it another shot starting with this path: `/g0rmint/s3cretbackupdirect0ry`.
+Remember the secret backup directory? Taking a leaf from the previous enumeration with `dirbuster`, let's give it another shot starting with this path: `/g0rmint/s3cretbackupdirect0ry`.
 
 ```
 File found: /g0rmint/s3cretbackupdirect0ry/info.php - 200
 ```
 
-Good. One more page is available.
+Good. One more page shows up.
 
 ### Information Page
 
@@ -212,7 +212,7 @@ The password reset works.
 
 ### Remote Command Execution
 
-Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and to determine our attack.
+Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and to determine our attack plan.
 
 At the beginning of `/login.php`, I can introduce PHP code into the site through the `addlog()` function.
 
@@ -222,11 +222,11 @@ This is how the `addlog()` function in `/config.php` looks like.
 
 ![addlog](/assets/images/posts/g0rmint-walkthrough/g0rmint-11.png)
 
-When authentication fails, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logs the value of the email field, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. To view the PHP file, you must first establish an authenticated session or redirect to the login page. This is because of the content of `dummy.php` at the top of the file.
+When authentication fails, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logs the value of the email field, in the format of `"Y-m-d".php`, where `"Y"` is the 4-digit year, `"m"` is the 2-digit month with a leading zero and `"d"` is the 2-digit day with a leading zero. To view the PHP file, you must first establish an authenticated session or you get redirected to the login page. This is because the content of `dummy.php` is at the top of the file.
 
 ![dummy.php](/assets/images/posts/g0rmint-walkthrough/g0rmint-19.png)
 
-I wrote `exploit.sh`, a `bash` script to automate remote command execution.
+I wrote `exploit.sh`, a `bash` script to automate what I've described — to execute remote commands on the host.
 
 {% highlight bash linenos %}
 # cat exploit.sh
@@ -347,7 +347,7 @@ Let's try the credential (`g0rmint:tayyab123`) and see if we can get a low-privi
 
 ![g0rmint](/assets/images/posts/g0rmint-walkthrough/g0rmint-18.png)
 
-Awesome!
+Awesome.
 
 ### Privilege Escalation
 

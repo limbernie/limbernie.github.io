@@ -66,7 +66,7 @@ Among the hyperlinks, two of them stand out:
 * `?file=about.php`
 * `?file=research.php`
 
-Is that a hint of LFI vulnerability?
+A hint of LFI vulnerability? Who knows?
 
 ### Directory/File Enumeration
 
@@ -112,7 +112,7 @@ I have success displaying the content of `/usr/share/apache2/icons/README`.
 
 ![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
 
-This means that it allows absolute path in the URL but some kind of filtering for common LFI attacks is in place. It also means that the [**DocumentRoot**][4] is not at the usual `/var/www/html`. :sweat:
+The parameter allows absolute path in the URL but some kind of filtering for common LFI attacks is in place. The [**DocumentRoot**][4] is also not at the usual `/var/www/html`. :sweat:
 
 Here's what I imagine the PHP code in `/index.php` to look like.
 
@@ -128,7 +128,7 @@ Here's what I imagine the PHP code in `/index.php` to look like.
 ?>
 {% endhighlight %}
 
-To that end, I wrote `fuzz.sh`, a `bash` script to map out the **DocumentRoot** by exploiting the `file` parameter, in combination with the wordlists from [SecLists][5]. For this to work, a unique known string in the file must exists.
+To that end, I wrote `fuzz.sh`, a `bash` script to map out the **DocumentRoot** by exploiting the `file` parameter, and fuzzing with the wordlists from [SecLists][5]. For this to work, a unique known string in the file must exists.
 
 {% highlight bash linenos %}
 # cat fuzz.sh
@@ -163,15 +163,15 @@ Now, let's give `fuzz.sh` a shot.
 [!] Found: http://192.168.198.130/?file=../public_html/about.php
 ```
 
-Navigating to `/?file=../public_html/about.php` gives me the confidence the script is working.
+OK. The script is working — `/?file=../public_html/about.php` gives me the confidence.
 
 ![fuzz.sh](/assets/images/posts/evilscience-walkthrough/evilscience-4.png)
 
-Moving up the next level, got me stuck for hours. Not knowing how to move forward, I chance upon **theether.com** at the footer.
+Moving up the next level got me stuck for hours. Not knowing how to move forward, I chance upon **theether.com** at the footer.
 
 ![theether.com](/assets/images/posts/evilscience-walkthrough/evilscience-7.png)
 
-Using that as base, I create a custom wordlist with `python`.
+Using that as base, I created a custom wordlist with `python`.
 
 {% highlight python linenos %}
 # cat crunch.py
@@ -201,7 +201,7 @@ Using the custom wordlist with `fuzz.sh`, I'm able to map out the next level.
 [!] Found: http://192.168.198.130/?file=../../theEther.com/public_html/about.php
 ```
 
-I'm able to determine the **DocumentRoot** is at `/var/www/html/theEther.com/public_html`.
+At long last. the **DocumentRoot** is at `/var/www/html/theEther.com/public_html`.
 
 ![docroot](/assets/images/posts/evilscience-walkthrough/evilscience-8.png)
 
@@ -368,13 +368,13 @@ Armed with this new knowledge, let's see if we can display `/etc/shadow` along w
 
 Holy smoke. It works.
 
-My guess is that the command is like this.
+My guess is that the command goes something like this.
 
 ```bash
 cat /var/log/auth.log /etc/shadow
 ```
 
-I can use command substitution with backticks to execute another command as `root`. First, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
+Perhaps I can use command substitution with backticks to execute another command as `root`? First, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
 ![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
 
@@ -394,7 +394,7 @@ There's a PNG file `flag.png` in `/root` that looks like this.
 
 ![flag.png](/assets/images/posts/evilscience-walkthrough/flag.png)
 
-There's a long `base64` encoded string appended to the end of the file.
+A long `base64` encoded string appends to the end of the file.
 
 ![base64](/assets/images/posts/evilscience-walkthrough/evilscience-20.png)
 
@@ -436,7 +436,7 @@ We have decided to stop conducting these experiments due to the lack of antidote
 
 ### Afterthought
 
-Not for the faint of heart :broken_heart:
+Not for the faint of heart. :broken_heart:
 
 [1]: https://www.vulnhub.com/entry/the-ether-evilscience-v101,212/
 [2]: https://securityshards.wordpress.com/

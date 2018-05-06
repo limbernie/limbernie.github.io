@@ -370,7 +370,7 @@ We proceed to generate a payload with `msfvenom`. I prefer to use a single-stage
 
 ![screenshot-27](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-27.png)
 
-The generated payload is 119 bytes, and fits in nicely onto the given 120 bytes of space with one byte to spare :smirk:
+The generated payload is 119 bytes, and fits in nicely onto the given 120 bytes of space with one byte to spare. :smirk:
 
 ### Getting to the `root` of the matter
 
@@ -396,7 +396,7 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one — the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all fun but tough challenges.
 
-I give it a :+1:
+I give it a :+1:.
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v2,229/
 [2]: https://twitter.com/@Pink_P4nther
