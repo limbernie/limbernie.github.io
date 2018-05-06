@@ -88,7 +88,7 @@ The ones with the HTTP response code `302` redirect to `/login`. The top three w
 
 ### Ruby on Rails
 
-I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs during my cursory browsing of the site, which looks a lot like a RoR web application.
+These [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)ful URLs I notice during my cursory browsing of the site, look like URLs you get from a RoR web application.
 
 ```
 # curl -s http://192.168.30.128/ | grep -Po '(href|src)=".{2,}"' | cut -d'"' -f2 | sort | uniq
@@ -116,7 +116,7 @@ I notice [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)fu
 /users/5
 ```
 
-I come across a blog post at `/blogs/6` and it says something about "_a resource in rails_" which lends further support that the site is indeed a RoR web application. OK, and check out the Ruby avatar too, isn't that another clue? At least now we know what we are dealing with.
+The blog post below at `/blogs/6` describes something about "_… resource in rails_", which lends further support that the site is a RoR web application. And OK, check out the Ruby avatar, isn't that obvious enough? At least we know what we are dealing with.
 
 _Image shows that the site is a RoR web application._
 
