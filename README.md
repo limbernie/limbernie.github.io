@@ -1,7 +1,7 @@
 # Introduction
 
-***Did you know that Dr. Jekyll originally developed the
-potion to suppress Mr. Hyde from appearing, not the other way round?***
+_Did you know that Dr. Jekyll originally developed the
+potion to suppress Mr. Hyde from appearing, not the other way round?_
 
 Potion is a customized Jekyll theme partially derived from the work of others,
 namely:
