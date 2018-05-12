@@ -20,7 +20,7 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 This is a realistic and **hellish** (emphasis mine) boot2root, a name given to a safe and controlled environment (typically distributed as a virtual machine) where you can perform real-world penetration testing on intentionally vulnerable applications and/or services. You **boot** up the virtual machine and you **root** it. The ultimate goal is to gain `root` access and read `/root/root.txt`.
 
-Hint: Remember to map `pinkydb` to the assigned IP address through `/etc/hosts`.
+**Hint**: Map `pinkydb` to the assigned IP address through `/etc/hosts`.
 
 ### Information Gathering
 
@@ -81,7 +81,7 @@ The directory `/secret` lists down the files in it and I find a text file `bamba
 pinkydb
 ```
 
-Three numbers and the host name `pinkydb` I already knew.
+I get three numbers and `pinkydb` I already know is the host name.
 
 ### WordPress
 
@@ -126,7 +126,7 @@ While I was skimming through the blog, I spotted non-English words. Based on exp
 
 ### Knock Knock. Who's There?
 
-Back to the numbers in `bambam.txt`. If I've to guess, I say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
+Back to the numbers in `bambam.txt`. If I've to guess, I'd say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
 
 Although we have three port numbers, the order or sequence of knocking, to unlock the ports, is unknown at this point.
 
@@ -344,7 +344,7 @@ Using `readelf`, I'm able to spot the `main()` function, along with the `handlec
 
 ![screenshot-20](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-20.png)
 
-After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>`. At the breakpoint, I can analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
+After disassembling the `handlecmd()` function with `gdb`, I place a breakpoint at `<handlecmd+70>` where I can analyze the stack overflow and the offset with which to control the RIP before the program takes back control.
 
 ![screenshot-21](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-21.png)
 
