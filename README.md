@@ -1,8 +1,5 @@
 # Introduction
 
-_Did you know that Dr. Jekyll originally developed the
-potion to suppress Mr. Hyde from appearing, not the other way round?_
-
 Potion is a customized Jekyll theme partially derived from the work of others,
 namely:
 
@@ -22,3 +19,6 @@ pagination from So Simple inspired me so much, I ended up including that into
 the mix as well.
 
 All mistakes are mine alone.
+
+_Did you know that Dr. Jekyll originally developed the
+potion to suppress Mr. Hyde from appearing, not the other way round?_
