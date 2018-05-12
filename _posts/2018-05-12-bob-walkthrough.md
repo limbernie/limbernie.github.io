@@ -75,7 +75,7 @@ Essentially, `cat` reads a file's content and prints it to standard output in AS
 
 I wrote `cat.sh` to show the idea of using `xxd` as the replacement for `cat`.
 
-```bash
+{% highlight bash linenos %}
 #!/bin/bash
 
 HOST=192.168.20.130
@@ -89,11 +89,11 @@ curl \
 | sed '29!d' \
 | sed -r -e 's/^\s+//' -e 's/  <\/div>//' \
 | xxd -p -r
-```
+{% endhighlight %}
 
 Another script I wrote, `ls.sh`, uses `find` as the replacement for `ls`.
 
-```bash
+{% highlight bash linenos %}
 #!/bin/bash
 
 HOST=192.168.20.130
@@ -107,7 +107,7 @@ curl \
 | sed '/<h5>/,/<\/div>/!d' \
 | sed -r -e '1d' -e '$d' -e 's/^\s+//' \
 | column -t
-```
+{% endhighlight %}
 
 Using `ls.sh` to list the contents of a directory along with their permissions, is easy.
 ```
