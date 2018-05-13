@@ -12,8 +12,11 @@
 
 {% if page.image.feature %}
   {% capture image %}{{ site.url }}/img/{{ page.image.feature }}{% endcapture %}
+  {% capture card %}summary_large_image{% endcapture %}
+  {% capture creator %}<meta name="twitter:creator" content="@{{ site.owner.twitter }}">{% endcapture %}
 {% else %}
   {% capture image %}{{ site.url }}/img/avatar.png{% endcapture %}
+  {% capture card %}summary{% endcapture %}
 {% endif %}
 
 {%- if paginator.previous_page -%}
@@ -58,8 +61,9 @@
   {{ publish }}
 
   <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="{{ card }}">
   <meta name="twitter:site" content="@{{ site.owner.twitter }}">
+  {{ creator }}
   <meta name="twitter:title" content="{{ title }}">
   <meta name="twitter:description" content="{{ description }}">
   <meta name="twitter:image" content="{{ image }}">
