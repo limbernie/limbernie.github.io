@@ -237,7 +237,7 @@ After this step, you should see a reverse shell in your `netcat` listener like s
 
 ![0.zcmr8cq5i6l](/assets/images/posts/bob-walkthrough/0.zcmr8cq5i6l.png)
 
-This is a well-known technique to spawn a shell with output control using Python.
+This is a well-known technique &mdash; using Python to spawn a shell with output control.
 
 ![0.hgd8uk3pqv](/assets/images/posts/bob-walkthrough/0.hgd8uk3pqv.png)
 
