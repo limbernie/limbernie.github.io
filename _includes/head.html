@@ -1,7 +1,7 @@
 {% if page.title %}
-  {% capture title %}{{ page.title }}{% endcapture %}
+  {% capture title %}{{ page.title }} | {{ site.title }}{% endcapture %}
 {% else %}
-  {% capture title %}{{ site.title }}{% endcapture %}
+  {% capture title %}{{ site.title }} | {{ site.description }}{% endcapture %}
 {% endif %}
 
 {% if page.excerpt %}
