@@ -3,7 +3,7 @@
 {% elsif paginator.page != 1 %}
   {% capture title %}Page {{ paginator.page }} | {{ site.title }}{% endcapture %}
 {% else %}
-  {% capture title %}{{ site.title }} | {{ site.description }}{% endcapture %}
+  {% capture title %}{{ site.title }} | {{ site.short }}{% endcapture %}
 {% endif %}
 
 {% if page.excerpt %}
@@ -11,16 +11,16 @@
 {% else %}
   {% case page.title %}
     {% when "Archive" %}
-      {% capture description %}Archive{% endcapture %}
+      {% capture description %}Archive of {{ site.short }}{% endcapture %}
     {% when "Categories" %}
-      {% capture description %}Categories{% endcapture %}
+      {% capture description %}Categories of {{ site.short }}{% endcapture %}
     {% when "Tags" %}
-      {% capture description %}Tags{% endcapture %}
+      {% capture description %}Tags of {{ site.short }}{% endcapture %}
     {% else %}
       {% if paginator.page == 1 %}
         {% capture description %}{{ site.description }}{% endcapture %}
       {% else %}
-        {% capture description %}Page {{ paginator.page }}{% endcapture %}
+        {% capture description %}Page {{ paginator.page }} of {{ site.short }}{% endcapture %}
       {% endif %}
   {% endcase %}
 {% endif %}

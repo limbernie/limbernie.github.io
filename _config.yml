@@ -4,7 +4,8 @@
 ###################################
 
 title: /security
-description: my security journey
+short: my security journey
+description: "all about my journey into security, walkthrough, CTF, reverse engineering, and exploit development."
 url: https://hackso.me
 keywords: ["security", "walkthrough", "CTF", "reverse engineering", "exploit development"]
 
@@ -33,7 +34,7 @@ kramdown:
 owner:
   name: Bernie Lim
   avatar: avatar.png
-  job: 
+  job:
   bio: "A security ethusiast. Likes cats."
   email: limbernie@pm.me
   disqus-shortname: limbernie
@@ -74,6 +75,6 @@ plugins:
   - jekyll-mentions
   - jekyll-sitemap
   - jekyll-paginate
-  
+
 paginate: 3
 paginate_path: "/:num/"
