@@ -11,16 +11,16 @@
 {% else %}
   {% case page.title %}
     {% when "Archive" %}
-      {% capture description %}Archive of {{ site.short }}{% endcapture %}
+      {% capture description %}Archive of {{ site.description | remove_first: "all about " }}{% endcapture %}
     {% when "Categories" %}
-      {% capture description %}Categories of {{ site.short }}{% endcapture %}
+      {% capture description %}Categories of {{ site.description | remove_first: "all about " }}{% endcapture %}
     {% when "Tags" %}
-      {% capture description %}Tags of {{ site.short }}{% endcapture %}
+      {% capture description %}Tags of {{ site.description | remove_first: "all about " }}{% endcapture %}
     {% else %}
       {% if paginator.page == 1 %}
         {% capture description %}{{ site.description }}{% endcapture %}
       {% else %}
-        {% capture description %}Page {{ paginator.page }} of {{ site.short }}{% endcapture %}
+        {% capture description %}Page {{ paginator.page }} of {{ site.description | remove_first: "all about " }}{% endcapture %}
       {% endif %}
   {% endcase %}
 {% endif %}
