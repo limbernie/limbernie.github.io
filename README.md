@@ -14,9 +14,8 @@ the footer says "Powered by Jekyll and Potion". :wink:
 I started with Leonids and loved the sidebar. The sidebar was clean,
 simple and tastefully designed. When I decided to include a more responsive
 layout, Hyde came to mind and I adopted it. And when I decided to add
-pagination to manage the increasing number of blog posts I wrote, the
-pagination from So Simple inspired me so much, I ended up including that into
-the mix as well.
+pagination to manage the increasing blog posts, the pagination from So Simple 
+inspired me so much, I ended up including that into the mix as well.
 
 All mistakes are mine alone.
 
