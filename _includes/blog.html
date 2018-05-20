@@ -1,15 +1,19 @@
+{% capture keywords %}
+	{%- for kw in site.keywords -%}"{{ kw }}", {%- endfor -%}
+{% endcapture %}
+
 <script type="application/ld+json">
 {
 	"@context": "http://schema.org",
 	"@type" : "Blog",
 	"description": "{{ description }}",
-	"name": "{{ title }}"
-	"keywords": "{{ site.keywords | join: ', ' }}",
-	"url": "{{ site.url }}"
+	"name": "{{ title }}",
+	"keywords": {{ site.keywords | jsonify }},
+	"url": "{{ site.url }}",
 	"creator": {
 		"@type": "Person",
 		"name" : "{{ site.owner.name }}"
-	}
+	},
 	"image" : "{{ site.url }}/img/avatar.png"
 }
 </script>
