@@ -1,0 +1,14 @@
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type" : "WebPage",
+	"description": "{{ description }}",
+	"headline": "{{ title }}",
+	"position": {% if paginator.page > 1 %}{{ paginator.page }}{% else %}"{{ page.title }}"{% endif %},
+	"author": {
+		"@type": "Person",
+		"name" : {% if page.author %}"{{ page.author }}"{% else %}"{{ site.owner.name }}"{% endif %}
+	},
+	"image" : "{{ image }}"
+}
+</script>
