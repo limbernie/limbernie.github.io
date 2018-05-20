@@ -1,0 +1,15 @@
+<script type="application/ld+json">
+{
+	"@context": "http://schema.org",
+	"@type" : "Blog",
+	"description": "{{ description }}",
+	"name": "{{ title }}"
+	"keywords": "{{ site.keywords | join: ', ' }}",
+	"url": "{{ site.url }}"
+	"creator": {
+		"@type": "Person",
+		"name" : "{{ site.owner.name }}"
+	}
+	"image" : "{{ site.url }}/img/avatar.png"
+}
+</script>
