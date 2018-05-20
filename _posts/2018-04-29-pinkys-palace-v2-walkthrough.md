@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
+modified: 2018-05-20 10:26:57 +0000
 title: "Surviving the Pink Dungeon"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
@@ -269,7 +270,7 @@ $ find /var/www -perm /o+w
 /var/www/html/apache/wp-config.php
 ```
 
-I edit `wp-config.php` to run a reverse shell as `www-data`.
+I edit `wp-config.php` to execute remote commands as `www-data`.
 
 _Image shows that I can execute remote command on `pinkydb` as `www-data`._
 
