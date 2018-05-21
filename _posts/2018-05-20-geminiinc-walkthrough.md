@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
+modified: 2018-05-21 13:57:37 +0000
 title: "Good Things Come in Pairs"
 category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
@@ -17,7 +18,7 @@ This post documents the complete walkthrough of Gemini Inc: 1, a boot2root [VM][
 <!--more-->
 
 ### Background
-**Gemini Inc** has contacted you to perform a penetration testing on one of their internal systems. This system has a web application meant for employees to export their profile to a PDF. Identify any vulnerabilities possible with the goal of complete system compromise with `root` privilege. To show the level of access obtained, please provide the content of `flag.txt` located in the `root` directory as proof.
+**Gemini Inc** contacted you to perform a penetration testing on one of their internal servers. The server has a web application for employees to export their profile to a PDF. Identify any possible vulnerabilities with the goal of complete server compromise with `root` privilege. Provide the content of `flag.txt` located in the `root` directory as proof.
 
 ### Information Gathering
 
@@ -41,7 +42,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-server-header: Apache/2.4.25 (Debian)
 |_http-title: Index of /
 ```
-`nmap` finds `22/tcp` and `80/tcp` open. The document root lists one directory `test2` and this is how the site looks like from my browser.
+`nmap` finds `22/tcp` and `80/tcp` open. The document root lists one directory `test2` and this is how the site looks like in my browser.
 
 ![0.apvno5q230d](/assets/images/posts/geminiinc-walkthrough/0.apvno5q230d.png)
 
@@ -53,7 +54,7 @@ If you'd watched the walkthrough [video](http://www.youtube.com/watch?v=y7SdQfZf
 
 ![0.m8px4kc89u](/assets/images/posts/geminiinc-walkthrough/0.m8px4kc89u.png)
 
-The drop-down action after logging in as `admin` with credential (`admin:1234`).
+The drop-down action is available after logging in as `admin` with credential (`admin:1234`).
 
 ![0.gpd2zei0wfm](/assets/images/posts/geminiinc-walkthrough/0.gpd2zei0wfm.png)
 
@@ -65,11 +66,11 @@ Here's the `admin`'s profile page in PDF.
 
 ![0.htaf69v3tiu](/assets/images/posts/geminiinc-walkthrough/0.htaf69v3tiu.png)
 
-I discover that I can access both the profile and export page without having to log in. This means that the export page (`export.php`) probably hardcoded the profile page (`profile.php?u=1`) for PDF conversion. Another interesting fact &mdash; `export.php` uses `wkhtmltopdf` for the PDF conversion.
+I discover that I can access both the profile and export page without having to log in. This means that the export page (`export.php`) probably hardcoded the profile page (`profile.php?u=1`) for PDF conversion. Another interesting fact &mdash; `export.php` uses `wkhtmltopdf` for PDF conversion.
 
 ![0.h6tdka9vftf](/assets/images/posts/geminiinc-walkthrough/0.h6tdka9vftf.png)
 
-I also discover that **Display name** and **Email** are not input validated in the user's profile edit page (`user.php`). You can verify this from the source code of `user.php`.
+I also discover that **Display name** and **Email** are not validated in the user's profile edit page (`user.php`). You can verify this from the source code of `user.php`.
 
 ```php
 $email = $_POST['email'];
@@ -94,7 +95,7 @@ XSS'd.
 
 SSRF refers to an attack where an attacker is able to send a crafted request to trick a vulnerable web application to perform an unanticipated action.
 
-In this case, we'd like to trick the web application to read local files such as `/etc/passwd` that we weren't able to, expose through PDF, using `wkhtmltopdf`.
+In this case, we'd like to trick the web application to read local files such as `/etc/passwd` that we weren't able to, expose through PDF using `wkhtmltopdf`.
 
 After scouring through the issues in the `wkhtmltopdf` GitHub project, I found issue [#3570](https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3570) &mdash; _SSRF and file read with `wkhtmltoimage`_. In another stroke of luck, I found this [page](https://github.com/crackatoa/kertasgorengan/blob/master/catatan/SSRF%20wkhtml.md) (by googling for "wkhtmltoimage ssrf") that shows you how to exploit issue #3570. Although parts of the page were in Indonesian, the idea was so clear, it doesn't require translation. :wink:
 
@@ -119,7 +120,7 @@ Simple? Let's give it a shot.
 
 ![0.k9d8bpti9sc](/assets/images/posts/geminiinc-walkthrough/0.k9d8bpti9sc.png)
 
-Sweet. But how do we proceed from here? We can try brute-force attack on `gemini1`'s account. Another more efficient way is to read SSH related files off the victim, such as `authorized_keys` and `id_rsa`.
+Sweet. But how do we proceed from here? We can try brute-force attack on `gemini1`'s password. A more efficient way is to read SSH related files off the victim, such as `authorized_keys` and `id_rsa`.
 
 ![0.gopakn5k5v](/assets/images/posts/geminiinc-walkthrough/0.gopakn5k5v.png)
 
@@ -182,7 +183,7 @@ First, we use `scp` to upload the malicious `date.c` to `gemini1`'s home directo
 Next, we compile it.
 
 ```
-$ gcc -o date date.c`
+$ gcc -o date date.c
 ```
 
 ![0.mrkt9jfxbkj](/assets/images/posts/geminiinc-walkthrough/0.mrkt9jfxbkj.png)
@@ -190,7 +191,7 @@ $ gcc -o date date.c`
 Lastly, we alter the search path `$PATH` in `gemini1`'s shell such that invoking `date` will run the malicious `date` instead.
 
 ```
-$ export PATH=/home/gemini1:$PATH`
+$ export PATH=/home/gemini1:$PATH
 ```
 
 ![0.bwl7cy99wn8](/assets/images/posts/geminiinc-walkthrough/0.bwl7cy99wn8.png)
