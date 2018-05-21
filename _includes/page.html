@@ -4,10 +4,13 @@
 	"@type" : "WebPage",
 	"description": "{{ description }}",
 	"headline": "{{ title }}",
-	"position": {% if paginator.page > 1 %}{{ paginator.page }}{% else %}"{{ page.title }}"{% endif %},
 	"author": {
 		"@type": "Person",
-		"name" : {% if page.author %}"{{ page.author }}"{% else %}"{{ site.owner.name }}"{% endif %}
+		"name" : "{{ site.owner.name }}",
+		"sameAs": [
+			"https://twitter.com/{{ site.owner.twitter }}",
+			"https://github.com/{{ site.owner.github }}"
+		]
 	},
 	"image" : "{{ image }}"
 }
