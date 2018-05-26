@@ -41,6 +41,7 @@
     {% if author.flickr %}<li><a href="http://www.flickr.com/{{ author.flickr }}" class="social-link-item" target="_blank"><i class="fab fa-fw fa-flickr"></i></a></li>{% endif %}
     {% if author.codepen %}<li><a href="http://codepen.io/{{ author.codepen }}" class="social-link-item" target="_blank"><i class="fab fa-fw fa-codepen"></i></a></li>{% endif %}
     {% if author.telegram %}<li><a href="https://t.me/{{ author.telegram }}" class="social-link-item" target="_blank"><i class="fab fa-fw fa-telegram"></i></a></li>{% endif %}
+    {% if author.reddit %}<li><a href="https://www.reddit.com/user/{{ author.reddit }}" class="social-link-item" target="_blank"><i class="fab fa-reddit"></i></a></li>{% endif %}
     <li><a rel="alternate" type="application/rss+xml" href="{{ site.url }}/feed.xml" class="social-link-item"><i class="fas fa-rss"></i></a></li>
   </ul>
 </div>
