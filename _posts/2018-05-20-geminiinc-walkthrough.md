@@ -7,9 +7,9 @@ category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
 comments: true
 image:
-  feature: tiger.jpg
+  feature: potatoes.jpg
   credit: Alexas_Fotos / Pixabay
-  creditlink: https://pixabay.com/en/tiger-predator-pair-fur-beautiful-2979932/
+  creditlink: https://pixabay.com/en/couch-potatoes-funny-potatoes-3116580/
 ---
 
 This post documents the complete walkthrough of Gemini Inc: 1, a boot2root [VM][1] created by [9emin1][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
