@@ -202,9 +202,11 @@ demo4:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8:::::
 
 We could add cookies to our browser to gain access to Gemini's account like so:
 
-`user=Gemini;pass=edbd1887e772e13c251f688a5f10c1ffbb67960d`
+```
+user=Gemini;pass=edbd1887e772e13c251f688a5f10c1ffbb67960d
+```
 
-We could also crack the password hashes offline with John the Ripper, in which case, Gemini's password is `secretpassword`.
+Or we could crack the password hashes offline with John the Ripper, in which case, Gemini's password is `secretpassword`.
 
 ### Admin Panel
 
