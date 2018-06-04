@@ -230,7 +230,7 @@ Something strikes me as familiar when I look at the HTML source of the **Execute
 
 ![0.747hclxg2ig](/assets/images/posts/geminiinc-v2-walkthrough/0.747hclxg2ig.png)
 
-Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have a readily available webshell that executes commands, yet we have to get pass the test for illegal characters. What a bummer!
+Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have a readily available web shell that executes commands, yet we have to get pass the test for illegal characters. What a bummer!
 
 ![0.y241xdjfa4g](/assets/images/posts/geminiinc-v2-walkthrough/0.y241xdjfa4g.png)
 
