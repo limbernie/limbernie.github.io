@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
+modified: 2018-06-04 16:25:16 +0000
 title: "Double Trouble"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -49,7 +50,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ### Directory/File Enumeration
 
-Since the site is more secure now, let's take a different approach this time &mdash; fuzzing. The tool for such a job is `wfuzz`. I like `wfuzz` because it's fast, comes with high quality wordlists, and easy-to-use filters for response code, the number of lines, words, and even characters.
+Since the site is more secure now, let's take a different approach this time &mdash; fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, the number of lines, words, and even characters.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/megabeast.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt --hc 404 -t 50 http://192.168.10.130/FUZZFUZ2Z
@@ -185,7 +186,7 @@ Now that the account is active, the full set of features for an ordinary member 
 
 ![0.j2aurisrpv](/assets/images/posts/geminiinc-v2-walkthrough/0.j2aurisrpv.png)
 
-I saw the password hash in the HTML source of the profile page during investigation of the unlocked features,
+I saw the password hash in the HTML source of the profile page during investigation of the unlocked features.
 
 ![0.xzv6pwuqt2](/assets/images/posts/geminiinc-v2-walkthrough/0.xzv6pwuqt2.png)
 
@@ -214,7 +215,7 @@ The **Admin Panel** is in display after I log in to Gemini's account.
 
 ![0.0r8oyqawtydk](/assets/images/posts/geminiinc-v2-walkthrough/0.0r8oyqawtydk.png)
 
-Clicking on either **General Settings** or **Execute Command** shows nothing. I look at the HTTP traffic and see a `403 IP NOT ALLOWED` response. Perhaps I need to tell the page that my originating IP address is `127.0.0.1`?
+Clicking on either **General Settings** or **Execute Command** shows nothing. I look at the HTTP traffic and see a `403 IP NOT ALLOWED` response. Perhaps I need to tell the page that my originating IP address is `127.0.0.1`.
 
 ![0.iia4qhz8ici](/assets/images/posts/geminiinc-v2-walkthrough/0.iia4qhz8ici.png)
 
@@ -230,7 +231,7 @@ Something strikes me as familiar when I look at the HTML source of the **Execute
 
 ![0.747hclxg2ig](/assets/images/posts/geminiinc-v2-walkthrough/0.747hclxg2ig.png)
 
-Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have a readily available web shell that executes commands, yet we have to get pass the test for illegal characters. What a bummer!
+Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have, a readily available web shell that executes commands, and yet we have to get pass the test for illegal characters. What a bummer!
 
 ![0.y241xdjfa4g](/assets/images/posts/geminiinc-v2-walkthrough/0.y241xdjfa4g.png)
 
