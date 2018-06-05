@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-modified: 2018-06-04 16:25:16 +0000
+modified: 2018-06-05 16:26:02 +0000
 title: "Double Trouble"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -290,7 +290,7 @@ Here's how.
 _Step 1: Generate a SSH keypair with `ssh-keygen`._
 
 ```
-$ ssh-keygen -t
+$ ssh-keygen -t rsa -b 2048
 ```
 
 _Step 2: Copy `id_rsa.pub` to `~/.ssh/public.txt`. Pad the top and bottom with two newlines._
