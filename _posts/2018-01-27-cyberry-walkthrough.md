@@ -1,7 +1,7 @@
 ---
 layout: post
 modified: 2018-06-07 17:07:36 +0000
-title: "Walkthrough — Cyberry: 1"
+title: "Cyberry: 1 Walkthrough"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true

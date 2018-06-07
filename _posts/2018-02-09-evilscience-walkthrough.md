@@ -1,7 +1,7 @@
 ---
 layout: post
 modified: 2018-06-07 17:06:14 +0000
-title: "Walkthrough — The Ether: EvilScience"
+title: "The Ether: EvilScience Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "The Ether"]
 comments: true

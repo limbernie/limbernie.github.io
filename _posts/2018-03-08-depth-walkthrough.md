@@ -1,7 +1,7 @@
 ---
 layout: post
 modified: 2018-06-07 17:04:26 +0000
-title: "Walkthrough — Depth: 1"
+title: "Depth: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Depth]
 comments: true

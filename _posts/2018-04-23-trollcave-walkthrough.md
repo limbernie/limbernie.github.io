@@ -2,7 +2,7 @@
 layout: post
 date: 2018-04-23 06:14:17 +0000
 modifed: 2018-06-07 17:01:11 +0000
-title: "Walkthrough — Trollcave: 1.2"
+title: "Trollcave: 1.2 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Trollcave"]
 comments: true

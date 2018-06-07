@@ -1,7 +1,7 @@
 ---
 layout: post
 modified: 2018-06-07 17:02:55 +0000
-title: "Walkthrough — Pinky's Palace: 1"
+title: "Pinky's Palace: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true

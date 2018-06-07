@@ -2,7 +2,7 @@
 layout: post
 date: 2018-05-20 17:53:34 +0000
 modified: 2018-06-07 16:40:30 +0000
-title: "Walkthrough — Gemini Inc"
+title: "Gemini Inc: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
 comments: true

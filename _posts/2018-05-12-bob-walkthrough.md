@@ -2,7 +2,7 @@
 layout: post
 date: 2018-05-12 20:56:26 +0000
 modified: 2018-06-07 17:00:17 +0000
-title: "Walkthrough — Bob: 1.0.1"
+title: "Bob: 1.0.1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Bob]
 comments: true

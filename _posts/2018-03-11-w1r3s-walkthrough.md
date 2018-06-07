@@ -1,7 +1,7 @@
 ---
 layout: post
 modifed: 2018-06-07 17:03:45 +0000
-title: "Walkthrough — W1R3S: 1.0.1"
+title: "W1R3S: 1.0.1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, W1R3S]
 comments: true

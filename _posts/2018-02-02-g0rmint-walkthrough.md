@@ -1,7 +1,7 @@
 ---
 layout: post
 modified: 2018-06-07 17:06:59 +0000
-title: "Walkthrough — g0rmint: 1"
+title: "g0rmint: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, g0rmint]
 comments: true

@@ -2,7 +2,7 @@
 layout: post
 date: 2018-03-28 17:54:26 +0000
 modifed: 2018-06-07 17:01:54 +0000
-title: "Walkthrough — DerpNStink: 1"
+title: "DerpNStink: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
 comments: true
