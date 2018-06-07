@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "In the Pink — I Survived"
+modified: 2018-06-07 17:02:55 +0000
+title: "Walkthrough — Pinky's Palace: 1"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
-  feature: pink.jpg
+  feature: pinkys-palace-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653920/
 ---

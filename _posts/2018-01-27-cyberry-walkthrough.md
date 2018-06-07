@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "I Love Berries!"
+modified: 2018-06-07 17:07:36 +0000
+title: "Walkthrough — Cyberry: 1"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true
 image:
-  feature: berries.jpg
+  feature: cyberry-walkthrough.jpg
   credit: Bru-nO / Pixabay
   creditlink: https://pixabay.com/en/berries-raspberries-blackberries-3237884/
 ---

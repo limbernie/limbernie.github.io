@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "This Isn't Bad Science. It's Evil Science"
+modified: 2018-06-07 17:06:14 +0000
+title: "Walkthrough — The Ether: EvilScience"
 category: Walkthrough
 tags: [VulnHub, "The Ether"]
 comments: true
 image:
-  feature: science.jpg
+  feature: the-ether-evilscience-walkthrough.jpg
   credit: qimono / Pixabay
   creditlink: https://pixabay.com/en/dna-string-biology-3d-1811955/
 ---

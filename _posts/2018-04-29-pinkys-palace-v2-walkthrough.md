@@ -1,13 +1,13 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-modified: 2018-05-20 10:26:57 +0000
-title: "Surviving the Pink Dungeon"
+modified: 2018-06-07 17:00:32 +0000
+title: "Walkthrough — Pinky's Palace: v2"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
-  feature: ponder.jpg
+  feature: pinkys-palace-v2-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653913/
 ---

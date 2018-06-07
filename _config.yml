@@ -3,7 +3,7 @@
 # Site wide configuration
 ###################################
 
-title: /security
+title: hacksome
 short: my security journey
 description: "all about my journey into security, walkthrough, CTF, reverse engineering, and exploit development."
 url: https://hackso.me

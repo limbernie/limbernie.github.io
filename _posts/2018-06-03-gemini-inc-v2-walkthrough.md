@@ -1,13 +1,13 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-modified: 2018-06-05 16:26:02 +0000
-title: "Double Trouble"
+modified: 2018-06-07 16:37:51 +0000
+title: "Walkthrough — Gemini Inc: v2"
 category: Walkthrough
 tag: "Gemini Inc"
 comments: true
 image:
-  feature: tiger.jpg
+  feature: gemini-inc-v2-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/tiger-predator-pair-fur-beautiful-2979932/
 ---

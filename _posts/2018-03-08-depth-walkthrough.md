@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "This Is Deep"
+modified: 2018-06-07 17:04:26 +0000
+title: "Walkthrough — Depth: 1"
 category: Walkthrough
 tags: [VulnHub, Depth]
 comments: true
 image:
-  feature: depth.jpg
+  feature: depth-walkthrough.jpg
   credit: Bilderandi / Pixabay
   creditlink: https://pixabay.com/en/autos-technology-vw-214033/
 ---

@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Who Let the Dogs Out?"
+modified: 2018-06-07 17:05:01 +0000
+title: "Walkthrough — Bulldog: 1"
 category: Walkthrough
 tags: [VulnHub, Bulldog]
 comments: true
 image:
-  feature: bulldogs.jpg
+  feature: bulldog-walkthrough.jpg
   credit: 984943 / Pixabay
   creditlink: https://pixabay.com/en/beach-playing-bulldogs-1749854/
 ---

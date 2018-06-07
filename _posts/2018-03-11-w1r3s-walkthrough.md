@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Ghost in the Wires"
+modifed: 2018-06-07 17:03:45 +0000
+title: "Walkthrough — W1R3S: 1.0.1"
 category: Walkthrough
 tags: [VulnHub, W1R3S]
 comments: true
 image:
-  feature: ghosts.jpg
+  feature: w1r3s-1.0.1-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/halloween-ghosts-happy-halloween-1746354/
 ---

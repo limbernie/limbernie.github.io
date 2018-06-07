@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Will the Real Gormint Aunty Please Stand Up?"
+modified: 2018-06-07 17:06:59 +0000
+title: "Walkthrough — g0rmint: 1"
 category: Walkthrough
 tags: [VulnHub, g0rmint]
 comments: true
 image:
-  feature: crowds.jpg
+  feature: g0rmint-walkthrough.jpg
   credit: geralt / Pixabay
   creditlink: https://pixabay.com/en/human-smilies-emoticons-masks-1602493/
 ---

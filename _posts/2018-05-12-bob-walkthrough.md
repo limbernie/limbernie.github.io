@@ -1,12 +1,13 @@
 ---
 layout: post
 date: 2018-05-12 20:56:26 +0000
-title: "Don't Mess with the Admin"
+modified: 2018-06-07 17:00:17 +0000
+title: "Walkthrough — Bob: 1.0.1"
 category: Walkthrough
 tags: [VulnHub, Bob]
 comments: true
 image:
-  feature: frog.jpg
+  feature: bob-1.0.1-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/frog-figure-files-stack-1339892/
 ---

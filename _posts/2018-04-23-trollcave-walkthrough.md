@@ -1,12 +1,13 @@
 ---
 layout: post
 date: 2018-04-23 06:14:17 +0000
-title: "Don't Feed the Trolls"
+modifed: 2018-06-07 17:01:11 +0000
+title: "Walkthrough — Trollcave: 1.2"
 category: Walkthrough
 tags: [VulnHub, "Trollcave"]
 comments: true
 image:
-  feature: troll.jpg
+  feature: trollcave-1.2-walkthrough.jpg
   credit: Tama66 / Pixabay
   creditlink: https://pixabay.com/en/fairy-tales-gnome-troll-1662427/
 ---

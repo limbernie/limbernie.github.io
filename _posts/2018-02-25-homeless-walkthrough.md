@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Helping the Homeless"
+modified: 2018-06-07 17:05:37 +0000
+title: "Walkthrough — Homeless: 1"
 category: Walkthrough
 tags: [VulnHub, Homeless]
 comments: true
 image:
-  feature: homeless.jpg
+  feature: homeless-walkthrough.jpg
   credit: MichiArt / Pixabay
   creditlink: https://pixabay.com/en/homeless-beggar-sleeping-street-2182114/
 ---

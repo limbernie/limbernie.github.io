@@ -1,13 +1,13 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-modified: 2018-05-21 13:57:37 +0000
-title: "Good Things Come in Pairs"
+modified: 2018-06-07 16:40:30 +0000
+title: "Walkthrough — Gemini Inc"
 category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
 comments: true
 image:
-  feature: potatoes.jpg
+  feature: gemini-inc-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/couch-potatoes-funny-potatoes-3116580/
 ---
