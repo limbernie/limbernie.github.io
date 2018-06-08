@@ -12,7 +12,7 @@ image:
   creditlink: https://pixabay.com/en/tiger-predator-pair-fur-beautiful-2979932/
 ---
 
-This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM][1] created by [9emin1][2], and hosted [here][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM][1] created by [9emin1][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
@@ -335,6 +335,5 @@ _Step 7: Log in with the RSA private key and enjoy your `root` shell._
 
 :dancer:
 
-[1]: https://www.vulnhub.com/entry/gemini-inc-1,227/
+[1]: https://scriptkidd1e.wordpress.com/2018/04/29/gemini-inc-v2-vulnerable-machine/
 [2]: https://twitter.com/@sec_9emin1
-[3]: https://scriptkidd1e.wordpress.com/2018/04/29/gemini-inc-v2-vulnerable-machine/
