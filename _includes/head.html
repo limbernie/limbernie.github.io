@@ -14,8 +14,8 @@
       {% capture description %}Archive of {{ site.description | remove_first: "all about " }}{% endcapture %}
     {% when "Categories" %}
       {% capture description %}Categories of {{ site.description | remove_first: "all about " }}{% endcapture %}
-    {% when "Tags" %}
-      {% capture description %}Tags of {{ site.description | remove_first: "all about " }}{% endcapture %}
+    {% when "Search" %}
+      {% capture description %}Search {{ site.description | remove_first: "all about " }}{% endcapture %}
     {% else %}
       {% if paginator.page == 1 %}
         {% capture description %}{{ site.description }}{% endcapture %}
