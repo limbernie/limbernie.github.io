@@ -1,5 +1,4 @@
 ---
-type: Blog
 layout: default
 ---
 
@@ -40,12 +39,12 @@ layout: default
       <p>
         {{ post.excerpt }}
       </p>
-			{% capture content_words %} 
-				{{ post.content | number_of_words }} 
-			{% endcapture %} 
-			{% capture excerpt_words %} 
-				{{ post.excerpt | number_of_words }} 
-			{% endcapture %} 
+			{% capture content_words %}
+				{{ post.content | number_of_words }}
+			{% endcapture %}
+			{% capture excerpt_words %}
+				{{ post.excerpt | number_of_words }}
+			{% endcapture %}
     </div>
     {% endif %}
 
