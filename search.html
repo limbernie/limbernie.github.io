@@ -5,7 +5,10 @@ permalink: /search/
 ---
 
 <div id="search-container">
-<input type="text" id="search-input" placeholder="Search" autofocus="">
+	<input type="text" id="search-input" placeholder="Search" maxlength="2048" autofocus="" autocomplete="off" dir="ltr" spellcheck="false" type="text">
+</div>
+
+<div id="results-div">
 <ul id="results-container"></ul>
 </div>
 
@@ -15,7 +18,8 @@ permalink: /search/
 SimpleJekyllSearch({
   searchInput: document.getElementById('search-input'),
   resultsContainer: document.getElementById('results-container'),
-  searchResultTemplate: '<article class="tag-item"><a class="tag-item-title" href="{url}">{title}</a></article>',
+  searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+  noResultsText: '<span style="padding: 0 10px;">No results found</span>',
   json: '/search.json'
 })
 </script>
