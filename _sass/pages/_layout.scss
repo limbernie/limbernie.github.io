@@ -265,6 +265,9 @@ footer {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+	border: none;
+	background: #fff;
+	cursor: default;
 }
 
 #results-container {
