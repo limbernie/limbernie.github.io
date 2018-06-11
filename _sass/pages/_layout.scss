@@ -235,7 +235,7 @@ footer {
 
 #search-container {
 	background-color: #fff;
-	height: 44px;
+	height: 2.75rem;
 	vertical-align: top;
 	border-radius: 2px;
 	box-shadow: 0.5px 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
@@ -257,8 +257,8 @@ footer {
 	background: transparent url("data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D") repeat scroll 0% 0%;
 	outline: medium none;
 	color: #000;
-	line-height: 34px;
-	height: 34px !important;
+	line-height: 2.125rem;
+	height: 2.125rem !important;
 }
 
 #results-div {
@@ -273,7 +273,7 @@ footer {
 	padding: 0;
 	li {
 		padding: 0 10px;
-		line-height: 22px;
+		line-height: 1.375rem;
 		&:hover {
 			background: #eee;
 		}
