@@ -7,7 +7,7 @@ category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
 comments: true
 image:
-  feature: derpnstink-walkthrough.jpg
+  feature: derpnstink-1-walkthrough.jpg
   credit: leks / Pixabay
   creditlink: https://pixabay.com/en/stanley-stan-marsh-south-park-265670/
 ---

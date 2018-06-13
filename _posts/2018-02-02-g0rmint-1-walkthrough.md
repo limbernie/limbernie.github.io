@@ -6,7 +6,7 @@ category: Walkthrough
 tags: [VulnHub, g0rmint]
 comments: true
 image:
-  feature: g0rmint-walkthrough.jpg
+  feature: g0rmint-1-walkthrough.jpg
   credit: geralt / Pixabay
   creditlink: https://pixabay.com/en/human-smilies-emoticons-masks-1602493/
 ---

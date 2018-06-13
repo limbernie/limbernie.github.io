@@ -6,7 +6,7 @@ categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true
 image:
-  feature: cyberry-walkthrough.jpg
+  feature: cyberry-1-walkthrough.jpg
   credit: Bru-nO / Pixabay
   creditlink: https://pixabay.com/en/berries-raspberries-blackberries-3237884/
 ---

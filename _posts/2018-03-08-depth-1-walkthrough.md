@@ -6,7 +6,7 @@ category: Walkthrough
 tags: [VulnHub, Depth]
 comments: true
 image:
-  feature: depth-walkthrough.jpg
+  feature: depth-1-walkthrough.jpg
   credit: Bilderandi / Pixabay
   creditlink: https://pixabay.com/en/autos-technology-vw-214033/
 ---

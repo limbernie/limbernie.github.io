@@ -7,7 +7,7 @@ category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
 comments: true
 image:
-  feature: gemini-inc-walkthrough.jpg
+  feature: gemini-inc-1-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/couch-potatoes-funny-potatoes-3116580/
 ---

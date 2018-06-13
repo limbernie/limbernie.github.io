@@ -6,7 +6,7 @@ category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
 image:
-  feature: pinkys-palace-walkthrough.jpg
+  feature: pinkys-palace-1-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/the-pink-panther-drink-alcohol-1653920/
 ---

@@ -6,7 +6,7 @@ category: Walkthrough
 tags: [VulnHub, Homeless]
 comments: true
 image:
-  feature: homeless-walkthrough.jpg
+  feature: homeless-1-walkthrough.jpg
   credit: MichiArt / Pixabay
   creditlink: https://pixabay.com/en/homeless-beggar-sleeping-street-2182114/
 ---
