@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-modified: 2018-06-08 22:39:48 +0000
+last_modified_at: 2018-06-08 22:39:48 +0000
 title: "Gemini Inc: v2 Walkthrough"
 category: Walkthrough
 tag: "Gemini Inc"

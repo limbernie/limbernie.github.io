@@ -13,7 +13,7 @@
 	"description": "{{ description }}",
 	"headline": "{{ title }}",
 	"datePublished": "{{ page.date }}",
-	"dateModified": "{% if page.modified %}{{ page.modified }}{% else %}{{ page.date }}{% endif %}",
+	"dateModified": "{% if page.last_modified_at %}{{ page.last_modified_at }}{% else %}{{ page.date }}{% endif %}",
 	"author": {
 		"@type": "Person",
 		"name" : {% if page.author %}"{{ page.author }}"{% else %}"{{ site.owner.name }}",{{ same }}{% endif %}

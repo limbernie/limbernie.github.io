@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-modified: 2018-06-07 17:00:32 +0000
+last_modified_at: 2018-06-07 17:00:32 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]

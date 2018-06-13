@@ -1,6 +1,6 @@
 ---
 layout: post
-modified: 2018-06-07 17:05:01 +0000
+last_modified_at: 2018-06-07 17:05:01 +0000
 title: "Bulldog: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Bulldog]
