@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-06-07 16:40:30 +0000
+last_modified_at: 2018-06-17 15:55:00 +0000
 title: "Gemini Inc: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
@@ -44,7 +44,7 @@ PORT   STATE SERVICE REASON         VERSION
 ```
 `nmap` finds `22/tcp` and `80/tcp` open. The document root lists one directory `test2` and this is how the site looks like in my browser.
 
-![0.apvno5q230d](/assets/images/posts/geminiinc-walkthrough/0.apvno5q230d.png)
+![0.apvno5q230d](/assets/images/posts/gemini-inc-1-walkthrough/0.apvno5q230d.png)
 
 There's no need to fuzz the site for directories and/or files because the landing page has offered an important piece of information about the web application &mdash; it's built on [Master Login System](https://github.com/ionutvmi/master-login-system).
 
@@ -52,23 +52,23 @@ There's no need to fuzz the site for directories and/or files because the landin
 
 If you'd watched the walkthrough [video](http://www.youtube.com/watch?v=y7SdQfZfLbA) at the project page, you'd have gotten the default login credential without resorting to any brute-force attack; and it's valid too.
 
-![0.m8px4kc89u](/assets/images/posts/geminiinc-walkthrough/0.m8px4kc89u.png)
+![0.m8px4kc89u](/assets/images/posts/gemini-inc-1-walkthrough/0.m8px4kc89u.png)
 
 The drop-down action is available after logging in as `admin` with credential (`admin:1234`).
 
-![0.gpd2zei0wfm](/assets/images/posts/geminiinc-walkthrough/0.gpd2zei0wfm.png)
+![0.gpd2zei0wfm](/assets/images/posts/gemini-inc-1-walkthrough/0.gpd2zei0wfm.png)
 
 Here's the `admin`'s profile page.
 
-![0.cnnezs22awr](/assets/images/posts/geminiinc-walkthrough/0.cnnezs22awr.png)
+![0.cnnezs22awr](/assets/images/posts/gemini-inc-1-walkthrough/0.cnnezs22awr.png)
 
 Here's the `admin`'s profile page in PDF.
 
-![0.htaf69v3tiu](/assets/images/posts/geminiinc-walkthrough/0.htaf69v3tiu.png)
+![0.htaf69v3tiu](/assets/images/posts/gemini-inc-1-walkthrough/0.htaf69v3tiu.png)
 
 I discover that I can access both the profile and export page without having to log in. This means that the export page (`export.php`) probably hardcoded the profile page (`profile.php?u=1`) for PDF conversion. Another interesting fact &mdash; `export.php` uses `wkhtmltopdf` for PDF conversion.
 
-![0.h6tdka9vftf](/assets/images/posts/geminiinc-walkthrough/0.h6tdka9vftf.png)
+![0.h6tdka9vftf](/assets/images/posts/gemini-inc-1-walkthrough/0.h6tdka9vftf.png)
 
 I also discover that **Display name** and **Email** are not validated in the user's profile edit page (`user.php`). You can verify this from the source code of `user.php`.
 
@@ -85,11 +85,11 @@ This opens up the web application to vulnerabilities, such as cross-site scripti
 
 Simple XSS test.
 
-![0.hp6nrhy7b4d](/assets/images/posts/geminiinc-walkthrough/0.hp6nrhy7b4d.png)
+![0.hp6nrhy7b4d](/assets/images/posts/gemini-inc-1-walkthrough/0.hp6nrhy7b4d.png)
 
 XSS'd.
 
-![0.mvqpaa9wm5n](/assets/images/posts/geminiinc-walkthrough/0.mvqpaa9wm5n.png)
+![0.mvqpaa9wm5n](/assets/images/posts/gemini-inc-1-walkthrough/0.mvqpaa9wm5n.png)
 
 ### Issue #3570
 
@@ -118,21 +118,21 @@ And put this in one of the injectable fields, e.g. **Display name**.
 
 Simple? Let's give it a shot.
 
-![0.k9d8bpti9sc](/assets/images/posts/geminiinc-walkthrough/0.k9d8bpti9sc.png)
+![0.k9d8bpti9sc](/assets/images/posts/gemini-inc-1-walkthrough/0.k9d8bpti9sc.png)
 
 Sweet. But how do we proceed from here? We can try brute-force attack on `gemini1`'s password. A more efficient way is to read SSH related files off the victim, such as `authorized_keys` and `id_rsa`.
 
-![0.gopakn5k5v](/assets/images/posts/geminiinc-walkthrough/0.gopakn5k5v.png)
+![0.gopakn5k5v](/assets/images/posts/gemini-inc-1-walkthrough/0.gopakn5k5v.png)
 
 There you have it &mdash; `/home/gemini1/.ssh/authorized_keys`. This is `gemini1`'s public key. I bet the private key (`id_rsa`) is in there as well.
 
-![0.yb88plfehc](/assets/images/posts/geminiinc-walkthrough/0.yb88plfehc.png)
+![0.yb88plfehc](/assets/images/posts/gemini-inc-1-walkthrough/0.yb88plfehc.png)
 
 Awesome. We can now copy and paste the private key to our attacking machine and log in to `gemini1`'s SSH account.
 
 ### Low-privilege Shell
 
-![0.9mfp03dho49](/assets/images/posts/geminiinc-walkthrough/0.9mfp03dho49.png)
+![0.9mfp03dho49](/assets/images/posts/gemini-inc-1-walkthrough/0.9mfp03dho49.png)
 
 Not too shabby.
 
@@ -142,19 +142,19 @@ One of my favorite privilege escalation techniques is to target files `setuid` t
 
 Let's look for such files.
 
-![0.kqoy3f6mn9](/assets/images/posts/geminiinc-walkthrough/0.kqoy3f6mn9.png)
+![0.kqoy3f6mn9](/assets/images/posts/gemini-inc-1-walkthrough/0.kqoy3f6mn9.png)
 
 Notice how the modification date/time of `listinfo` stands out from the rest?
 
 Let's run `listinfo` and see what's the output.
 
-![0.nbdfd9161of](/assets/images/posts/geminiinc-walkthrough/0.nbdfd9161of.png)
+![0.nbdfd9161of](/assets/images/posts/gemini-inc-1-walkthrough/0.nbdfd9161of.png)
 
 From what I can make of it, it appears to be the output of `ifconfig`, `netstat` and current date.
 
 Let's look for strings in `listinfo`.
 
-![0.pxqngjycg8](/assets/images/posts/geminiinc-walkthrough/0.pxqngjycg8.png)
+![0.pxqngjycg8](/assets/images/posts/gemini-inc-1-walkthrough/0.pxqngjycg8.png)
 
 It's evident the output of `listinfo` is the result of running the commands highlighted above.
 
@@ -186,7 +186,7 @@ Next, we compile it.
 $ gcc -o date date.c
 ```
 
-![0.mrkt9jfxbkj](/assets/images/posts/geminiinc-walkthrough/0.mrkt9jfxbkj.png)
+![0.mrkt9jfxbkj](/assets/images/posts/gemini-inc-1-walkthrough/0.mrkt9jfxbkj.png)
 
 Lastly, we alter the search path `$PATH` in `gemini1`'s shell such that invoking `date` will run the malicious `date` instead.
 
@@ -194,15 +194,15 @@ Lastly, we alter the search path `$PATH` in `gemini1`'s shell such that invoking
 $ export PATH=/home/gemini1:$PATH
 ```
 
-![0.bwl7cy99wn8](/assets/images/posts/geminiinc-walkthrough/0.bwl7cy99wn8.png)
+![0.bwl7cy99wn8](/assets/images/posts/gemini-inc-1-walkthrough/0.bwl7cy99wn8.png)
 
 Running `listinfo` gives us this.
 
-![0.zybux538spi](/assets/images/posts/geminiinc-walkthrough/0.zybux538spi.png)
+![0.zybux538spi](/assets/images/posts/gemini-inc-1-walkthrough/0.zybux538spi.png)
 
 The pesky output from `listinfo` is still there. Let's do what I always do: generate the SSH key pair I control, upload the public key to `/root/.ssh/authorized_keys`, and log in with the private key.
 
-![0.kubd74dnyo](/assets/images/posts/geminiinc-walkthrough/0.kubd74dnyo.png)
+![0.kubd74dnyo](/assets/images/posts/gemini-inc-1-walkthrough/0.kubd74dnyo.png)
 
 :dancer:
 

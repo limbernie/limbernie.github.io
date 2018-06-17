@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:05:37 +0000
+last_modified_at: 2018-06-17 15:44:34 +0000
 title: "Homeless: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Homeless]
@@ -57,16 +57,16 @@ Apparently, "Use Brain with Google" is not a real path. There's also a hint abou
 
 This is how the site looks like in my browser.
 
-![screenshot-1](/assets/images/posts/homeless-walkthrough/screenshot-1.png){: style="display: block"}
-![screenshot-2](/assets/images/posts/homeless-walkthrough/screenshot-2.png){: style="display: block"}
+![screenshot-1](/assets/images/posts/homeless-1-walkthrough/screenshot-1.png){: style="display: block"}
+![screenshot-2](/assets/images/posts/homeless-1-walkthrough/screenshot-2.png){: style="display: block"}
 
 Notice anything unusual? The browser's `User-Agent` string is there. In the HTML source code, something else stands out as well.
 
-![screenshot-3](/assets/images/posts/homeless-walkthrough/screenshot-3.png)
+![screenshot-3](/assets/images/posts/homeless-1-walkthrough/screenshot-3.png)
 
 A hint to check something. But what to check? Perhaps to check the `User-Agent` string on line 32 of the HTML source code?
 
-![screenshot-4](/assets/images/posts/homeless-walkthrough/screenshot-4.png)
+![screenshot-4](/assets/images/posts/homeless-1-walkthrough/screenshot-4.png)
 
 The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh`, a `bash` script, to submit a custom `User-Agent` string and then check for the HTTP response at line 32.
 
@@ -160,13 +160,13 @@ As long as the password has "cyberbog", it's able to unlock the path to home.
 
 On hindsight, I could have unlocked the secret backdoor by looking at the `favicon`. The title says "Cyberdog Starting Point", paying a little homage to Cyberdog, an Internet suite of applications, developed by Apple.
 
-![favicon](/assets/images/posts/homeless-walkthrough/favicon.jpg)
+![favicon](/assets/images/posts/homeless-1-walkthrough/favicon.jpg)
 
 ### Uploader Page
 
 There's an uploader page at `/myuploader_priv`.
 
-![screenshot-5](/assets/images/posts/homeless-walkthrough/screenshot-5.png)
+![screenshot-5](/assets/images/posts/homeless-1-walkthrough/screenshot-5.png)
 
 After some tinkering with the uploader page, this is what I observe:
 
@@ -203,17 +203,17 @@ Gathering the restrictions from above, the challenge now is to write a short and
 echo -n '<?=`ls`;' > test.php
 ```
 
-![screenshot-6](/assets/images/posts/homeless-walkthrough/screenshot-6.png)
+![screenshot-6](/assets/images/posts/homeless-1-walkthrough/screenshot-6.png)
 
-![screenshot-7](/assets/images/posts/homeless-walkthrough/screenshot-7.png)
+![screenshot-7](/assets/images/posts/homeless-1-walkthrough/screenshot-7.png)
 
-![screenshot-8](/assets/images/posts/homeless-walkthrough/screenshot-8.png)
+![screenshot-8](/assets/images/posts/homeless-1-walkthrough/screenshot-8.png)
 
 ### Secure Login Page
 
 There's a Secure Login page at `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`.
 
-![screenshot-9](/assets/images/posts/homeless-walkthrough/screenshot-9.png)
+![screenshot-9](/assets/images/posts/homeless-1-walkthrough/screenshot-9.png)
 
 A hint is at the top right corner of the "Sign In" form. Clicking it reveals the PHP code of this page.
 
@@ -316,21 +316,21 @@ Well done!
 
 I replace the existing session cookie with the one above to display `admin.php`.
 
-![screenshot-10](/assets/images/posts/homeless-walkthrough/screenshot-10.png)
+![screenshot-10](/assets/images/posts/homeless-1-walkthrough/screenshot-10.png)
 
 ### Low Privilege Shell
 
 The terminal allows remote command execution and `nc` with `-e` is available.
 
-![screenshot-11](/assets/images/posts/homeless-walkthrough/screenshot-11.png)
+![screenshot-11](/assets/images/posts/homeless-1-walkthrough/screenshot-11.png)
 
 I can use `nc` to run a low-privilege reverse shell back.
 
-![screenshot-12](/assets/images/posts/homeless-walkthrough/screenshot-12.png)
+![screenshot-12](/assets/images/posts/homeless-1-walkthrough/screenshot-12.png)
 
 I come across the user `downfall` and the contents of his/her home directory during enumeration of the system.
 
-![screenshot-13](/assets/images/posts/homeless-walkthrough/screenshot-13.png)
+![screenshot-13](/assets/images/posts/homeless-1-walkthrough/screenshot-13.png)
 
 ### Hail Hydra!
 
@@ -349,7 +349,7 @@ Using `hydra`, I was able to crack the SSH password of `downfall` rather quick a
 
 Armed with the SSH password, I'm able to login as `downfall` and view the contents of `.secret_message`.
 
-![screenshot-14](/assets/images/posts/homeless-walkthrough/screenshot-14.png)
+![screenshot-14](/assets/images/posts/homeless-1-walkthrough/screenshot-14.png)
 
 ### Privilege Escalation
 
@@ -359,15 +359,15 @@ I notice that `downfall` is able to edit `/lib/logs/homeless.py`. On top of that
 
 This is how `homeless.py` looks like.
 
-![screenshot-15](/assets/images/posts/homeless-walkthrough/screenshot-15.png)
+![screenshot-15](/assets/images/posts/homeless-1-walkthrough/screenshot-15.png)
 
 Combining all the above information, I can probably edit `homeless.py` as follows:
 
-![screenshot-16](/assets/images/posts/homeless-walkthrough/screenshot-16.png)
+![screenshot-16](/assets/images/posts/homeless-1-walkthrough/screenshot-16.png)
 
 A minute later, a `root` shell appears on my `netcat` listener.
 
-![screenshot-17](/assets/images/posts/homeless-walkthrough/screenshot-17.png)
+![screenshot-17](/assets/images/posts/homeless-1-walkthrough/screenshot-17.png)
 
 :dancer:
 
@@ -375,7 +375,7 @@ A minute later, a `root` shell appears on my `netcat` listener.
 
 Getting the flag when you have a `root` shell, is trivial. :laughing:
 
-![screenshot-18](/assets/images/posts/homeless-walkthrough/screenshot-18.png)
+![screenshot-18](/assets/images/posts/homeless-1-walkthrough/screenshot-18.png)
 
 [1]: https://www.vulnhub.com/entry/homeless-1,215/
 [2]: http://www.creatigon.com/

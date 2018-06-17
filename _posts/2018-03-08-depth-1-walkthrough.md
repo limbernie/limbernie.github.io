@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:04:26 +0000
+last_modified_at: 2018-06-17 15:47:16 +0000
 title: "Depth: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Depth]
@@ -75,7 +75,7 @@ We find `/test.jsp`. It may be interesting.
 
 This is what I see when I navigate to `http://192.168.100.4:8080/test.jsp` with my browser.
 
-![screenshot-1](/assets/images/posts/depth-walkthrough/screenshot-1.png)
+![screenshot-1](/assets/images/posts/depth-1-walkthrough/screenshot-1.png)
 
 After some tinkering with `test.jsp` to get output, command execution is possible but the command output must conform to the following:
 
@@ -84,7 +84,7 @@ After some tinkering with `test.jsp` to get output, command execution is possibl
 
 For some reason, the HTML table shows token two, three, four, eight, and beyond. I'm able to leverage `hexdump` to act like `cat` to display `/etc/passwd` like so.
 
-![screenshot-2](/assets/images/posts/depth-walkthrough/screenshot-2.png)
+![screenshot-2](/assets/images/posts/depth-1-walkthrough/screenshot-2.png)
 
 I wrote `cat.sh` to extract and display the printable ASCII characters from the hexadecimal numbers.
 
@@ -135,11 +135,11 @@ bill:x:1000:1000:bill,,,:/home/bill:/bin/bash
 
 This is how their respective home directories look like.
 
-![screenshot-5](/assets/images/posts/depth-walkthrough/screenshot-5.png)
+![screenshot-5](/assets/images/posts/depth-1-walkthrough/screenshot-5.png)
 
 Notice that `tomcat8` has a `.ssh` directory?
 
-![screenshot-4](/assets/images/posts/depth-walkthrough/screenshot-4.png)
+![screenshot-4](/assets/images/posts/depth-1-walkthrough/screenshot-4.png)
 
 Notice that `bill` can `sudo` as `root`?
 
@@ -208,7 +208,7 @@ This explains why there's one open port from the earlier `nmap` scan. SSH is pro
 
 With `cat.sh`, combined with the directory listing from `test.jsp`, I'm able to discover and extract `tomcat8`'s SSH key pair from its home directory.
 
-![screenshot-3](/assets/images/posts/depth-walkthrough/screenshot-3.png)
+![screenshot-3](/assets/images/posts/depth-1-walkthrough/screenshot-3.png)
 
 I take an educated guess, put two and two together, and gather that `tomcat8` probably has its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to log in to `bill`'s account via SSH in **localhost**. Well, let's find out and as Yoda put it, "**Do or do not. There's no try.**"
 
@@ -216,7 +216,7 @@ I take an educated guess, put two and two together, and gather that `tomcat8` pr
 
 I know one can execute a command upon login via SSH. But first, let's see if I can log in as `bill` with `tomcat8`'s private key.
 
-![screenshot-6](/assets/images/posts/depth-walkthrough/screenshot-6.png)
+![screenshot-6](/assets/images/posts/depth-1-walkthrough/screenshot-6.png)
 
 Holy smoke. I'm able to execute remote commands and overcome the output display restrictions by adding my own placeholders.
 
@@ -283,13 +283,13 @@ Rule added (v6)
 
 From my attacking machine, I can now login as `bill` and `sudo` as `root`.
 
-![screenshot-7](/assets/images/posts/depth-walkthrough/screenshot-7.png)
+![screenshot-7](/assets/images/posts/depth-1-walkthrough/screenshot-7.png)
 
 :dancer:
 
 ### Where Is the Flag?
 
-![screenshot-8](/assets/images/posts/depth-walkthrough/screenshot-8.png)
+![screenshot-8](/assets/images/posts/depth-1-walkthrough/screenshot-8.png)
 
 Well, that wasn't difficult, was it?
 

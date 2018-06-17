@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-03-28 17:54:26 +0000
-last_modified_at: 2018-06-07 17:01:54 +0000
+last_modified_at: 2018-06-17 15:51:07 +0000
 title: "DerpNStink: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
@@ -279,17 +279,17 @@ http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php?cmd=
 
 On my end, I set up my `netcat` listener and wait for the shell.
 
-![screenshot-1](/assets/images/posts/derpnstink-walkthrough/screenshot-1.png)
+![screenshot-1](/assets/images/posts/derpnstink-1-walkthrough/screenshot-1.png)
 
 Let's spawn a pseudo-TTY for better display and output control.
 
-![screenshot-2](/assets/images/posts/derpnstink-walkthrough/screenshot-2.png)
+![screenshot-2](/assets/images/posts/derpnstink-1-walkthrough/screenshot-2.png)
 
 ### Database Dump
 
 Now that I've access to a low-privilege shell, let's dump the WordPress database. I should be able to locate the database configuration parameters in the WordPress directory.
 
-![screenshot-3](/assets/images/posts/derpnstink-walkthrough/screenshot-3.png)
+![screenshot-3](/assets/images/posts/derpnstink-1-walkthrough/screenshot-3.png)
 
 ```
 $ cat wp-config.php
@@ -347,7 +347,7 @@ mrderp:x:1000:1000:Mr. Derp,,,:/home/mrderp:/bin/bash
 
 Let's see if we can log in to Uncle Stinky's account with the password (`wedgie57`).
 
-![screenshot-4](/assets/images/posts/derpnstink-walkthrough/screenshot-4.png)
+![screenshot-4](/assets/images/posts/derpnstink-1-walkthrough/screenshot-4.png)
 
 I discover the third flag at `/home/stinky/Desktop/flag.txt` during enumeration of Uncle Stinky's account.
 
@@ -382,7 +382,7 @@ log=unclestinky%40derpnstink.local&pwd=wedgie57&wp-submit=Log+In&redirect_to=htt
 
 Let's log in to Mr. Derp's account with the password (`derpderpderpderpderpderpderp`) we recover from the packet capture.
 
-![screenshot-5](/assets/images/posts/derpnstink-walkthrough/screenshot-5.png)
+![screenshot-5](/assets/images/posts/derpnstink-1-walkthrough/screenshot-5.png)
 
 I also uncover a helpdesk ticket during enumeration of Mr. Derp's account. Apparently, Mr. Derp has an issue with `sudoer`.
 
@@ -412,7 +412,7 @@ Thank you for using our product.
 
 We find the resolution of the helpdesk ticket at `https://pastebin.com/RzK9WfGw`.
 
-![screenshot-6](/assets/images/posts/derpnstink-walkthrough/screenshot-6.png)
+![screenshot-6](/assets/images/posts/derpnstink-1-walkthrough/screenshot-6.png)
 
 Unbeknownst to poor Mr. Derp and Uncle Stinky, this is in fact the answer to privilege escalation.
 
@@ -429,7 +429,7 @@ $ sudo /home/mrderp/binaries/derpy
 
 And since we already know the password to Mr. Derp's account.
 
-![screenshot-7](/assets/images/posts/derpnstink-walkthrough/screenshot-7.png)
+![screenshot-7](/assets/images/posts/derpnstink-1-walkthrough/screenshot-7.png)
 
 Boom.
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:07:36 +0000
+last_modified_at: 2018-06-17 15:39:39 +0000
 title: "Cyberry: 1 Walkthrough"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
@@ -80,7 +80,7 @@ A fork bomb! A fork bomb replicates itself until it depletes system resources, c
 
 Another popular place to look for clues is in the HTML source code. Here, I find a couple of HTML comments that look like `base64`.
 
-![comments.png](/assets/images/posts/cyberry-walkthrough/cyberry-1.png)
+![comments.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-1.png)
 
 Let's decode them.
 
@@ -133,7 +133,7 @@ boss.gif
 ```
 `¯\_(ツ)_/¯`
 
-![boss.gif](/assets/images/posts/cyberry-walkthrough/boss.gif)
+![boss.gif](/assets/images/posts/cyberry-1-walkthrough/boss.gif)
 
 A request for `/work-in-progress.png` results in the following.
 
@@ -155,11 +155,11 @@ Notice that the flip side of "edocrq" is "qrcode"?
 
 The file `edocrq` is available from the web server and it looks like this.
 
-![edocrq.png](/assets/images/posts/cyberry-walkthrough/edocrq.png)
+![edocrq.png](/assets/images/posts/cyberry-1-walkthrough/edocrq.png)
 
 Flip it horizontally to decode, as in the flipping of "edocrq" to "qrcode"
 
-![qrcode.png](/assets/images/posts/cyberry-walkthrough/qrcode.png)
+![qrcode.png](/assets/images/posts/cyberry-1-walkthrough/qrcode.png)
 
 It decodes to `/berrypedia.html`.
 
@@ -202,11 +202,11 @@ The login page has a weakness — it leaks information about the existence of a 
 
 _If the user doesn't exists_
 
-![non-exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-5.png)
+![non-exist.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-5.png)
 
 _If the user exists and the password is invalid_
 
-![exist.png](/assets/images/posts/cyberry-walkthrough/cyberry-6.png)
+![exist.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-6.png)
 
 With this in mind, let's do a online password cracking with `hydra`.
 
@@ -219,23 +219,23 @@ With this in mind, let's do a online password cracking with `hydra`.
 
 It's a shame that `password` is not the SSH password for `root`. I can log in to the admin panel, and … there's nothing interesting to see.
 
-![panel.png](/assets/images/posts/cyberry-walkthrough/cyberry-7.png)
+![panel.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-7.png)
 
 ### phpMyAdmin 4.6.6
 
 PMA is present as well, which is another way of saying the machine runs PHP.
 
-![pma.png](/assets/images/posts/cyberry-walkthrough/cyberry-2_2.png)
+![pma.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-2_2.png)
 
 ### Berrypedia
 
 A request for `/berrypedia.html` reveals the following page.
 
-![berrypedia.png](/assets/images/posts/cyberry-walkthrough/cyberry-8.png)
+![berrypedia.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-8.png)
 
 Elderberry is a hyperlink to an interesting file — `/placeho1der.jpg`.
 
-![placeho1der.jpg](/assets/images/posts/cyberry-walkthrough/placeho1der.jpg)
+![placeho1der.jpg](/assets/images/posts/cyberry-1-walkthrough/placeho1der.jpg)
 
 ### Solving the Puzzle
 
@@ -246,7 +246,7 @@ Here's how to reveal the puzzle:
 
 You're welcome.
 
-![puzzle.jpg](/assets/images/posts/cyberry-walkthrough/puzzle.jpg)
+![puzzle.jpg](/assets/images/posts/cyberry-1-walkthrough/puzzle.jpg)
 
 <ol start='0'>
     <li>Port of Tacoma</li>
@@ -312,7 +312,7 @@ When the script reaches the sequence `1970,1955,1955,1961`, the port `61955/tcp`
 
 Another similar site appears to be running at `61955/tcp`.
 
-![reloaded.png](/assets/images/posts/cyberry-walkthrough/cyberry-3.png)
+![reloaded.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-3.png)
 
 Let's repeat another round of directory enumeration with `gobuster` on this site.
 
@@ -393,11 +393,11 @@ The password to both `ftp` and `ssh` is `bakeoff`. Although it's a pity that `ma
 
 ### FTP Access
 
-![ftp.png](/assets/images/posts/cyberry-walkthrough/cyberry-9.png)
+![ftp.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-9.png)
 
 Notice that `.bash_history` is a directory? This is unusual and worth taking a closer look.
 
-![.bash_history.png](/assets/images/posts/cyberry-walkthrough/cyberry-10.png)
+![.bash_history.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-10.png)
 
 `.reminder.enc` is a ciphertext encrypted with `openssl` while `.trash` is a list of common passwords.
 
@@ -444,7 +444,7 @@ done
 
 `ciphers.txt` contains all the ciphers. Running the script reveals the following.
 
-![decrypted.png](/assets/images/posts/cyberry-walkthrough/cyberry-2.png)
+![decrypted.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-2.png)
 
 It certainly looks like some sort of password.
 
@@ -452,11 +452,11 @@ It certainly looks like some sort of password.
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
-![login.php.png](/assets/images/posts/cyberry-walkthrough/cyberry-11.png)
+![login.php.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-11.png)
 
 Let's try this credential (`mary:dangleberry69`) and see what we get.
 
-![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-12.png)
+![secure.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-12.png)
 
 Good, I'm in.
 
@@ -464,17 +464,17 @@ Good, I'm in.
 
 In the secure section, there's a page that appears to do `nslookup` and the `host` parameter has two defined values: **google.com** and **yahoo.com**.
 
-![nslookup.png](/assets/images/posts/cyberry-walkthrough/cyberry-13.png)
+![nslookup.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-13.png)
 
 Let's see if we can exploit the `host` parameter to execute remote commands.
 
-![remote-command.png](/assets/images/posts/cyberry-walkthrough/cyberry-14.png)
+![remote-command.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-14.png)
 
 Bingo, I can run a reverse shell with `netcat`.
 
-![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-15.png)
+![nc.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-15.png)
 
-![reverse-shell.png](/assets/images/posts/cyberry-walkthrough/cyberry-16.png)
+![reverse-shell.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-16.png)
 
 Awesome.
 
@@ -482,7 +482,7 @@ Awesome.
 
 I spot an interesting file at `/var/www/html-secure/ub3r-s3cur3` during enumeration of the `www-data` account.
 
-![secure.png](/assets/images/posts/cyberry-walkthrough/cyberry-17.png)
+![secure.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-17.png)
 
 It's a list of Latin words. Perhaps it's another password list that I can use to brute-force SSH?
 
@@ -497,42 +497,42 @@ The password to `nick`'s account is `custodio`.
 
 Here's where the crazy `sudo` Russian doll fun begins.
 
-![nick.png](/assets/images/posts/cyberry-walkthrough/cyberry-19.png)
+![nick.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-19.png)
 
 It appears that `/home/nick/invoke.sh` is a script that runs any executable as `terry`.
 
-![invoke.png](/assets/images/posts/cyberry-walkthrough/cyberry-20.png)
+![invoke.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-20.png)
 
 Let's try to open a shell as `terry`. But before we do that, recall that a `fork()` bomb is present in `.bashrc`? One of the users may have this as a defense mechanism when `/bin/bash` is their shell. It's better to use good old `/bin/sh` instead. It isn't pretty but it works.
 
-![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-21.png)
+![terry.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-21.png)
 
 You can escape to shell with `awk` like so.
 ```awk
 awk 'BEGIN { system("/bin/sh") }'
 ```
 
-![halle.png](/assets/images/posts/cyberry-walkthrough/cyberry-22.png)
+![halle.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-22.png)
 
 PHP can run shell commands too. Let's run a reverse shell back using `netcat`.
 
-![nc.png](/assets/images/posts/cyberry-walkthrough/cyberry-23.png)
+![nc.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-23.png)
 
 On my `netcat` listener, a reverse shell connects.
 
-![terry.png](/assets/images/posts/cyberry-walkthrough/cyberry-24.png)
+![terry.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-24.png)
 
 Let's spawn a pseudo-tty.
 
-![pty.png](/assets/images/posts/cyberry-walkthrough/cyberry-25.png)
+![pty.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-25.png)
 
 At long last, the buck stops here.
 
-![stop.png](/assets/images/posts/cyberry-walkthrough/cyberry-26.png)
+![stop.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-26.png)
 
 At the home directory of `chuck` there's still something interesting to look out for.
 
-![deleted.png](/assets/images/posts/cyberry-walkthrough/cyberry-27.png)
+![deleted.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-27.png)
 
 The file `/home/chuck/.deleted/deleted` provides hints to the `root` password.
 
@@ -608,7 +608,7 @@ One of the above has to be the `root` password. Using `hydra`, verifying the pas
 
 ### I Know the `root` Dance
 
-![root-dance.png](/assets/images/posts/cyberry-walkthrough/cyberry-18.png)
+![root-dance.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-18.png)
 
 :dancer:
 

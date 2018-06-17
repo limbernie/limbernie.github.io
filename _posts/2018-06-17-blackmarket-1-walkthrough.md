@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-17 15:35:57 +0000
+last_modified_at: 2018-06-17 15:57:15 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: "[VulnHub, BlackMarket]"
@@ -79,7 +79,7 @@ PORT    STATE SERVICE    REASON         VERSION
 
 Indeed, the first flag is in the HTML source of the landing page.
 
-![Flag: 1](/assets/images/posts/blackmarket-walkthrough/0.ib8ttza2a7.png)
+![Flag: 1](/assets/images/posts/blackmarket-1-walkthrough/0.ib8ttza2a7.png)
 
 I thought the flag's body looked like it's `base64` encoded. This is what I get after decoding it.
 
@@ -119,7 +119,7 @@ The fuzz turns up `/squirrelmail` and `/upload` — potential attack surfaces. F
 
 This is how the login page looks like.
 
-![BlackMarket Login](/assets/images/posts/blackmarket-walkthrough/0.6weguu5c7s.png)
+![BlackMarket Login](/assets/images/posts/blackmarket-1-walkthrough/0.6weguu5c7s.png)
 
 Let's use `hydra` to perform a brute-force login attack on the site and see if we can pick any low-hanging fruit. `usernames.txt` contains `admin`, `supplier` and `user`, and `top10.txt` contains the top-ten passwords found in the dark web.
 
@@ -130,37 +130,37 @@ Let's use `hydra` to perform a brute-force login attack on the site and see if w
 
 Boom. I'm in.
 
-![Login Success - supplier](/assets/images/posts/blackmarket-walkthrough/0.g3bb3gue5yu.png)
+![Login Success - supplier](/assets/images/posts/blackmarket-1-walkthrough/0.g3bb3gue5yu.png)
 
 ### SQL Injection
 
 I know that I'm looking at a potential SQL injection vulnerability when it involves product ID in a table of products.
 
-![Potential SQL Injection Vulnerability](/assets/images/posts/blackmarket-walkthrough/0.9z3g24swagm.png)
+![Potential SQL Injection Vulnerability](/assets/images/posts/blackmarket-1-walkthrough/0.9z3g24swagm.png)
 
 The tool for the job is `sqlmap`. I'll need the session cookie to scan for SQLi vulnerabilities.
 
-![Cookie from Firefox](/assets/images/posts/blackmarket-walkthrough/0.foxwz3nrnh8.png)
+![Cookie from Firefox](/assets/images/posts/blackmarket-1-walkthrough/0.foxwz3nrnh8.png)
 
 ```
 sqlmap --cookie="PHPSESSID=og152rg2j9k54tll52l146g9j4" --url=http://192.168.10.130/supplier/edit_product.php?id=1
 ```
 
-![SQL Injection](/assets/images/posts/blackmarket-walkthrough/0.ndsxku3wwn.png)
+![SQL Injection](/assets/images/posts/blackmarket-1-walkthrough/0.ndsxku3wwn.png)
 
 Awesome. Let's proceed to determine the databases and dump out interesting information from them.
 
 Five databases in MySQL.
 
-![Databases](/assets/images/posts/blackmarket-walkthrough/0.ww0hiyl86oe.png)
+![Databases](/assets/images/posts/blackmarket-1-walkthrough/0.ww0hiyl86oe.png)
 
 Ten tables in `BlackMarket`.
 
-![Tables in BlackMarket](/assets/images/posts/blackmarket-walkthrough/0.7d9nzmb276f.png)
+![Tables in BlackMarket](/assets/images/posts/blackmarket-1-walkthrough/0.7d9nzmb276f.png)
 
 Five users in `user` table.
 
-![User_Table in BlackMarket](/assets/images/posts/blackmarket-walkthrough/0.dlp3yrthkfj.png)
+![User_Table in BlackMarket](/assets/images/posts/blackmarket-1-walkthrough/0.dlp3yrthkfj.png)
 
 Here's `/etc/passwd` that I read off with `--file-read` command option.
 
@@ -204,25 +204,25 @@ Let's proceed further then.
 
 The third flag is in the `flag` table — one of the tables in `BlackMarket` database.
 
-![Flag: 3](/assets/images/posts/blackmarket-walkthrough/0.qoxa0vrn9b.png)
+![Flag: 3](/assets/images/posts/blackmarket-1-walkthrough/0.qoxa0vrn9b.png)
 
 I'm supposed to find the email access of Jason Bourne; and we know from the results of the `dirbuster` fuzz that `/squirrelmail` exists — a web-based email client.
 
-![SquirrelMail](/assets/images/posts/blackmarket-walkthrough/0.ufgx697kl7l.png)
+![SquirrelMail](/assets/images/posts/blackmarket-1-walkthrough/0.ufgx697kl7l.png)
 
 ### Flag: 4
 
 Recall the `supplier` login access? Because of poor coding in the role-based access, I can change the URL to a different role such as `/admin` and access their respective landing pages with `supplier` session cookie.
 
-![Admin Landing Page](/assets/images/posts/blackmarket-walkthrough/0.xeywdl0ado.png)
+![Admin Landing Page](/assets/images/posts/blackmarket-1-walkthrough/0.xeywdl0ado.png)
 
 Besides changing to the landing pages of other roles with the same session cookie, I can also change the login password of any user as long as I know the user ID. Let's change the password of `admin` (`id=1`) through `/edit_customer.php`.
 
-![Burp Repeater](/assets/images/posts/blackmarket-walkthrough/0.vjdzvr2g4ll.png)
+![Burp Repeater](/assets/images/posts/blackmarket-1-walkthrough/0.vjdzvr2g4ll.png)
 
 Flag 4 is on display once I'm logged in.
 
-![Flag: 4](/assets/images/posts/blackmarket-walkthrough/0.b9g442s2qoq.png)
+![Flag: 4](/assets/images/posts/blackmarket-1-walkthrough/0.b9g442s2qoq.png)
 
 It's decoded to this.
 
@@ -237,13 +237,13 @@ Trolled — the decoded message says "nothing is here".
 
 Since there's a tendency of trolling, perhaps `?????` is the password to Jason Bourne email access?
 
-![Login Success - jbourne](/assets/images/posts/blackmarket-walkthrough/0.f45j0gwoq6.png)
+![Login Success - jbourne](/assets/images/posts/blackmarket-1-walkthrough/0.f45j0gwoq6.png)
 
 Sure enough.
 
 Looking into **INBOX.Drafts** lies the fifth flag and an encrypted message from putin@kgb.gov.ru. No prize for guessing who that is :wink:
 
-![Flag: 5](/assets/images/posts/blackmarket-walkthrough/0.yyg8yhsrie.png)
+![Flag: 5](/assets/images/posts/blackmarket-1-walkthrough/0.yyg8yhsrie.png)
 
 It's decoded to this.
 
@@ -333,13 +333,13 @@ Not knowing how to proceed, I use the following command hoping that I'll be luck
 
 The web application is at `/vworkshop`. Wait a minute! Didn't the second flag mention **Vehical workshop**? I got trolled again.
 
-![BlackMarket Workshop](/assets/images/posts/blackmarket-walkthrough/0.drh14ev63nm.png)
+![BlackMarket Workshop](/assets/images/posts/blackmarket-1-walkthrough/0.drh14ev63nm.png)
 
 ### KGB Backdoor
 
 From the decrypted message, we got to know that a backdoor is in the BlackMarket Auto Workshop and that we need `PassPass.jpg` to gain access to it. Here's how `PassPass.jpg` looks like.
 
-![PassPass.jpg](/assets/images/posts/blackmarket-walkthrough/0.8hfnu6g9x1j.png)
+![PassPass.jpg](/assets/images/posts/blackmarket-1-walkthrough/0.8hfnu6g9x1j.png)
 
 Like they always say — the devil is in the detail.
 
@@ -352,7 +352,7 @@ Pass = 5215565757312090656
 
 This time round, I rely on good ol' fashion guesswork to determine the location of the backdoor. It's at `/vworkshop/kgbbackdoor/backdoor.php`.
 
-![backdoor.php](/assets/images/posts/blackmarket-walkthrough/0.s3vwa3ng4w.png)
+![backdoor.php](/assets/images/posts/blackmarket-1-walkthrough/0.s3vwa3ng4w.png)
 
 From the HTML source of the page, it's obvious that to access the backdoor, I need to submit a `POST` request with password. To that end, I wrote a simple HTML login form.
 
@@ -386,7 +386,7 @@ From the HTML source of the page, it's obvious that to access the backdoor, I ne
 
 And `5215565757312090656` is not the password — too bad.
 
-![Failed Login](/assets/images/posts/blackmarket-walkthrough/0.d1oy6u6w75t.png)
+![Failed Login](/assets/images/posts/blackmarket-1-walkthrough/0.d1oy6u6w75t.png)
 
 This prompts me to look deeper into `5215565757312090656`. Notice that it has nineteen digits, an odd number — there's no way this is hexadecimal; it's an integer.
 
@@ -399,7 +399,7 @@ HailKGB
 
 This is more like it.
 
-![KGB Backdoor](/assets/images/posts/blackmarket-walkthrough/0.e4yov7k59cf.png)
+![KGB Backdoor](/assets/images/posts/blackmarket-1-walkthrough/0.e4yov7k59cf.png)
 
 Boom. I'm in.
 
@@ -407,7 +407,7 @@ Boom. I'm in.
 
 The sixth flag is at the home directory of the backdoor.
 
-![Flag: 6](/assets/images/posts/blackmarket-walkthrough/0.hv89dztx7xs.png)
+![Flag: 6](/assets/images/posts/blackmarket-1-walkthrough/0.hv89dztx7xs.png)
 
 It's decoded to this.
 
@@ -422,21 +422,21 @@ I must be getting close.
 
 I get it — Dimitri hates Apple products.
 
-![Dimitri Hates Apple](/assets/images/posts/blackmarket-walkthrough/0.az52lg1aat.png)
+![Dimitri Hates Apple](/assets/images/posts/blackmarket-1-walkthrough/0.az52lg1aat.png)
 
 Having gone so far into this challenge, I'm pretty sure this is the password for `dimitri`'s account. In fact, I got in without realizing that I typed `DimitriHateApple` instead `DimitryHateApple`. What a stroke of luck!
 
-![Login Success - dimitri](/assets/images/posts/blackmarket-walkthrough/0.w0kkzwogx9i.png)
+![Login Success - dimitri](/assets/images/posts/blackmarket-1-walkthrough/0.w0kkzwogx9i.png)
 
 ### Root Time
 
 My lucky streak continues — `dimitri` is able to `sudo` as `root`.
 
-![sudo](/assets/images/posts/blackmarket-walkthrough/0.vxk49yhov1.png)
+![sudo](/assets/images/posts/blackmarket-1-walkthrough/0.vxk49yhov1.png)
 
 Time to be `root` and call it a day.
 
-![The End](/assets/images/posts/blackmarket-walkthrough/0.8ct87zflfpe.png)
+![The End](/assets/images/posts/blackmarket-1-walkthrough/0.8ct87zflfpe.png)
 
 :dancer:
 

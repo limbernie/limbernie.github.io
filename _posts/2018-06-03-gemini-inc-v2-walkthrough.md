@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-06-17 15:36:22 +0000
+last_modified_at: 2018-06-17 15:56:11 +0000
 title: "Gemini Inc: v2 Walkthrough"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -76,31 +76,31 @@ ID	Response   Lines      Word         Chars          Payload
 
 A lot has changed in v2. It exposes files such as `activate.php` and `registration.php`. The file `blacklist.txt` sure is interesting even though I can't make sense of it now.
 
-![0.nn7sk2whrm8](/assets/images/posts/geminiinc-v2-walkthrough/0.nn7sk2whrm8.png)
+![0.nn7sk2whrm8](/assets/images/posts/gemini-inc-v2-walkthrough/0.nn7sk2whrm8.png)
 
 ### User Registration and Activation
 
 It's obvious there's a user registration and activation process. Look at the respective pages in the browser.
 
-![0.fr9jnak27ef](/assets/images/posts/geminiinc-v2-walkthrough/0.fr9jnak27ef.png)
+![0.fr9jnak27ef](/assets/images/posts/gemini-inc-v2-walkthrough/0.fr9jnak27ef.png)
 
-![0.z46xpgzawqe](/assets/images/posts/geminiinc-v2-walkthrough/0.z46xpgzawqe.png)
+![0.z46xpgzawqe](/assets/images/posts/gemini-inc-v2-walkthrough/0.z46xpgzawqe.png)
 
 Let's register an account with the site using everything `admin`. Yes, even the password.
 
-![0.wxincvw3tgq](/assets/images/posts/geminiinc-v2-walkthrough/0.wxincvw3tgq.png)
+![0.wxincvw3tgq](/assets/images/posts/gemini-inc-v2-walkthrough/0.wxincvw3tgq.png)
 
 Although the first attempt results in an error like this, the site has registered the account.
 
-![0.d8b6kznuxu](/assets/images/posts/geminiinc-v2-walkthrough/0.d8b6kznuxu.png)
+![0.d8b6kznuxu](/assets/images/posts/gemini-inc-v2-walkthrough/0.d8b6kznuxu.png)
 
 Once we log in through `/login.php`, a message greets us and tells us that we have to submit a 6-digit code to activate the account.
 
-![0.uawm8innbm](/assets/images/posts/geminiinc-v2-walkthrough/0.uawm8innbm.png)
+![0.uawm8innbm](/assets/images/posts/gemini-inc-v2-walkthrough/0.uawm8innbm.png)
 
 We'll need the user ID to activate the account. Although the account is not activated at this stage, landing at the hyperlink of the profile page provides us with the user ID.
 
-![0.2u9hulbd8mh](/assets/images/posts/geminiinc-v2-walkthrough/0.2u9hulbd8mh.png)
+![0.2u9hulbd8mh](/assets/images/posts/gemini-inc-v2-walkthrough/0.2u9hulbd8mh.png)
 
 You can change the user ID in the URL, and because the page's title gave their usernames away, you can determine the username and user ID of all the users from here.
 
@@ -116,7 +116,7 @@ admin    (u=14)
 
 Now that I have the user ID of the newly registered account, let's proceed to activate it. Before we do that, know this &mdash; any invalid code will result in a `403 INVALID VALUE` response from the server.
 
-![0.7qgwlhrfd8u](/assets/images/posts/geminiinc-v2-walkthrough/0.7qgwlhrfd8u.png)
+![0.7qgwlhrfd8u](/assets/images/posts/gemini-inc-v2-walkthrough/0.7qgwlhrfd8u.png)
 
 Armed with this information, I wrote `activate.sh`, a simple script to brute-force the activation code.
 
@@ -184,11 +184,11 @@ The activation code appears fixed for all new accounts; not that this informatio
 
 Now that the account is active, the full set of features for an ordinary member is available.
 
-![0.j2aurisrpv](/assets/images/posts/geminiinc-v2-walkthrough/0.j2aurisrpv.png)
+![0.j2aurisrpv](/assets/images/posts/gemini-inc-v2-walkthrough/0.j2aurisrpv.png)
 
 I saw the password hash in the HTML source of the profile page during investigation of the unlocked features.
 
-![0.xzv6pwuqt2](/assets/images/posts/geminiinc-v2-walkthrough/0.xzv6pwuqt2.png)
+![0.xzv6pwuqt2](/assets/images/posts/gemini-inc-v2-walkthrough/0.xzv6pwuqt2.png)
 
 I was able to capture the password hash of all the users by changing the user ID in the URL and viewing the HTML code.
 
@@ -213,27 +213,27 @@ Or we could crack the password hashes offline with John the Ripper, in which cas
 
 The **Admin Panel** is in display after I log in to Gemini's account.
 
-![0.0r8oyqawtydk](/assets/images/posts/geminiinc-v2-walkthrough/0.0r8oyqawtydk.png)
+![0.0r8oyqawtydk](/assets/images/posts/gemini-inc-v2-walkthrough/0.0r8oyqawtydk.png)
 
 Clicking on either **General Settings** or **Execute Command** shows nothing. I look at the HTTP traffic and see a `403 IP NOT ALLOWED` response. Perhaps I need to tell the page that my originating IP address is `127.0.0.1`.
 
-![0.iia4qhz8ici](/assets/images/posts/geminiinc-v2-walkthrough/0.iia4qhz8ici.png)
+![0.iia4qhz8ici](/assets/images/posts/gemini-inc-v2-walkthrough/0.iia4qhz8ici.png)
 
 There's a Burp extension &mdash; **Bypass WAF**, that does the trick. Essentially, the extension adds custom headers such as `X-Forwarded-For: 127.0.0.1` to every HTTP request made through Burp. The instruction to add the extension is beyond the scope of this walkthrough.
 
 Suffice to say, after adding the custom headers, I'm able to display **General Settings** and **Execute Command**.
 
-![0.fn1airridg](/assets/images/posts/geminiinc-v2-walkthrough/0.fn1airridg.png)
+![0.fn1airridg](/assets/images/posts/gemini-inc-v2-walkthrough/0.fn1airridg.png)
 
-![0.zjtyxnja1w](/assets/images/posts/geminiinc-v2-walkthrough/0.zjtyxnja1w.png)
+![0.zjtyxnja1w](/assets/images/posts/gemini-inc-v2-walkthrough/0.zjtyxnja1w.png)
 
 Something strikes me as familiar when I look at the HTML source of the **Execute Command** page at `/new-groups.php`.
 
-![0.747hclxg2ig](/assets/images/posts/geminiinc-v2-walkthrough/0.747hclxg2ig.png)
+![0.747hclxg2ig](/assets/images/posts/gemini-inc-v2-walkthrough/0.747hclxg2ig.png)
 
 Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have, a readily available web shell that executes commands, and yet we have to get pass the test for illegal characters. What a bummer!
 
-![0.y241xdjfa4g](/assets/images/posts/geminiinc-v2-walkthrough/0.y241xdjfa4g.png)
+![0.y241xdjfa4g](/assets/images/posts/gemini-inc-v2-walkthrough/0.y241xdjfa4g.png)
 
 ### Execute Command
 
@@ -257,11 +257,11 @@ Serving HTTP on 0.0.0.0 port 80 ...
 192.168.10.130 - - [03/Jun/2018 14:06:42] "GET /rev HTTP/1.1" 200 -
 ```
 
-![0.eglwibtto8l](/assets/images/posts/geminiinc-v2-walkthrough/0.eglwibtto8l.png)
+![0.eglwibtto8l](/assets/images/posts/gemini-inc-v2-walkthrough/0.eglwibtto8l.png)
 
 Yes, we got shell. Let's do one better by copying the RSA public key we control to `/home/gemni1/.ssh/authorized_keys` and logging in with SSH.
 
-![0.o9rv7jkjpn](/assets/images/posts/geminiinc-v2-walkthrough/0.o9rv7jkjpn.png)
+![0.o9rv7jkjpn](/assets/images/posts/gemini-inc-v2-walkthrough/0.o9rv7jkjpn.png)
 
 There you go.
 
@@ -269,11 +269,11 @@ There you go.
 
 During enumeration of `gemini1`'s account, I discover `redis` is running on the host as `root`.
 
-![0.uz31kpsrd4](/assets/images/posts/geminiinc-v2-walkthrough/0.uz31kpsrd4.png)
+![0.uz31kpsrd4](/assets/images/posts/gemini-inc-v2-walkthrough/0.uz31kpsrd4.png)
 
 The password to log in to the `redis` server is conveniently located in `/etc/redis/6379.conf`.
 
-![0.bty888qayjj](/assets/images/posts/geminiinc-v2-walkthrough/0.bty888qayjj.png)
+![0.bty888qayjj](/assets/images/posts/gemini-inc-v2-walkthrough/0.bty888qayjj.png)
 
 With the password, I can proceed to abuse `redis` to write files as `root`. We could write the RSA public key we control to `/root/.ssh/authorized_keys` and gain `root` access through SSH.
 
@@ -327,11 +327,11 @@ redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 save
 
 ***Step 7: Log in with the RSA private key and enjoy your `root` shell.***
 
-![0.bwzw8a9z1nd](/assets/images/posts/geminiinc-v2-walkthrough/0.bwzw8a9z1nd.png)
+![0.bwzw8a9z1nd](/assets/images/posts/gemini-inc-v2-walkthrough/0.bwzw8a9z1nd.png)
 
 ### It Sure Was Fun
 
-![0.cna2uzm6g4d](/assets/images/posts/geminiinc-v2-walkthrough/0.cna2uzm6g4d.png)
+![0.cna2uzm6g4d](/assets/images/posts/gemini-inc-v2-walkthrough/0.cna2uzm6g4d.png)
 
 :dancer:
 

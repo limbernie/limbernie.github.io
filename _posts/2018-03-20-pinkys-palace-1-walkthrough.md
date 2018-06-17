@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-07 17:02:55 +0000
+last_modified_at: 2018-06-17 15:49:26 +0000
 title: "Pinky's Palace: 1 Walkthrough"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
@@ -41,37 +41,37 @@ PORT      STATE SERVICE    REASON         VERSION
 
 The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still get the same response. An idea struck me when I went to the proxy at `http://192.168.30.4:31337` — I should be using the hostname instead of the IP address!
 
-![screenshot-1](/assets/images/posts/pinkys-palace-walkthrough/screenshot-1.png)
+![screenshot-1](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-1.png)
 
 Now, in full pink glory.
 
-![screenshot-2](/assets/images/posts/pinkys-palace-walkthrough/screenshot-2.png)
+![screenshot-2](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-2.png)
 
 ### Directory/File Enumeration
 
 Now that I've gotten over the first hurdle, let's use `dirbuster` to fuzz the directories/files. But first, we need to set up the proxy in `dirbuster`.
 
-![screenshot-3](/assets/images/posts/pinkys-palace-walkthrough/screenshot-3.png)
+![screenshot-3](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-3.png)
 
 Next, use a bigger wordlist to maximize the chances of getting a hit.
 
-![screenshot-4](/assets/images/posts/pinkys-palace-walkthrough/screenshot-4.png)
+![screenshot-4](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-4.png)
 
 After `dirbuster` has completed doing its thing, this is what I get.
 
-![screenshot-5](/assets/images/posts/pinkys-palace-walkthrough/screenshot-5.png)
+![screenshot-5](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-5.png)
 
 ### Pinky's Admin Files Login
 
 This is the attack surface I see at `http://pinkys-palace:8080/littlesecrets-main/`.
 
-![screenshot-6](/assets/images/posts/pinkys-palace-walkthrough/screenshot-6.png)
+![screenshot-6](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-6.png)
 
 The form on this page points to `login.php` and `logs.php` logs any failed login attempts. Here's an example when I use the credential (`admin:admin`) to log in.
 
-![screenshot-7](/assets/images/posts/pinkys-palace-walkthrough/screenshot-7.png)
+![screenshot-7](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-7.png)
 
-![screenshot-8](/assets/images/posts/pinkys-palace-walkthrough/screenshot-8.png)
+![screenshot-8](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-8.png)
 
 Notice `logs.php` shows three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap`, which can test these parameters for SQLi far better and faster .
 
@@ -89,7 +89,7 @@ Similarly, we need to set up proxy for `sqlmap` to reach `pinkys-palace`. Armed 
 
 Here's the test result from `sqlmap`.
 
-![screenshot-9](/assets/images/posts/pinkys-palace-walkthrough/screenshot-9.png)
+![screenshot-9](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-9.png)
 
 Awesome.
 
@@ -97,11 +97,11 @@ We have an injection point. Time-based blind SQLi as the name suggests, is time-
 
 Moving on, we can now determine the tables in the database.
 
-![screenshot-10](/assets/images/posts/pinkys-palace-walkthrough/screenshot-10.png)
+![screenshot-10](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-10.png)
 
 Let's dump the `users` table from `pinky_sec_db`.
 
-![screenshot-11](/assets/images/posts/pinkys-palace-walkthrough/screenshot-11.png)
+![screenshot-11](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-11.png)
 
 Let's crack these hashes with John the Ripper and "rockyou".
 
@@ -116,13 +116,13 @@ pinkymanage:3pinkysaf33pinkysaf3::::::
 
 I'm able to log in to `pinkymanage`'s account with the cracked password.
 
-![screenshot-12](/assets/images/posts/pinkys-palace-walkthrough/screenshot-12.png)
+![screenshot-12](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-12.png)
 
 ### Ultra Secret Admin Files
 
 I see `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
 
-![screenshot-13](/assets/images/posts/pinkys-palace-walkthrough/screenshot-13.png)
+![screenshot-13](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-13.png)
 
 The file `.ultrasecret` turns out to be the `base64` encoded version of the RSA private key as hinted by `note.txt`.
 
@@ -132,15 +132,15 @@ Hmm just in case I get locked out of my server I put this rsa key here.. Nobody 
 
 I place the decoded RSA private key in `/tmp` and change its permissions, but I still can't determine who is the key owner because the information is not stored in the key.
 
-![screenshot-14](/assets/images/posts/pinkys-palace-walkthrough/screenshot-14.png)
+![screenshot-14](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-14.png)
 
 Looking at `/etc/passwd` confirms the existence of `pinky`. Thank goodness!
 
-![screenshot-15](/assets/images/posts/pinkys-palace-walkthrough/screenshot-15.png)
+![screenshot-15](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-15.png)
 
 Perhaps I can use the RSA private key to log in to `pinky`'s account, assuming `/home/pinky/.ssh/authorized_keys` has the corresponding public key? Well, let's find out.
 
-![screenshot-16](/assets/images/posts/pinkys-palace-walkthrough/screenshot-16.png)
+![screenshot-16](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-16.png)
 
 Sweet.
 
@@ -148,25 +148,25 @@ Sweet.
 
 I see `adminhelper` at the home directory and it has been `setuid` to `root` during enumeration of `pinky`'s account.
 
-![screenshot-17](/assets/images/posts/pinkys-palace-walkthrough/screenshot-17.png)
+![screenshot-17](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-17.png)
 
 There's an accompanying note as well.
 
-![screenshot-18](/assets/images/posts/pinkys-palace-walkthrough/screenshot-18.png)
+![screenshot-18](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-18.png)
 
 I'm certain that we are looking at a classic stack buffer overflow as the following supports that suspicion.
 
 _Image shows ASLR disabled._
 
-![screenshot-19](/assets/images/posts/pinkys-palace-walkthrough/screenshot-19.png)
+![screenshot-19](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-19.png)
 
 _Image shows the stack is executable._
 
-![screenshot-20](/assets/images/posts/pinkys-palace-walkthrough/screenshot-20.png)
+![screenshot-20](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-20.png)
 
 It's fortunate that `adminhelper` is small and simple. This is how the disassembly of the main function looks like.
 
-![screenshot-21](/assets/images/posts/pinkys-palace-walkthrough/screenshot-21.png)
+![screenshot-21](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-21.png)
 
 This certainly brought back fond memories of 32-bit Linux exploit development. I'm pretty excited to try my hands on 64-bit Linux exploit development. Notice the 64-bit registers (e.g. rax) and how arguments pass through registers instead of the stack?
 
@@ -174,27 +174,27 @@ I use `scp` to download a copy of `adminhelper` to my Kali VM where `gdb` and [P
 
 Here, I create a random pattern of 80 bytes and save it in `buf`. Why 80 bytes? Even though it's optional, notice the 80 (`0x50`) bytes of space allocated in the stack? This is to make way for the destination buffer in `strcpy()`.
 
-![screenshot-22](/assets/images/posts/pinkys-palace-walkthrough/screenshot-22.png)
+![screenshot-22](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-22.png)
 
 Next, I run `adminhelper` with the supplied argument.
 
-![screenshot-23](/assets/images/posts/pinkys-palace-walkthrough/screenshot-23.png)
+![screenshot-23](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-23.png)
 
 This triggers a segmentation fault.
 
-![screenshot-24](/assets/images/posts/pinkys-palace-walkthrough/screenshot-24.png)
+![screenshot-24](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-24.png)
 
 Next, examine the string ("`IAAEAA4A`") at the stack to determine the offset.
 
-![screenshot-25](/assets/images/posts/pinkys-palace-walkthrough/screenshot-25.png)
+![screenshot-25](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-25.png)
 
 Verify that the offset is able to control the RIP register.
 
-![screenshot-26](/assets/images/posts/pinkys-palace-walkthrough/screenshot-26.png)
+![screenshot-26](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-26.png)
 
 Even though the stack aligns along the 8-byte boundary, the return address in the stack is 6 bytes.
 
-![screenshot-27](/assets/images/posts/pinkys-palace-walkthrough/screenshot-27.png)
+![screenshot-27](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-27.png)
 
 Now that we can control RIP with the offset at 72 bytes, we can place our shellcode in an environment variable and use the following code to determine the memory address of the environment variable, where the shellcode is. This will be our return address in the exploit.
 
@@ -226,15 +226,15 @@ Since we are using the environment variable to store our payload, the size of th
 
 Once we copy `getenvaddr.c` over with `scp` and compile it, it's time to get the party going.
 
-![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-28.png)
+![screenshot-28](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-28.png)
 
 A perfectionist may argue that `euid=0` is not a real `root` shell. Well, that's almost trivial to fix.
 
-![screenshot-28](/assets/images/posts/pinkys-palace-walkthrough/screenshot-29.png)
+![screenshot-28](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-29.png)
 
 ### Eyes on the Prize
 
-![screenshot-30](/assets/images/posts/pinkys-palace-walkthrough/screenshot-30.png)
+![screenshot-30](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-30.png)
 
 :dancer:
 
