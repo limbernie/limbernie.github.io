@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-17 15:57:15 +0000
+last_modified_at: 2018-06-17 17:37:11 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: "[VulnHub, BlackMarket]"
@@ -19,7 +19,7 @@ This post documents the complete walkthrough of BlackMarket: 1, a boot2root [VM]
 
 ### Background
 
-The BlackMarket VM was first presented at Brisbane SecTalks BNE0x1B. This VM has total of six flags and one `root` flag. Each flag leads to another and the flag format is flag{blahblah}.
+The BlackMarket VM was first presented at Brisbane SecTalks BNE0x1B. This VM has total of six flags and one `root` flag. Each flag leads to another and the flag format is `flag{blahblah}`.
 
 ### Information Gathering
 
