@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-17 17:37:11 +0000
+last_modified_at: 2018-06-17 19:28:45 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: "[VulnHub, BlackMarket]"
@@ -19,7 +19,7 @@ This post documents the complete walkthrough of BlackMarket: 1, a boot2root [VM]
 
 ### Background
 
-The BlackMarket VM was first presented at Brisbane SecTalks BNE0x1B. This VM has total of six flags and one `root` flag. Each flag leads to another and the flag format is `flag{blahblah}`.
+The BlackMarket VM was first presented at Brisbane SecTalks BNE0x1B. This VM has a total of six flags and one `root` flag. Each flag leads to another and the flag format is `flag{blahblah}`.
 
 ### Information Gathering
 
@@ -73,11 +73,11 @@ PORT    STATE SERVICE    REASON         VERSION
 |_ssl-date: TLS randomness does not represent time
 ```
 
-`nmap` finds plenty of open services. But, let's start with the `http` since there is a higher chance of finding an attack surface here.
+`nmap` finds plenty of open services. But, let's start with `http` since there is a higher chance of finding an attack surface here.
 
 ### Flag: 1
 
-Indeed, the first flag is in the HTML source of the landing page.
+Indeed, the first flag is in the HTML source of the landing page at `http://192.168.10.130/`.
 
 ![Flag: 1](/assets/images/posts/blackmarket-1-walkthrough/0.ib8ttza2a7.png)
 
@@ -92,9 +92,15 @@ Hmm. CIA? Operation Treadstone? Jason Bourne?
 
 Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later, who knows?
 
+Here's how.
+
+```
+# cewl -w cewl.txt http://bourne.wikia.com/wiki/Operation_Treadstone
+```
+
 ### Directory Fuzzing
 
-Next, I use `dirbuster`, combined with one of the bigger wordlists to fuzz the site, with the intention to uncover any directories that are not visible from the get-go.
+Next, I use `dirbuster` with one of the bigger wordlists to fuzz the site — to uncover any directories that are not visible from the get-go.
 
 ```
 Dir found: / - 200
@@ -128,7 +134,7 @@ Let's use `hydra` to perform a brute-force login attack on the site and see if w
 [80][http-post-form] host: 192.168.10.130   login: supplier   password: supplier
 ```
 
-Boom. I'm in.
+Boom. I'm in. And as you can see, what is in `top10.txt` is not important because the password is the same as the username.
 
 ![Login Success - supplier](/assets/images/posts/blackmarket-1-walkthrough/0.g3bb3gue5yu.png)
 
@@ -216,11 +222,11 @@ Recall the `supplier` login access? Because of poor coding in the role-based acc
 
 ![Admin Landing Page](/assets/images/posts/blackmarket-1-walkthrough/0.xeywdl0ado.png)
 
-Besides changing to the landing pages of other roles with the same session cookie, I can also change the login password of any user as long as I know the user ID. Let's change the password of `admin` (`id=1`) through `/edit_customer.php`.
+Besides changing to the landing pages of other roles with the same session cookie, I can also change the login password of any user as long as I know the user ID. Let's change the password of `admin` (`id=1`) through `/edit_customer.php` using Burp Repeater.
 
 ![Burp Repeater](/assets/images/posts/blackmarket-1-walkthrough/0.vjdzvr2g4ll.png)
 
-Flag 4 is on display once I'm logged in.
+I've changed `admin`'s password to `admin`. Flag 4 is on display once I'm logged in.
 
 ![Flag: 4](/assets/images/posts/blackmarket-1-walkthrough/0.b9g442s2qoq.png)
 
@@ -276,7 +282,7 @@ voodoo
 
 The substitution candidate is possibly "access" as the other words don't make contextual sense in the message.
 
-As I piece together the substitution candidates and the contextual clues, I come to realize the substitution key is the reverse alphabet set. I wrote a simple bash script, `decrypt.sh` to decrypt the whole message.
+As I piece together the substitution candidates and the contextual clues, I come to realize the substitution key is the reverse alphabet set. I wrote a simple bash script to decrypt the whole message.
 
 ```bash
 #!/bin/bash
@@ -384,7 +390,7 @@ From the HTML source of the page, it's obvious that to access the backdoor, I ne
 </html>
 {% endhighlight %}
 
-And `5215565757312090656` is not the password — too bad.
+And … `5215565757312090656` is not the password — too bad.
 
 ![Failed Login](/assets/images/posts/blackmarket-1-walkthrough/0.d1oy6u6w75t.png)
 
