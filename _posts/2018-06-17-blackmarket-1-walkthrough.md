@@ -293,6 +293,8 @@ SET2=$((echo -n {z..a}; echo -n {Z..A}) | tr -d ' ')
 cat $1 | tr $SET1 $SET2
 ```
 
+Let's decrypt the message.
+
 ```
 # ./decrypt.sh encrypted.txt
 Hi Dimitri
