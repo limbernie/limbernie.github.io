@@ -347,7 +347,7 @@ Pass = 5215565757312090656
 
 ### Backdoor Login
 
-This time round, I rely on good ol' fashion guesswork to determine the location of the backdoor. It's at http://192.168.10.130/vworkshop/kgbbackdoor/backdoor.php.
+This time round, I rely on good ol' fashion guesswork to determine the location of the backdoor. It's at `/vworkshop/kgbbackdoor/backdoor.php`.
 
 ![backdoor.php](/assets/images/posts/blackmarket-walkthrough/0.s3vwa3ng4w.png)
 
