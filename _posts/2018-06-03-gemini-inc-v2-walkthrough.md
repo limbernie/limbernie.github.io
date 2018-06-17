@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-06-08 22:39:48 +0000
+last_modified_at: 2018-06-17 15:36:22 +0000
 title: "Gemini Inc: v2 Walkthrough"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -46,7 +46,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Welcome to Gemini Inc v2
 
 ```
-`nmap` finds 22/tcp and 80/tcp open. Nothing unusual.
+`nmap` finds `22/tcp` and `80/tcp open`. Nothing unusual.
 
 ### Directory/File Enumeration
 

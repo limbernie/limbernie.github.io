@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
+last_modified_at: 2018-06-17 15:35:57 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: "[VulnHub, BlackMarket]"
@@ -112,7 +113,7 @@ Dir found: /user/ - 302
 Dir found: /vendor/ - 403
 ```
 
-The fuzz turns up `/squirrelmail` and `upload` — potential attack surfaces. Files like `/header.php` and `/navbar` are also consistently seen (return code `200`) under `/admin`, `/supplier`, and `/user`, which suggests that the site could be using role-based access.
+The fuzz turns up `/squirrelmail` and `/upload` — potential attack surfaces. Files like `/header.php` and `/navbar` are also consistently seen (return code `200`) under `/admin`, `/supplier`, and `/user`, which suggests that the site could be using role-based access.
 
 ### BlackMarket Login
 
@@ -147,7 +148,7 @@ sqlmap --cookie="PHPSESSID=og152rg2j9k54tll52l146g9j4" --url=http://192.168.10.1
 
 ![SQL Injection](/assets/images/posts/blackmarket-walkthrough/0.ndsxku3wwn.png)
 
-Awesome. Let's proceed to determine the databases and dump interesting information.
+Awesome. Let's proceed to determine the databases and dump out interesting information from them.
 
 Five databases in MySQL.
 
@@ -197,6 +198,8 @@ It's decoded to this.
 Congrats Proceed Further
 ```
 
+Let's proceed further then.
+
 ### Flag: 3
 
 The third flag is in the `flag` table — one of the tables in `BlackMarket` database.
@@ -213,7 +216,7 @@ Recall the `supplier` login access? Because of poor coding in the role-based acc
 
 ![Admin Landing Page](/assets/images/posts/blackmarket-walkthrough/0.xeywdl0ado.png)
 
-Besides changing to the landing pages of other roles with the same session cookie, I can also change the login password of any user as long as I know the user ID. Let's change the password of `admin` who has the user ID '1' through `/edit_customer.php`.
+Besides changing to the landing pages of other roles with the same session cookie, I can also change the login password of any user as long as I know the user ID. Let's change the password of `admin` (`id=1`) through `/edit_customer.php`.
 
 ![Burp Repeater](/assets/images/posts/blackmarket-walkthrough/0.vjdzvr2g4ll.png)
 
@@ -249,11 +252,11 @@ It's decoded to this.
 Everything is encrypted
 ```
 
-The decoded flag offers nothing of value.
+Duh. The decoded flag offers nothing of value.
 
 ### Decryption
 
-It's obvious that we are looking at some kind of substitution cipher. The method to decipher such a cipher is to look for words with repeated characters. For example, straight up we have "Wrnrgir", which is a substitution for "Dimitri". The first line is "Hi Dimitri".
+It's obvious that we are looking at some kind of substitution cipher. The method to decipher it — is to look for words with repeated characters. For example, straight up we have "Wrnrgir", which is a substitution for "Dimitri". As such, the first line is "Hi Dimitri".
 
 Moving on to the word "zxxvhh", which has two pairs of repeated characters — we can turn to regular expression and a dictionary to help us find the next substitution candidate.
 
@@ -294,7 +297,7 @@ PassPass.jpg in order to get access.
 
 ### BlackMarket Auto Workshop
 
-Hmm. Another web application? No wonder I saw `eworkshop` during database enumeration. I got a `404 - Not Found` when I navigated to `/eworkshop` following the trail.
+Hmm. Another web application? I got a `404 - Not Found` when I navigated to `/eworkshop` following the trail.
 
 Not knowing how to proceed, I use the following command hoping that I'll be lucky enough to locate the web application by trying all the alphabetical letters before `workshop`.
 
@@ -381,7 +384,7 @@ From the HTML source of the page, it's obvious that to access the backdoor, I ne
 </html>
 {% endhighlight %}
 
-`5215565757312090656` is not the password. Too bad.
+And `5215565757312090656` is not the password — too bad.
 
 ![Failed Login](/assets/images/posts/blackmarket-walkthrough/0.d1oy6u6w75t.png)
 
