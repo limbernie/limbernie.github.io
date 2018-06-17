@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:39:39 +0000
+last_modified_at: 2018-06-17 17:23:06 +0000
 title: "Cyberry: 1 Walkthrough"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
@@ -12,7 +12,7 @@ image:
 ---
 
 This post documents the complete walkthrough of Cyberry: 1,
-a boot2root [VM][1] created by [Cyberry][2], and hosted at [VulnHub][2]. If you are uncomfortable with spoilers, please stop reading now.
+a boot2root [VM][1] created by [Cyberry][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
