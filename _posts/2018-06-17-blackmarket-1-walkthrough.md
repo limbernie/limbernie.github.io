@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-17 19:28:45 +0000
+last_modified_at: 2018-06-18 00:45:27 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: "[VulnHub, BlackMarket]"
@@ -144,9 +144,11 @@ I know that I'm looking at a potential SQL injection vulnerability when it invol
 
 ![Potential SQL Injection Vulnerability](/assets/images/posts/blackmarket-1-walkthrough/0.9z3g24swagm.png)
 
-The tool for the job is `sqlmap`. I'll need the session cookie to scan for SQLi vulnerabilities.
+The tool for the job is `sqlmap`. I'll need the session cookie to scan for SQLi vulnerabilities. Here's how to get the session cookie from the browser's cookie manager.
 
 ![Cookie from Firefox](/assets/images/posts/blackmarket-1-walkthrough/0.foxwz3nrnh8.png)
+
+Next, let's run the cookie through `sqlmap`.
 
 ```
 sqlmap --cookie="PHPSESSID=og152rg2j9k54tll52l146g9j4" --url=http://192.168.10.130/supplier/edit_product.php?id=1
@@ -181,7 +183,7 @@ ftp:x:112:120:ftp daemon,,,:/srv/ftp:/bin/false
 
 ### Flag: 2
 
-Notice that the way for `nicky` to log in is through `ftp`? I know that `ftp` is available from the `nmap` scan. Armed with this information, let's give a shot to `hydra` with the wordlist I built earlier on, and try to brute-force our way in.
+Notice that the way for `nicky` to log in is through `ftp`? I know that `ftp` is available from the `nmap` scan. Armed with this information, let's give a shot to `hydra` and the wordlist I built earlier on, and try to brute-force our way in.
 
 ```
 # hydra -l nicky -P cewl.txt -f -o hydra.txt -e nsr -t 64 ftp://192.168.10.130)
@@ -218,7 +220,7 @@ I'm supposed to find the email access of Jason Bourne; and we know from the resu
 
 ### Flag: 4
 
-Recall the `supplier` login access? Because of poor coding in the role-based access, I can change the URL to a different role such as `/admin` and access their respective landing pages with `supplier` session cookie.
+Recall the `supplier` login access? Because of poor coding in the role-based access, I can point the URL to a different role such as `/admin` and access their respective landing pages with `supplier`'s session cookie.
 
 ![Admin Landing Page](/assets/images/posts/blackmarket-1-walkthrough/0.xeywdl0ado.png)
 
@@ -245,7 +247,7 @@ Since there's a tendency of trolling, perhaps `?????` is the password to Jason B
 
 ![Login Success - jbourne](/assets/images/posts/blackmarket-1-walkthrough/0.f45j0gwoq6.png)
 
-Sure enough.
+Sure enough, I got in with the credential (`jbourne:?????`).
 
 Looking into **INBOX.Drafts** lies the fifth flag and an encrypted message from putin@kgb.gov.ru. No prize for guessing who that is :wink:
 
@@ -307,7 +309,7 @@ PassPass.jpg in order to get access.
 
 Hmm. Another web application? I got a `404 - Not Found` when I navigated to `/eworkshop` following the trail.
 
-Not knowing how to proceed, I use the following command hoping that I'll be lucky enough to locate the web application by trying all the alphabetical letters before `workshop`.
+Not knowing how to proceed, I use the following command hoping that I'll be lucky enough to locate the web application by switching out the letter before `workshop` with all the alphabetical letters.
 
 ```
 # for c in {a..z}; do printf "/${c}workshop/: %d\n" $(curl -s -w %{http_code} -o /dev/null 192.168.10.130/${c}workshop/); done
