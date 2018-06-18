@@ -73,7 +73,7 @@ PORT    STATE SERVICE    REASON         VERSION
 |_ssl-date: TLS randomness does not represent time
 ```
 
-`nmap` finds plenty of open services. But, let's start with `http` since there is a higher chance of finding an attack surface here.
+`nmap` finds plenty of open services. But, let's continue our efforts with `http` since there is a higher chance of finding an attack surface here.
 
 ### Flag: 1
 
@@ -90,7 +90,7 @@ CIA - Operation Treadstone
 
 Hmm. CIA? Operation Treadstone? Jason Bourne?
 
-Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later, who knows?
+Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later,
 
 Here's how.
 
@@ -134,7 +134,7 @@ Let's use `hydra` to perform a brute-force login attack on the site and see if w
 [80][http-post-form] host: 192.168.10.130   login: supplier   password: supplier
 ```
 
-Boom. I'm in. And as you can see, what is in `top10.txt` is not important because the password is the same as the username.
+Boom. I'm in. And as you can see, what is in `top10.txt` is unimportant because the password is the same as the username.
 
 ![Login Success - supplier](/assets/images/posts/blackmarket-1-walkthrough/0.g3bb3gue5yu.png)
 
@@ -243,7 +243,7 @@ Trolled — the decoded message says "nothing is here".
 
 ### Flag: 5
 
-Since there's a tendency of trolling, perhaps `?????` is the password to Jason Bourne email access?
+Since there's a tendency of trolling, could `?????` be the password to Jason Bourne email access?
 
 ![Login Success - jbourne](/assets/images/posts/blackmarket-1-walkthrough/0.f45j0gwoq6.png)
 
