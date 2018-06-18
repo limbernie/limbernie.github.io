@@ -90,7 +90,7 @@ CIA - Operation Treadstone
 
 Hmm. CIA? Operation Treadstone? Jason Bourne?
 
-Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later,
+Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later.
 
 Here's how.
 
