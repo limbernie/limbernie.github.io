@@ -19,3 +19,7 @@ layout: default
   <div id="disqus_thread"></div>
   {% include disqus.html %}
   {% endif %}
+
+{% if page.back-to-top %}
+<div class="back-to-top" style="display: none;"><i class="fas fa-chevron-up"></i><div style="margin-top:-10px;">top</div></div>
+{% endif %}

@@ -1,10 +1,10 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-18 00:45:27 +0000
+last_modified_at: 2018-06-22 12:57:34 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
-tag: "[VulnHub, BlackMarket]"
+tag: [VulnHub, BlackMarket]
 comments: true
 image:
   feature: blackmarket-1-walkthrough.jpg
