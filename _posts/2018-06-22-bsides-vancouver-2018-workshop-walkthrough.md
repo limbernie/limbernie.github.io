@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
+last_modified_at: 2018-06-22 07:34:05 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 category: Walkthrough
 tag: [VulnHub, "BSides Vancouver"]
@@ -18,7 +19,7 @@ This post documents the easiest walkthrough of BSides Vancouver: 2018 (Workshop)
 
 ### Background
 
-This VM aims to create a safe environment where you can perform real-world penetration testing on an intentionally vulnerable target. As the name implies, the VM appeared as course material in a workshop during 2018 BSides Vancouver.
+This VM aims to create a safe environment to perform real-world penetration testing on an intentionally vulnerable target. As the name implied, the VM appeared as course material in a workshop during 2018 BSides Vancouver.
 
 ### Information Gathering
 
@@ -109,7 +110,7 @@ I got my eyes on the prize.
 
 ### Afterthought
 
-Admittedly, this VM is not too realistic since it's targeting delegates attending a workshop. That's also the reason why there are other ways to gain remote access and `root`ing the VM — the instructor would need to cover other attack surfaces like WordPress and/or kernel exploit.
+Admittedly, this VM is not too realistic since it's targeting delegates attending the workshop. That's also the reason why there are other ways to gain remote access and `root`ing the VM since the instructor would need to cover other attack surfaces like WordPress and/or kernel exploit.
 
 [1]: https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/
 [2]: https://twitter.com/@abatchy17
