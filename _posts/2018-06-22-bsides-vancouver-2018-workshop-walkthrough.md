@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
-last_modified_at: 2018-06-22 07:34:05 +0000
+last_modified_at: 2018-06-22 13:46:01 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 category: Walkthrough
 tag: [VulnHub, "BSides Vancouver"]
@@ -110,7 +110,7 @@ I got my eyes on the prize.
 
 ### Afterthought
 
-Admittedly, this VM is not too realistic since it's targeting delegates attending the workshop. That's also the reason why there are other ways to gain remote access and `root`ing the VM since the instructor would need to cover other attack surfaces like WordPress and/or kernel exploit.
+Admittedly, this VM is not too difficult since it's targeting delegates attending the workshop. That's also the reason why there are other ways to gain remote access and `root`ing the VM since the instructor would need to cover other attack surfaces like WordPress and/or kernel exploit.
 
 [1]: https://www.vulnhub.com/entry/bsides-vancouver-2018-workshop,231/
 [2]: https://twitter.com/@abatchy17
