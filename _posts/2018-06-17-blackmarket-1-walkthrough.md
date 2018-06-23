@@ -1,15 +1,15 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-22 12:57:34 +0000
+last_modified_at: 2018-06-23 11:46:24 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: [VulnHub, BlackMarket]
 comments: true
 image:
   feature: blackmarket-1-walkthrough.jpg
-  credit: Alexas_Fotos / Pixabay
-  creditlink: https://pixabay.com/en/pistol-weapon-target-crime-fight-2948729/
+  credit: MasterTux / Pixabay
+  creditlink: https://pixabay.com/en/cartridges-weapon-war-hand-gun-2166491/
 ---
 
 This post documents the complete walkthrough of BlackMarket: 1, a boot2root [VM][1] created by [AcEb0mb3R][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
