@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:41:00 +0000
+last_modified_at: 2018-06-23 20:54:41 +0000
 title: "g0rmint: 1 Walkthrough"
+subtitle: "Will the Real Gormint Aunty Please Stand Up?"
 category: Walkthrough
 tags: [VulnHub, g0rmint]
 comments: true

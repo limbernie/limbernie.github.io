@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-03-28 17:54:26 +0000
-last_modified_at: 2018-06-17 15:51:07 +0000
+last_modified_at: 2018-06-23 20:56:00 +0000
 title: "DerpNStink: 1 Walkthrough"
+subtitle: "Misfortune in South Park"
 category: Walkthrough
 tags: [VulnHub, "DerpNStink"]
 comments: true

@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:42:49 +0000
+last_modified_at: 2018-06-23 20:54:51 +0000
 title: "The Ether: EvilScience Walkthrough"
+subtitle: "This Isn't Bad Science. It's Evil Science."
 category: Walkthrough
 tags: [VulnHub, "The Ether"]
 comments: true

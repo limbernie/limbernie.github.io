@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
-last_modified_at: 2018-06-23 11:19:33 +0000
+last_modified_at: 2018-06-23 20:57:16 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
+subtitle: "A Vibrant Melting Pot"
 category: Walkthrough
 tag: [VulnHub, "BSides Vancouver"]
 comments: true

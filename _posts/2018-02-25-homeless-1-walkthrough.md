@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:44:34 +0000
+last_modified_at: 2018-06-23 20:54:59 +0000
 title: "Homeless: 1 Walkthrough"
+subtitle: "How to Save the Homeless"
 category: Walkthrough
 tags: [VulnHub, Homeless]
 comments: true

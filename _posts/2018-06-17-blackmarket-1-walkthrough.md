@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-23 20:20:37 +0000
+last_modified_at: 2018-06-23 20:57:08 +0000
 title: "BlackMarket: 1 Walkthrough"
+subtitle: "Overt, Covert, and Clandestine"
 category: Walkthrough
 tag: [VulnHub, BlackMarket]
 comments: true

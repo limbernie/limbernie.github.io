@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:49:26 +0000
+last_modified_at: 2018-06-23 20:55:49 +0000
 title: "Pinky's Palace: 1 Walkthrough"
+subtitle: "In the Pink — I Survived"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true

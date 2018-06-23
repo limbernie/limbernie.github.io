@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-06-17 15:55:00 +0000
+last_modified_at: 2018-06-23 20:56:49 +0000
 title: "Gemini Inc: 1 Walkthrough"
+subtitle: "Good Things Come in Pairs"
 category: Walkthrough
 tags: [VulnHub, "Gemini Inc"]
 comments: true

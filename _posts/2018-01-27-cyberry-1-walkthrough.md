@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 17:23:06 +0000
+last_modified_at: 2018-06-23 20:54:31 +0000
 title: "Cyberry: 1 Walkthrough"
+subtitle: "I Love Berries!"
 categories: Walkthrough
 tags: [VulnHub, Cyberry]
 comments: true

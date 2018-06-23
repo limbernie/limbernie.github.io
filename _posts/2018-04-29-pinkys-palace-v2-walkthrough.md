@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-06-07 17:00:32 +0000
+last_modified_at: 2018-06-23 20:56:19 +0000
 title: "Pinky's Palace: v2 Walkthrough"
+subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true

@@ -1,7 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-17 15:46:16 +0000
+last_modified_at: 2018-06-23 20:55:08 +0000
 title: "Bulldog: 1 Walkthrough"
+subtitle: "Who Let the Dogs Out?"
 category: Walkthrough
 tags: [VulnHub, Bulldog]
 comments: true
