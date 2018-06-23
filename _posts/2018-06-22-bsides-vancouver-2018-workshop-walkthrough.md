@@ -59,7 +59,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Site doesn't have a title (text/html).
 ```
 
-`nmap` finds `21/tcp`, `22/tcp`, and `80/tcp` open. None of the services are vulnerable to any remote code execution attacks right off the bat. Let's explore the `ftp` service next since anonymous login is allowed.
+`nmap` finds `21/tcp`, `22/tcp`, and `80/tcp` open. None of the services are vulnerable to any remote code execution attacks right off the bat. Let's explore the `ftp` service next since we can log in anonymously.
 
 ### FTP Service
 
@@ -83,7 +83,7 @@ As you can see, `anne` is the sole account that can login via SSH with a passwor
 
 ### Hail Hydra
 
-For online brute-force attacks, I like to use `hydra` and the **rockyou** wordlist. Here's the command.
+For online brute-force attack, I like to use `hydra` and the **rockyou** wordlist. Here's the command.
 
 ```
 # hydra -l anne -P /usr/share/wordlists/rockyou.txt -f -e nsr -o hydra.txt -t 4 ssh://192.168.30.129
@@ -92,13 +92,13 @@ For online brute-force attacks, I like to use `hydra` and the **rockyou** wordli
 
 ### SSH Access
 
-This is way too easy.
+I don't believe it — this is way too easy.
 
 ![SSH Access](/assets/images/posts/bsides-vancouver-2018-workshop-walkthrough/0.dovkhr1yz8s.png)
 
 ### Privilege Escalation
 
-Guess what — `anne` is able to `sudo` as `root`.
+Guess what? `anne` is able to `sudo` as `root`.
 
 ![sudo](/assets/images/posts/bsides-vancouver-2018-workshop-walkthrough/0.6pu5qdr84a.png)
 
