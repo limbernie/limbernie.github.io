@@ -1,15 +1,15 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
-last_modified_at: 2018-06-23 03:42:32 +0000
+last_modified_at: 2018-06-23 11:19:33 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 category: Walkthrough
 tag: [VulnHub, "BSides Vancouver"]
 comments: true
 image:
   feature: bsides-vancouver-2018-workshop-walkthrough.jpg
-  credit: geralt / Pixabay
-  creditlink: https://pixabay.com/en/workshop-board-hand-leave-teamwork-746539/
+  credit: Alexas_Fotos / Pixabay
+  creditlink: https://pixabay.com/en/kermit-workshop-coffee-break-pliers-2091951/
 ---
 
 This post documents the easiest walkthrough of BSides Vancouver: 2018 (Workshop), a boot2root [VM][1] created by [abatchy][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
