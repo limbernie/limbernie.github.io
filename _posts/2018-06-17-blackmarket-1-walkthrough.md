@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-23 11:46:24 +0000
+last_modified_at: 2018-06-23 20:20:37 +0000
 title: "BlackMarket: 1 Walkthrough"
 category: Walkthrough
 tag: [VulnHub, BlackMarket]
@@ -228,7 +228,7 @@ Besides changing to the landing pages of other roles with the same session cooki
 
 ![Burp Repeater](/assets/images/posts/blackmarket-1-walkthrough/0.vjdzvr2g4ll.png)
 
-I've changed `admin`'s password to `admin`. Flag 4 is on display once I'm logged in.
+I've changed `admin`'s password to `admin`. The fourth flag is on display once I'm logged in.
 
 ![Flag: 4](/assets/images/posts/blackmarket-1-walkthrough/0.b9g442s2qoq.png)
 
