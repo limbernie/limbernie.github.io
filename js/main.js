@@ -37,15 +37,15 @@ function overlay() {
         opacity: 1
     }, "fast"), ol.on("click", function() {
         draw();
-    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", stopScroll, false)) : (ol.css({
+    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", noScroll, {passive: false})) : (ol.css({
         visibility: "hidden",
         opacity: 1
     }).animate({
         opacity: 0
-    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), document.body.removeEventListener("touchstart", stopScroll, false));
+    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), document.body.removeEventListener("touchstart", noScroll, {passive: false}));
 }
 
-function stopScroll(event) {
+function noScroll(event) {
 	event.preventDefault();
 	event.stopPropagation();
 } 
