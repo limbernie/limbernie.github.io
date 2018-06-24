@@ -16,9 +16,9 @@ $border-width:               .0625rem !default;
 //
 // Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:     "Source Sans Pro", sans-serif !default;
-$font-family-serif:          "Source Serif Pro", serif !default;
-$font-family-monospace:      "Source Code Pro", monospace !default;
+$font-family-sans-serif:     "PT Sans", sans-serif !default;
+$font-family-serif:          "PT Serif", serif !default;
+$font-family-monospace:      "PT Mono", monospace !default;
 $font-family-base:           $font-family-sans-serif !default;
 
 // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
