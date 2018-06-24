@@ -37,16 +37,19 @@ function overlay() {
         opacity: 1
     }, "fast"), ol.on("click", function() {
         draw();
-    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", function(t) {
-    	console.log(t);
-        t.preventDefault();
+    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", stopScroll
     }, false)) : (ol.css({
         visibility: "hidden",
         opacity: 1
     }).animate({
         opacity: 0
-    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), document.body.removeEventListener("touchstart"));
+    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), document.body.removeEventListener("touchstart", stopScroll, false));
 }
+
+function stopScroll(event) {
+	event.preventDefault();
+	event.stopPropagation();
+} 
 
 function toggle() {
     var t = "fa-ellipsis-", e = "fas " + i, o = t + "h", i = t + "v";
