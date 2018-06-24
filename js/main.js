@@ -40,7 +40,7 @@ function overlay() {
     }), b.css("overflow-y", "hidden"), b.addEventListener("touchmove", function(t) {
     	console.log(t);
         t.preventDefault();
-    })) : (ol.css({
+    }, false)) : (ol.css({
         visibility: "hidden",
         opacity: 1
     }).animate({
