@@ -37,7 +37,7 @@ function overlay() {
         opacity: 1
     }, "fast"), ol.on("click", function() {
         draw();
-    }), b.css("overflow-y", "hidden"), b.addEventListener("touchmove", function(t) {
+    }), b.css("overflow-y", "hidden"), b.addEventListener("touchstart", function(t) {
     	console.log(t);
         t.preventDefault();
     }, false)) : (ol.css({
@@ -45,7 +45,7 @@ function overlay() {
         opacity: 1
     }).animate({
         opacity: 0
-    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), b.removeEventListener("touchmove"));
+    }, "fast"), ol.off("click"), b.css("overflow-y", "auto"), b.removeEventListener("touchstart"));
 }
 
 function toggle() {
