@@ -6,7 +6,7 @@ namely:
 * [Leonids](https://github.com/renyuanz/leonids) by Renyuan Zou
 * [Hyde](https://github.com/poole/hyde) by Mark Otto
 * [So Simple](https://github.com/mmistakes/so-simple-theme) by Micheal Rose
-* [Better pagination for Jekyll](https://github.com/timble/jekyll-pagination)
+* [Better pagination for Jekyll](https://github.com/timble/jekyll-pagination) By Timble
 
 The theme represents a concoction of the parts I like about from the other
 themes, hence the name Potion. Also, I thought it's kinda cool when
