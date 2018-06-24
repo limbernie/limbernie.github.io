@@ -37,8 +37,7 @@ function overlay() {
         opacity: 1
     }, "fast"), ol.on("click", function() {
         draw();
-    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", stopScroll
-    }, false)) : (ol.css({
+    }), b.css("overflow-y", "hidden"), document.body.addEventListener("touchstart", stopScroll, false)) : (ol.css({
         visibility: "hidden",
         opacity: 1
     }).animate({
