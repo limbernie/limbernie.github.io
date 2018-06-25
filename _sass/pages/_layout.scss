@@ -283,3 +283,12 @@ footer {
 	}
 }
 
+/* Lists */
+.post-content li {
+  margin-left: -1.0rem;
+  &:before {
+    content: "";
+    width: 0.5rem;
+    display: inline-block;
+  }
+}
