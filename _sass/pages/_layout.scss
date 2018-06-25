@@ -284,11 +284,13 @@ footer {
 }
 
 /* Lists */
-.post-content li {
-  margin-left: -1.0rem;
-  &:before {
-    content: "";
-    width: 0.5rem;
-    display: inline-block;
-  }
+.post-content {
+	ol, ul {
+		padding: 0;
+		margin-left: 1.0rem;
+		li {
+			padding-left: 0.5rem;
+			margin-bottom: 0.5rem;
+		}
+	}
 }
