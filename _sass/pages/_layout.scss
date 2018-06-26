@@ -1,7 +1,7 @@
 .cover-card {
   color: $text-color;
   padding: 1rem; // 0 30px;
-  .avatar {
+  .logo {
     border-radius: 50%;
     width: 100px;
     height: 100px;
@@ -295,7 +295,35 @@ footer {
 	}
 }
 
-/* Post Meta-data */
+/* Post Metadata and Read More */
+.avatar-box {
+	padding-right: 10px;
+}
+
+.avatar {
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
+	border-radius: 100%;
+}
+
+.post-meta {
+	display: flex;
+	align-items: center;
+}
+
+.post-meta * {
+	font-size: 0.85rem !important;
+	color: rgba(0,0,0,0.54) !important;
+}
+
+.dot {
+	&:after {
+		content: '\00b7';
+	}
+	padding: 0 0.1rem;
+}
+
 .post-meta ul {
 		list-style: none;
 		margin: 0;
@@ -304,15 +332,18 @@ footer {
 
 .post-meta ul li {
 	display: block;
-	padding-right: 0.5rem;
 	@media (min-width: 320px) {
 		display: inline-block;
   }
 }
 
-.post-meta ul li {
-	.post-author, .post-date, .read-time {
-		padding-left: 0.25rem;
-	}
+.post-author {
+	color: rgba(0,0,0,0.84) !important;
 }
 
+.read-more {
+	font-family: $font-family-serif !important;
+	a {
+		font-weight: normal !important;
+	}
+}

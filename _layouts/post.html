@@ -2,6 +2,12 @@
 layout: default
 ---
 
+{% if page.author %}
+	{% assign author = page.author %}
+{% else %}
+	{% assign author = site.owner %}
+{% endif %}
+
 <a class="btn" href="{{ site.url }}/">
 	Home
 </a>
@@ -30,32 +36,29 @@ layout: default
 			{% assign title = page.title %}
 		{% endif %}
     <h1 title="{{ title }}">{{ title }}</h1>
-    <span class="post-meta">
-			<ul>
-				<li>
-					<i class="fas fa-pencil-alt"></i>
-      		{% if page.author %}
-      		<span class="post-author">
-      			{{ page.author }}
-      		</span>
-					{% else %}
-      		<span class="post-author">
-      			{{ site.owner.name }}
-      		</span>
-      	{% endif %}
-				</li>
-				<li>
-					<i class="far fa-calendar"></i>
-			 		<span class="post-date">
-        		{{ page.date | date: "%-d %b %Y" }}
-      		</span>
-				</li>
-				<li>
-      		<i class="fas fa-clock"></i>
-      		{% include read_time.html %}
-				</li>
-			</ul>
-    </span>
+    <div class="post-meta">
+			<div class="avatar-box">
+			{% if author.avatar %}
+			<img class="avatar" src="{{ site.url }}/img/{{ author.avatar }}" alt="{{ author.avatar }}" title="Avatar of {{ author.name }}">
+			{% endif %}
+			</div>
+			<div>
+				<div>
+					{% if author %}
+					<span class="post-author">
+    				{{ author.name }}
+					</span>
+					{% endif %}
+				</div>
+				<div>
+					<span class="post-date">
+						{{ page.date | date: "%-d %b %Y" }}
+					</span>
+					<span class="dot"></span>
+					{% include read_time.html %}
+				</div>
+			</div>
+    </div>
 
   </header>
 

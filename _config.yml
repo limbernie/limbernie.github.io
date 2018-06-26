@@ -33,7 +33,8 @@ kramdown:
 
 owner:
   name: Bernie Lim
-  avatar: avatar.png
+  logo: logo.png
+  avatar: avatar.jpg
   job:
   bio: "A security ethusiast. Likes cats."
   email: limbernie@pm.me

@@ -10,7 +10,7 @@ layout: default
         {{ post.date | date: "%-d %b %Y" }}
       </span>
       {% if post.categories.size > 0 %}
-      &bull;
+      <span class="dot"></span>
       {% for cat in post.categories %}
         <a class="post-cat" href="{{ site.url }}/categories/#{{ cat }}">{{ cat }}</a>
         {% unless forloop.last %}
@@ -65,7 +65,9 @@ layout: default
     {% endif %}
 
 		{% if excerpt_words != content_words %}
+		<div class="read-more">
 			<a href="{{ post.url }}#start">Read more&hellip;</a>
+		</div>
 		{% endif %}
 </section>
 {% endfor %}
