@@ -10,7 +10,7 @@ layout: default
         {{ post.date | date: "%-d %b %Y" }}
       </span>
       {% if post.categories.size > 0 %}
-      •
+      &bull;
       {% for cat in post.categories %}
         <a class="post-cat" href="{{ site.url }}/categories/#{{ cat }}">{{ cat }}</a>
         {% unless forloop.last %}

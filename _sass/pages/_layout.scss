@@ -294,3 +294,21 @@ footer {
 		}
 	}
 }
+
+/* Post Meta-data */
+.post-meta ul {
+		display: flex;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+}
+
+.post-meta ul li {
+	padding-right: 1.0rem;
+}
+
+.post-meta ul li {
+	.post-author, .post-date, .read-time {
+		padding-left: 0.25rem;
+	}
+}

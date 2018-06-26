@@ -65,7 +65,7 @@
     <li class="page first">
         <a class="pagination-item" href="{{ site.url }}"><span class="sr-only">page </span>1</a>
     </li>
-    <li class="pages-indicator{{ indicator_first }} pages-indicator--offset-{{ relative_first }}"><span aria-hidden="true">...</span><span class="sr-only">Skipped pages indicator</span></li>
+    <li class="pages-indicator{{ indicator_first }} pages-indicator--offset-{{ relative_first }}"><span aria-hidden="true">&hellip;</span><span class="sr-only">Skipped pages indicator</span></li>
     {% else %}
     <li class="page first current-page">
         <span class="pagination-item"><span class="sr-only">current page</span><span aria-hidden="true">1</span></span>
@@ -88,7 +88,7 @@
     {% endfor %}
 
     {% unless paginator.page == totalpages %}
-    <li class="pages-indicator{{ indicator_last }} pages-indicator--offset-{{ relative_last }}"><span aria-hidden="true">...</span><span class="sr-only">Skipped pages indicator</span></li>
+    <li class="pages-indicator{{ indicator_last }} pages-indicator--offset-{{ relative_last }}"><span aria-hidden="true">&hellip;</span><span class="sr-only">Skipped pages indicator</span></li>
     <li class="page last">
         <a class="pagination-item" href="{{ page.paginate.root | append: '/' | append: totalpages | append: '/' | replace: '//', '/' }}"><span class="sr-only">page </span>{{ totalpages }}</a>
     </li>

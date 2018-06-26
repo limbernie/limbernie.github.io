@@ -31,17 +31,30 @@ layout: default
 		{% endif %}
     <h1 title="{{ title }}">{{ title }}</h1>
     <span class="post-meta">
-      <span class="post-date">
-        {{ page.date | date: "%-d %b %Y" }}
-      </span>
-      {% if page.author %}
-      •
-      <span class="post-author">
-      	{{ page.author }}
-      </span>
-      {% endif %}
-      •
-      {% include read_time.html %}
+			<ul>
+				<li>
+					<i class="fas fa-pencil-alt"></i>
+      		{% if page.author %}
+      		<span class="post-author">
+      			{{ page.author }}
+      		</span>
+					{% else %}
+      		<span class="post-author">
+      			{{ site.owner.name }}
+      		</span>
+      	{% endif %}
+				</li>
+				<li>
+					<i class="far fa-calendar"></i>
+			 		<span class="post-date">
+        		{{ page.date | date: "%-d %b %Y" }}
+      		</span>
+				</li>
+				<li>
+      		<i class="fas fa-clock"></i>
+      		{% include read_time.html %}
+				</li>
+			</ul>
     </span>
 
   </header>
