@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-03-28 17:54:26 +0000
-last_modified_at: 2018-06-23 20:56:00 +0000
+last_modified_at: 2018-06-27 10:59:15 +0000
 title: "DerpNStink: 1 Walkthrough"
 subtitle: "Misfortune in South Park"
 category: Walkthrough
@@ -69,7 +69,7 @@ I manage to capture the first flag using `curl` and some `grep`-fu on the HTML s
 
 ### Web Notes
 
-I notice something else from the HTML source code as well — `/webnotes`
+I notice something else from the HTML source code as well—`/webnotes`
 
 ```
 # curl http://192.168.10.130/webnotes/

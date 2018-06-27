@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-06-23 20:56:19 +0000
+last_modified_at: 2018-06-27 11:00:19 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
@@ -287,7 +287,7 @@ I copy `qsub` over to my analysis machine, and decode it back to its binary form
 
 Now that `qsub` is on my machine, I can perform reverse engineering, and after stepping through the `main()` and `send()` functions, this is what I discover:
 
-* The program `qsub` has one argument — the message to `pinky`
+* The program `qsub` has one argument—the message to `pinky`
 * The input password is the value of the `TERM` environment variable, and must be less than or equal to forty characters
 * The `send()` function is an abstraction for `/bin/echo [Message] >> /home/pinky/messages/stefano_msg.txt`
 
@@ -336,7 +336,7 @@ To recap, the work is far from complete; the final piece of the privilege escala
 
 ![screenshot-18](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-18.png)
 
-I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it so that I can debug it — a dynamic analysis technique as opposed to reverse engineering.
+I use `scp` to grab a copy of `/daemon/panel` to my analysis machine (it runs 64-bit Kali Linux and replicates the conditions of `pinkydb` as close as possible) so that I can analyze it with `gdb` and [PEDA](https://github.com/longld/peda). To be more precise, I run `./panel` and attach `gdb` to it so that I can debug it—a dynamic analysis technique as opposed to reverse engineering.
 
 ![screenshot-19](/assets/images/posts/pinkys-palace-v2-walkthrough/screenshot-19.png)
 
@@ -402,7 +402,7 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 "Pinky's Palace" is a misnomer; it should be "Pinky's Dungeon", don't you think? :sweat_smile:
 
-Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one — the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all fun but tough challenges.
+Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one—the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all fun but tough challenges.
 
 I give it a :+1:.
 

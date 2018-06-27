@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-06-23 20:56:49 +0000
+last_modified_at: 2018-06-27 11:01:48 +0000
 title: "Gemini Inc: 1 Walkthrough"
 subtitle: "Good Things Come in Pairs"
 category: Walkthrough
@@ -47,7 +47,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ![0.apvno5q230d](/assets/images/posts/gemini-inc-1-walkthrough/0.apvno5q230d.png)
 
-There's no need to fuzz the site for directories and/or files because the landing page has offered an important piece of information about the web application &mdash; it's built on [Master Login System](https://github.com/ionutvmi/master-login-system).
+There's no need to fuzz the site for directories and/or files because the landing page has offered an important piece of information about the web application—it's built on [Master Login System](https://github.com/ionutvmi/master-login-system).
 
 ### Master Login System
 
@@ -67,7 +67,7 @@ Here's the `admin`'s profile page in PDF.
 
 ![0.htaf69v3tiu](/assets/images/posts/gemini-inc-1-walkthrough/0.htaf69v3tiu.png)
 
-I discover that I can access both the profile and export page without having to log in. This means that the export page (`export.php`) probably hardcoded the profile page (`profile.php?u=1`) for PDF conversion. Another interesting fact &mdash; `export.php` uses `wkhtmltopdf` for PDF conversion.
+I discover that I can access both the profile and export page without having to log in. This means that the export page (`export.php`) probably hardcoded the profile page (`profile.php?u=1`) for PDF conversion. Another interesting fact—`export.php` uses `wkhtmltopdf` for PDF conversion.
 
 ![0.h6tdka9vftf](/assets/images/posts/gemini-inc-1-walkthrough/0.h6tdka9vftf.png)
 
@@ -98,9 +98,9 @@ SSRF refers to an attack where an attacker is able to send a crafted request to 
 
 In this case, we'd like to trick the web application to read local files such as `/etc/passwd` that we weren't able to, expose through PDF using `wkhtmltopdf`.
 
-After scouring through the issues in the `wkhtmltopdf` GitHub project, I found issue [#3570](https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3570) &mdash; _SSRF and file read with `wkhtmltoimage`_. In another stroke of luck, I found this [page](https://github.com/crackatoa/kertasgorengan/blob/master/catatan/SSRF%20wkhtml.md) (by googling for "wkhtmltoimage ssrf") that shows you how to exploit issue #3570. Although parts of the page were in Indonesian, the idea was so clear, it doesn't require translation. :wink:
+After scouring through the issues in the `wkhtmltopdf` GitHub project, I found issue [#3570](https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3570)—_SSRF and file read with `wkhtmltoimage`_. In another stroke of luck, I found this [page](https://github.com/crackatoa/kertasgorengan/blob/master/catatan/SSRF%20wkhtml.md) (by googling for "wkhtmltoimage ssrf") that shows you how to exploit issue #3570. Although parts of the page were in Indonesian, the idea was so clear, it doesn't require translation. :wink:
 
-It goes like this &mdash; `wkhtmltopdf` follows 302 redirection, captures the HTML, and turns it to PDF.
+It goes like this—`wkhtmltopdf` follows 302 redirection, captures the HTML, and turns it to PDF.
 
 All we have to do is to host the following code as `1.php` in our attacking machine.
 
@@ -125,7 +125,7 @@ Sweet. But how do we proceed from here? We can try brute-force attack on `gemini
 
 ![0.gopakn5k5v](/assets/images/posts/gemini-inc-1-walkthrough/0.gopakn5k5v.png)
 
-There you have it &mdash; `/home/gemini1/.ssh/authorized_keys`. This is `gemini1`'s public key. I bet the private key (`id_rsa`) is in there as well.
+There you have it—`/home/gemini1/.ssh/authorized_keys`. This is `gemini1`'s public key. I bet the private key (`id_rsa`) is in there as well.
 
 ![0.yb88plfehc](/assets/images/posts/gemini-inc-1-walkthrough/0.yb88plfehc.png)
 

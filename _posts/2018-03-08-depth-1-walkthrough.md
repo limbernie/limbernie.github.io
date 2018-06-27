@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:55:16 +0000
+last_modified_at: 2018-06-27 10:57:07 +0000
 title: "Depth: 1 Walkthrough"
 subtitle: "This is Deep…"
 category: Walkthrough
@@ -125,7 +125,7 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=$CMD \
 | tr '.' '\n'
 {% endhighlight %}
 
-This is how `/etc/passwd` looks like — `tomcat8` and `bill`.
+This is how `/etc/passwd` looks like—`tomcat8` and `bill`.
 
 ```
 # ./cat.sh /etc/passwd

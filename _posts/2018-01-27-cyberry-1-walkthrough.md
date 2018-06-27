@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:54:31 +0000
+last_modified_at: 2018-06-27 10:52:09 +0000
 title: "Cyberry: 1 Walkthrough"
 subtitle: "I Love Berries!"
 categories: Walkthrough
@@ -42,7 +42,7 @@ PORT    STATE  SERVICE REASON         VERSION
 666/tcp closed doom    reset ttl 64
 ```
 
-`nmap` finds three open ports — `21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for — the gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as the web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with that.
+`nmap` finds three open ports—`21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for—the gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as the web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with that.
 
 ### Directory/File Enumeration
 
@@ -199,7 +199,7 @@ DirBuster Stopped
 
 ### Login Page
 
-The login page has a weakness — it leaks information about the existence of a user.
+The login page has a weakness—it leaks information about the existence of a user.
 
 _If the user doesn't exists_
 
@@ -234,7 +234,7 @@ A request for `/berrypedia.html` reveals the following page.
 
 ![berrypedia.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-8.png)
 
-Elderberry is a hyperlink to an interesting file — `/placeho1der.jpg`.
+Elderberry is a hyperlink to an interesting file—`/placeho1der.jpg`.
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-1-walkthrough/placeho1der.jpg)
 
@@ -566,7 +566,7 @@ The first word must contain the following:
 * one "m"; or
 * one "w"
 
-I use the following command to find the first word — by eliminating the characters that shouldn't appear, and if it's a word from a dictionary.
+I use the following command to find the first word—by eliminating the characters that shouldn't appear, and if it's a word from a dictionary.
 
 ```
 # for word in $(grep -E '^che' /usr/share/dict/words | tr -cd 'chebmw\n' | sort | uniq | tr '\n' ' '); do grep -Eo "^$word$" /usr/share/dict/words; done

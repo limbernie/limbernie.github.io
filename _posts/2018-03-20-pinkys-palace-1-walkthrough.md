@@ -1,8 +1,8 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:55:49 +0000
+last_modified_at: 2018-06-27 11:04:25 +0000
 title: "Pinky's Palace: 1 Walkthrough"
-subtitle: "In the Pink — I Survived"
+subtitle: "In the Pink—I Survived"
 category: Walkthrough
 tags: [VulnHub, "Pinky's Palace"]
 comments: true
@@ -40,7 +40,7 @@ PORT      STATE SERVICE    REASON         VERSION
 |_  256 0a:ad:aa:c7:16:f7:15:07:f0:a8:50:23:17:f3:1c:2e (ECDSA)
 ```
 
-The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still get the same response. An idea struck me when I went to the proxy at `http://192.168.30.4:31337` — I should be using the hostname instead of the IP address!
+The web server always returns `403 Forbidden`, no matter what I do, which is frustrating. Even when I pass the HTTP request through the proxy (squid), I still get the same response. An idea struck me when I went to the proxy at `http://192.168.30.4:31337`—I should be using the hostname instead of the IP address!
 
 ![screenshot-1](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-1.png)
 
@@ -94,7 +94,7 @@ Here's the test result from `sqlmap`.
 
 Awesome.
 
-We have an injection point. Time-based blind SQLi as the name suggests, is time-consuming for enumeration because the technique is a lot like fishing — `sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
+We have an injection point. Time-based blind SQLi as the name suggests, is time-consuming for enumeration because the technique is a lot like fishing—`sqlmap` throws out a bait and waits for a fish to bite to confirm its existence.
 
 Moving on, we can now determine the tables in the database.
 

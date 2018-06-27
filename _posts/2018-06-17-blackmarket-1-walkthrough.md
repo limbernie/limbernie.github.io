@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-23 20:57:08 +0000
+last_modified_at: 2018-06-27 11:02:46 +0000
 title: "BlackMarket: 1 Walkthrough"
 subtitle: "Overt, Covert, and Clandestine"
 category: Walkthrough
@@ -91,7 +91,7 @@ CIA - Operation Treadstone
 
 Hmm. CIA? Operation Treadstone? Jason Bourne?
 
-Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone) — it might be useful later.
+Following the trail of the first flag, I google for "CIA - Operation Treadstone" and build a wordlist with `cewl` from the first [result](http://bourne.wikia.com/wiki/Operation_Treadstone)—it might be useful later.
 
 Here's how.
 
@@ -101,7 +101,7 @@ Here's how.
 
 ### Directory Fuzzing
 
-Next, I use `dirbuster` with one of the bigger wordlists to fuzz the site — to uncover any directories that are not visible from the get-go.
+Next, I use `dirbuster` with one of the bigger wordlists to fuzz the site—to uncover any directories that are not visible from the get-go.
 
 ```
 Dir found: / - 200
@@ -120,7 +120,7 @@ Dir found: /user/ - 302
 Dir found: /vendor/ - 403
 ```
 
-The fuzz turns up `/squirrelmail` and `/upload` — potential attack surfaces. Files like `/header.php` and `/navbar` are also consistently seen (return code `200`) under `/admin`, `/supplier`, and `/user`, which suggests that the site could be using role-based access.
+The fuzz turns up `/squirrelmail` and `/upload`—potential attack surfaces. Files like `/header.php` and `/navbar` are also consistently seen (return code `200`) under `/admin`, `/supplier`, and `/user`, which suggests that the site could be using role-based access.
 
 ### BlackMarket Login
 
@@ -211,11 +211,11 @@ Let's proceed further then.
 
 ### Flag: 3
 
-The third flag is in the `flag` table — one of the tables in `BlackMarket` database.
+The third flag is in the `flag` table—one of the tables in `BlackMarket` database.
 
 ![Flag: 3](/assets/images/posts/blackmarket-1-walkthrough/0.qoxa0vrn9b.png)
 
-I'm supposed to find the email access of Jason Bourne; and we know from the results of the `dirbuster` fuzz that `/squirrelmail` exists — a web-based email client.
+I'm supposed to find the email access of Jason Bourne; and we know from the results of the `dirbuster` fuzz that `/squirrelmail` exists—a web-based email client.
 
 ![SquirrelMail](/assets/images/posts/blackmarket-1-walkthrough/0.ufgx697kl7l.png)
 
@@ -240,7 +240,7 @@ It's decoded to this.
 nothing is here
 ```
 
-Trolled — the decoded message says "nothing is here".
+Trolled—the decoded message says "nothing is here".
 
 ### Flag: 5
 
@@ -265,9 +265,9 @@ Duh. The decoded flag offers nothing of value.
 
 ### Decryption
 
-It's obvious that we are looking at some kind of substitution cipher. The method to decipher it — is to look for words with repeated characters. For example, straight up we have "Wrnrgir", which is a substitution for "Dimitri". As such, the first line is "Hi Dimitri".
+It's obvious that we are looking at some kind of substitution cipher. The method to decipher it—is to look for words with repeated characters. For example, straight up we have "Wrnrgir", which is a substitution for "Dimitri". As such, the first line is "Hi Dimitri".
 
-Moving on to the word "zxxvhh", which has two pairs of repeated characters — we can turn to regular expression and a dictionary to help us find the next substitution candidate.
+Moving on to the word "zxxvhh", which has two pairs of repeated characters—we can turn to regular expression and a dictionary to help us find the next substitution candidate.
 
 ```
 # grep -P '^[a-z]([a-z])\1[a-z]([a-z])\2$' /usr/share/dict/words
@@ -352,7 +352,7 @@ From the decrypted message, we got to know that a backdoor is in the BlackMarket
 
 ![PassPass.jpg](/assets/images/posts/blackmarket-1-walkthrough/0.8hfnu6g9x1j.png)
 
-Like they always say — the devil is in the detail.
+Like they always say—the devil is in the detail.
 
 ```
 # strings PassPass.jpg | tail -1
@@ -395,11 +395,11 @@ From the HTML source of the page, it's obvious that to access the backdoor, I ne
 </html>
 {% endhighlight %}
 
-And … `5215565757312090656` is not the password — too bad.
+And … `5215565757312090656` is not the password—too bad.
 
 ![Failed Login](/assets/images/posts/blackmarket-1-walkthrough/0.d1oy6u6w75t.png)
 
-This prompts me to look deeper into `5215565757312090656`. Notice that it has nineteen digits, an odd number — there's no way this is hexadecimal; it's an integer.
+This prompts me to look deeper into `5215565757312090656`. Notice that it has nineteen digits, an odd number—there's no way this is hexadecimal; it's an integer.
 
 Next, I convert the integer into hexadecimal and print it out as ASCII.
 
@@ -431,7 +431,7 @@ I must be getting close.
 
 ### Dimitri Hates Apple
 
-I get it — Dimitri hates Apple products.
+I get it—Dimitri hates Apple products.
 
 ![Dimitri Hates Apple](/assets/images/posts/blackmarket-1-walkthrough/0.az52lg1aat.png)
 
@@ -441,7 +441,7 @@ Having gone so far into this challenge, I'm pretty sure this is the password for
 
 ### Root Time
 
-My lucky streak continues — `dimitri` is able to `sudo` as `root`.
+My lucky streak continues—`dimitri` is able to `sudo` as `root`.
 
 ![sudo](/assets/images/posts/blackmarket-1-walkthrough/0.vxk49yhov1.png)
 

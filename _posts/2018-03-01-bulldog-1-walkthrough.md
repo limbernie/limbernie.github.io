@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:55:08 +0000
+last_modified_at: 2018-06-27 10:55:26 +0000
 title: "Bulldog: 1 Walkthrough"
 subtitle: "Who Let the Dogs Out?"
 category: Walkthrough
@@ -72,7 +72,7 @@ http://192.168.36.3/robots.txt (Status: 200)
 =====================================================
 ```
 
-The `robots.txt` probably doesn't conform to specifications or it'll appear in the `nmap` scan. Now, I've two more directories — `admin` and `dev` to explore.
+The `robots.txt` probably doesn't conform to specifications or it'll appear in the `nmap` scan. Now, I've two more directories—`admin` and `dev` to explore.
 
 ### Under Development
 
@@ -135,7 +135,7 @@ Although a low-privilege shell appears, let's spawn a pseudo-TTY for better outp
 
 ### Privilege Escalation
 
-I find two users — `django` and `bulldogadmin`, during enumeration. They can `sudo` as `root`. It's a pity I don't have their passwords.
+I find two users—`django` and `bulldogadmin`, during enumeration. They can `sudo` as `root`. It's a pity I don't have their passwords.
 
 ![screenshot-12](/assets/images/posts/bulldog-1-walkthrough/screenshot-12.png)
 

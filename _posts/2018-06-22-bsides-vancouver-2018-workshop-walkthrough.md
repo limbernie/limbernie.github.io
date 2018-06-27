@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
-last_modified_at: 2018-06-23 20:57:16 +0000
+last_modified_at: 2018-06-27 11:03:32 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 subtitle: "A Vibrant Melting Pot"
 category: Walkthrough
@@ -64,7 +64,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ### FTP Service
 
-There's a file `users.txt.bk` in the `public` directory — it contains usernames.
+There's a file `users.txt.bk` in the `public` directory—it contains usernames.
 
 ```
 # cat users.txt.bk
@@ -93,7 +93,7 @@ For online brute-force attack, I like to use `hydra` and the **rockyou** wordlis
 
 ### SSH Access
 
-I don't believe it — this is way too easy.
+I don't believe it—this is way too easy.
 
 ![SSH Access](/assets/images/posts/bsides-vancouver-2018-workshop-walkthrough/0.dovkhr1yz8s.png)
 
