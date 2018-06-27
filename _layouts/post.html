@@ -45,9 +45,16 @@ layout: default
 			<div>
 				<div>
 					{% if author %}
-					<span class="post-author">
-    				{{ author.name }}
-					</span>
+					<div>
+						<span class="post-author">
+    					{{ author.name }}
+						</span>
+					</div>
+					<div>
+						<span class="post-author-bio">
+							{{ author.bio }}
+						</span>
+					</div>
 					{% endif %}
 				</div>
 				<div>

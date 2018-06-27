@@ -8,11 +8,13 @@
 }  
 
 // Post Section
+
 section.post {
 	margin-bottom: 40px;
 }
 
 // Post Link
+
 .post-description a, #post a {
 	color: #36c; // Wikipedia's link color
 	&:hover {
@@ -21,6 +23,7 @@ section.post {
 }
 
 // Post title
+
 .post-title {
 
 }
@@ -34,30 +37,71 @@ section.post {
 	}
 }
 
-// Post meta
-.post-meta {
-  font-size: 0.9em;
-  font-weight: bold;
-	.post-date {
-		color: $secondary;
+// Post Metadata
+
+.avatar-box {
+	padding-right: 10px;
+}
+
+.avatar {
+	width: 60px;
+	height: 60px;
+	vertical-align: middle;
+	border-radius: 100%;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+div.post-meta {
+	display: flex;
+	align-items: center;
+}
+
+.post-meta * {
+	font-size: 14px !important;
+	font-weight: normal !important;
+	-moz-font-feature-settings: "liga" on;
+	letter-spacing: 0 !important;
+	line-height: 20px;
+	text-rendering: optimizelegibility;
+	color: rgba(0,0,0,0.54) !important;
+}
+
+.dot {
+	&:after {
+		content: '\00b7';
 	}
-	.post-author {
-		// text-transform: uppercase;
-		color: $warning;
-	}
-  .post-cat {
-		text-transform: uppercase;
-		color: $warning;
-	}
-  .read-time {
-    color: $primary;
+	padding: 0 0.1rem;
+}
+
+.post-cat {
+	text-transform: uppercase;
+}
+
+.post-meta ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+}
+
+.post-meta ul li {
+	display: block;
+	@media (min-width: 320px) {
+		display: inline-block;
   }
 }
 
-// Read more buttons
+.post-author {
+	color: rgba(0,0,0,0.84) !important;
+}
 
-a.read-more {
-  padding: 5px 8px;
+// Read More
+
+.read-more {
+	font-family: $font-family-serif !important;
+	a {
+		font-weight: normal !important;
+	}
+	padding: 5px 8px;
 }
 
 // Post content
@@ -102,6 +146,7 @@ a.read-more {
 }
 
 // Shares Buttons
+
 .share-buttons {
   clear: both;
   margin: 20px 0;
