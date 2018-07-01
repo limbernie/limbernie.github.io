@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-01 12:29:18 +0000
-last_modified_at: 2018-07-01 12:35:46 +0000
+last_modified_at: 2018-07-01 15:48:10 +0000
 title: "LazySysAdmin: 1 Walkthrough"
 subtitle: "Oopsie Woopsie"
 category: Walkthrough
@@ -10,7 +10,7 @@ comments: true
 image:
   feature: lazysysadmin-1-walkthrough.jpg
   credit: StockSnap / Pixabay
-  creditlink: https://pixabay.com/en/guy-man-people-dark-shadow-hands-2617866/
+  creditlink: https://pixabay.com/en/people-man-guy-cry-tears-groom-2566201/
 ---
 
 This post documents the complete walkthrough of LazySysAdmin: 1, a boot2root [VM][1] created by [Togie Mcdogie][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
