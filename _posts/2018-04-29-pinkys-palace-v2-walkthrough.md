@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-07-01 16:13:12 +0000
+last_modified_at: 2018-07-01 16:19:35 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
@@ -72,7 +72,7 @@ ID	Response   Lines      Word         Chars          Payload
 019965:  C=301      9 L	      28 W	    322 Ch	  "wp-includes"
 ```
 
-The directory `/secret` lists down the files in it and I find a text file `bambam.txt` with the following content.
+The directory `/secret` has a text file `bambam.txt` with the following content.
 
 ```
 # curl http://pinkydb/secret/bambam.txt
@@ -83,7 +83,7 @@ The directory `/secret` lists down the files in it and I find a text file `bamba
 pinkydb
 ```
 
-I get three numbers and `pinkydb` I already know is the host name.
+I get three numbers and I already know `pinkydb` is the host name.
 
 ### WordPress
 
@@ -400,9 +400,9 @@ After spawning a better looking shell with a bunch of keystrokes, the flag is ba
 
 ### Afterthought
 
-"Pinky's Palace" is a misnomer; it should be "Pinky's Dungeon", don't you think? :sweat_smile:
+"Pinky's Palace" is a misnomer—it should be "Pinky's Dungeon". :sweat_smile:
 
-Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one—the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all fun but tough challenges.
+Walking through this "dungeon" took longer than usual because I had to document down the crucial sections and had to take more screen captures. It certainly lived up to its name of being harder than the first one—the twist and turns, the reverse engineering of `qsub`, and the exploit development for `panel`, all tough but fun challenges.
 
 I give it a :+1:.
 
