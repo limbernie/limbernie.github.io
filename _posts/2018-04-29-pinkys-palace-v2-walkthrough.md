@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-06-27 11:00:19 +0000
+last_modified_at: 2018-07-01 16:13:12 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
@@ -22,7 +22,7 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 This is a realistic and **hellish** (emphasis mine) boot2root, a name given to a safe and controlled environment (typically distributed as a virtual machine) where you can perform real-world penetration testing on intentionally vulnerable applications and/or services. You **boot** up the virtual machine and you **root** it. The ultimate goal is to gain `root` access and read `/root/root.txt`.
 
-**Hint**: Map `pinkydb` to the assigned IP address through `/etc/hosts`.
+**Hint**: Map `pinkydb` to the assigned IP address in `/etc/hosts`.
 
 ### Information Gathering
 
