@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-01 12:29:18 +0000
-last_modified_at: 2018-07-06 14:05:52 +0000
+last_modified_at: 2018-07-06 15:30:45 +0000
 title: "LazySysAdmin: 1 Walkthrough"
 subtitle: "Oopsie Woopsie"
 category: Walkthrough
@@ -175,16 +175,16 @@ Let's abuse the remote command execution to get a reverse shell.
 
 On the attacking machine, do the following:
 
-1. <span>Use `msfvenom` to generate a reverse shell and name it as `rev`.</span>
-2. <span>Host the shell with Python `SimpleHTTPServer` module.</span>
-3. <span>Set up `netcat` listener to receive the shell.</span>
+1. Use `msfvenom` to generate a reverse shell and name it as `rev`.
+2. Host the shell with Python `SimpleHTTPServer` module.
+3. Set up `netcat` listener to receive the shell.
 
 On the remote command execution page, do the following:
 
 <ol start="4">
-  <li><span>Use <code>wget</code> to transfer the shell over to <code>/tmp/rev</code>.</span></li>
-  <li><span>Make the shell executable with <code>chmod +x</code>.</span></li>
-  <li><span>Execute the reverse shell.</span></li>
+  <li>Use <code>wget</code> to transfer the shell over to <code>/tmp/rev</code>.</li>
+  <li>Make the shell executable with <code>chmod +x</code>.</li>
+  <li>Execute the reverse shell.</li>
 </ol>
 
 If everything went well, you should have a low-privilege shell like this.
