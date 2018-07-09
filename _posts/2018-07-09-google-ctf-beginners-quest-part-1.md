@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
+last_modified_at: 2018-07-09 18:25:15 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -119,7 +120,7 @@ There's no attachment in this challenge. The challenge is basically an exercise 
 
 The trick to enabling debugger in DOSBox is to specify `--enable-debug=heavy` during configuration of compile options. Having said that, the steps for compiling DOSBox is beyond the scope of this article.
 
-The debugger will appear beside DosBox upon execution.
+The debugger will appear beside DOSBox upon execution.
 
 _The DOSBox command prompt._
 
