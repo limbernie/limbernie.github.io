@@ -5,7 +5,7 @@ last_modified_at: 2018-06-27 11:03:32 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 subtitle: "A Vibrant Melting Pot"
 category: Walkthrough
-tag: [VulnHub, "BSides Vancouver"]
+tags: [VulnHub, "BSides Vancouver"]
 comments: true
 image:
   feature: bsides-vancouver-2018-workshop-walkthrough.jpg

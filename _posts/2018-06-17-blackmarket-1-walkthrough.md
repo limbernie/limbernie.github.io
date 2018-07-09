@@ -5,7 +5,7 @@ last_modified_at: 2018-06-27 11:02:46 +0000
 title: "BlackMarket: 1 Walkthrough"
 subtitle: "Overt, Covert, and Clandestine"
 category: Walkthrough
-tag: [VulnHub, BlackMarket]
+tags: [VulnHub, BlackMarket]
 comments: true
 image:
   feature: blackmarket-1-walkthrough.jpg

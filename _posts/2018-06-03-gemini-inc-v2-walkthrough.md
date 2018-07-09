@@ -5,7 +5,7 @@ last_modified_at: 2018-06-27 11:02:14 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
-tag: "Gemini Inc"
+tags: ["Gemini Inc"]
 comments: true
 image:
   feature: gemini-inc-v2-walkthrough.jpg

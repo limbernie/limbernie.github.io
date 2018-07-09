@@ -5,7 +5,7 @@ last_modified_at: 2018-07-06 15:30:45 +0000
 title: "LazySysAdmin: 1 Walkthrough"
 subtitle: "Oopsie Woopsie"
 category: Walkthrough
-tag: [VulnHub, "LazySysAdmin"]
+tags: [VulnHub, "LazySysAdmin"]
 comments: true
 image:
   feature: lazysysadmin-1-walkthrough.jpg
