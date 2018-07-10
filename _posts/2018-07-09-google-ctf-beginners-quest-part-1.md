@@ -21,16 +21,16 @@ Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) not 
 
 The quest has eighteen challenges as shown in the quest map—each color representing a category: <span style="color: rgb(203, 140, 217)">**purple**</span> (**misc**), <span style="color: rgb(34, 205, 75)">**green**</span> (**pwn/pwn-re**), <span style="color: rgb(231, 206, 66)">**yellow**</span> (**re**), and <span style="color: rgb(75, 142, 255)">**blue**</span> (**web**). Every challenge, if there's a need—contains an attachment—an archive file with its SHA256 hash as filename.
 
-<map name="image-map">
-<area shape="circle" alt="Letter" title="Letter" coords="184,185,13" href="#letter" />
-<area shape="circle" alt="Floppy" title="Floppy" coords="249,185,13" href="#floppy" />
-<area shape="circle" alt="Floppy 2" title="Floppy 2" coords="283,228,13" href="#floppy-2" />
-<area shape="circle" alt="Moar" title="Moar" coords="249,270,13" href="#moar" />
-<area shape="circle" alt="Admin UI" title="Admin UI" coords="313,271,13" href="#admin-ui" />
-<area shape="circle" alt="Admin UI 2" title="Admin UI 2" coords="376,228,13" href="#admin-ui-2" />
-<area shape="circle" alt="OCR is Cool" title="OCR is Cool" coords="249,100,13" href="#ocr-is-cool" />
-<area shape="circle" alt="Security by Obscurity" title="Security by Obscurity" coords="313,143,13" href="#security-by-obscurity" />
-<area shape="circle" alt="JS Safe" title="JS Safe" coords="312,186,13" href="#js-safe" target="" />
+<map id="image-map" name="image-map">
+<area shape="circle" alt="Letter" title="Letter" coords="135,141,14" href="#letter" />
+<area shape="circle" alt="Floppy" title="Floppy" coords="212,141,14" href="#floppy" />
+<area shape="circle" alt="Floppy 2" title="Floppy 2" coords="253,194,14" href="#floppy-2" />
+<area shape="circle" alt="Moar" title="Moar" coords="213,246,14" href="#moar" />
+<area shape="circle" alt="Admin UI" title="Admin UI" coords="291,245,14" href="#admin-ui" />
+<area shape="circle" alt="Admin UI 2" title="Admin UI 2" coords="368,194,14" href="#admin-ui-2" />
+<area shape="circle" alt="JS Safe" title="JS Safe" coords="291,142,14" href="#js-safe" />
+<area shape="circle" alt="OCR is Cool" title="OCR is Cool" coords="213,37,14" href="#ocr-is-cool" />
+<area shape="circle" alt="Security by Obscurity" title="Security by Obscurity" coords="291,89,14" href="#security-by-obscurity" />
 </map>
 <img src="/assets/images/posts/google-ctf-beginners-quest-part-1/map.png" usemap="#image-map">
 
