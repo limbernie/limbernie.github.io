@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-07-09 18:25:15 +0000
+last_modified_at: 2018-07-10 00:29:48 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -17,7 +17,9 @@ This post documents Part 1 of my attempt to complete [Google CTF: Beginners Ques
 
 ### Background
 
-Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) not too long ago. I didn't take part, so I thought of trying the Beginners Quest first. I was thinking to myself, "_how hard could this be?_"—boy was I wrong! The quest has eighteen challenges as shown in the quest map—each color representing a category: <span style="color: rgb(203, 140, 217)">**purple**</span> (**misc**), <span style="color: rgb(34, 205, 75)">**green**</span> (**pwn/pwn-re**), <span style="color: rgb(231, 206, 66)">**yellow**</span> (**re**), and <span style="color: rgb(75, 142, 255)">**blue**</span> (**web**). Every challenge, if there's a need—contains an attachment—an archive file with its SHA256 hash as filename.
+Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) not too long ago. I didn't take part, so I thought of giving a go at the Beginners Quest first. I was thinking to myself, "_how hard could this be?_"—boy was I wrong. It's not that easy.
+
+The quest has eighteen challenges as shown in the quest map—each color representing a category: <span style="color: rgb(203, 140, 217)">**purple**</span> (**misc**), <span style="color: rgb(34, 205, 75)">**green**</span> (**pwn/pwn-re**), <span style="color: rgb(231, 206, 66)">**yellow**</span> (**re**), and <span style="color: rgb(75, 142, 255)">**blue**</span> (**web**). Every challenge, if there's a need—contains an attachment—an archive file with its SHA256 hash as filename.
 
 <map name="image-map">
 <area shape="circle" alt="Letter" title="Letter" coords="184,185,13" href="#letter" />
@@ -182,7 +184,7 @@ This is how the interface looks like.
 
 ![Interface](/assets/images/posts/google-ctf-beginners-quest-part-1/ef2df23c.png)
 
-The first clue lies in **Option 2 - Read EULA/patch notes** as I request for a non-existent file path. The error suggests some kind of directory traversal vulnerability in place.
+The first clue lies in **Option 2 - Read EULA/patch notes** as I request for a non-existent file path. The error suggests some kind of directory traversal vulnerability is in place.
 
 ![Error](/assets/images/posts/google-ctf-beginners-quest-part-1/1e4b55c5.png)
 
@@ -202,7 +204,7 @@ There's no attachment in this challenge. Instead, we are told to continue from t
 
 ![Admin UI 2](/assets/images/posts/google-ctf-beginners-quest-part-1/00550c00.png)
 
-The challenge lies in guessing the location of the binary and how to get a pristine copy for reverse engineering. After rounds of guessing, the binary is at `/home/user/main`.
+The challenge lies in guessing the location of the binary and how to get a pristine copy for reverse engineering. After a couple of rounds of guessing, the binary is at `/home/user/main`.
 
 I use the following command to get a pristine copy of `main`.
 
@@ -231,11 +233,11 @@ Well, this still doesn't give us the flag. We have to dig deeper in the memory.
 
 ![secondary_login()](/assets/images/posts/google-ctf-beginners-quest-part-1/d5f78721.png)
 
-I've placed a breakpoint at `*secondary_login+229` where the stack stores the flag bytes XOR'd with `0xc7.`. We can use `x/35b $rsp` command to examine the bytes.
+I place a breakpoint at `*secondary_login+229` where the stack stores the flag bytes XOR'd with `0xc7.`. We can use `x/35b $rsp` command to examine the bytes.
 
 ![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/9612527b.png)
 
-We have to XOR the bytes with `0xc7` to get back the flag. To that end, I wrote a script to automate this process.
+We have to XOR the bytes with `0xc7` to get the flag back. To that end, I wrote a script to automate this process.
 
 ```bash
 #!/bin/bash
@@ -281,7 +283,7 @@ This is how `OCR_is_cool.png` looks like—or rather how the encrypted flag look
 
 ![Encrypted Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/6291b626.png)
 
-It's obvious that the contents of the email is not in clear, encrypted by some kind of substitution cipher. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
+It's obvious that the contents of the email is not in plaintext, encrypted by Caesar cipher. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
 
 ```bash
 #!/bin/bash
@@ -316,7 +318,7 @@ Archive:  security_by_obscurity.zip
     11100                     1 file
 ```
 
-This challenge involves the recursive extraction of different types: zip, xz, bzip2 and gzip, in that order. To that end, I wrote a script `extract.sh` using `7z` as the extraction tool.
+This challenge involves the recursive extraction of different types: zip, xz, bzip2 and gzip, in that order. To that end, I wrote `extract.sh`, a `bash` script using `7z` as the general extraction utility.
 
 ```bash
 #!/bin/bash
@@ -373,13 +375,13 @@ Modern browsers these days come with a JS debugger, and that's what I'm using to
 
 ![open_safe()](/assets/images/posts/google-ctf-beginners-quest-part-1/92059013.png)
 
-We can see from above that the password must match the pattern `/^CTF{([0-9a-zA-Z_@!?-]+)}$/`. The challenge lies in determining the password to unlock the safe. And guess what—the password is the flag, judging from the password format.
+We can see from above that the password must match the pattern `/^CTF{([0-9a-zA-Z_@!?-]+)}$/` to proceed. The challenge lies in determining the password to unlock the safe. And guess what—the password is the flag, judging from the password format.
 
 The string inside `CTF{...}` is then supplied as argument to another asynchronous function `x()`. This function is the key to determining the password.
 
 ![x()](/assets/images/posts/google-ctf-beginners-quest-part-1/c8d96eec.png)
 
-The logic of the function `x()` is encoded in the long string starting with `icff` and ending with `ьcee`. The decoding regime will iterate the string, four characters at a time—where each character represents the index to the property of the `env` object. You know what—since we are looking at inline JS, we can always include our own code to decode the function `x()`.
+The logic of the function `x()` is in the long string starting with `icff` and ending with `ьcee`—encoded. The decoding regime will iterate the string, four characters at a time—where each character represents the index to the property of the `env` object. Since we are looking at inline JS, we can always include our own code to decode the function `x()`.
 
 ![js_safe_2.html](/assets/images/posts/google-ctf-beginners-quest-part-1/4809e649.png)
 
