@@ -1,11 +1,11 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-06-27 11:02:14 +0000
+last_modified_at: 2018-07-11 14:32:41 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
-tags: ["Gemini Inc"]
+tags: [VulnHub, "Gemini Inc"]
 comments: true
 image:
   feature: gemini-inc-v2-walkthrough.jpg
@@ -13,7 +13,7 @@ image:
   creditlink: https://pixabay.com/en/tiger-predator-pair-fur-beautiful-2979932/
 ---
 
-This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM][1] created by [9emin1][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM][1] created by [9emin1][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
