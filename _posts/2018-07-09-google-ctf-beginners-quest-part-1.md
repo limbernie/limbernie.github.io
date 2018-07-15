@@ -283,7 +283,17 @@ This is how `OCR_is_cool.png` looks like—or rather how the encrypted flag look
 
 ![Encrypted Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/6291b626.png)
 
-It's obvious that the contents of the email is not in plaintext, encrypted by Caesar cipher. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
+I made the assumption that "VMY" represents "CTF" after encryption. Note the curly braces after "VMY"—another strong hint. It's obvious that the contents of the email is not in plaintext, encrypted by some kind of substitution cipher—possibly Caesar cipher.
+
+```
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+*********************C****
+************T*************
+************************F*
+HIJKLMNOPQRSTUVWXYZABCDEFG
+```
+
+The `tr` utility is perfect for such one-to-one transformation from SET1 to SET2. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
 
 ```bash
 #!/bin/bash
@@ -299,6 +309,8 @@ CTF{caesarcipherisasubstitutioncipher}
 ```
 
 The flag is `CTF{caesarcipherisasubstitutioncipher}`.
+
+_A special shoutout to [/u/ktbonefish](https://www.reddit.com/u/ktbonefish). He asked a pertinent question that helped me clarify how I came up with the script._
 
 ### Security by Obscurity
 
