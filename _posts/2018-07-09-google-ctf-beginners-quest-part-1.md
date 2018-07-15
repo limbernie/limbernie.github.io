@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-07-15 07:33:45 +0000
+last_modified_at: 2018-07-15 13:29:16 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -285,13 +285,13 @@ This is how `OCR_is_cool.png` looks like—or rather how the encrypted flag look
 
 I made the assumption that "VMY" represents "CTF" after encryption. Note the curly braces after "VMY"—another good hint. It's obvious that the contents of the email is not in plaintext, encrypted by some kind of substitution cipher—possibly Caesar cipher.
 
-```
+<pre style="font-size: 1.0rem; line-height: 100%">
 |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|
 |·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|C|·|·|·|·|
 |·|·|·|·|·|·|·|·|·|·|·|·|T|·|·|·|·|·|·|·|·|·|·|·|·|·|
 |·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|·|F|·|
 |H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|A|B|C|D|E|F|G|
-```
+</pre>
 
 The `tr` utility is perfect for such one-to-one transformation from SET1 to SET2. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
 
