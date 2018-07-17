@@ -264,7 +264,7 @@ Let's save the output above to `dump`.
 0x7fffffffde30:	0xac	0xf8	0xba
 ```
 
-We have to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script to automate this process.
+We have to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script `decrypt.sh` to automate this process.
 
 ```bash
 #!/bin/bash
@@ -282,7 +282,7 @@ done | xxd -p -r && echo
 ```
 
 ```
-# ./decode.sh dump
+# ./decrypt.sh dump
 CTF{Two_PasSworDz_Better_th4n_1_k?}
 ```
 
