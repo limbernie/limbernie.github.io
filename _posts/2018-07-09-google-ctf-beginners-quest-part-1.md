@@ -253,7 +253,7 @@ The XOR routine, hidden in the `secondary_login` function, encrypts the flag wit
 
 ![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/9612527b.png)
 
-I save the output above to `dump`.
+Let's save the output above to `dump`.
 
 ```
 # cat dump
