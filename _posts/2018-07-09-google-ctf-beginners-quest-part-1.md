@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-07-15 13:29:16 +0000
+last_modified_at: 2018-07-17 06:49:59 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -200,7 +200,7 @@ The flag is `CTF{I_luv_buggy_sOFtware}`.
 
 ### Admin UI 2
 
-There's no attachment in this challenge. Instead, we are told to continue from the previous challenge.
+There's no attachment in this challenge. Instead, we are to continue from the previous challenge.
 
 ![Admin UI 2](/assets/images/posts/google-ctf-beginners-quest-part-1/00550c00.png)
 
@@ -223,21 +223,48 @@ Here comes the next challenge—reverse engineering. The obvious place to look f
     93: 0000000041414446   293 FUNC    GLOBAL DEFAULT    1 _Z15secondary_loginv
 ```
 
+_Comparison of the first password with the file `flag`_
+
+![primary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/b6d12561.png)
+
 The first password is whatever that's in the file `flag`, which happens to be the flag for **Admin UI**. The second password is a bit more hidden.
 
-Turns out it doesn't matter what the second password is—as long as it's 35 characters—you'll have access to a limited shell.
+_Checking the length of the second password_
+
+![secondary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/146dcbf5.png)
+
+Turns out it doesn't matter what the second password is—as long as it's thirty-five characters long—you'll have access to a limited shell.
 
 ![Authenticated](/assets/images/posts/google-ctf-beginners-quest-part-1/45147773.png)
 
 Well, this still doesn't give us the flag. We have to dig deeper in the memory.
 
+_XOR operation with `0xc7`_
+
+![xor](/assets/images/posts/google-ctf-beginners-quest-part-1/0f9c83d6.png)
+
+This will go on for thirty-five times—at least we know the flag has thirty-five characters.
+
+_The encrypted flag is at RSP_
+
 ![secondary_login()](/assets/images/posts/google-ctf-beginners-quest-part-1/d5f78721.png)
 
-I place a breakpoint at `*secondary_login+229` where the stack stores the flag bytes XOR'd with `0xc7.`. We can use `x/35b $rsp` command to examine the bytes.
+The XOR routine, hidden in the `secondary_login` function, encrypts the flag with `0xc7`, and place it at the stack. To get to the bytes at the stack, I place a breakpoint at `*secondary_login+229` where we can then examine the bytes with `x/35b $rsp`.
 
 ![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/9612527b.png)
 
-We have to XOR the bytes with `0xc7` to get the flag back. To that end, I wrote a script to automate this process.
+I save the output above to `dump`.
+
+```
+# cat dump
+0x7fffffffde10:	0x84	0x93	0x81	0xbc	0x93	0xb0	0xa8	0x98
+0x7fffffffde18:	0x97	0xa6	0xb4	0x94	0xb0	0xa8	0xb5	0x83
+0x7fffffffde20:	0xbd	0x98	0x85	0xa2	0xb3	0xb3	0xa2	0xb5
+0x7fffffffde28:	0x98	0xb3	0xaf	0xf3	0xa9	0x98	0xf6	0x98
+0x7fffffffde30:	0xac	0xf8	0xba
+```
+
+We have to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script to automate this process.
 
 ```bash
 #!/bin/bash
@@ -383,7 +410,7 @@ This is how `js_safe_1.html` looks like in the browser.
 
 ![js_safe_1.html](/assets/images/posts/google-ctf-beginners-quest-part-1/897cc75c.png)
 
-Modern browsers these days come with a JS debugger, and that's what I'm using to tackle this challenge. The asynchronous function `open_safe()` is called whenever the value of the textbox has changed.
+Modern browsers these days come with a JS debugger, and that's what I'm using to tackle this challenge. Whenever the value of the textbox changes, the JS engine calls the asynchronous function `open_safe()`.
 
 ![open_safe()](/assets/images/posts/google-ctf-beginners-quest-part-1/92059013.png)
 
