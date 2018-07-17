@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-07-17 06:49:59 +0000
+last_modified_at: 2018-07-17 07:02:58 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -223,13 +223,13 @@ Here comes the next challenge—reverse engineering. The obvious place to look f
     93: 0000000041414446   293 FUNC    GLOBAL DEFAULT    1 _Z15secondary_loginv
 ```
 
-_Comparison of the first password with the file `flag`_
+_Comparison of the first password with the file `flag`._
 
 ![primary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/b6d12561.png)
 
 The first password is whatever that's in the file `flag`, which happens to be the flag for **Admin UI**. The second password is a bit more hidden.
 
-_Checking the length of the second password_
+_Checking the length of the second password._
 
 ![secondary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/146dcbf5.png)
 
@@ -239,13 +239,13 @@ Turns out it doesn't matter what the second password is—as long as it's thirty
 
 Well, this still doesn't give us the flag. We have to dig deeper in the memory.
 
-_XOR operation with `0xc7`_
+_XOR operation with `0xc7`._
 
 ![xor](/assets/images/posts/google-ctf-beginners-quest-part-1/0f9c83d6.png)
 
 This will go on for thirty-five times—at least we know the flag has thirty-five characters.
 
-_The encrypted flag is at RSP_
+_The encrypted flag is at RSP._
 
 ![secondary_login()](/assets/images/posts/google-ctf-beginners-quest-part-1/d5f78721.png)
 
