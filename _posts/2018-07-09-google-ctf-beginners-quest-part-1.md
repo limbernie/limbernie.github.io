@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-07-17 07:02:58 +0000
+last_modified_at: 2018-07-23 08:44:07 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -35,6 +35,8 @@ The quest has eighteen challenges as shown in the quest map—each color represe
 <img src="/assets/images/posts/google-ctf-beginners-quest-part-1/map.png" usemap="#image-map">
 
 Click or tap on the circles above to go to the respective challenge and its write-up. If the hyperlink is not working for a challenge, I've not worked on it yet. That's what Part 2 is for. :smile:
+
+_A special shoutout to [ktbonefish](https://www.reddit.com/u/ktbonefish), [tsuro\_](https://www.reddit.com/u/tsuro_) and [Pharisaeus](https://www.reddit.com/u/Pharisaeus). They gave constructive comment and feedback that helped to improve the quality of this write-up._
 
 ### Letter
 
@@ -209,11 +211,13 @@ The challenge lies in guessing the location of the binary and how to get a prist
 I use the following command to get a pristine copy of `main`.
 
 ```
-echo -ne '2 ../main 3\n' \
+echo -ne '2\n../main\n3\n' \
 | nc mngmnt-iface.ctfcompetition.com 1337 \
 | sed '9,$!d' \
 | head -n -3 > main
 ```
+
+_Update: You can use the traversal technique to read `/proc/self/exe` for the file or `/proc/self/cmdline` for the path—both ways are better than guessing. :laughing:_
 
 Here comes the next challenge—reverse engineering. The obvious place to look for password is in function that deal with authentication. We have two such functions: `primary_login()` and `secondary_login()`.
 
@@ -336,8 +340,6 @@ CTF{caesarcipherisasubstitutioncipher}
 ```
 
 The flag is `CTF{caesarcipherisasubstitutioncipher}`.
-
-_A special shoutout to [/u/ktbonefish](https://www.reddit.com/u/ktbonefish). He asked a pertinent question that helped me clarify how I came up with the script._
 
 ### Security by Obscurity
 
