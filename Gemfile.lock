@@ -17,7 +17,7 @@ GEM
     ffi (1.9.25)
     forwardable-extended (2.6.0)
     gemoji (3.0.0)
-    html-pipeline (2.8.3)
+    html-pipeline (2.8.4)
       activesupport (>= 2)
       nokogiri (>= 1.4)
     http_parser.rb (0.6.0)
