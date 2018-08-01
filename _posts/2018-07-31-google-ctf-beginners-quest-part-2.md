@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-01 08:56:09 +0000
+last_modified_at: 2018-08-01 10:02:48 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -20,9 +20,6 @@ This post documents Part 2 of my attempt to complete [Google CTF: Beginners Ques
 Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) a month ago. I didn't take part, so I thought of giving a go at the Beginners Quest first. I was thinking to myself, "_how hard could this be?_"—boy was I wrong. It's not that easy.
 
 The quest has nineteen challenges as shown in the quest map—each color representing a category: <span style="color: rgb(203, 140, 217)">**purple**</span> (**misc**), <span style="color: rgb(34, 205, 75)">**green**</span> (**pwn/pwn-re**), <span style="color: rgb(231, 206, 66)">**yellow**</span> (**re**), and <span style="color: rgb(75, 142, 255)">**blue**</span> (**web**). Every challenge, if there's a need—contains an attachment—an archive file with its SHA256 hash as filename.
-
-Click or tap on the circles above to go to the respective challenge and its write-up.
-
 
 <map id="image-map" name="image-map">
 <area shape="circle" alt="Letter" title="Letter" coords="135,141,14" href="{{ page.url | replace: "part-2", "part-1" }}#letter" />
@@ -46,6 +43,8 @@ Click or tap on the circles above to go to the respective challenge and its writ
 <area shape="circle" alt="Holey Beep" title="" coords="682,143,21" href="#holey-beep" />
 </map>
 <img src="/assets/images/posts/google-ctf-beginners-quest-part-2/map.png" usemap="#image-map">
+
+Click or tap on the circles above to go to the respective challenge and its write-up.
 
 ### Admin UI 3
 
