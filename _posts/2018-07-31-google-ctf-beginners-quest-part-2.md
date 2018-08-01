@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-01 05:35:28 +0000
+last_modified_at: 2018-08-01 07:01:30 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -515,7 +515,7 @@ Delete the hardlink.
 
 ![delete](/assets/images/posts/google-ctf-beginners-quest-part-2/606b234f.png)
 
-You can see from above, there's a ` (deleted)` appended to `x`. The symbolic link appears broken but the hardlink is actually still present in the file descriptor.
+You can see from above, there's a `(deleted)` appended to `x`. The symbolic link appears broken but the hardlink is actually still present in the file descriptor.
 
 Rename `recite` to `x (deleted)`. Execute `/proc/$$/fd/3` with `exec`.
 
