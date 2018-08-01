@@ -31,16 +31,16 @@ The quest has nineteen challenges as shown in the quest map—each color represe
 <area shape="circle" alt="JS Safe" title="JS Safe" coords="291,142,14" href="{{ page.url | replace: "part-2", "part-1" }}#js-safe" />
 <area shape="circle" alt="OCR is Cool" title="OCR is Cool" coords="213,37,14" href="{{ page.url | replace: "part-2", "part-1" }}#ocr-is-cool" />
 <area shape="circle" alt="Security by Obscurity" title="Security by Obscurity" coords="291,89,14" href="{{ page.url | replace: "part-2", "part-1" }}#security-by-obscurity" />
-<area shape="circle" alt="Router UI" title="" coords="369,142,15" href="#router-ui" />
-<area shape="circle" alt="Message of the Day" title="" coords="448,142,15" href="#message-of-the-day" />
-<area shape="circle" alt="Poetry" title="" coords="526,142,15" href="#poetry" />
-<area shape="circle" alt="Fridge TODO List" title="" coords="602,142,14" href="#fridge-todo-list" />
-<area shape="circle" alt="Admin UI 3" title="" coords="449,247,15" href="#admin-ui-3" />
-<area shape="circle" alt="Filter Env" title="" coords="525,247,15" href="#filter-env" />
-<area shape="circle" alt="Firmware" title="" coords="370,38,15" href="#firmware" />
-<area shape="circle" alt="Gatekeeper" title="" coords="448,90,15" href="#gatekeeper" />
-<area shape="circle" alt="Media-DB" title="" coords="526,38,15" href="#media-db" />
-<area shape="circle" alt="Holey Beep" title="" coords="682,143,21" href="#holey-beep" />
+<area shape="circle" alt="Router UI" title="Router UI" coords="369,142,15" href="#router-ui" />
+<area shape="circle" alt="Message of the Day" title="Message of the Day" coords="448,142,15" href="#message-of-the-day" />
+<area shape="circle" alt="Poetry" title="Poetry" coords="526,142,15" href="#poetry" />
+<area shape="circle" alt="Fridge Todo List" title="Fridge Todo List" coords="602,142,14" href="#fridge-todo-list" />
+<area shape="circle" alt="Admin UI 3" title="Admin UI 3" coords="449,247,15" href="#admin-ui-3" />
+<area shape="circle" alt="Filter Env" title="Filter Env" coords="525,247,15" href="#filter-env" />
+<area shape="circle" alt="Firmware" title="Firmware" coords="370,38,15" href="#firmware" />
+<area shape="circle" alt="Gatekeeper" title="Gatekeeper" coords="448,90,15" href="#gatekeeper" />
+<area shape="circle" alt="Media-DB" title="Media-DB" coords="526,38,15" href="#media-db" />
+<area shape="circle" alt="Holey Beep" title="Holey Beep" coords="682,143,21" href="#holey-beep" />
 </map>
 <img src="/assets/images/posts/google-ctf-beginners-quest-part-2/map.png" usemap="#image-map">
 
