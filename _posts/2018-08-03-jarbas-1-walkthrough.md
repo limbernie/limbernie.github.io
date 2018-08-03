@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
+last_modified_at: 2018-08-03 12:30:22 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
@@ -190,7 +191,7 @@ My guess was right.
 
 ![crontab](/assets/images/posts/jarbas-1-walkthrough/2198ba7e.png)
 
-### Root Dance
+### Eyes on the Prize
 
 Getting the flag is trivial.
 
