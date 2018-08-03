@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-06-27 11:01:48 +0000
+last_modified_at: 2018-08-03 17:50:17 +0000
 title: "Gemini Inc: 1 Walkthrough"
 subtitle: "Good Things Come in Pairs"
 category: Walkthrough
@@ -102,7 +102,7 @@ After scouring through the issues in the `wkhtmltopdf` GitHub project, I found i
 
 It goes like this—`wkhtmltopdf` follows 302 redirection, captures the HTML, and turns it to PDF.
 
-All we have to do is to host the following code as `1.php` in our attacking machine.
+All we've to do is to host the following code as `1.php` in our attacking machine.
 
 ```php
 <?php

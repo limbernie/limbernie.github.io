@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-08-01 05:35:50 +0000
+last_modified_at: 2018-08-03 17:44:15 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -241,7 +241,7 @@ Turns out it doesn't matter what the second password is—as long as it's thirty
 
 ![Authenticated](/assets/images/posts/google-ctf-beginners-quest-part-1/45147773.png)
 
-Well, this still doesn't give us the flag. We have to dig deeper in the memory.
+Well, this still doesn't give us the flag. We've to dig deeper in the memory.
 
 _XOR operation with `0xc7`._
 
@@ -268,7 +268,7 @@ Let's save the output above to `dump`.
 0x7fffffffde30:	0xac	0xf8	0xba
 ```
 
-We have to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script `decrypt.sh` to automate this process.
+We've to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script `decrypt.sh` to automate this process.
 
 ```bash
 #!/bin/bash

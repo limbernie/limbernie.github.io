@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-07-11 14:32:41 +0000
+last_modified_at: 2018-08-03 17:52:13 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
@@ -95,7 +95,7 @@ Although the first attempt results in an error like this, the site has actually 
 
 ![0.d8b6kznuxu](/assets/images/posts/gemini-inc-v2-walkthrough/0.d8b6kznuxu.png)
 
-Once we log in to `/login.php`, a message greets us and tells us that we have to submit a 6-digit code to activate the account.
+Once we log in to `/login.php`, a message greets us and tells us that we've to submit a 6-digit code to activate the account.
 
 ![0.uawm8innbm](/assets/images/posts/gemini-inc-v2-walkthrough/0.uawm8innbm.png)
 
@@ -232,7 +232,7 @@ Something strikes me as familiar when I look at the HTML source of `/new-groups.
 
 ![0.747hclxg2ig](/assets/images/posts/gemini-inc-v2-walkthrough/0.747hclxg2ig.png)
 
-Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. Here we have, a readily available web shell that executes commands, and yet we have to bypass the test for illegal characters. What a bummer!
+Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for illegal characters in the `testcmd` parameter. A readily available web shell that executes commands is in front of us, and yet we've to bypass the test for illegal characters. What a bummer!
 
 ![0.y241xdjfa4g](/assets/images/posts/gemini-inc-v2-walkthrough/0.y241xdjfa4g.png)
 

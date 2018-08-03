@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-27 10:53:26 +0000
+last_modified_at: 2018-08-03 17:52:45 +0000
 title: "g0rmint: 1 Walkthrough"
 subtitle: "Will the Real Gormint Aunty Please Stand Up?"
 category: Walkthrough
@@ -187,7 +187,7 @@ Since the site backup is available, let's take a look at the password reset mech
 
 ![reset.php](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-12.png)
 
-All we have to do is to guess the email address and username. The "new" password is the first twenty characters from the SHA1 hash of the current GMT date/time.
+All we've to do is to guess the email address and username. The "new" password is the first twenty characters from the SHA1 hash of the current GMT date/time.
 
 Another advantage we have, is the current GMT date/time at the bottom of the password reset page.
 

