@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
-last_modified_at: 2018-08-03 19:27:12 +0000
+last_modified_at: 2018-08-03 19:31:06 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
@@ -99,15 +99,15 @@ eder:vipsu
 3 password hashes cracked, 0 left
 ```
 
-It turns out that Jenkins is running behind `8080/tcp` seen earlier in the `nmap` scan. Here's what it looks like.
+It turns out that **Jenkins** is running behind `8080/tcp` seen earlier in the `nmap` scan. Here's what it looks like.
 
 ![Jenkins](/assets/images/posts/jarbas-1-walkthrough/fd1eb8f9.png)
 
-The credential (`eder:vipsu`) allows us to login in to Jenkins.
+The credential (`eder:vipsu`) allows us to login in to **Jenkins**.
 
 ![Logged In](/assets/images/posts/jarbas-1-walkthrough/9e1fb477.png)
 
-I soon discover that Jenkins allows the execution of Groovy scripts in **Script Console**.
+I soon discover that **Jenkins** allows the execution of Groovy scripts in **Script Console**.
 
 ![Script Console](/assets/images/posts/jarbas-1-walkthrough/7507d3e1.png)
 
