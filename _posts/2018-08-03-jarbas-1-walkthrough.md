@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
-last_modified_at: 2018-08-03 12:30:22 +0000
+last_modified_at: 2018-08-03 19:27:12 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
@@ -24,7 +24,7 @@ A tribute to a nostalgic Brazilian search engine in the end of 90’s. The aim i
 
 ### Information
 
-Let’s start with a nmap scan to establish the available services in the host.
+Let’s start with a `nmap` scan to establish the available services in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.10.130
