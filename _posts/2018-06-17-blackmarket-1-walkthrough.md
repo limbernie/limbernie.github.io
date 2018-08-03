@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-06-27 11:02:46 +0000
+last_modified_at: 2018-08-03 19:08:05 +0000
 title: "BlackMarket: 1 Walkthrough"
 subtitle: "Overt, Covert, and Clandestine"
 category: Walkthrough
@@ -287,6 +287,7 @@ The substitution candidate is possibly "access" as the other words don't make co
 
 As I piece together the substitution candidates and the contextual clues, I come to realize the substitution key is the reverse alphabet set. I wrote a simple bash script to decrypt the whole message.
 
+<div class="filename"><span>decrypy.sh</span></div>
 ```bash
 #!/bin/bash
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-08-03 17:44:15 +0000
+last_modified_at: 2018-08-03 19:13:19 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -270,6 +270,7 @@ Let's save the output above to `dump`.
 
 We've to XOR the bytes with `0xc7` to retrieve back the flag. To that end, I wrote a script `decrypt.sh` to automate this process.
 
+<div class="filename"><span>decrypt.sh</span></div>
 ```bash
 #!/bin/bash
 
@@ -326,6 +327,7 @@ I made the assumption that "VMY" represents "CTF" after encryption. Note the cur
 
 The `tr` utility is perfect for such one-to-one transformation from SET1 to SET2. To that end, I wrote `caesar.sh`, a `bash` script wrapped around `tr`.
 
+<div class="filename"><span>caesar.sh</span></div>
 ```bash
 #!/bin/bash
 
@@ -361,6 +363,7 @@ Archive:  security_by_obscurity.zip
 
 This challenge involves the recursive extraction of different types: zip, xz, bzip2 and gzip, in that order. To that end, I wrote `extract.sh`, a `bash` script using `7z` as the general extraction utility.
 
+<div class="filename"><span>extract.sh</span></div>
 ```bash
 #!/bin/bash
 
