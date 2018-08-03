@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
-last_modified_at: 2018-08-03 19:31:06 +0000
+last_modified_at: 2018-08-03 19:36:46 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
@@ -113,7 +113,7 @@ I soon discover that **Jenkins** allows the execution of Groovy scripts in **Scr
 
 ### Groovy Script
 
-According to Wikipedia,
+According to [Wikipedia](https://en.wikipedia.org/wiki/Apache_Groovy),
 
 > Apache Groovy is a Java-syntax-compatible object-oriented programming language for the Java platform. It is both a static and dynamic language with features similar to those of Python, Ruby, Perl, and Smalltalk. It can be used as both a programming language and a scripting language for the Java Platform, is compiled to Java virtual machine (JVM) bytecode, and interoperates seamlessly with other Java code and libraries.
 
