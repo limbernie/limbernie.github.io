@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
-last_modified_at: 2018-08-03 19:36:46 +0000
+last_modified_at: 2018-08-03 19:43:45 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
@@ -177,7 +177,7 @@ $ find / -type f -perm /o+w -ls 2>/dev/null
 
 ![CleaningScript.sh](/assets/images/posts/jarbas-1-walkthrough/d9f3a650.png)
 
-If I've to guess from its content, I'd say this is probably run under `root`'s `crontab`.
+If I had to guess from its content, I'd say this is probably running under `root`'s `crontab`.
 
 Let's append our reverse shell to the script.
 

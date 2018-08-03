@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-07-01 16:19:35 +0000
+last_modified_at: 2018-08-03 19:42:51 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
@@ -128,7 +128,7 @@ While I was skimming through the blog, I spotted non-English words. Based on exp
 
 ### Knock Knock. Who's There?
 
-Back to the numbers in `bambam.txt`. If I've to guess, I'd say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
+Back to the numbers in `bambam.txt`. If I had to guess, I'd say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
 
 Although we have three port numbers, the order or sequence of knocking, to unlock the ports, is unknown at this point.
 

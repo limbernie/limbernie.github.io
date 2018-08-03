@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-09 17:58:57 +0000
-last_modified_at: 2018-08-03 19:13:19 +0000
+last_modified_at: 2018-08-03 19:45:06 +0000
 title: "Google CTF: Beginners Quest (Part 1)"
 category: CTF
 tags: [Google]
@@ -194,7 +194,7 @@ I was able to read `/etc/passwd`.
 
 ![/etc/passwd](/assets/images/posts/google-ctf-beginners-quest-part-1/1d870198.png)
 
-If I've to guess, the flag should be located in `/home/user`.
+If I had to guess, I'd say the flag is at `/home/user`.
 
 ![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/03072e8a.png)
 

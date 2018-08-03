@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-22 06:52:37 +0000
-last_modified_at: 2018-06-27 11:03:32 +0000
+last_modified_at: 2018-08-03 19:42:13 +0000
 title: "BSides Vancouver: 2018 (Workshop) Walkthrough"
 subtitle: "A Vibrant Melting Pot"
 category: Walkthrough
@@ -76,7 +76,7 @@ doomguy
 ```
 ### SSH Service
 
-If I've to guess, these are probably users with an account in the target. Let's find out.
+If I had to guess, I'd say these are probably users with an account in the target. Let's find out.
 
 ![SSH Login](/assets/images/posts/bsides-vancouver-2018-workshop-walkthrough/0.jlutahztgc.png)
 
