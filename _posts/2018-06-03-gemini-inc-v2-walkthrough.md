@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-08-03 17:52:13 +0000
+last_modified_at: 2018-08-05 00:06:29 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
@@ -121,7 +121,8 @@ Now that we know the user ID of the newly registered account, let's proceed to a
 
 Armed with this information, I wrote `activate.sh`, a simple script to brute-force the activation code.
 
-{% highlight bash linenos %}
+<div class="filename"><span>activate.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.10.130
@@ -172,7 +173,7 @@ for pin in {000000..999999}; do
     die
   fi
 done
-{% endhighlight %}
+```
 
 Let's run the script.
 

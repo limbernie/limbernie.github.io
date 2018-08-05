@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-03-28 17:54:26 +0000
-last_modified_at: 2018-06-27 10:59:15 +0000
+last_modified_at: 2018-08-05 00:18:38 +0000
 title: "DerpNStink: 1 Walkthrough"
 subtitle: "Misfortune in South Park"
 category: Walkthrough
@@ -210,7 +210,8 @@ I list down all the plugins installed in WordPress with `wpscan`, and I find a p
 
 I wrote `upload.sh`, a `bash` script to exploit the vulnerability, and to upload files.
 
-{% highlight bash linenos %}
+<div class="filename"><span>upload.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=derpnstink.local
@@ -251,7 +252,7 @@ curl \
 
 # cleanup
 rm -rf cookie
-{% endhighlight %}
+```
 
 I upload a simple PHP file that executes remote command, with the script.
 

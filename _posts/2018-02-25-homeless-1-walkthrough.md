@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-23 20:54:59 +0000
+last_modified_at: 2018-08-05 00:27:36 +0000
 title: "Homeless: 1 Walkthrough"
 subtitle: "How to Save the Homeless"
 category: Walkthrough
@@ -71,8 +71,8 @@ A hint to check something. But what to check? Perhaps to check the `User-Agent` 
 
 The nifty `curl` has an option to submit user-supplied `User-Agent` string as part of the HTTP request to a site. To that end, I wrote `check.sh`, a `bash` script, to submit a custom `User-Agent` string and then check for the HTTP response at line 32.
 
-{% highlight bash linenos %}
-# cat check.sh
+<div class="filename"><span>check.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.198.130
@@ -83,7 +83,7 @@ RESP=$(curl -s -A "$UA" $HOST \
        | sed -r -e 's/^[ \t]+//' -e 's/\t+.*$//')
 
 echo $RESP
-{% endhighlight %}
+```
 
 Indeed, Line 32 of the HTTP response always shows the supplied `User-Agent` string.
 
@@ -97,8 +97,8 @@ For that, I'm using [parallel][4], a command-line driven utility for Linux and o
 
 I expand `check.sh` to include logic to stop when line 32 of the HTTP response is different from the supplied `User-Agent` string.
 
-{% highlight bash linenos %}
-# cat check.sh
+<div class="filename"><span>check.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.198.130
@@ -121,16 +121,16 @@ if [ "$UA" != "$RESP" ]; then
     echo "[!] Found: \"$UA\" - $RESP"
     die
 fi
-{% endhighlight %}
+```
 
 On top of that, I wrote `brute.sh`, a wrapper script to feed a wordlist to `check.sh` in parallel, taking advantage of my multi-core Kali Linux VM.
 
-{% highlight bash linenos %}
-# cat brute.sh
+<div class="filename"><span>brute.sh</span></div>
+```bash
 #!/bin/bash
 
 parallel ./check.sh < $1 >> $2
-{% endhighlight %}
+```
 
 I reduce the size of the "rockyou" list by preserving alphanumeric characters and splitting the list into sub-lists of 1000 lines each.
 
@@ -177,7 +177,8 @@ After some tinkering with the uploader page, this is what I observe:
 
 This is how I imagine the PHP code of the uploader page to look like.
 
-{% highlight php linenos %}
+<div class="filename"><span>index.php</span></div>
+```php
 <?php
     if (!empty($_FILES['upme']['name'])) {
         $path = "files/";
@@ -194,7 +195,7 @@ This is how I imagine the PHP code of the uploader page to look like.
         }
     }
 ?>
-{% endhighlight %}
+```
 
 ### PHP Tags and Execution Operators
 
@@ -218,7 +219,7 @@ There's a Secure Login page at `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`.
 
 A hint is at the top right corner of the "Sign In" form. Clicking it reveals the PHP code of this page.
 
-{% highlight php linenos %}
+```php
 <?php
 session_start();
 error_reporting(0);
@@ -248,7 +249,7 @@ error_reporting(0);
 
 
 ?>
-{% endhighlight %}
+```
 
 I'm no cryptography expert but it's obvious that this challenge requires MD5 collisions to bypass the Secure Login page. I'll need 3 different strings that will result in the same MD5 hash.
 
@@ -263,8 +264,8 @@ Suffice to say, I've downloaded the [source](https://github.com/brimstone/fastco
 
 Following the steps from the page, I wrote `gen.sh`, a helper script to generate four colliding blobs encoded in [Percent-encoding][8].
 
-{% highlight bash linenos %}
-# cat gen.sh
+<div class="filename"><span>gen.sh</span></div>
+```bash
 #!/bin/bash
 
 ./fastcoll -o 0 1
@@ -291,7 +292,7 @@ for file in 00 01 10 11; do
     | sed -r 's/(..)/%\1/g' > $tmp
     rm $file && mv $tmp $file
 done
-{% endhighlight %}
+```
 
 ### On a Collision Course
 

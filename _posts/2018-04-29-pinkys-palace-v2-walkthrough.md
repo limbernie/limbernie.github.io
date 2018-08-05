@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-04-29 15:03:40 +0000
-last_modified_at: 2018-08-03 19:42:51 +0000
+last_modified_at: 2018-08-05 00:02:12 +0000
 title: "Pinky's Palace: v2 Walkthrough"
 subtitle: "Surviving the Pink Dungeon"
 category: Walkthrough
@@ -134,7 +134,8 @@ Although we have three port numbers, the order or sequence of knocking, to unloc
 
 To that end, I wrote a port-knocking script, `knock.sh`, to determine the correct sequence using `nmap`.
 
-{% highlight bash linenos %}
+<div class="filename"><span>knock.sh</span></div>
+```bash
 #!/bin/bash
 
 TARGET=$1
@@ -147,7 +148,7 @@ for ports in $(cat permutation.txt); do
     sleep 3
     nmap -n -v -Pn -p- -A --reason $TARGET -oN ${ports}.txt
 done
-{% endhighlight %}
+```
 
 `permutation.txt` contains all the permutations of `8890,7000,666` and I use the following Python code to generate it.
 

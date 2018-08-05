@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-27 11:04:25 +0000
+last_modified_at: 2018-08-05 00:08:21 +0000
 title: "Pinky's Palace: 1 Walkthrough"
 subtitle: "In the Pink—I Survived"
 category: Walkthrough
@@ -199,9 +199,8 @@ Even though the stack aligns along the 8-byte boundary, the return address in th
 
 Now that we can control RIP with the offset at 72 bytes, we can place our shellcode in an environment variable and use the following code to determine the memory address of the environment variable, where the shellcode is. This will be our return address in the exploit.
 
-{% highlight c linenos %}
-/* cat getenvaddr.c */
-
+<div class="filename"><span>getenvaddr.c</span></div>
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -217,7 +216,7 @@ int main(int argc, char *argv[]) {
     ptr += (strlen(argv[0]) - strlen(argv[2]))*2; /* adjust for program name */
     printf("%s will be at %p\n", argv[1], ptr);
 }
-{% endhighlight %}
+```
 
 Since we are using the environment variable to store our payload, the size of the payload shouldn't be an issue. Having said that, I still prefer a minimalist approach and decide to use the shortest possible 64-bit [shellcode](http://shell-storm.org/shellcode/files/shellcode-806.php) (27 bytes) to execute `/bin/sh`.
 

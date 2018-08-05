@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-06-27 10:52:09 +0000
+last_modified_at: 2018-08-05 00:04:12 +0000d
 title: "Cyberry: 1 Walkthrough"
 subtitle: "I Love Berries!"
 categories: Walkthrough
@@ -267,8 +267,8 @@ Port-knocking requires sending network packets with the `SYN` flag set, to a seq
 
 To that end, I wrote a port-knocking script using `nmap`.
 
-{% highlight bash linenos %}
-# cat knock.sh
+<div class="filename"><span>knock.sh</span></div>
+```
 #!/bin/bash
 
 TARGET=$1
@@ -281,7 +281,7 @@ for ports in $(cat permutation.txt); do
     sleep 3
     nmap -n -v -Pn -p- -A --reason $TARGET -oN ${ports}.txt
 done
-{% endhighlight %}
+```
 
 `permutation.txt` contains all the permutations of 1955, 1955, 1961 and 1970 and I use Python to generate it.
 
@@ -422,8 +422,8 @@ password
 
 It makes sense to use the passwords above to decrypt the file but I wouldn't know which cipher. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
-{% highlight bash linenos %}
-# cat decrypt.sh
+<div class="filename"><span>decrypt.sh</span></div>
+```bash
 #!/bin/bash
 
 FILE=.reminder.enc
@@ -441,7 +441,7 @@ for c in $(cat ciphers.txt); do
         fi
     done
 done
-{% endhighlight %}
+```
 
 `ciphers.txt` contains all the ciphers. Running the script reveals the following.
 
