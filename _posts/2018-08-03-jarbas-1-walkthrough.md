@@ -1,11 +1,11 @@
 ---
 layout: post
 date: 2018-08-03 12:16:52 +0000
-last_modified_at: 2018-08-03 19:43:45 +0000
+last_modified_at: 2018-08-06 10:31:57 +0000
 title: "Jarbas: 1 Walkthrough"
 subtitle: "Those Were the Days"
 category: Walkthrough
-tags: [VulnHub, "LazySysAdmin"]
+tags: [VulnHub, "Jarbas"]
 comments: true
 image:
   feature: jarbas-1-walkthrough.jpg
