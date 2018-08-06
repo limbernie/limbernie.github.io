@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-06 10:42:58 +0000
+last_modified_at: 2018-08-06 13:22:13 +0000
 title: "Lampião: 1 Walkthrough"
 subtitle: "Hero or Villain?"
 category: Walkthrough
@@ -61,11 +62,11 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: Lampi\xC3\xA3o
 ```
 
-`nmap` finds `22/tcp`, `80/tcp` and `1898/tcp` open. There's something interesting behind `80/tcp`.
+`nmap` finds `22/tcp`, `80/tcp` and `1898/tcp` open—and there's something interesting behind `80/tcp`.
 
 ![Son of a Bitch](/assets/images/posts/lampiao-1-walkthrough/8b3f5f0a.png)
 
-Turns out that "Fi duma égua" is a not-so-elegant word for swearing. I leave it for the curious reader to find out what it means. :laughing:
+"Fi duma égua" is a not-so-elegant word for referring to someone. I leave it for the curious reader to find out what it means. :laughing:
 
 ### Drupal
 
@@ -73,7 +74,7 @@ Another service worth exploring is Drupal, which runs behind `1898/tcp`. Here's 
 
 ![Drupal](/assets/images/posts/lampiao-1-walkthrough/5e40c98e.png)
 
-To be honest, I'm always excited to see non-English language in display because that means I can generate a wordlist from it. There's always a high chance of getting a password judging from my experiences.
+To be honest, I'm always excited to see non-English language in display because that means I can generate a wordlist from it. There's always a high chance of getting a password judging from my experience.
 
 Let's use `cewl` to generate a wordlist from the post "**Lampião, herói ou vilão do Sertão?**". The command goes like this.
 
@@ -100,7 +101,7 @@ Let's put them into a username list and go with `hydra` and the generated wordli
 1 of 1 target successfully completed, 1 valid password found
 ```
 
-We are lucky.
+Lucky indeed.
 
 ### Low-Privilege Shell
 
