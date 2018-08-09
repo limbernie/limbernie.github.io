@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
-last_modified_at: 2018-08-09 22:26:27 +0000
+last_modified_at: 2018-08-09 22:34:41 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -45,7 +45,7 @@ Looks like only `80/tcp` is open. Here's how it looks like.
 
 # Angular
 
-The site is running on Angular (v4.4.7), at least the client-side of the site is. You can see the Angular favicon at the tab.
+The site is running on Angular (4.4.7), at least the client-side of the site is. You can see the Angular favicon at the tab.
 
 ![favicon.ico](/assets/images/posts/bulldog-2-walkthrough/7ca76709.png)
 
