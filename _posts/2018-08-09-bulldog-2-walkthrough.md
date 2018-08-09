@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
+last_modified_at: 2018-08-09 22:26:27 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -19,7 +20,7 @@ This post documents the complete walkthrough of Bulldog: 2, a boot2root [VM][1] 
 
 ### Background
 
-Three years have passed since Bulldog Industries suffered severe data breaches. In that time, they have recovered and re-branded as Bulldog.social, an up and coming social media company. Can you take on this new challenge and get `root` on their production web server?
+Three years have passed since Bulldog Industries suffered severe data breaches. In that time, they have recovered and re-branded as **Bulldog.social**, an up and coming social media company. Can you take on this new challenge and get `root` on their production web server?
 
 ### Information Gathering
 
