@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
-last_modified_at: 2018-08-09 22:34:41 +0000
+last_modified_at: 2018-08-10 05:06:38 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -39,21 +39,21 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Bulldog.social
 ```
 
-Looks like only `80/tcp` is open. Here's how it looks like.
+Looks like only `80/tcp` is open. Here's how the site looks like.
 
 ![Bulldog.social](/assets/images/posts/bulldog-2-walkthrough/ad2442dc.png)
 
 # Angular
 
-The site is running on Angular (4.4.7), at least the client-side of the site is. You can see the Angular favicon at the tab.
+The site is running on Angular (4.4.7), at least the client-side of the site is. You can see the Angular favicon on the tab.
 
 ![favicon.ico](/assets/images/posts/bulldog-2-walkthrough/7ca76709.png)
 
-Another way of determining the site is running on Angular is by looking at the DOM tree. There's no point in looking at the HTML source because you won't find anything useful there. The DOM tree is dynamically built by Angular through the use of TypeScript.
+Another way of determining if the site is running Angular—is by looking at the DOM tree. There's no point in looking at the HTML source because you won't find anything useful there (I know because I tried). The DOM tree is dynamically built by Angular through the use of JavaScript (or TypeScript at the backend).
 
 ![DOM Tree](/assets/images/posts/bulldog-2-walkthrough/f448f633.png)
 
-The attack surface available to us is the login page, but where are the usernames?
+The login page is available to us as the sole attack surface, but where are the usernames?
 
 ![Login Page](/assets/images/posts/bulldog-2-walkthrough/5b74e970.png)
 
@@ -104,13 +104,13 @@ ID	Response   Lines      Word         Chars          Payload
 001801:  C=200      0 L	       3 W	    462 Ch	  "pejerrine - 123456"
 ```
 
-Logging in with any of the credentials above will result in a JSON Web Token (JWT) and the user's profile stored in the browser's local storage as you'll see in a while.
+Logging in with any of the credentials above will result in a JSON Web Token (JWT) and the user's profile getting stored in the browser's local storage. You'll see that in a while.
 
 Let's go with the credential (`eivijay:12345`).
 
 ![eivijay](/assets/images/posts/bulldog-2-walkthrough/5537bc42.png)
 
-Here's the local storage.
+Here's the local storage. The stored items are: `id_token` and `user`.
 
 ![Local Storage](/assets/images/posts/bulldog-2-walkthrough/b0fbc009.png)
 
@@ -157,13 +157,15 @@ Using **Burp Suite**, I was able to reproduce the `400` response.
 
 ![Request](/assets/images/posts/bulldog-2-walkthrough/daed6699.png)
 
-Turns out the JSON parser produces a syntax error with a malformed JSON input.
+Turns out that the JSON parser produces a syntax error when it's given a malformed JSON input.
 
 ![Response](/assets/images/posts/bulldog-2-walkthrough/3a7cfbd7.png)
 
 ### Bulldog 2 - The Reckoning
 
-Not knowing how to proceed, I chanced upon the site's Github [respository](https://github.com/Frichetten/Bulldog-2-The-Reckoning) searching for "Bulldog-2-The-Reckoning" in Google.
+Not knowing how to proceed, I chanced upon the site's Github [respository](https://github.com/Frichetten/Bulldog-2-The-Reckoning) searching for **"Bulldog-2-The-Reckoning"** in Google.
+
+You can see what happens at the `/linkauthenticate` route—the password field is not sanitized before passing on to `exec`.
 
 <div class="filename"><span>user.js</span></div>
 ```js
@@ -236,17 +238,21 @@ I found my ticket to privilege escalation during enumeration of this account.
 
 ![/etc/passwd](/assets/images/posts/bulldog-2-walkthrough/d2911140.png)
 
-Since we have write permissions to `/etc/passwd`, let's change the `root` password.
+Since we have write permissions to `/etc/passwd`, let's change the `root` password to `root`.
 
 ![root](/assets/images/posts/bulldog-2-walkthrough/84537774.png)
 
-### What's the Flag (WTF)
+### Where's the Flag (WTF)
 
 Getting the flag is trivial now that I'm `root`.
 
 ![Flag](/assets/images/posts/bulldog-2-walkthrough/23aa1596.png)
 
 :dancer:
+
+### Afterthought
+
+Who would have thought that the MEAN stack is so cool? I certainly didn't know anything about it until I tried my hands on this VM. Kudos to Nick for creating it!
 
 [1]: https://www.vulnhub.com/entry/bulldog-2,246/
 [2]: https://twitter.com/@frichette_n
