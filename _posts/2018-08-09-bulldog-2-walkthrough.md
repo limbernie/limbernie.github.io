@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
-last_modified_at: 2018-08-10 06:37:57 +0000
+last_modified_at: 2018-08-10 06:42:40 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -49,7 +49,7 @@ The site is running on Angular (4.4.7), at least the client-side of the site is.
 
 ![favicon.ico](/assets/images/posts/bulldog-2-walkthrough/7ca76709.png)
 
-Another way of determining if the site is running Angular—is by looking at the DOM tree. The DOM tree is dynamically built by Angular through the use of JavaScript (or TypeScript at the backend). There's no point in looking at the HTML source because you won't find anything useful there other than the bundled JavaScript files. Mind you, these minified files make analysis a little more difficult than usual.
+Another way of determining if the site is running Angular—is by looking at the DOM tree. The DOM tree is dynamically built by Angular through the use of JavaScript (or TypeScript at the server side). There's no point to looking at the HTML source because you won't find anything useful there other than the bundled JavaScript files. Mind you, these minified files make analysis a little more difficult than usual, but you can always use the browser's JavaScript debugger to prettify them.
 
 ![DOM Tree](/assets/images/posts/bulldog-2-walkthrough/f448f633.png)
 
