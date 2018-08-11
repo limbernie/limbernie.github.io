@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
-last_modified_at: 2018-08-10 06:42:40 +0000
+last_modified_at: 2018-08-11 13:19:39 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -62,7 +62,8 @@ Turns out that there's a `/users/getUsers` route hidden in `main.js`.
 ![getUsers](/assets/images/posts/bulldog-2-walkthrough/7a49aeb2.png)
 
 ```
-# curl -s 192.168.30.128/users/getUsers | jq . | grep username | wc -l
+# curl -s 192.168.30.128/users/getUsers | jq . | grep username | cut -d':' -f2 | cut -d'"' -f1 > usernames.txt
+# wc -l usernames.txt
 15760
 ```
 
