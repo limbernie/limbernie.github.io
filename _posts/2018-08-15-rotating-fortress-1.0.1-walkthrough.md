@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 10:30:34 +0000
+last_modified_at: 2018-08-15 10:37:53 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: The All-Father
 category: Walkthrough
@@ -522,15 +522,15 @@ I had a fun time looking up the name of the deities and supernatural beings on W
 
 These are the deities and supernatural beings that appeared in the VM, not in any order of appearance:
 
-1. Janus
-2. Loki
-3. Eris
-4. Zeus
-5. Harpocrates
-6. Hecate
-7. Athena
-8. Tir
-9. Papa Legba
+1. [Janus](https://en.wikipedia.org/wiki/Janus)
+2. [Loki](https://en.wikipedia.org/wiki/Loki)
+3. [Eris](https://en.wikipedia.org/wiki/Eris_(mythology))
+4. [Zeus](https://en.wikipedia.org/wiki/Zeus)
+5. [Harpocrates](https://en.wikipedia.org/wiki/Harpocrates)
+6. [Hecate](https://en.wikipedia.org/wiki/Hecate)
+7. [Anthena](https://en.wikipedia.org/wiki/Athena) [sic]
+8. [Tir](https://en.wikipedia.org/wiki/Tir_(god))
+9. [Papa Legba](https://en.wikipedia.org/wiki/Papa_Legba)
 
 [1]: https://www.vulnhub.com/entry/rotating-fortress-101,248/
 [2]: https://twitter.com/@c0rruptedb1t
