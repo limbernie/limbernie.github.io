@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
+last_modified_at: 2018-08-15 10:29:24 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: The All-Father
 category: Walkthrough
@@ -55,9 +56,9 @@ Here's what the web service looks like as rendered in the browser.
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/Janus),
 
-> In ancient Roman religion and myth, Janus (/ˈdʒeɪnəs/; Latin: IANVS (Iānus), pronounced [ˈjaː.nus]) is the god of beginnings, gates, transitions, time, duality, doorways,[1] passages, and endings.
+> In ancient Roman religion and myth, Janus (/ˈdʒeɪnəs/; Latin: IANVS (Iānus), pronounced [ˈjaː.nus]) is the god of beginnings, gates, transitions, time, duality, doorways, passages, and endings.
 
-It's apt for Janus to overlook the first flag. If you look at the cookies storage, you'll realize it's trivial to get the first flag.
+It's apt that Janus is overlooking the first flag. If you look at the cookies storage, you'll realize it's trivial to get the first flag.
 
 ![Cookies](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/9a82a999.png)
 
@@ -107,7 +108,7 @@ I think I've seen enough. Let's quit the debugger and enter `xBspsiONMSNXeVuiomF
 
 ![Flag: 2](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/66e3c981.png)
 
-Now that I know that the messages are encrypted with Caesar cipher, let's write a script to decipher them for the sake of completeness. The script takes in two arguments: the message as seen in the browser and the key.
+Now that I know that the cipher of these messages, let's write a script to decipher them for the sake of completeness. The script takes in two arguments: the message as seen in the browser and the key.
 
 <div class="filename"><span>decrypt.sh</span></div>
 
@@ -178,7 +179,7 @@ ZEUS HAS ASKED ME TO MAKE AN ENCODER FOR OUR UPDATES. THIS IS ME TESTING IT OUT.
 ...
 ```
 
-Turns out that `edvqyhwmfvqrducqjbzumysrwdgmfdht` is the wheel code for `/wheel.php`. With that, you get access to view a video at `/resources/wheel.mp4`, something about unlocking the wheel. ¯\\\__(ツ)\__/¯
+Turns out that `edvqyhwmfvqrducqjbzumysrwdgmfdht` from Message 1 is the wheel code for `/wheel.php`. With that, you get access to view a video at `/resources/wheel.mp4`, something about unlocking the wheel. ¯\\\__(ツ)\__/¯
 
 ### Flag: 3
 
@@ -205,7 +206,7 @@ Hmmm. Could this be a hint to look 'inside' `/Harpocrates.gif`? But damn, the fi
 
 Sneaky indeed.
 
-Let's decrypt the link. The key appears to be `101`, which is decimal `5`.
+Let's decipher the link. The key appears to be `101`, which is decimal `5`.
 
 ```
 # ./decrypt.sh inside.txt -5
@@ -518,6 +519,18 @@ Of course, Zeus is the all-father after all.
 ### Afterthought
 
 I had a fun time looking up the name of the deities and supernatural beings on Wikipedia, and understanding their characteristics and the role they play in the VM.
+
+These are the deities and supernatural beings that appeared in the VM, not in order of appearance:
+
+1. Janus
+2. Loki
+3. Eris
+4. Zeus
+5. Harpocrates
+6. Hecate
+7. Athena
+8. Tir
+9. Papa Legba
 
 [1]: https://www.vulnhub.com/entry/rotating-fortress-101,248/
 [2]: https://twitter.com/@c0rruptedb1t
