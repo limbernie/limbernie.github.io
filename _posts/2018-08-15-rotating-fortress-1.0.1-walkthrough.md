@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 10:29:24 +0000
+last_modified_at: 2018-08-15 10:30:34 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: The All-Father
 category: Walkthrough
@@ -520,7 +520,7 @@ Of course, Zeus is the all-father after all.
 
 I had a fun time looking up the name of the deities and supernatural beings on Wikipedia, and understanding their characteristics and the role they play in the VM.
 
-These are the deities and supernatural beings that appeared in the VM, not in order of appearance:
+These are the deities and supernatural beings that appeared in the VM, not in any order of appearance:
 
 1. Janus
 2. Loki
