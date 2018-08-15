@@ -1,8 +1,9 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 14:59:01 +0000
+last_modified_at: 2018-08-15 15:05:27 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
+subtitle: "I'm Spinning Around"
 category: Walkthrough
 tags: [VulnHub, "Rotating Fortress"]
 comments: true
