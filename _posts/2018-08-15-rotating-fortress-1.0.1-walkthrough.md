@@ -1,9 +1,8 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 10:52:32 +0000
+last_modified_at: 2018-08-15 14:59:01 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
-subtitle: The All-Father
 category: Walkthrough
 tags: [VulnHub, "Rotating Fortress"]
 comments: true
@@ -508,7 +507,7 @@ I sense the end is near.
 
 ![sudo](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/090eee64.png)
 
-Of course, Zeus is the all-father after all.
+Of course Zeus can do anything. He is the king of the Greek gods after all.
 
 ### Capturing the Rotating Fortress
 
