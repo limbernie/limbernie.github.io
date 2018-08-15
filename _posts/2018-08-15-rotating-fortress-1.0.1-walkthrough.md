@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 10:37:53 +0000
+last_modified_at: 2018-08-15 10:52:32 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: The All-Father
 category: Walkthrough
@@ -78,7 +78,7 @@ I did my best to determine the directories and files starting at this level. Thi
 
 + `/resources` has directory indexing
 + `/icons` has directory indexing
-+ `robots.txt` exists and has the following disallowed entries:
++ `/robots.txt` exists and has the following disallowed entries:
   + `/icons/loki.bin` is an ELF executable
   + `/eris.php` exists
 
@@ -86,7 +86,7 @@ The messages at `/news.html` are also making my head spin.
 
 ![news.html](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/c59689d9.png)
 
-I didn't bother with `eris.php` because according to [Wikipedia](https://en.wikipedia.org/wiki/Eris_(mythology)),
+I didn't bother with `/eris.php` because according to [Wikipedia](https://en.wikipedia.org/wiki/Eris_(mythology)),
 
 > Eris (/ˈɪərɪs, ˈɛrɪs/; Greek: Ἔρις, "Strife") is the Greek goddess of strife and discord.
 
@@ -183,7 +183,7 @@ Turns out that `edvqyhwmfvqrducqjbzumysrwdgmfdht` from Message 1 is the wheel co
 
 ### Flag: 3
 
-Armed with `decrypt.sh`, I went back to decrypt the message at `home.html` which was actually part of `/resources/Harpocrates.gif`.
+Armed with `decrypt.sh`, I went back to decipher the message at `home.html` which was actually part of `/resources/Harpocrates.gif`.
 
 ![Harpocrates.gif](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/def1561a.png)
 
@@ -251,7 +251,7 @@ OK. Let's go to `/chat.php`.
 
 ![chat.php](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/4c88b34b.png)
 
-The chat page is more of a distraction than anything useful, while the **Download** button, allows you to download `papa_legba.zip`. The archive contains the following files.
+The chat page is more of a distraction than anything useful, while the **Download** button, allows you to download `/papa_legba.zip`. The archive contains the following files.
 
 ```
 # unzip -l papa_legba.zip
@@ -464,7 +464,7 @@ Let's enter the flags we have so far.
 
 ![One-Way Shell](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/5796446b.png)
 
-Zeus' 1-way shell has a weakness—it allows the use of subshells. To bypass the restricted 1-way shell, I'm transferring a reverse shell over to `/tmp/rev` with `wget` running in a subshell. Over at my machine, I'm hosting a reverse shell (generated with `msfvenom`) with Python **SimpleHTTPServer** module.
+Zeus' 1-way shell has a weakness—it allows the use of subshell. To bypass the restricted 1-way shell, I'm transferring a reverse shell over to `/tmp/rev` with `wget` running in a subshell. Over at my machine, I'm hosting a reverse shell (generated with `msfvenom`) with Python **SimpleHTTPServer** module.
 
 On my machine, I use the following `msfvenom` options to generate the reverse shell.
 
