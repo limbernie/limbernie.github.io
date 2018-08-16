@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-15 15:05:27 +0000
+last_modified_at: 2018-08-16 05:05:00 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -68,7 +68,7 @@ Change the value of `isAdmin` to `1` and refresh the page `/Janus.php`.
 
 ### Flag: 2
 
-This brings us to the next stage, `/LELv3FfpLrbX1S4Q2FHA1hRtIoQa38xF8dzc8O9z/home.html`
+This brings us to the next stage.
 
 ![Wheel](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/750686de.png)
 
