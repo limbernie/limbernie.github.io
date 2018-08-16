@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-16 05:05:00 +0000
+last_modified_at: 2018-08-16 10:50:40 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -180,6 +180,8 @@ ZEUS HAS ASKED ME TO MAKE AN ENCODER FOR OUR UPDATES. THIS IS ME TESTING IT OUT.
 ```
 
 Turns out that `edvqyhwmfvqrducqjbzumysrwdgmfdht` from Message 1 is the wheel code for `/wheel.php`. With that, you get access to view a video at `/resources/wheel.mp4`, something about unlocking the wheel. ¯\\\__(ツ)\__/¯
+
+![wheel_code](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/f9eda586.png)
 
 ### Flag: 3
 
