@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-16 16:03:15 +0000
+last_modified_at: 2018-08-16 16:10:29 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -466,7 +466,7 @@ Let's enter the flags we have so far.
 
 ![One-Way Shell](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/5796446b.png)
 
-The **ZEUS' 1-WAY SHELL** has a weakness—it allows the use of subshell. To bypass the restricted it, I transferred a reverse shell over to `/tmp/rev` with `wget` running in the subshell. Over at my machine, I hosted a reverse shell (generated with `msfvenom`) with the Python **SimpleHTTPServer** module. Here's what I did.
+The **ZEUS' 1-WAY SHELL** has a weakness—it allows the use of subshell. To bypass it, I transferred a reverse shell over to `/tmp/rev` with `wget` running in the subshell. Over at my machine, I hosted a reverse shell (generated with `msfvenom`) with the Python **SimpleHTTPServer** module. Here's what I did.
 
 First, I use the following `msfvenom` options to generate the reverse shell on my machine.
 
