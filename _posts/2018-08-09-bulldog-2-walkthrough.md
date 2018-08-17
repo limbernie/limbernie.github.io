@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-09 22:23:08 +0000
-last_modified_at: 2018-08-11 13:19:39 +0000
+last_modified_at: 2018-08-17 13:21:10 +0000
 title: "Bulldog: 2 Walkthrough"
 subtitle: The Reckoning
 category: Walkthrough
@@ -27,7 +27,7 @@ Three years have passed since Bulldog Industries suffered severe data breaches. 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
 ```
-# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.129
+# nmap -n -v -Pn -p- -A --reason -oN nmap.txt 192.168.30.128
 ...
 PORT   STATE SERVICE REASON         VERSION
 80/tcp open  http    syn-ack ttl 64 nginx 1.14.0 (Ubuntu)
