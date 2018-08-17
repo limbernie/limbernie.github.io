@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-16 16:10:29 +0000
+last_modified_at: 2018-08-17 03:21:40 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -500,7 +500,7 @@ Once I've the shell, it's trivial to find the sixth flag. It's at `/home/www-dat
 
 ### In the Land of Zeus
 
-The message says the password of `zeus` is `7daLI]tr09u2~ATXVfzXkd#B=TVf5XOIQMZr98yf53k<2x`. Let's give it a shot.
+The message above says the password of `zeus` is `7daLI]tr09u2~ATXVfzXkd#B=TVf5XOIQMZr98yf53k<2x`.
 
 ![Zeus](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/64abb422.png)
 
