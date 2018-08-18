@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-17 03:21:40 +0000
+last_modified_at: 2018-08-18 06:31:01 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -202,7 +202,7 @@ inside
 ...
 ```
 
-Hmmm. Could this be a hint to look 'inside' `/Harpocrates.gif`? But damn, the file is large at 128M.
+Hmm. Could this be a hint to look 'inside' `/Harpocrates.gif`? But damn, the file is large at 128M.
 
 ![Flag: 3](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/897ce9ef.png)
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-07-31 18:49:05 +0000
-last_modified_at: 2018-08-03 19:18:37 +0000
+last_modified_at: 2018-08-18 06:32:56 +0000
 title: "Google CTF: Beginners Quest (Part 2)"
 category: CTF
 tags: [Google]
@@ -108,7 +108,7 @@ Anyhow, let's go with (`admin:password`) and see what happens.
 
 ![admin:password](/assets/images/posts/google-ctf-beginners-quest-part-2/591c4eee.png)
 
-Hmmm. Wrong credentials but interesting output. Notice that a double slash ("//") separates the username and password? When was the last time you see a double slash ("//")? If the answer is "URL", you are right!
+Hmm. Wrong credentials but interesting output. Notice that a double slash ("//") separates the username and password? When was the last time you see a double slash ("//")? If the answer is "URL", you are right!
 
 ![RFC3986](/assets/images/posts/google-ctf-beginners-quest-part-2/c1309d25.png)
 

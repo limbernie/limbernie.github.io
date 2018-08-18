@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-06-03 17:25:02 +0000
-last_modified_at: 2018-08-05 00:06:29 +0000
+last_modified_at: 2018-08-18 06:32:13 +0000
 title: "Gemini Inc: v2 Walkthrough"
 subtitle: "Double Trouble"
 category: Walkthrough
@@ -20,7 +20,7 @@ This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM]
 
 ### Background
 
->**Neo**: Hmmm, upgrades&hellip;
+>**Neo**: Hmm, upgrades&hellip;
 
 ### Information Gathering
 
