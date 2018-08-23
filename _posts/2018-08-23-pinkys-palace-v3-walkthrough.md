@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-23 12:50:24 +0000
+last_modified_at: 2018-08-23 12:53:54 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -485,7 +485,7 @@ Whoa! Looks like I need to write my own kernel module. I chanced upon this [tuto
 
 To that end, I wrote a kernel module that invokes my old bind shell `/tmp/bindshell` to listen at `9999/tcp`.
 
-<div classname="filename"><span>root.c</span></div>
+<div class="filename"><span>root.c</span></div>
 
 ```c
 #include <linux/module.h>
