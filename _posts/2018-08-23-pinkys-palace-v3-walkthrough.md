@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-23 12:53:54 +0000
+last_modified_at: 2018-08-24 07:15:54 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -65,7 +65,7 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: PinkDrup
 ```
 
-Hmm. SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can login anonymously.
+SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can login anonymously.
 
 ### Passive FTP
 
@@ -77,7 +77,7 @@ Let's try again, this time using passive FTP.
 
 ![591a6314.png](/assets/images/posts/pinkys-palace-v3-walkthrough/591a6314.png)
 
-Awesome. Notice something interesting? There's a directory with three dots.
+Notice something interesting? There's a directory with three dots.
 
 Well, let's get the `WELCOME` message and see what it has to say.
 
@@ -122,11 +122,11 @@ Let's run it.
 
 ![f5a3d456.png](/assets/images/posts/pinkys-palace-v3-walkthrough/f5a3d456.png)
 
-Boom. You get a low-privilege shell.
+I get a low-privilege shell.
 
 ### Low-Privilege Shell Redux
 
-I don't know about you but I like me a proper shell. Remember the firewall blocks outbound connections? Because of that, we'll have to upload a bind shell—I connect to the shell instead of the other way around.
+I don't know about you but I like me a proper shell. Remember the firewall blocks outbound connections? Because of that, I'll have to upload a bind shell instead.
 
 With that in mind, let's write a 32-bit bind shell in C (`pinky-palace` is running 32-bit Debian 9.4). The bind shell takes a port number as its argument in case I need to reuse it on different ports.
 
@@ -159,7 +159,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-Compile `bindshell.c` on my local machine for the 32-bit platform. If you are running a 32-bit GNU/Linux distribution, then you can drop the `-m32`.
+Compile `bindshell.c` for the 32-bit platform. If you are running a 32-bit GNU/Linux distribution, then you can drop the `-m32`.
 
 ```
 # gcc -m32 -o bindshell bindshell.c
@@ -186,8 +186,9 @@ Connect to the bind shell with `nc` and spawn a pseudo-TTY.
 
 ![8bb72670.png](/assets/images/posts/pinkys-palace-v3-walkthrough/8bb72670.png)
 
-Now that I've a proper shell, let's find out what else the VM has to offer. I soon discover the user `pinksec` is running two instances of Apache at `80/tcp` and `65334/tcp` on the loopback interface, i.e. 127.0.0.1. Here's how to determine that.
+Now that I've a proper shell, let's find out what else the VM has to offer. I soon discover the user `pinksec` is running two instances of Apache at `80/tcp` and `65334/tcp` on the loopback interface, i.e. 127.0.0.1.
 
+Here's how to determine:
 + check `ps auwx` and notice that `pinksec` is running Apache
 + check `netstat -lunt` and notice that the loopback interface is listening on `80/tcp` and `65334/tcp`.
 + ascertain the above observations with Apache configuration
@@ -212,7 +213,7 @@ Sweet. I can access both instances.
 
 ### Let the Fuzzing Begin
 
-It's time for another round of fuzzing to determine more directories and files for further exploration. As usual, my weapon of choice is `wfuzz` combined with quality wordlists.
+It's time for a round of fuzzing to determine the directories and files for further exploration. As usual, my weapon of choice is `wfuzz` combined with quality wordlists.
 
 For `/home/pinksec/html`, I'm going with SecLists' `quickhits.txt`. Here's what `wfuzz` found.
 
@@ -336,8 +337,6 @@ mkdir /home/pinksec/.ssh; echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbTLpnI4gWc
 Let's SSH into `pinksec`'s account.
 
 ![f81a29d7.png](/assets/images/posts/pinkys-palace-v3-walkthrough/f81a29d7.png)
-
-Awesome.
 
 During enumeration of `pinksec`'s account, I found the following:
 
@@ -469,7 +468,7 @@ Let's run the exploit.
 
 ![6fbda820.png](/assets/images/posts/pinkys-palace-v3-walkthrough/6fbda820.png)
 
-Awesome. Now, we can repeat the same SSH trick shown above to get a proper shell.
+Now, we can repeat the same SSH trick shown above to get a proper shell.
 
 ![a9d9e5a1.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a9d9e5a1.png)
 
@@ -509,9 +508,9 @@ void cleanup_module(void)
 }`
 ```
 
-You'll also need to create a `Makefile` following the `kbuild` process like so.
+I'll also need to create a `Makefile` following the `kbuild` process like so.
 
-<div classname="filename"><span>Makefile</span></div>
+<div class="filename"><span>Makefile</span></div>
 
 ```
 obj-m += root.o
@@ -525,15 +524,15 @@ clean:
 
 ![d5158a1d.png](/assets/images/posts/pinkys-palace-v3-walkthrough/d5158a1d.png)
 
-Now, let's load our module.
+Now, let's load the module.
 
 ![a9cae166.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a9cae166.png)
 
-Connect to our shell at `9999/tcp`.
+Connect to the shell at `9999/tcp`.
 
 ![38861aa5.png](/assets/images/posts/pinkys-palace-v3-walkthrough/38861aa5.png)
 
-Woohoo! We are `root`.
+Woohoo! I'm `root`.
 
 Let's do something different. Instead of using the SSH trick, let's create a phony user account with `root`'s privileges.
 
