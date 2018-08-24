@@ -186,7 +186,7 @@ Connect to the bind shell with `nc` and spawn a pseudo-TTY.
 
 ![8bb72670.png](/assets/images/posts/pinkys-palace-v3-walkthrough/8bb72670.png)
 
-Now that I've a proper shell, let's find out what else the VM has to offer. I soon discover the user `pinksec` is running two instances of Apache at `80/tcp` and `65334/tcp` on the loopback interface, i.e. 127.0.0.1.
+Now that I've a proper shell, let's find out what else the VM has to offer. I soon discover that `pinksec` is running two instances of Apache at `80/tcp` and `65334/tcp` on the loopback interface, i.e. 127.0.0.1.
 
 Here's how to determine:
 + check `ps auwx` and notice that `pinksec` is running Apache
