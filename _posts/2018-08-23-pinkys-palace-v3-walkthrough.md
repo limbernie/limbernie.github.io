@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-25 12:45:40 +0000
+last_modified_at: 2018-08-25 12:49:22 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -454,7 +454,7 @@ We now have all the ingredients to bake our exploit.
 + Memory address to overwrite: `0x804a01c`
 + The address to write: `0xbffffedd`
 
-After you export the shellcode into the environment variable, the positional parameter of "AAAA" and "BBBB" will change, in which case they are now at the 137th parameter and 138th parameter respectively.
+After you export the shellcode into the environment variable, the positional parameter of "AAAA" and "BBBB" changes, in which case they are now the 137th parameter and 138th parameter respectively.
 
 ![a8b9ab8c.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a8b9ab8c.png)
 
