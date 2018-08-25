@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-24 07:15:54 +0000
+last_modified_at: 2018-08-25 01:16:16 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -407,7 +407,7 @@ Now, if we change the parameter from `%x` to `%n`, we can write to the memory ad
 
 OK. Where do we write and what to write?
 
-If you look at the disassembly of `argshow` above, right after the vulnerability, the program calls `putchar`. We could override the GLT of `putchar` to an address in the stack that contains shellcode. Of course, now we need to determine if the stack is executable.
+If you look at the disassembly of `argshow` above, right after the vulnerability, the program calls `putchar`. We could override the Global Offset Table (GOT) of `putchar` to an address in the stack that contains shellcode. Of course, now we need to determine if the stack is executable.
 
 _Use `readelf` to look at `/usr/local/bin/PSMCCLI`._
 
@@ -415,7 +415,7 @@ _Use `readelf` to look at `/usr/local/bin/PSMCCLI`._
 
 Good. The stack is executable.
 
-Next, we need to determine the GLT address of `putchar` to overwrite.
+Next, we need to determine the GOT address of `putchar` to overwrite.
 
 _Use `objdump` to look at `/usr/local/bin/PSMCCLI`._
 
