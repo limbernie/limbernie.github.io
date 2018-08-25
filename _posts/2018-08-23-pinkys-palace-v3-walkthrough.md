@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-25 01:16:16 +0000
+last_modified_at: 2018-08-25 12:45:40 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -399,9 +399,7 @@ Let's examine how we can exploit this vulnerability.
 
 ![a30c31af.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a30c31af.png)
 
-You can see that "AAAA" appears at the 137th parameter and "BBBB" after that at the 138th parameter. Armed with this knowledge, we can use direct parameter access instead to access them.
-
-![a8b9ab8c.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a8b9ab8c.png)
+You can see that "AAAA" appears as "41414141" and "BBBB" after that as "42424242". Armed with this knowledge, we can use direct parameter access to read them. However, the stack is dynamic in nature, and as such, any time you push some data onto the stack, you need to reassess the positional parameter of "AAAA" and "BBBB", as you'll see later.
 
 Now, if we change the parameter from `%x` to `%n`, we can write to the memory address specified by "AAAA" and "BBBB", the number of bytes that were output up to the first and second `%n`.
 
@@ -456,7 +454,11 @@ We now have all the ingredients to bake our exploit.
 + Memory address to overwrite: `0x804a01c`
 + The address to write: `0xbffffedd`
 
-The exploit looks like this.
+After you export the shellcode into the environment variable, the positional parameter of "AAAA" and "BBBB" will change, in which case they are now at the 137th parameter and 138th parameter respectively.
+
+![a8b9ab8c.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a8b9ab8c.png)
+
+The final exploit looks like this.
 
 ```
 $ /usr/local/bin/PSMCCLI $(printf "\x1c\xa0\x04\x08\x1e\xa0\x04\x08")CC%65235x%137\$hn%49442x%138\$hn
@@ -505,7 +507,7 @@ int init_module(void)
 void cleanup_module(void)
 {
   printk(KERN_INFO "Goodbye!");
-}`
+}
 ```
 
 I'll also need to create a `Makefile` following the `kbuild` process like so.
