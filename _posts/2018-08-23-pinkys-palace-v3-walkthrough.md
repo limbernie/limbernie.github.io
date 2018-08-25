@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-25 12:49:22 +0000
+last_modified_at: 2018-08-25 17:53:04 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -551,6 +551,10 @@ Boohoo. It's over.
 ![f5e4f71d.png](/assets/images/posts/pinkys-palace-v3-walkthrough/f5e4f71d.png)
 
 :dancer:
+
+### Afterthought
+
+I've always been a fan of the Pinky's Palace series. This one is as good, if not better than the previous ones—the systematic approach of privilege escalation from `www-data` to `root`—all the participating 'pink' characters without missing a beat—fuzz to pass—format string vulnerability—writing your own kernel module. I love it!
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v3,237/
 [2]: https://twitter.com/@Pink_P4nther
