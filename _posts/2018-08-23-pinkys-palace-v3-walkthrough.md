@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-23 12:12:13 +0000
-last_modified_at: 2018-08-25 17:53:04 +0000
+last_modified_at: 2018-08-26 03:53:03 +0000
 title: "Pinky's Palace: v3 Walkthrough"
 subtitle: "Shells, Shells Everywhere"
 category: Walkthrough
@@ -20,7 +20,7 @@ This post documents the complete walkthrough of Pinky's Palace: v3 a boot2root [
 
 ### Background
 
-I really wished there's a backstory to the VM—it'll make it a little more interesting. Having said that, the previous two VMs were challenging, fun, and provided plenty of learning opportunities—no backstory no big deal.
+I wished there's a backstory to the VM—it'll make it a little more interesting. Having said that, the previous two VMs were challenging, fun, and provided plenty of learning opportunities—no backstory no big deal.
 
 ### Information Gathering
 
@@ -65,7 +65,7 @@ PORT     STATE SERVICE REASON         VERSION
 |_http-title: PinkDrup
 ```
 
-SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can login anonymously.
+SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can log in anonymously.
 
 ### Passive FTP
 
@@ -191,7 +191,7 @@ Now that I've a proper shell, let's find out what else the VM has to offer. I so
 Here's how to determine:
 + check `ps auwx` and notice that `pinksec` is running Apache
 + check `netstat -lunt` and notice that the loopback interface is listening on `80/tcp` and `65334/tcp`.
-+ ascertain the above observations with Apache configuration
++ confirm the above observations with Apache configuration
 
 ![826d94fa.png](/assets/images/posts/pinkys-palace-v3-walkthrough/826d94fa.png)
 ![dab4da3c.png](/assets/images/posts/pinkys-palace-v3-walkthrough/dab4da3c.png)
@@ -285,7 +285,7 @@ All in all, we have 1,800,000 possible combinations, which is still manageable. 
 
 FML. `wfuzz` took almost an hour to exhaust all the combinations—no result whatsoever—then it dawned upon me—`pinkyadmin` wasn't the username. :angry:
 
-I have to think of an alternative fast. Recall the only user on Drupal 7 was `pinkadmin`. Perhaps this is the correct username?
+I have to think of an alternative fast. Recall the user on Drupal 7 was `pinkadmin`. Perhaps this is the correct username?
 
 ![8da59ace.png](/assets/images/posts/pinkys-palace-v3-walkthrough/8da59ace.png)
 
@@ -334,7 +334,7 @@ Execute the following command in the web shell.
 mkdir /home/pinksec/.ssh; echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDbTLpnI4gWcXU6GiD3VjMSSv6n5tEkeHvucJNpYnlRzaKnrmS9R+HEgNi5T7uNbTpI1W9YNrXWKrxpKiGkiMkZCzZw1bU0IDXUX5CgMF3TxZyrbgMZTETd3bu9T68XHU0XD8XmK+qFN8JiWRpzH3bNksPoZliRI1mhM5ucF2BguCe8d6Gki7D/KBJx4j125jrckJ8BEttmVSujyJx+MA/13yPpDz4M9Rx2OH68xmeWET5ZgmDeGFQLqDFYiB+let9t3jZEetEdd+VpdbSK8wrac6X1QcDH436Fp3hiDNOgjHF4P0LDK1GUuxrGxBDHz6InIueI5KNsvxlDlWDZFKU3 > /home/pinksec/.ssh/authorized_keys
 ```
 
-Let's SSH into `pinksec`'s account.
+Now, SSH into `pinksec`'s account.
 
 ![f81a29d7.png](/assets/images/posts/pinkys-palace-v3-walkthrough/f81a29d7.png)
 
@@ -378,7 +378,7 @@ Copy the public key over to `/home/pinksecmanagement/.ssh/authorized_keys` like 
 
 ![3cc4c719.png](/assets/images/posts/pinkys-palace-v3-walkthrough/3cc4c719.png)
 
-Now, let's SSH into `pinksecmanagement`'s account.
+Now, SSH into `pinksecmanagement`'s account.
 
 ![d1e66503.png](/assets/images/posts/pinkys-palace-v3-walkthrough/d1e66503.png)
 
@@ -399,7 +399,7 @@ Let's examine how we can exploit this vulnerability.
 
 ![a30c31af.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a30c31af.png)
 
-You can see that "AAAA" appears as "41414141" and "BBBB" after that as "42424242". Armed with this knowledge, we can use direct parameter access to read them. However, the stack is dynamic in nature, and as such, any time you push some data onto the stack, you need to reassess the positional parameter of "AAAA" and "BBBB", as you'll see later.
+You can see that "AAAA" appears as "41414141" and "BBBB" after that as "42424242". Armed with this knowledge, we can use direct parameter access to read them. Because the stack is dynamic in nature, and any time you push some data onto the stack, you need to reassess the positional parameter of "AAAA" and "BBBB", as you'll see later.
 
 Now, if we change the parameter from `%x` to `%n`, we can write to the memory address specified by "AAAA" and "BBBB", the number of bytes that were output up to the first and second `%n`.
 
@@ -554,7 +554,7 @@ Boohoo. It's over.
 
 ### Afterthought
 
-I've always been a fan of the Pinky's Palace series. This one is as good, if not better than the previous ones—the systematic approach of privilege escalation from `www-data` to `root`—all the participating 'pink' characters without missing a beat—fuzz to pass—format string vulnerability—writing your own kernel module. I love it!
+I've always been a fan of the Pinky's Palace series. This one is as good, if not better than the previous ones—the systematic approach of privilege escalation from `www-data` to `root`—all the participating '<span style="color:rgb(255,192,203);"><strong>pink</strong></span>' characters without missing a beat. And of course the challenges—fuzz to pass—format string vulnerability—writing your own kernel module. I love it all!
 
 [1]: https://www.vulnhub.com/entry/pinkys-palace-v3,237/
 [2]: https://twitter.com/@Pink_P4nther
