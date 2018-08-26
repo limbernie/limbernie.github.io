@@ -283,7 +283,7 @@ You can generate a list of 5-digit PINs with a command like so.
 
 All in all, we have 1,800,000 possible combinations, which is still manageable. Let's give it a shot with `wfuzz` again.
 
-FML. `wfuzz` took almost an hour to exhaust all the combinations—no result whatsoever—then it dawned upon me—`pinkyadmin` wasn't the username. :angry:
+FML—`wfuzz` took almost an hour to exhaust all the combinations—no result whatsoever—then it dawned upon me—`pinkyadmin` wasn't the username. :angry:
 
 I have to think of an alternative fast. Recall the user on Drupal 7 was `pinkadmin`. Perhaps this is the correct username?
 
