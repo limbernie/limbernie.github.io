@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
+last_modified_at: 2018-08-27 04:57:31 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -48,7 +49,9 @@ Let's pay `666/tcp` a visit and see what we can find there.
 
 ![50ad81b1.png](/assets/images/posts/temple-of-doom-1-walkthrough/50ad81b1.png)
 
-Satan's temple is still under construction? Good thing I'm not going to hell any time soon. Look what happens when I refresh the page.
+Satan's temple is still under construction? Thank God :pray: I'm not going to hell any time soon.
+
+Look what happens when I refresh the page.
 
 ![9f6cc22b.png](/assets/images/posts/temple-of-doom-1-walkthrough/9f6cc22b.png)
 
@@ -119,7 +122,7 @@ A quick search for "ss-manager" in Google led me to EDB-ID [43006](https://www.e
 
 ![5a264f18.png](/assets/images/posts/temple-of-doom-1-walkthrough/5a264f18.png)
 
-Good thing a more liberal `nc` is also available for use in the VM.
+A more liberal `nc` is also available for use in the VM.
 
 ![96d18f6d.png](/assets/images/posts/temple-of-doom-1-walkthrough/96d18f6d.png)
 
