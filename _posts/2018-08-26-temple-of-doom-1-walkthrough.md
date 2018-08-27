@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-08-27 04:57:31 +0000
+last_modified_at: 2018-08-27 09:27:40 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -165,6 +165,39 @@ After repeating the SSH trick, getting the flag is trivial.
 ### Afterthought
 
 I wonder what's the second method for getting `root`? Could it be the exploitation of `abrt`?
+
+I think I got it figured out. [CVE-2018-1111](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-1111) anyone?
+
+The signs were there all this time.
+
+![c1a0b34c.png](/assets/images/posts/temple-of-doom-1-walkthrough/c1a0b34c.png)
+
+There's a reason why `fireman` can `sudo` to execute `nmcli` and `iptables`. Even the source of the vulnerability is present.
+
+![53cf80ea.png](/assets/images/posts/temple-of-doom-1-walkthrough/53cf80ea.png)
+
+The proof-of-concept (PoC) code is so small it can fit inside a [tweet](https://twitter.com/Barknkilic/status/996470756283486209), with the help of `dnsmasq` of course.
+
+Let's give it a shot!
+
+In one terminal, I set up my attacking machine (192.168.30.128) as the rogue DHCP server with `dnsmasq`. In another terminal, I set up the `nc` listener to catch the reverse shell.
+
+![6b69b4b4.png](/assets/images/posts/temple-of-doom-1-walkthrough/6b69b4b4.png)
+
+Now, let's renew the VM's IP address with `nmcli`. My rogue DHCP server will respond to the VM's DHCP request injected into the DHCP offer, with the command `nc` to send `/bin/bash` over to me, i.e. a reverse shell.
+
+![42188e5c.png](/assets/images/posts/temple-of-doom-1-walkthrough/42188e5c.png)
+
+A `root` shell returns.
+
+![2de2fbdf.png](/assets/images/posts/temple-of-doom-1-walkthrough/2de2fbdf.png)
+
+Below are the DHCP packets and the rogue DHCP offer captured in WireShark.
+
+![7daab6b2.png](/assets/images/posts/temple-of-doom-1-walkthrough/7daab6b2.png)
+
+![cb889f9c.png](/assets/images/posts/temple-of-doom-1-walkthrough/cb889f9c.png)
+
 
 [1]: https://www.vulnhub.com/entry/temple-of-doom-1,243/
 [2]: https://twitter.com/@0katz
