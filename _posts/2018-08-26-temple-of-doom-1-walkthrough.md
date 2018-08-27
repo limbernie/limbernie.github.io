@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-08-27 09:27:40 +0000
+last_modified_at: 2018-08-27 11:09:22 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -86,7 +86,7 @@ Run `node rce.js` to get the serialized string output.
 
 ![87473663.png](/assets/images/posts/temple-of-doom-1-walkthrough/87473663.png)
 
-Next, add the IIFE bracket `()` at the end of the serialized string output from the previous step before passing it to `base64` for encoding.
+Next, add the [IIFE](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression) bracket `()` at the end of the serialized string output from the previous step before passing it to `base64` for encoding.
 
 ![398e3f8d.png](/assets/images/posts/temple-of-doom-1-walkthrough/398e3f8d.png)
 
