@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-08-27 11:09:22 +0000
+last_modified_at: 2018-08-27 11:21:25 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -184,7 +184,7 @@ In one terminal, I set up my attacking machine (192.168.30.128) as the rogue DHC
 
 ![6b69b4b4.png](/assets/images/posts/temple-of-doom-1-walkthrough/6b69b4b4.png)
 
-Now, let's renew the VM's IP address with `nmcli`. My rogue DHCP server will respond to the VM's DHCP request injected into the DHCP offer, with the command `nc` to send `/bin/bash` over to me, i.e. a reverse shell.
+Now, let's renew the VM's IP address with `nmcli`. My rogue DHCP server will respond to the VM's DHCP request with the injected command (`nc` to send `/bin/bash` over to me, i.e. a reverse shell) in the DHCP offer.
 
 ![42188e5c.png](/assets/images/posts/temple-of-doom-1-walkthrough/42188e5c.png)
 
