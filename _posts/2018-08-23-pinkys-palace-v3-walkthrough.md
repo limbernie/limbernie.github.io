@@ -13,7 +13,7 @@ image:
   creditlink: https://pixabay.com/en/pink-panther-bank-rest-sit-figure-1636508/
 ---
 
-This post documents the complete walkthrough of Pinky's Palace: v3 a boot2root [VM][1] created by [Pink_Panther][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Pinky's Palace: v3, a boot2root [VM][1] created by [Pink_Panther][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->

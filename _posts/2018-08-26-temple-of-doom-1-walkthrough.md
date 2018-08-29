@@ -13,7 +13,7 @@ image:
   creditlink: https://pixabay.com/en/skull-bone-head-halloween-skeleton-18235/
 ---
 
-This post documents the complete walkthrough of Temple of Doom: 1 a boot2root [VM][1] created by [@0katz][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Temple of Doom: 1, a boot2root [VM][1] created by [@0katz][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
