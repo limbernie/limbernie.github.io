@@ -84,7 +84,7 @@ I'm guessing there's PHP code in `index.php` like this.
 include( $_GET['lang']) . ".php" );
 ```
 
-In that case, we can make use of PHP filter wrapper to peek at `index.php` in `base64` encoding.
+If that's the case, we can make use of PHP filter wrapper to peek at `index.php` in `base64` encoding.
 
 ![1cf6a5ba.png](/assets/images/posts/wakanda-1-walkthrough/1cf6a5ba.png)
 
