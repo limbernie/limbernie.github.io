@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-29 18:39:02 +0000
-last_modified_date: 2018-08-29 18:50:59 +0000
+last_modified_date: 2018-08-29 18:53:34 +0000
 title: "wakanda: 1 Walkthrough"
 subtitle: "Wakanda Forever"
 category: Walkthrough
@@ -249,7 +249,7 @@ After repeating the SSH trick for `root`, getting the flag is trivial.
 
 ### Afterthought
 
-Where's the Vibranium?
+But where's the Vibranium?
 
 [1]: https://www.vulnhub.com/entry/wakanda-1,251/
 [2]: https://twitter.com/@xMagass
