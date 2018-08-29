@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-29 18:39:02 +0000
+last_modified_date: 2018-08-29 18:50:59 +0000
 title: "wakanda: 1 Walkthrough"
 subtitle: "Wakanda Forever"
 category: Walkthrough
@@ -157,7 +158,7 @@ include($_GET['lang'].".php");
 </body></html>
 ```
 
-:smirk: The password `Niamey4Ever227!!!` at the top is most probably `mamaodou`'s password.
+The password `Niamey4Ever227!!!` at the top is most probably `mamaodou`'s password.
 
 ### Low-Privilege Shell
 
