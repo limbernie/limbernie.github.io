@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-31 11:09:30 +0000
-last_modified_date: 2018-08-31 11:16:25 +0000
+last_modified_date: 2018-08-31 13:24:11 +0000
 title: "Node: 1 Walkthrough"
 subtitle: "Glory Glory Man United"
 category: Walkthrough
@@ -128,7 +128,7 @@ During enumeration of `mark`'s account, I found the following:
 
 ![9f935b96.png](/assets/images/posts/node-1-walkthrough/9f935b96.png)
 
-You see, `tom` is running each command in the `tasks` collection every 30,000 milliseconds (or thirty seconds). If I can somehow insert a row into `tasks`, `tom`will execute it for me.
+You see, `tom` is running each command in the `tasks` collection every 30,000 milliseconds (or thirty seconds). If I can somehow insert a row into `tasks`, `tom` will execute it for me.
 
 Let's do it this way. We transfer a reverse shell over to the VM.
 
