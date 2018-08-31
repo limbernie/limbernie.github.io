@@ -1,6 +1,7 @@
 ---
 layout: post
 date: 2018-08-31 11:09:30 +0000
+last_modified_date: 2018-08-31 11:13:35 +0000
 title: "Node: 1 Walkthrough"
 subtitle: "Glory Glory Man United"
 category: Walkthrough
@@ -53,7 +54,7 @@ There's a **LOGIN** button at the top right-hand side; it brings us to the login
 
 ![1ce3e611.png](/assets/images/posts/node-1-walkthrough/1ce3e611.png)
 
-The design looks good.
+I must say the design looks good.
 
 ### AngularJS
 
