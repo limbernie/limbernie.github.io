@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-31 11:09:30 +0000
-last_modified_date: 2018-08-31 13:24:11 +0000
+last_modified_date: 2018-08-31 20:00:39 +0000
 title: "Node: 1 Walkthrough"
 subtitle: "Glory Glory Man United"
 category: Walkthrough
@@ -76,7 +76,7 @@ Login to the admin account with credential (`myP14ceAdm1nAcc0uNT:manchester`).
 
 Voila.
 
-Click on the **Download Backup** button to bring up a dialog box to open or save a plaintext file, `myplace.backup`. I'm not going to open a 3.3MB file in the text editor.
+Click on the **Download Backup** button to bring up a dialog box to save the plaintext file, `myplace.backup` because I'm not going to open a 3.3MB file in the text editor.
 
 ![25431aaa.png](/assets/images/posts/node-1-walkthrough/25431aaa.png)
 
