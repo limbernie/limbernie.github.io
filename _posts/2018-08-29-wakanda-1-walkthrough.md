@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-29 18:39:02 +0000
-last_modified_date: 2018-08-31 09:37:25 +0000
+last_modified_date: 2018-08-31 15:37:34 +0000
 title: "wakanda: 1 Walkthrough"
 subtitle: "Wakanda Forever"
 category: Walkthrough
@@ -185,7 +185,7 @@ The important thing about `/srv/.antivirus.py` is that anyone can edit it.
 
 ![963f0c47.png](/assets/images/posts/wakanda-1-walkthrough/ef3085a9.png)
 
-Here's how `/lib/systemd/system/antivius.service` looks like.
+Here's how `/lib/systemd/system/antivirus.service` looks like.
 
 ![529acb4c.png](/assets/images/posts/wakanda-1-walkthrough/529acb4c.png)
 
