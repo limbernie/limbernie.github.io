@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-31 11:09:30 +0000
-last_modified_date: 2018-08-31 11:13:35 +0000
+last_modified_date: 2018-08-31 11:16:25 +0000
 title: "Node: 1 Walkthrough"
 subtitle: "Glory Glory Man United"
 category: Walkthrough
@@ -231,6 +231,8 @@ On our `nc` listener, a `root` shell returns!
 After spawning the pseudo-TTY shell, retrieving the root flag is a piece-of-cake.
 
 ![9f3aa2c7.png](/assets/images/posts/node-1-walkthrough/9f3aa2c7.png)
+
+:dancer:
 
 ### Afterthought
 
