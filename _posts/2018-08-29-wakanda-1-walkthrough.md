@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-29 18:39:02 +0000
-last_modified_date: 2018-08-29 18:53:34 +0000
+last_modified_date: 2018-08-31 09:37:25 +0000
 title: "wakanda: 1 Walkthrough"
 subtitle: "Wakanda Forever"
 category: Walkthrough
@@ -158,7 +158,7 @@ include($_GET['lang'].".php");
 </body></html>
 ```
 
-The password `Niamey4Ever227!!!` at the top is most probably `mamaodou`'s password.
+The password `Niamey4Ever227!!!` at the top is most probably `mamadou`'s password.
 
 ### Low-Privilege Shell
 
@@ -166,7 +166,7 @@ Let's give it a shot.
 
 ![337f77f3.png](/assets/images/posts/wakanda-1-walkthrough/337f77f3.png)
 
-Who uses a Python interpreter as shell? No big deal–we can give ourselves a shell like so.
+Who uses a Python interpreter as shell? Honestly! No big deal–we can give ourselves a shell like so.
 
 ![17e61202.png](/assets/images/posts/wakanda-1-walkthrough/17e61202.png)
 
