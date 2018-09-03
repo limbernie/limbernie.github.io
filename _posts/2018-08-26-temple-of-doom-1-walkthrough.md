@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-09-03 09:05:50 +0000
+last_modified_at: 2018-09-03 09:11:07 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -178,7 +178,7 @@ There's a reason why `fireman` can `sudo` to execute `nmcli` and `iptables`. Eve
 
 The proof-of-concept (PoC) code is so small it can fit inside a [tweet](https://twitter.com/Barknkilic/status/996470756283486209), with the help of `dnsmasq` of course.
 
-Let's give it a shot!
+Let's try it out.
 
 In one terminal, I set up my attacking machine (192.168.30.128) as the rogue DHCP server with `dnsmasq`. In another terminal, I set up the `nc` listener to catch the reverse shell.
 
