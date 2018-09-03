@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-29 18:39:02 +0000
-last_modified_date: 2018-08-31 15:37:34 +0000
+last_modified_date: 2018-09-03 09:01:59 +0000
 title: "wakanda: 1 Walkthrough"
 subtitle: "Wakanda Forever"
 category: Walkthrough
@@ -175,7 +175,7 @@ Who uses a Python interpreter as shell? Honestly! No big deal–we can give ours
 During enumeration of `mamadou`'s account, I found the following:
 
 + A Python file `/srv/.antivirus.py` containing a one-liner
-+ A `systemd` service—Antivirus that executes the above with `devops` account
++ A `systemd` service—Antivirus that executes the above with `devops`'s account
 
 Here's how `/srv/.antivirus.py` looks like.
 
@@ -189,9 +189,9 @@ Here's how `/lib/systemd/system/antivirus.service` looks like.
 
 ![529acb4c.png](/assets/images/posts/wakanda-1-walkthrough/529acb4c.png)
 
-`systemd` will attempt to restart the service every 300 seconds in the event it fails to start.
+`systemd` will attempt to restart the service every 300 seconds in the event it fails.
 
-If we change `/src/.antivirus.py` to something like this, we get a reverse shell via `nc` (which is available in the VM by the way) with `devops` privileges 300 seconds later.
+If we change `/src/.antivirus.py` to something like this, we get a reverse shell via `nc` (which is available in the VM by the way) with `devops`'s privileges 300 seconds later.
 
 ![4d3bb1e4.png](/assets/images/posts/wakanda-1-walkthrough/4d3bb1e4.png)
 
