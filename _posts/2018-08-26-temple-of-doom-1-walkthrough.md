@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-08-27 11:21:25 +0000
+last_modified_at: 2018-09-03 09:05:50 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -118,7 +118,7 @@ During enumeration of `nodeadmin`'s account, I notice `/usr/local/bin/ss-manager
 
 ![a2034971.png](/assets/images/posts/temple-of-doom-1-walkthrough/a2034971.png)
 
-A quick search for "ss-manager" in Google led me to EDB-ID [43006](https://www.exploit-db.com/exploits/43006/). Listing the listening ports confirmed the command execution.
+A quick search for "ss-manager" in Google led me to EDB-ID [43006](https://www.exploit-db.com/exploits/43006/). Listing the listening ports further confirmed the command execution "feature".
 
 ![5a264f18.png](/assets/images/posts/temple-of-doom-1-walkthrough/5a264f18.png)
 
