@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-15 07:37:27 +0000
-last_modified_at: 2018-08-18 06:31:01 +0000
+last_modified_at: 2018-09-07 04:46:51 +0000
 title: "Rotating Fortress: 1.0.1 Walkthrough"
 subtitle: "I'm Spinning Around"
 category: Walkthrough
@@ -108,7 +108,7 @@ I think I've seen enough. Let's quit the debugger and enter `xBspsiONMSNXeVuiomF
 
 ![Flag: 2](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/66e3c981.png)
 
-Now that I know that the cipher of these messages, let's write a script to decipher them for the sake of completeness. The script takes in two arguments: the message as seen in the browser and the key.
+Now that I know the cipher of these messages, let's write a script to decipher them for the sake of completeness. The script takes in two arguments: the message as seen in the browser and the key.
 
 <div class="filename"><span>decrypt.sh</span></div>
 
