@@ -3,6 +3,7 @@ layout: post
 title: "FourAndSix: 1 Walkthrough"
 subtitle: "Elementary My Dear Watson"
 date: 2018-09-05 08:09:19 +0000
+last_modified_at: 2018-09-09 03:12:21 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -133,7 +134,7 @@ If the goal is to get a `root` shell in OpenBSD, then you may want to consider t
 
 ### Afterthought
 
-I almost fell into the rabbit hole for the corrupted key recovery. :laughing:
+I almost fell for the corrupted key rabbit hole. :laughing:
 
 [1]: https://www.vulnhub.com/entry/fourandsix-1,236/
 [2]: https://www.vulnhub.com/
