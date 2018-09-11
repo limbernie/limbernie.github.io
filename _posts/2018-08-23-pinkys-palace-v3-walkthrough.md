@@ -399,7 +399,7 @@ Let's examine how we can exploit this vulnerability.
 
 ![a30c31af.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a30c31af.png)
 
-You can see that "AAAA" appears as "41414141" and "BBBB" after that as "42424242". Armed with this knowledge, we can use direct parameter access to read them. Because the stack is dynamic in nature, and any time you push some data onto the stack, you need to reassess the positional parameter of "AAAA" and "BBBB", as you'll see later.
+You can see that "AAAA" appears as "41414141" and "BBBB" after that as "42424242". Armed with this knowledge, we can use direct parameter access to read them. But, because the stack is dynamic in nature, any time you push some data onto the stack, you need to reassess the positional parameter of "AAAA" and "BBBB", as you'll see later.
 
 Now, if we change the parameter from `%x` to `%n`, we can write to the memory address specified by "AAAA" and "BBBB", the number of bytes that were output up to the first and second `%n`.
 
