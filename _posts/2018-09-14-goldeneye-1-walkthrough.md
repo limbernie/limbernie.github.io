@@ -3,7 +3,7 @@ layout: post
 title: "GoldenEye: 1 Walkthrough"
 subtitle: "Shaken, Not Stirred"
 date: 2018-09-14 21:03:27 +0000
-last_modified_at: 2018-09-15 04:59:08 +0000
+last_modified_at: 2018-09-15 05:08:44 +0000
 category: Walkthrough
 tags: [VulnHub, GoldenEye]
 comments: true
@@ -215,7 +215,7 @@ I also don't know my tradecraft. But, if I've to guess, I'd say that looks like 
 
 ![78b99b42.png](/assets/images/posts/goldeneye-1-walkthrough/78b99b42.png)
 
-Hmm. I wonder what's this for? Could this be `admin`'s password to the training site? There's one way to find out.
+Hmm. I wonder what's this for? Could this be `admin`'s password to the training site? There's only one way to find out.
 
 ![50295814.png](/assets/images/posts/goldeneye-1-walkthrough/50295814.png)
 
