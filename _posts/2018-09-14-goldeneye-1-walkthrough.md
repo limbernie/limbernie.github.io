@@ -3,6 +3,7 @@ layout: post
 title: "GoldenEye: 1 Walkthrough"
 subtitle: "Shaken, Not Stirred"
 date: 2018-09-14 21:03:27 +0000
+last_modified_at: 2018-09-15 04:59:08 +0000
 category: Walkthrough
 tags: [VulnHub, GoldenEye]
 comments: true
@@ -19,7 +20,7 @@ This post documents the complete walkthrough of GoldenEye: 1, a boot2root [VM][1
 
 ### Background
 
-This VM is an OSCP-type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get root and capture the secret GoldenEye codes—`flag.txt`.
+This VM is an OSCP-type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get `root` and capture the secret GoldenEye codes—`flag.txt`.
 
 ### Information Gathering
 
