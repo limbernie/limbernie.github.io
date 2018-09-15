@@ -297,7 +297,7 @@ rm cookie* 2>/dev/null
 
 The script will open two listeners in `xterm`: 1) Python SimpleHTTPServer and 2) `nc` listener. It'll then transfer a reverse shell generated with `msfvenom` using `wget`, make it executable with `chmod`, and finally run the reverse shell.
 
-For the exploit to work, the spell engine must be PSpellShell.
+For the exploit to work, the spell engine must be set to PSpellShell.
 
 ![8d8064b3.png](/assets/images/posts/goldeneye-1-walkthrough/8d8064b3.png)
 
