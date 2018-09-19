@@ -3,7 +3,7 @@ layout: post
 title: "WinterMute: 1 Walkthrough"
 subtitle: "Things aren't different. Things are things."
 date: 2018-09-17 11:59:47 +0000
-last_modified_at: 2018-09-17 12:25:32 +0000
+last_modified_at: 2018-09-19 07:55:59 +0000
 category: Walkthrough
 tags: [VulnHub, WinterMute]
 comments: true
@@ -21,6 +21,14 @@ This post documents the complete walkthrough of WinterMute: 1, a boot2root [VM][
 ### Background
 
 A new OSCP style lab involving 2 vulnerable machines, themed after the cyberpunk classic Neuromancer - a must read for any cyber-security enthusiast. This lab makes use of pivoting and post exploitation, which I've found other OSCP prep labs seem to lack. The goal is the get root on both machines. All you need is default Kali Linux.
+
+This is how my network is set up.
+
+```
+       192.168.30.0/24              192.168.40.0/24
+ kali <---------------> straylight <---------------> neuromancer
+   (.128)          (.129)       (.128)          (.129)
+```
 
 ### Information Gathering
 
