@@ -3,8 +3,8 @@ layout: post
 title: "Blacklight: 1 Walkthrough"
 subtitle: "Invisible to the Eye"
 date: 2018-09-20 18:36:46 +0000
-last_modified_at: 2018-09-20 18:44:29 +0000
-category: Walkthrough
+last_modified_at: 2018-09-20 18:48:06 +0000
+category: CTF
 tags: [VulnHub, Blacklight]
 comments: true
 image:
