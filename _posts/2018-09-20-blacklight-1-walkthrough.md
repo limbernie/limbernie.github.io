@@ -3,6 +3,7 @@ layout: post
 title: "Blacklight: 1 Walkthrough"
 subtitle: "Invisible to the Eye"
 date: 2018-09-20 18:36:46 +0000
+last_modified_at: 2018-09-20 18:44:29 +0000
 category: Walkthrough
 tags: [VulnHub, Blacklight]
 comments: true
@@ -195,5 +196,5 @@ This VM is a little different. The story doesn't end with a `root` shell. Rather
 Well-played, Carter!
 
 [1]: https://www.vulnhub.com/entry/blacklight-1,242/
-[2]: https://twitter.com/@cbawsome77
+[2]: https://twitter.com/@cbrnrd
 [3]: https://www.vulnhub.com/
