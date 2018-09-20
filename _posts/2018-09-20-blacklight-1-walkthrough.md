@@ -3,7 +3,7 @@ layout: post
 title: "Blacklight: 1 Walkthrough"
 subtitle: "Invisible to the Eye"
 date: 2018-09-20 18:36:46 +0000
-last_modified_at: 2018-09-20 18:50:18 +0000
+last_modified_at: 2018-09-20 19:14:18 +0000
 category: CTF
 tags: [VulnHub, Blacklight]
 comments: true
@@ -123,7 +123,7 @@ Hmm. `robots.txt` is available. Why didn't `nmap` pick this up?
 
 ![0e025469.png](/assets/images/posts/blacklight-1-walkthrough/0e025469.png)
 
-The file `blacklight.dict` appears to be a wordlist.
+Oh, the `robots.txt` is a non-conforming one. Also, the file `blacklight.dict` appears to be a wordlist.
 
 ### Flag: 1
 
@@ -133,7 +133,7 @@ The first flag is as follows.
 
 9072 is the open port found by `nmap` earlier. What's the deal about "_the secret is at home_"?
 
-### Remote Shell
+### Reverse Shell
 
 Although I've closed the port with my silly attempts, I always create a snapshot when the VM is first online. That way, even if I do anything stupid, I can always revert the snapshot.
 
@@ -141,7 +141,7 @@ Let's revert the snapshot and focus on `9072/tcp` this time, keeping in mind I h
 
 ![1efc7479.png](/assets/images/posts/blacklight-1-walkthrough/1efc7479.png)
 
-To be honest, I've no idea what the hash is for. It's a SHA256 hash. I've also tried using the wordlist `blacklight.dict` to crack it, but to no avail. Nonetheless, all we have left is the `.exec` command. It better yield a better result! :angry:
+To be honest, I've no idea what the hash is for. It's a SHA256 hash. I've also tried using the wordlist `blacklight.dict` to crack it, but to no avail. Nonetheless, all we have left is the `.exec` command. It better yield something! :angry:
 
 ***A couple of reverts later...***
 
@@ -193,7 +193,7 @@ This VM is a little different. The story doesn't end with a `root` shell. Rather
 
 ![a93148a0.png](/assets/images/posts/blacklight-1-walkthrough/a93148a0.png)
 
-Well-played, Carter!
+Well-played, Carter, well-played.
 
 [1]: https://www.vulnhub.com/entry/blacklight-1,242/
 [2]: https://twitter.com/@cbrnrd
