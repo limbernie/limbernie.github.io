@@ -80,7 +80,7 @@ That leaves me with `80/tcp` to explore.
 
 ![745f1fcc.png](/assets/images/posts/blacklight-1-walkthrough/745f1fcc.png)
 
-Carter, thank you for the reassurance!
+Thank you for the reassurance, Carter.
 
 ### Directory/Files Enumeration
 
@@ -193,7 +193,7 @@ This VM is a little different. The story doesn't end with a `root` shell. Rather
 
 ![a93148a0.png](/assets/images/posts/blacklight-1-walkthrough/a93148a0.png)
 
-Well-played, Carter, well-played.
+Well-played, Carter, well-played&hellip;
 
 [1]: https://www.vulnhub.com/entry/blacklight-1,242/
 [2]: https://twitter.com/@cbrnrd
