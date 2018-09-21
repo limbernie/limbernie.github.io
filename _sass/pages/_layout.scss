@@ -189,14 +189,14 @@
 	visibility: hidden;
 	width: 2rem;
 	height: 2rem;
-	@media (min-width: 768px) {
+	@media (min-width: 847px) {
 		visibility: visible;
 	}
 }
 
 .overlay {
 	visibility: hidden;
-	@media (min-width: 768px) {
+	@media (min-width: 847px) {
 		visibility: visible;
 	}
 }
