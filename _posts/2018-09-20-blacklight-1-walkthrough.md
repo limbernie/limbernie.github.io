@@ -3,7 +3,7 @@ layout: post
 title: "Blacklight: 1 Walkthrough"
 subtitle: "Invisible to the Eye"
 date: 2018-09-20 18:36:46 +0000
-last_modified_at: 2018-09-20 19:14:18 +0000
+last_modified_at: 2018-09-21 07:07:53 +0000
 category: CTF
 tags: [VulnHub, Blacklight]
 comments: true
@@ -13,7 +13,7 @@ image:
   creditlink: https://pixabay.com/en/blacklight-light-bulb-blue-violet-915779/
 ---
 
-This post documents the complete walkthrough of Blacklight: 1, a CTF [VM][1] created by [Carter B][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Blacklight: 1, a CTF-style [VM][1] created by [Carter][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
