@@ -3,6 +3,7 @@ layout: post
 title: "billu: b0x 2 Walkthrough"
 subtitle: "Man, I Need a New Hobby"
 date: 2018-09-22 18:25:01 +0000
+last_modified_at: 2018-09-22 18:37:16 +0000
 category: Walkthrough
 tags: [VulnHub, billu]
 comments: true
@@ -12,7 +13,7 @@ image:
   creditlink: https://pixabay.com/en/soap-bubble-colorful-ball-824558/
 ---
 
-This post documents the complete walkthrough of bill: b0x 2, a boot2root [VM][1] created by [Manish Kishan Tanwar][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of billu: b0x 2, a boot2root [VM][1] created by [Manish Kishan Tanwar][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
