@@ -34,7 +34,8 @@ kramdown:
 owner:
   name: Bernie Lim
   logo: logo.png
-  avatar: avatar.png
+  avatar: bernie.png
+  shoutout: "Meow"
   job:
   bio: "A security ethusiast. Likes cats."
   email: limbernie@pm.me
