@@ -2,7 +2,7 @@
 layout: post
 date: 2018-10-11 16:09:07 +0000
 title: "BSidesTLV: 2018 CTF (Web)"
-last_modified_at: 2018-10-11 16:59:11 +0000
+last_modified_at: 2018-10-11 17:15:11 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -367,7 +367,7 @@ The script is basically a wrapper around `websocat`, a command-line WebSocket [c
 
 Here's a teaser animation of the script in action.
 
-<img src="{{ site.url }}/assets/images/posts/bsidestlv-web/nosocket.gif" />
+![nosocket.gif](/assets/images/posts/bsidestlv-web/nosocket.gif)
 
 <script>
   var vid = document.getElementById("video");
@@ -691,7 +691,7 @@ In this way, I can view the logs and see who or what is making the request.
 192.168.30.129 - - [06/Oct/2018:03:23:25 +0000] "GET / HTTP/1.1" 200 3380 "-" "Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"
 ```
 
-Interesting. You can see two requests seconds apart. The first request is from Python Request, from the page at `http://challenges.bsidestlv.com:8133/index.html`. The second request is from PhantomJS, a headless browser. This must be the bot.
+Interesting. You can see two requests seconds apart. The first request is from Python Request—the challenge page itself. The second request is from PhantomJS, a headless browser. This must be the bot.
 
 To get the DNS Rebinding attack going, let's use DDNS [service](https://www.noip.com/) to register the following two hostnames: `h4ck3rboi` and `h4ck3rman`.
 
