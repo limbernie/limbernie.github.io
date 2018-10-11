@@ -2,6 +2,7 @@
 layout: post
 date: 2018-10-11 16:09:07 +0000
 title: "BSidesTLV: 2018 CTF (Web)"
+last_modified_at: 2018-10-11 16:50:43 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -367,7 +368,7 @@ The script is basically a wrapper around `websocat`, a command-line WebSocket [c
 Here's a teaser animation of the script in action.
 
 <video id="video" autoplay loop muted playsinline width="100%" height="100%">
-  <source src="{{ site.url }}/assets/images/posts/bsidestlv-web/nosocket.webm" type="video/webm" />
+  <source src="{{ site.url }}/assets/images/posts/bsidestlv-web/nosocket.mp4" type="video/mp4" />
   <img src="{{ site.url }}/assets/images/posts/bsidestlv-web/nosocket.gif" />
 </video>
 
