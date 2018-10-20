@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "Moonraker: 1 Walkthrough"
-subtitle: "Dolly Is a Hottie"
+subtitle: "Who's Hotter? Dolly or Holly?"
 date: 2018-10-14 08:32:04 +0000
+last_modified_at: 2018-10-20 11:53:00 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
@@ -123,7 +124,7 @@ http://moonraker/x-files (Status: 301)
 =====================================================
 ```
 
-I spent the next few hours fuzzing recursively to no avail. This is crazy. I had to stop. The next thing I looked at was the actual site and finally spotted what looked like an attack surface at `/svc-inq/sales.html`.
+I spent the next couple of hours fuzzing recursively to no avail. This is crazy. I had to stop. The next thing I looked at was the actual site and at last spotted what looked like an attack surface at `/svc-inq/sales.html`.
 
 ![336e19ca.png](/assets/images/posts/moonraker-1-walkthrough/336e19ca.png)
 
@@ -133,7 +134,7 @@ I then supply the following data to the inquiry form.
 
 ![3079e380.png](/assets/images/posts/moonraker-1-walkthrough/3079e380.png)
 
-The data was written to somewhere, but where?
+The data got written to somewhere, but where?
 
 ![cacc249e.png](/assets/images/posts/moonraker-1-walkthrough/cacc249e.png)
 
@@ -147,7 +148,7 @@ A couple of minutes later, I got a request from the sales representative.
 192.168.20.130 - - [13/Oct/2018:04:40:21 +0000] "GET /hello.txt HTTP/1.1" 200 288 "http://127.0.0.1/svc-inq/salesmoon-gui.php" "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
 ```
 
-A new page is exposed in the "Referer" request header.
+The "Referer" request header exposes a new page!
 
 ```
 http://127.0.0.1/svc-inq/salesmoon-gui.php
@@ -185,13 +186,13 @@ Another important hint lies in **Hugo's page moved to port 3k**.
 
 ![8c0356d2.png](/assets/images/posts/moonraker-1-walkthrough/8c0356d2.png)
 
-The username and password can be found in the HR offer letters to Hugo. :laughing:
+The username and password are in the HR offer letters to Hugo. :laughing:
 
 ![5912322c.png](/assets/images/posts/moonraker-1-walkthrough/5912322c.png)
 
 ![cc673fca.png](/assets/images/posts/moonraker-1-walkthrough/cc673fca.png)
 
-Upon logging in, a cookie was created.
+Upon logging in, the server sent a "Set-Cookie" header.
 
 ![febf16dc.png](/assets/images/posts/moonraker-1-walkthrough/febf16dc.png)
 
@@ -234,7 +235,7 @@ As expected, the `nc` listener caught the reverse shell.
 
 ### Privilege Escalation
 
-During enumeration of `jaws`'s account, I noticed that Postfix is installed and listening locally at `25/tcp`.
+During enumeration of `jaws`'s account, I noticed that Postfix is listening locally at `25/tcp`.
 
 ![a161ae39.png](/assets/images/posts/moonraker-1-walkthrough/a161ae39.png)
 
@@ -242,7 +243,7 @@ Pivoting on that, I noticed four mailboxes in `/var/mail` but I lacked the permi
 
 ![cad72d13.png](/assets/images/posts/moonraker-1-walkthrough/cad72d13.png)
 
-I guess the challenge now is to enumerate harder to find the login password of one of the accounts shown above.
+I guess the challenge now is to try harder to find the login password of one of the accounts shown above.
 
 As I was looking for world-writeable files, I came across CouchDB's configuration at `/opt/couchdb/etc/local.ini`. Guess what's in there?
 
