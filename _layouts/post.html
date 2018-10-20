@@ -39,7 +39,9 @@ layout: default
     <div class="post-meta">
 			<div class="avatar-box">
 			{% if author.avatar %}
-			<img class="avatar" src="{{ site.url }}/img/{{ author.avatar }}" alt="{{ author.avatar }}" title="{{ author.shoutout }}">
+			<a class="image-popup">
+				<img class="avatar" src="{{ site.url }}/img/{{ author.avatar }}" alt="{{ author.avatar }}" title="{{ author.shoutout }}">
+			</a>
 			{% endif %}
 			</div>
 			<div>
