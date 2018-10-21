@@ -3,7 +3,7 @@ layout: post
 title: "Moonraker: 1 Walkthrough"
 subtitle: "Who's Hotter? Dolly or Holly?"
 date: 2018-10-14 08:32:04 +0000
-last_modified_at: 2018-10-20 11:53:00 +0000
+last_modified_at: 2018-10-21 06:24:52 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
@@ -96,7 +96,7 @@ PORT      STATE SERVICE  REASON         VERSION
 
 ### Directory / File Enumeration
 
-I use `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
+I used `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
 
 ```
 # gobuster -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 20 -e -u http://moonraker/
@@ -126,7 +126,7 @@ http://moonraker/x-files (Status: 301)
 
 I spent the next couple of hours fuzzing recursively to no avail. This is crazy. I had to stop. The next thing I looked at was the actual site and at last spotted what looked like an attack surface at `/svc-inq/sales.html`.
 
-<a class="image-popup" title='"out of this world" service'>
+<a class="image-popup" title='"Out of this world" service. Yeah, right!'>
 ![336e19ca.png](/assets/images/posts/moonraker-1-walkthrough/336e19ca.png)
 </a>
 
@@ -134,19 +134,19 @@ Notice the message? Someone will contact me in 5 minutes? Straight away, I start
 
 I then supply the following data to the inquiry form.
 
-<a class="image-popup">
+<a class="image-popup" title="Please contact me!">
 ![3079e380.png](/assets/images/posts/moonraker-1-walkthrough/3079e380.png)
 </a>
 
-The data got written to somewhere, but where?
+The data got written to somewhere but where?
 
-<a class="image-popup">
+<a class="image-popup" title="Where Art Thou?">
 ![cacc249e.png](/assets/images/posts/moonraker-1-walkthrough/cacc249e.png)
 </a>
 
 There's also an interesting comment hidden in the HTML source.
 
-<a class="image-popup">
+<a class="image-popup" title="Jaws and his goons">
 ![b60598b8.png](/assets/images/posts/moonraker-1-walkthrough/b60598b8.png)
 </a>
 
@@ -162,7 +162,7 @@ The "Referer" request header exposes a new page!
 http://127.0.0.1/svc-inq/salesmoon-gui.php
 ```
 
-<a class="image-popup">
+<a class="image-popup" title="Referral service at its best">
 ![8eadba61.png](/assets/images/posts/moonraker-1-walkthrough/8eadba61.png)
 </a>
 
@@ -170,7 +170,7 @@ http://127.0.0.1/svc-inq/salesmoon-gui.php
 
 The new page exposes the Sales Admin Interface. This is how it looks like.
 
-<a class="image-popup">
+<a class="image-popup" title="Sales Rulez!">
 ![7e5ff814.png](/assets/images/posts/moonraker-1-walkthrough/7e5ff814.png)
 </a>
 
@@ -178,27 +178,27 @@ The new page exposes the Sales Admin Interface. This is how it looks like.
 
 Good thing I'm familiar with the RESTful nature of CouchDB and Project Fauxton.
 
-<a class="image-popup">
+<a class="image-popup" title="Isn't she cute?">
 ![d3111f79.png](/assets/images/posts/moonraker-1-walkthrough/d3111f79.png)
 </a>
 
 I log in to Fauxton with Jaw's credential (`jaws:dollyx99`).
 
-<a class="image-popup">
+<a class="image-popup" title="Databases">
 ![37aaa267.png](/assets/images/posts/moonraker-1-walkthrough/37aaa267.png)
 </a>
 
 The `links` database exposes more links!
 
-<a class="image-popup">
+<a class="image-popup" title="Surveillance">
 ![ec76466c.png](/assets/images/posts/moonraker-1-walkthrough/ec76466c.png)
 </a>
 
-<a class="image-popup">
+<a class="image-popup" title="For Your Eyes Only">
 ![eb39afd6.png](/assets/images/posts/moonraker-1-walkthrough/eb39afd6.png)
 </a>
 
-<a class="image-popup">
+<a class="image-popup" title="The X-Files">
 ![21faa2e4.png](/assets/images/posts/moonraker-1-walkthrough/21faa2e4.png)
 </a>
 
@@ -206,23 +206,23 @@ The `links` database exposes more links!
 
 Another important hint lies in **Hugo's page moved to port 3k**.
 
-<a class="image-popup">
+<a class="image-popup" title="Oopsie Woopsie!!">
 ![8c0356d2.png](/assets/images/posts/moonraker-1-walkthrough/8c0356d2.png)
 </a>
 
 The username and password are in the HR offer letters to Hugo. :laughing:
 
-<a class="image-popup">
+<a class="image-popup" title="Hugo is earning way too much">
 ![5912322c.png](/assets/images/posts/moonraker-1-walkthrough/5912322c.png)
 </a>
 
-<a class="image-popup">
+<a class="image-popup" title="Pew Pew Pew">
 ![cc673fca.png](/assets/images/posts/moonraker-1-walkthrough/cc673fca.png)
 </a>
 
 Upon logging in, the server sent a "Set-Cookie" header.
 
-<a class="image-popup">
+<a class="image-popup" title="Me want cookie!">
 ![febf16dc.png](/assets/images/posts/moonraker-1-walkthrough/febf16dc.png)
 </a>
 
@@ -251,19 +251,19 @@ console.log(serialize.serialize(rev));
 
 Run `node rce.js` to get the serialized string output.
 
-<a class="image-popup">
+<a class="image-popup" title="Node this">
 ![3e4d2d0a.png](/assets/images/posts/moonraker-1-walkthrough/3e4d2d0a.png)
 </a>
 
 Next, add the [IIFE](https://en.wikipedia.org/wiki/Immediately-invoked_function_expression) bracket `()` at the end of the serialized string output from the previous step before passing it to base64 for encoding.
 
-<a class="image-popup">
+<a class="image-popup" title="Immediately Invoked Function Expression">
 ![c3590819.png](/assets/images/posts/moonraker-1-walkthrough/c3590819.png)
 </a>
 
 Set the entire `base64` string as the value in the `profile` cookie and refresh the page in your browser. But before you do that, you want to set up your nc listener.
 
-<a class="image-popup">
+<a class="image-popup" title="I'm listening">
 ![4d68e56d.png](/assets/images/posts/moonraker-1-walkthrough/4d68e56d.png)
 </a>
 
@@ -273,13 +273,13 @@ As expected, the `nc` listener caught the reverse shell.
 
 During enumeration of `jaws`'s account, I noticed that Postfix is listening locally at `25/tcp`.
 
-<a class="image-popup">
+<a class="image-popup" title="Who's that?">
 ![a161ae39.png](/assets/images/posts/moonraker-1-walkthrough/a161ae39.png)
 </a>
 
 Pivoting on that, I noticed four mailboxes in `/var/mail` but I lacked the permissions to read them.
 
-<a class="image-popup">
+<a class="image-popup" title="You shall not pass!">
 ![cad72d13.png](/assets/images/posts/moonraker-1-walkthrough/cad72d13.png)
 </a>
 
@@ -287,19 +287,19 @@ I guess the challenge now is to try harder to find the login password of one of 
 
 As I was looking for world-writeable files, I came across CouchDB's configuration at `/opt/couchdb/etc/local.ini`. Guess what's in there?
 
-<a class="image-popup">
+<a class="image-popup" title="Blast off!!">
 ![d8396cf6.png](/assets/images/posts/moonraker-1-walkthrough/d8396cf6.png)
 </a>
 
 Armed with `hugo`'s password, I can log in to his account and read his mails.
 
-<a class="image-popup">
+<a class="image-popup" title="It's rude to read other people's email">
 ![64d475ac.png](/assets/images/posts/moonraker-1-walkthrough/64d475ac.png)
 </a>
 
 We have an interesting email.
 
-<a class="image-popup">
+<a class="image-popup" title="¯\_(ツ)_/¯">
 ![8135673d.png](/assets/images/posts/moonraker-1-walkthrough/8135673d.png)
 </a>
 
@@ -307,19 +307,19 @@ What do we have here? Half of the new `root`'s password and the old password has
 
 Let's copy the old password hash and send it to John the Ripper for offline cracking!
 
-<a class="image-popup">
+<a class="image-popup" title="Old password">
 ![623be549.png](/assets/images/posts/moonraker-1-walkthrough/623be549.png)
 </a>
 
 The new password must be "`cyberVR00M`".
 
-<a class="image-popup">
+<a class="image-popup" title="Look Ma, I got in!">
 ![af53ca6b.png](/assets/images/posts/moonraker-1-walkthrough/af53ca6b.png)
 </a>
 
 ### Was Dolly Wearing Braces?
 
-<a class="image-popup">
+<a class="image-popup" title="James Bond saves the day again">
 ![3d059e8e.png](/assets/images/posts/moonraker-1-walkthrough/3d059e8e.png)
 </a>
 
@@ -329,7 +329,7 @@ The new password must be "`cyberVR00M`".
 
 Mandela Effect?
 
-<a class="image-popup">
+<a class="image-popup" title="Blanche Ravalec as Dolly">
 ![831338f7.png](/assets/images/posts/moonraker-1-walkthrough/831338f7.png)
 </a>
 
