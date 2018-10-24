@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "BSidesTLV: 2018 CTF (Misc)"
-date: 2018-10-24 18:10:08 +0000
+date: 2018-10-24 18:53:07 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
