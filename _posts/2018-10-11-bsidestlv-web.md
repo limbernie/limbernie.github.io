@@ -2,7 +2,7 @@
 layout: post
 date: 2018-10-11 16:09:07 +0000
 title: "BSidesTLV: 2018 CTF (Web)"
-last_modified_at: 2018-10-11 17:15:11 +0000
+last_modified_at: 2018-10-24 17:49:35 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -35,7 +35,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 + Forensics (1 challenge)
 + Crypto (2 challenges)
 
-What follows is my humble attempt of cracking the challenges in the Web category.
+What follows is my humble attempt of cracking the challenges in the **Web** category.
 
 ### Redirect me
 
