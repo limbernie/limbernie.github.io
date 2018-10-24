@@ -2,6 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Misc)"
 date: 2018-10-24 18:53:07 +0000
+last_modified_at: 2018-10-24 19:08:01 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -210,7 +211,7 @@ Of course, certain words are still banned from use by the firewall. Recall how P
 
 For example, I can represent "curl" with `"cu".__add__("rl")`.
 
-Here's the terse version. **Warning**: lots of typing ahead.
+Here's the convoluted version. **Warning**: lots of typing ahead.
 
 ```py
 __builtins__.__setattr__("obj",__builtins__.__getattribute__("__class".__add__("__")).mro(  ).__getitem__(1))
