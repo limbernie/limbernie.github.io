@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Misc)"
 date: 2018-10-24 18:53:07 +0000
-last_modified_at: 2018-10-24 19:08:01 +0000
+last_modified_at: 2018-10-25 06:35:06 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -142,7 +142,7 @@ import os; os.system("curl secret/flag.txt")
 
 That's all. No more no less.
 
-How do we crack this challenge then? Remember Python's axiom? Everything is an object. CPython provides [special methods](https://docs.python.org/3/reference/datamodel.html#special-method-names) to set or get attributes in/from an object. Essentially, CPython allows shortcuts or syntactic sugar for a simple statement such as `import os`. Under the hood, it's all special methods and/or special attributes at work.
+How do we crack this challenge then? Remember Python's axiom? _Everything is an object_. CPython provides [special methods](https://docs.python.org/3/reference/datamodel.html#special-method-names) to get/set attributes from/in an object. Essentially, CPython allows shortcuts or syntactic sugar for a simple statement such as `import os`. Under the hood, it's all special methods and/or special attributes at work.
 
 For example, let's say you want to assign the integer `1` to variable `a`. This is how you do it in Python 2.7.
 
