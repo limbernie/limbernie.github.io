@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Misc)"
 date: 2018-10-24 18:53:07 +0000
-last_modified_at: 2018-10-25 06:35:06 +0000
+last_modified_at: 2018-10-28 10:18:32 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -124,7 +124,11 @@ We know `cat` is at `/bin/cat`. We can use `/???/???` to represent it. Of course
 ![177cc70b.png](/assets/images/posts/bsidestlv-misc/177cc70b.png)
 </a>
 
-The flag is `BSidesTLV{1_l1k3_wildcards_&_r3g3x_but_h8_th3_cr34t0r}`.
+The flag is:
+
+```
+BSidesTLV{1_l1k3_wildcards_&_r3g3x_but_h8_th3_cr34t0r}
+```
 
 ### PySandbox-Insane
 

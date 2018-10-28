@@ -2,6 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Reverse Engineering)"
 date: 2018-10-28 00:28:28 +0000
+last_modified_at: 2018-10-28 10:46:13 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -49,7 +50,7 @@ The executable is stripped off its debugging symbols which made reverse engineer
 ![38f0face.png](/assets/images/posts/bsidestlv-reverse-engineering/38f0face.png)
 </a>
 
-This means that we can't even find the `main` function.
+This means that we won't even find the `main` function.
 
 <a class="image-popup">
 ![6ae27d29.png](/assets/images/posts/bsidestlv-reverse-engineering/6ae27d29.png)
@@ -57,7 +58,7 @@ This means that we can't even find the `main` function.
 
 The entry point is too small.
 
-Using GDB, we can place a breakpoint at `0x0` and run the file. Of course, GDB will complain that it can't place the breakpoint. But when we run `info file` again, the entry point of `infected` is resolved.
+Using GDB, we can place a breakpoint at `0x0` and run the file. Of course, GDB will complain that it can't place the breakpoint. But when we run `info file` again, the entry point of `infected` gets resolved.
 
 <a class="image-popup">
 ![3364e6aa.png](/assets/images/posts/bsidestlv-reverse-engineering/3364e6aa.png)
@@ -77,17 +78,17 @@ Several instructions down, we will encounter the address of `main`. It's the arg
 
 We'll place a breakpoint at `0x555555555b90`, delete the second breakpoint, and then `run` the file again.
 
-Woohoo. We are now in the territory of `main`. We can proceed to reverse engineering now.
+Woohoo. We are now in the territory of `main`. Let's proceed to reverse engineering.
 
-To be honest, I love password login challenges in CTFs, especially those in an executable, because eventually the program has to compare the input to the actual password.
+To be honest, I love password login challenges in CTFs, like those in an executable, because at some point, the program has to compare the input to the actual password.
 
 After some stepping through, this is what I've discovered:
 
-+ The program picks out eight hexstrings from a list of 207 hexstrings in the executable
-+ Every entered password is compared to the eight hexstrings, each copied to a buffer using `strncpy`
-+ The flag is the `base64` decoding of the concatenation of the eight hexstrings.
++ The program picks out eight hex-strings from a list of 207 hex-strings in the executable
++ Every entered password gets compared to the eight hex-strings, each copied to a buffer using `strncpy`
++ The flag is the `base64` decoding of the concatenation of the eight hex-strings.
 
-Armed with the insight, we can make use of `ltrace` to expose the hexstrings during the comparison.
+Armed with this insight, we can make use of `ltrace` to tease out the hex-strings during the comparison.
 
 <a class="image-popup">
 ![b1a4ea59.png](/assets/images/posts/bsidestlv-reverse-engineering/b1a4ea59.png)
@@ -111,7 +112,7 @@ This is how the challenge looks like.
 ![f36a1700.png](/assets/images/posts/bsidestlv-reverse-engineering/f36a1700.png)
 </a>
 
-Since the challenge is about .NET and intermediate language (or IL), we have to rely on [dnSpy](https://github.com/0xd4d/dnSpy), a .NET debugger and assembly editor. There's alot to like about dnSpy—the default interface is dark-themed—who can say no to that? The instruction to install, configure, and use dnSpy is beyond the scope of this write-up.
+Since the challenge is about .NET and intermediate language (or IL), we have to rely on [dnSpy](https://github.com/0xd4d/dnSpy), a .NET debugger and assembly editor. There's a lot to like about dnSpy—the default interface is dark-themed—who can say no to that? The instruction to install, configure, and use dnSpy, however, is beyond the scope of this write-up.
 
 First, we download the file and confirm that it's indeed a .NET assembly.
 
@@ -205,7 +206,7 @@ namespace wabbalubbadubdub
 }
 ```
 
-You can see that the assembly will not run because either it detects an attached debugger or a generated random number is always less than 312.
+You can see that the assembly will not run because either it detects an attached debugger or a generated random number that's always less than 312. We need to remove these offending logic.
 
 ```c#
 if (Debugger.IsAttached)
@@ -225,11 +226,12 @@ Moving along the rest of the code, you can see that it's using `System.Reflectio
 
 The method `gimmedeflag` takes in two `byte[]` parameters and returns a `byte[]`. It uses eight local variables. To run the method, supply `array` and `ilasByteArray` as the arguments.
 
-The advantage of .NET asssembly is that you can easily edit IL code and re-assemble it with a tool like dnSpy. Let's edit the code to save the dynamic assembly so that we can view the IL instructions in `gimmedeflag`.
+The advantage of .NET assembly is that you can edit IL code and re-assemble it with a tool like dnSpy. Let's edit the code—remove the offending logic above, and save the dynamic assembly so that we can view the IL instructions in `gimmedeflag`.
 
 ```c#
 AssemblyName assemblyName = new AssemblyName();
 assemblyName.Name = "CitadelOfRicks";
+
 // Change to AssemblyBuilderAccess.Save
 AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Save);
 AppDomain.CurrentDomain.UnhandledException += delegate(object x, UnhandledExceptionEventArgs y)
@@ -250,10 +252,13 @@ for (int i = 0; i < 8; i++)
 localVarSigHelper.AddArgument(typeof(int));
 localVarSigHelper.AddArgument(typeof(byte));
 methodBuilder.SetMethodBody(il, 4, localVarSigHelper.GetSignature(), null, null);
+
 // Create the type and save the assembly. The filename must be the same as the module name.
 typeBuilder.CreateType();
 assemblyBuilder.Save("DoofusRick");
 ```
+
+Open the assembly in dnSpy after it's saved. You can see the `gimmedeflag` method in C#.
 
 <a class="image-popup">
 ![dnspy_gimmedeflag.png](/assets/images/posts/bsidestlv-reverse-engineering/dnspy_gimmedeflag.png)
@@ -285,7 +290,9 @@ public static byte[] gimmedeflag(byte[] A_0, byte[] A_1)
 }
 ```
 
-The `gimmedeflag` method, even if ran, will not return anything because it'll always throw a `null`. But, since we are dealing with .NET assembly, we can re-purpose the original assembly to include a corrected `gimmedeflag` method, load the orginal assembly file with `Assembly.LoadFile` to get its `Main` IL as a byte array.
+The `gimmedeflag` method, even if ran, will not return anything because it'll always throw a `null`. But, since we are dealing with .NET assembly, we can again re-purpose the original assembly to include a corrected `gimmedeflag` method, load the original assembly file with `Assembly.LoadFile` to get its `Main` IL as a byte array.
+
+Here's the final `Sanchez` class.
 
 <div class="filename"><span>Sanchez</span></div>
 
@@ -354,3 +361,5 @@ This is how the challenge looks like.
 </a>
 
 This challenge is all about reverse engineering a Microsoft Windows driver; something that's beyond my current skill level. That's not to say I'm giving up. I'll continue to beef up my knowledge in this area until I have something solid to write.
+
+**WATCH THIS SPACE**
