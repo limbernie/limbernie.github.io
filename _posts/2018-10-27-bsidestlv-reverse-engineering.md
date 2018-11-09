@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Reverse Engineering)"
 date: 2018-10-28 00:28:28 +0000
-last_modified_at: 2018-11-09 13:41:33 +0000
+last_modified_at: 2018-11-09 17:51:17 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -369,7 +369,7 @@ My level has increased. I'm back to finish up what I've started.
 > Neo: I know Kung-Fu  
 > Morpheus: Show me
 
-To tackle this challenge, you'll need all the reverse engineering big guns such as IDA Freeware v7.0, Visual Studio 2017 Community Edition, x64dbg, and Debugging Tools for Windows, also known as WinDbg. The instructions to install, configure, and use them is beyond the scope of this write-up. Having said that, here are the links that have helped me:
+To tackle this challenge, you'll need all the reverse engineering big guns such as IDA Freeware v7.0, Visual Studio 2017 Community Edition, x64dbg, and Debugging Tools for Windows, also known as WinDbg. The instructions to install, configure, and use them is beyond the scope of this write-up. Nonetheless, here are the links that have helped me:
 
 + [Windows Driver Kit documentation](https://docs.microsoft.com/en-us/windows-hardware/drivers/index)
 + [64-bit Device Driver Development](http://mcdermottcybersecurity.com/articles/64-bit-device-driver-development)
@@ -419,9 +419,9 @@ sc start wtflol
 ![load_driver.png](/assets/images/posts/bsidestlv-reverse-engineering/load_driver.png)
 </a>
 
-After the target virtual machine loads the driver, hit "Break" in WinDbg to suspend it and enter into `kd` or kernel debug mode.
+Once the target virtual machine has loaded the driver, hit "Break" in WinDbg to suspend it to enter into `kd` or kernel-debug mode.
 
-Here, I'm using the `lmvm` command to display where the driver (or module) is in kernel memory. If you have been paying attention, you might have noticed `Writing 104400 bytes...` running past WinDbg output window.
+Here, I'm using the `lmvm` command to display where the driver (or module) is at in kernel memory. If you have been paying attention, you might have noticed `Writing 104400 bytes...` running past WinDbg output window.
 
 <a class="image-popup">
 ![lmvm_wtflol.png](/assets/images/posts/bsidestlv-reverse-engineering/lmvm_wtflol.png)
@@ -435,7 +435,7 @@ Here, I'm using the `.chain` meta-command to list the loaded WinDbg extension DL
 
 The target driver has written something to the host machine in a debugger-based target-to-host [attack](https://archive.org/details/Debugger-basedTarget-to-hostCross-systemAttacks-AlexIonescu)!
 
-Well, now that the driver is in the kernel memory, I can dump it out and perform further analysis like searching for decrypted files or decoded strings. I can dump out `wtlol` memory with the following command.
+Well, now that the driver is in the kernel memory, I can dump it out and perform further analysis like searching for decrypted files or decoded strings. I can dump out `wtlol.sys` with the following command.
 
 ```
 0: kd> .writemem c:\temp\raw fffff801`9cbf0000 (fffff801`9cdf7000-0x1)
@@ -492,7 +492,7 @@ Speaking of getting the `_DRIVER_OBJECT` of `Null.sys`, who better than WinDbg t
 
 Now, this is where having both the disassembly and kernel debugging of the driver helped speed up analysis by way of compare and contrast.
 
-You can see that the driver sneakily changed the `MAJOR_FUNCTION->IRP_MJ_DEVICE_CONTROL` in the loaded `Null.sys` to one of its function. Now, I can focus on the analysis of mere one function, `wtflol+0x3740`.
+You can see that the driver sneakily changed the `MAJOR_FUNCTION->IRP_MJ_DEVICE_CONTROL` in the loaded `Null.sys` to one of its function. Now, I can focus on the analysis of one function, `wtflol+0x3740`.
 
 How do I trigger the function at `wtflol+0x3740`? I suspect the driver also implements a Device I/O Control (IOCTL) interface for communicating from user-to-kernel mode. And to invoke the `DeviceIOControl` interface, you have to provide the correct IOCTL code.
 
@@ -669,7 +669,7 @@ WTFLOL. An ASCII art??!!
 
 Remember the hint to look at the bigger [picture](https://github.com/xoreaxeaxeax/REpsych)?
 
-When I load the ELF file in 32-bit IDA, and looking at one of the functions `sub_8048913`, I got a warning dialog that the graph has more than 1000 nodes.
+When I load the ELF file in 32-bit IDA, and looking at one of the functions `sub_8048913`, I got a warning dialog saying the graph has more than 1000 nodes.
 
 <a class="image-popup">
 ![ida_graph.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_graph.png)
