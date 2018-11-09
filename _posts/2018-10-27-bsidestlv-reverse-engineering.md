@@ -411,7 +411,7 @@ Reboot the target virtual machine.
 Once the target virtual machine is up and connected to WinDbg, open an elevated command prompt and run the following commands to load the driver:
 
 ```
-sc created wtflol binpath= c:\windows\system32\drivers\wtflol.sys type= kernel
+sc create wtflol binpath= c:\windows\system32\drivers\wtflol.sys type= kernel
 sc start wtflol
 ```
 
@@ -669,9 +669,19 @@ WTFLOL. An ASCII art??!!
 
 Remember the hint to look at the bigger [picture](https://github.com/xoreaxeaxeax/REpsych)?
 
-When I load the ELF file in 32-bit IDA, and looking at one of the functions `sub_8048913`, I got a warning dialog that the graph has more than 1000 nodes. I did as advised and bumped up the graph nodes to 10,000.
+When I load the ELF file in 32-bit IDA, and looking at one of the functions `sub_8048913`, I got a warning dialog that the graph has more than 1000 nodes.
 
-The graph overview changed.
+<a class="image-popup">
+![ida_graph.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_graph.png)
+</a>
+
+I did as advised and bumped up the graph nodes to 10,000.
+
+<a class="image-popup">
+![ida_options.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_options.png)
+</a>
+
+The graph overview changed as a result.
 
 <a class="image-popup">
 ![ida_graph_overview.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_graph_overview.png)
