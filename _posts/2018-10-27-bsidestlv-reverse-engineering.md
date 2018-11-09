@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Reverse Engineering)"
 date: 2018-10-28 00:28:28 +0000
-last_modified_at: 2018-11-09 12:44:27 +0000
+last_modified_at: 2018-11-09 13:30:48 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -459,7 +459,7 @@ Now let's move over to IDA. If you look past the /GS security checks imposed on 
 ![ida_null.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_null.png)
 </a>
 
-You view the `_DRIVER_OBJECT` structure with the following command:
+You can view the `_DRIVER_OBJECT` structure with the following command:
 
 ```
 0: kd> dt nt!_DRIVER_OBJECT
@@ -480,7 +480,7 @@ You view the `_DRIVER_OBJECT` structure with the following command:
    +0x070 MajorFunction    : [28] Ptr64     long
 ```
 
-Speaking of getting the `_DRIVER_OBJECT` of `Null.sy`, who better than WinDbg to retrieve it with a simple command:
+Speaking of getting the `_DRIVER_OBJECT` of `Null.sys`, who better than WinDbg to retrieve it with a simple command:
 
 ```
 0: kd> !drvobj Null 2
