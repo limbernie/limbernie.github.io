@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Reverse Engineering)"
 date: 2018-10-28 00:28:28 +0000
-last_modified_at: 2018-10-28 10:46:13 +0000
+last_modified_at: 2018-11-09 12:44:27 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -362,4 +362,319 @@ This is how the challenge looks like.
 
 This challenge is all about reverse engineering a Microsoft Windows driver; something that's beyond my current skill level. That's not to say I'm giving up. I'll continue to beef up my knowledge in this area until I have something solid to write.
 
-**WATCH THIS SPACE**
+**Update**
+
+My level has increased. I'm back to finish up what I've started.
+
+> Neo: I know Kung-Fu  
+> Morpheus: Show me
+
+To tackle this challenge, you'll need all the reverse engineering big guns such as IDA Freeware v7.0, Visual Studio 2017 Community Edition, x64dbg, and Debugging Tools for Windows, also known as WinDbg. The instructions to install, configure, and use them is beyond the scope of this write-up. Having said that, here are the links that have helped me:
+
++ [Windows Driver Kit documentation](https://docs.microsoft.com/en-us/windows-hardware/drivers/index)
++ [64-bit Device Driver Development](http://mcdermottcybersecurity.com/articles/64-bit-device-driver-development)
+
+Having the knowledge to load an unknown driver in a virtual machine and perform kernel debugging on the virtual machine goes a long way—it helps you skip a couple of reverse engineering steps.
+
+To debug a kernel driver, first you need to set up the target virtual machine. Assuming your target virtual machine runs 64-bit Windows 10, open an elevated command prompt and run the following commands:
+
+1) Enables loading of test-signed kernel code.  
+`bcdedit /set testsigning on`
+
+2) Enables kernel debugging.  
+`bcdedit /debug on`
+
+3) Enables debugging over TCP/IP. Remember the key.  
+`bcdedit /dbgsettings net hostip:x.x.x.x port:50000`
+
+4) (Optional). Display boot menu to disable driver signature enforcement.  
+`bcdedit /set {bootmgr} displaybootmenu on`
+
+Before you reboot your target virtual machine. Open WinDbg in your host computer and press `Ctrl-K` to open the kernel debug options. Enter the key obtained from Step 3 above.
+
+<a class="image-popup">
+![kd_option.png](/assets/images/posts/bsidestlv-reverse-engineering/kd_option.png)
+</a>
+
+Press OK to start WinDbg.
+
+<a class="image-popup">
+![kd.png](/assets/images/posts/bsidestlv-reverse-engineering/kd.png)
+</a>
+
+Reboot the target virtual machine.
+
+<a class="image-popup">
+![kd_connected.png](/assets/images/posts/bsidestlv-reverse-engineering/kd_connected.png)
+</a>
+
+Once the target virtual machine is up and connected to WinDbg, open an elevated command prompt and run the following commands to load the driver:
+
+```
+sc created wtflol binpath= c:\windows\system32\drivers\wtflol.sys type= kernel
+sc start wtflol
+```
+
+<a class="image-popup">
+![load_driver.png](/assets/images/posts/bsidestlv-reverse-engineering/load_driver.png)
+</a>
+
+After the target virtual machine loads the driver, hit "Break" in WinDbg to suspend it and enter into `kd` or kernel debug mode.
+
+Here, I'm using the `lmvm` command to display where the driver (or module) is in kernel memory. If you have been paying attention, you might have noticed `Writing 104400 bytes...` running past WinDbg output window.
+
+<a class="image-popup">
+![lmvm_wtflol.png](/assets/images/posts/bsidestlv-reverse-engineering/lmvm_wtflol.png)
+</a>
+
+Here, I'm using the `.chain` meta-command to list the loaded WinDbg extension DLLs.
+
+<a class="image-popup">
+![kd_writemem.png](/assets/images/posts/bsidestlv-reverse-engineering/kd_writemem.png)
+</a>
+
+The target driver has written something to the host machine in a debugger-based target-to-host [attack](https://archive.org/details/Debugger-basedTarget-to-hostCross-systemAttacks-AlexIonescu)!
+
+Well, now that the driver is in the kernel memory, I can dump it out and perform further analysis like searching for decrypted files or decoded strings. I can dump out `wtlol` memory with the following command.
+
+```
+0: kd> .writemem c:\temp\raw fffff801`9cbf0000 (fffff801`9cdf7000-0x1)
+```
+
+Let's start with strings analysis.
+
+<a class="image-popup">
+![fab4c4f6.png](/assets/images/posts/bsidestlv-reverse-engineering/fab4c4f6.png)
+</a>
+
+That's how the driver wrote the file to the host; two `.writemem` depending on the architecture of the host computer. If it's x86, the 32-bit version of `kd.dll` gets written. If it's x86-64, the 64-bit version of `kd.dll` gets written.
+
+<a class="image-popup">
+![09d38972.png](/assets/images/posts/bsidestlv-reverse-engineering/09d38972.png)
+</a>
+
+Now let's move over to IDA. If you look past the /GS security checks imposed on the driver, you can see that the driver is trying to get the `_DRIVER_OBJECT` of `Null.sys` at `DriverEntry`—the entry point.
+
+<a class="image-popup">
+![ida_null.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_null.png)
+</a>
+
+You view the `_DRIVER_OBJECT` structure with the following command:
+
+```
+0: kd> dt nt!_DRIVER_OBJECT
+   +0x000 Type             : Int2B
+   +0x002 Size             : Int2B
+   +0x008 DeviceObject     : Ptr64 _DEVICE_OBJECT
+   +0x010 Flags            : Uint4B
+   +0x018 DriverStart      : Ptr64 Void
+   +0x020 DriverSize       : Uint4B
+   +0x028 DriverSection    : Ptr64 Void
+   +0x030 DriverExtension  : Ptr64 _DRIVER_EXTENSION
+   +0x038 DriverName       : _UNICODE_STRING
+   +0x048 HardwareDatabase : Ptr64 _UNICODE_STRING
+   +0x050 FastIoDispatch   : Ptr64 _FAST_IO_DISPATCH
+   +0x058 DriverInit       : Ptr64     long
+   +0x060 DriverStartIo    : Ptr64     void
+   +0x068 DriverUnload     : Ptr64     void
+   +0x070 MajorFunction    : [28] Ptr64     long
+```
+
+Speaking of getting the `_DRIVER_OBJECT` of `Null.sy`, who better than WinDbg to retrieve it with a simple command:
+
+```
+0: kd> !drvobj Null 2
+```
+
+<a class="image-popup">
+![kd_drvobj.png](/assets/images/posts/bsidestlv-reverse-engineering/kd_drvobj.png)
+</a>
+
+Now, this is where having both the disassembly and kernel debugging of the driver helped speed up analysis by way of compare and contrast.
+
+You can see that the driver sneakily changed the `MAJOR_FUNCTION->IRP_MJ_DEVICE_CONTROL` in the loaded `Null.sys` to one of its function. Now, I can focus on the analysis of mere one function, `wtflol+0x3740`.
+
+How do I trigger the function at `wtflol+0x3740`? I suspect the driver also implements a Device I/O Control (IOCTL) interface for communicating from user-to-kernel mode. And to invoke the `DeviceIOControl` interface, you have to provide the correct IOCTL code.
+
+Here's the function syntax:
+
+```
+BOOL DeviceIoControl(
+  HANDLE       hDevice,
+  DWORD        dwIoControlCode,
+  LPVOID       lpInBuffer,
+  DWORD        nInBufferSize,
+  LPVOID       lpOutBuffer,
+  DWORD        nOutBufferSize,
+  LPDWORD      lpBytesReturned,
+  LPOVERLAPPED lpOverlapped
+);
+```
+
+Meanwhile, back in IDA.
+
+<a class="image-popup">
+![ida_ioctl.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_ioctl.png)
+</a>
+
+You can see that the function `sub_140003740` is comparing an argument with `0xC07FC004`. Once the argument matches, the logic continues with the preparation of the input buffer.
+
+If I've to guess, I'd say that `0xC07FC004` is the IOCTL code. What about the input buffer? Moving along the function `sub_140003740`, you'll see a `memcmp` between two buffers.
+
+<a class="image-popup">
+![ida_memcmp.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_memcmp.png)
+</a>
+
+The input buffer goes through a transformation before the comparison. Here's what it should look like after transformation.
+
+```
+0: kd> db wtflol+0x201a10
+fffff801`84a21a10  0e 47 ad a4 e1 13 43 3b-cd 7b da 2f 78 ff 24 33  .G....C;.{./x.$3
+fffff801`84a21a20  de 6d b0 cc 1b 14 25 6b-ec 00 00 00 00 00 00 00  .m....%k........
+fffff801`84a21a30  2e 53 e6 a6 1d 1a 00 00-d1 ac 19 59 e2 e5 ff ff  .S.........Y....
+fffff801`84a21a40  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00  ................
+fffff801`84a21a50  00 00 00 00 00 00 00 00-00 00 00 00 00 00 00 00  ................
+fffff801`84a21a60  00 00 00 00 00 00 00 00-60 fb 67 72 89 bb ff ff  ........`.gr....
+fffff801`84a21a70  90 50 6b 81 01 f8 ff ff-99 a2 90 a5 5c 14 72 62  .Pk.........\.rb
+fffff801`84a21a80  b4 ed ab 39 99 b3 ed 9b-91 8b 8d 3b 62 72 7a d3  ...9.......;brz.```
+```
+
+We can reconstruct the input buffer by subjecting each byte from `0x00` to `0xff` to the transformation algorithm and then comparing it with the above for 25 bytes. If it matches, it must be the input byte.
+
+I've lifted the transformation algorithm and written a program to retrieve the input buffer.
+
+<div class="filename"><span>input.c</span></div>
+
+```c
+#include <stdio.h>
+
+unsigned char input[25] =
+{
+  0x0e, 0x47, 0xad, 0xa4, 0xe1, 0x13, 0x43, 0x3b,
+  0xcd, 0x7b, 0xda, 0x2f, 0x78, 0xff, 0x24, 0x33,
+  0xde, 0x6d, 0xb0, 0xcc, 0x1b, 0x14, 0x25, 0x6b,
+  0xec
+};
+
+int main()
+{
+  unsigned char t = 0;
+
+  for (int i = 0 ; i < 25; i++)
+  {
+    for (int j = 0; j < 256; j++)
+    {
+      t = j + 0x3c; t = ~t; --t; t += i; t -= 3;
+      t += i; ++t; t -= i; t += 0xce; t -= i; --t;
+      t ^= i; t ^= 0x1e; t = ~t; t -= i; t ^= 0x71;
+      t += 0xb1; t ^= i; ++t; t ^= i; ++t; t ^= i;
+      t -= i; t = ~t; t += 0xe4; t += i; --t; t += i;
+      t ^= i; ++t; t = ~t; --t; t = ~t; --t; t ^= 0x36;
+      t -= i; t += 0x99; t ^= 0xe6; t -= 0xe0; t ^= 0x39;
+      t -= i; t ^= i; ++t; t = ~t; t -= 0xc; t += i;
+      t += 0x65; t -= i; t ^= 0xb1; t -= i;
+
+      if (t == input[i])
+      {
+        printf("0x%02x\n", j);
+        break;
+      }
+    }
+  }
+}
+```
+<a class="image-popup">
+![a2c1fbc3.png](/assets/images/posts/bsidestlv-reverse-engineering/a2c1fbc3.png)
+</a>
+
+With the IOCTL code and input buffer in hand, I can proceed to write the user-mode program that allows me to communicate with the `\\.\NUL` device.
+
+<div class="filename"><span>wtflol.cpp</span></div>
+
+```cpp
+#define UNICODE 1
+#define _UNICODE 1
+
+#include <windows.h>
+#include <winioctl.h>
+#include <stdio.h>
+
+#define DEVICE_NAME L"\\\\.\\NUL"
+#define IOCTL_CODE 0xC07FC004
+
+unsigned char InputBuffer[25] = {
+  0xE5, 0x37, 0x48, 0xD4, 0x4A, 0x97, 0x26, 0x41, 0x12, 0xFB, 0x3F, 0x51,
+  0xF7, 0x03, 0xC9, 0xB1, 0x65, 0xD1, 0x21, 0x0C, 0x58, 0x82, 0xA4, 0xC1,
+  0x1F
+};
+
+int wmain(int argc, wchar_t *argv[])
+{
+  HANDLE hDevice;
+  DWORD returned;
+  unsigned char OutputBuffer[1024];
+
+  hDevice = CreateFile(
+    DEVICE_NAME,
+    GENERIC_READ | GENERIC_WRITE,
+    0,
+    NULL,
+    CREATE_ALWAYS,
+    FILE_ATTRIBUTE_NORMAL,
+    NULL
+	);
+
+  DeviceIoControl(
+    hDevice,
+    IOCTL_CODE,
+    &InputBuffer,
+    (DWORD)sizeof(InputBuffer),
+    &OutputBuffer,
+    (DWORD)sizeof(OutputBuffer),
+    &returned,
+    NULL
+  );
+
+  return 0;
+}
+```
+
+Once it's compiled and executed in the target virtual machine, a hint appeared on WinDbg.
+
+```
+Please continue from here, the pointer to your flag is 00007ffd44fb6010, remember to look at the bigger picture :)
+```
+
+Hmm. This looks like the WinDbg memory space, more specifically, the memory space of the loaded WinDbg extension, `kd.dll`!
+
+Now, let's attach x64dbg to WinDbg and inspect what's at `00007ffd44fb6010`. Speaking of debugging a debugger.
+
+<a class="image-popup">
+![x64dbg_pointer.png](/assets/images/posts/bsidestlv-reverse-engineering/x64dbg_pointer.png)
+</a>
+
+What do we have here?
+
+<a class="image-popup">
+![x64dbg_elf.png](/assets/images/posts/bsidestlv-reverse-engineering/x64dbg_elf.png)
+</a>
+
+A hidden ELF! Let's dump it out and execute it in Linux and see what we got.
+
+<a class="image-popup">
+![e8fcc9ee.png](/assets/images/posts/bsidestlv-reverse-engineering/e8fcc9ee.png)
+</a>
+
+WTFLOL. An ASCII art??!!
+
+Remember the hint to look at the bigger [picture](https://github.com/xoreaxeaxeax/REpsych)?
+
+When I load the ELF file in 32-bit IDA, and looking at one of the functions `sub_8048913`, I got a warning dialog that the graph has more than 1000 nodes. I did as advised and bumped up the graph nodes to 10,000.
+
+The graph overview changed.
+
+<a class="image-popup">
+![ida_graph_overview.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_graph_overview.png)
+</a>
+
+The flag is `BSidesTLV{Nice_Flag_And_Shit}`.
