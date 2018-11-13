@@ -2,6 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Forensics)"
 date: 2018-11-13 03:41:35 +0000
+last_modified_at: 2018-11-13 04:46:16 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -47,7 +48,7 @@ The hint is strong in this one. CR and Windows? Microsoft uses `\r\n` or `CRLF` 
 ![dd53a1da.png](/assets/images/posts/bsidestlv-forensics/dd53a1da.png)
 </a>
 
-The entire file is peppered with `CRLF`s. If you look at the modified timestamp `\xDF\xE8\x0D\x0A` at file offset `0x4`, and if the byte `0x0D` is removed, the timestamp then becomes `\xDF\xE8\x0A\x5B` which is _Sun May 27 17:20:31 UTC 2018_.
+The creator has peppered the entire file with `CRLF`s. If you look at the modified timestamp `\xDF\xE8\x0D\x0A` at file offset `0x4`, and if you remove the byte `0x0D`, the timestamp then becomes `\xDF\xE8\x0A\x5B` which is _Sun May 27 17:20:31 UTC 2018_.
 
 <a class="image-popup">
 ![8e6332e2.png](/assets/images/posts/bsidestlv-forensics/8e6332e2.png)
@@ -73,7 +74,7 @@ After extraction, a directory `out` and file `model.json` are present. The `out`
 ![b94935e4.png](/assets/images/posts/bsidestlv-forensics/b94935e4.png)
 </a>
 
-Pivoting on "FemtoZip" in Google, I come to a GitHub [repository](https://github.com/gtoubassi/femtozip). According to the project description,
+Pivoting on "FemtoZip" in Google led me to a GitHub [repository](https://github.com/gtoubassi/femtozip). According to the project description,
 
 > FemtoZip is a "shared dictionary" compression library optimized for small documents that may not compress well with traditional tools such as gzip
 
