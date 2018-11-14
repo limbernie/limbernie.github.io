@@ -1,5 +1,5 @@
 {% if page.title %}
-  {% capture title %}{{ page.title }} | {{ site.title }}{% endcapture %}
+  {% capture title %}{{ page.title }}{% endcapture %}
 {% elsif paginator.page != 1 %}
   {% capture title %}Page {{ paginator.page }} | {{ site.title }}{% endcapture %}
 {% else %}
