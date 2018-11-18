@@ -63,8 +63,10 @@ layout: default
 					</span>
 					<span class="dot"></span>
 					{% include read_time.html %}
+					{% if site.owner.disqus-shortname and page.comments == true %}
 					<span class="dot"></span>
 					<a href="{{ page.url | append: '#disqus_thread' }}">0 Comments</a>
+					{% endif %}
 				</div>
 			</div>
     </div>
