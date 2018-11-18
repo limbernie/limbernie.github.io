@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Crypto)"
 date: 2018-11-18 12:15:24 +0000
-last_modified_time: 2018-11-18 17:37:40 +0000
+last_modified_time: 2018-11-18 17:46:13 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -184,7 +184,7 @@ Assuming the creator bought the book, the original text must be from a legitimat
 
 The encrypted flag is at file offset `0x44b3` with a length of 22 characters.
 
-Armed with the plaintext, we can use the following Python's builtin dictionary structure to build a codebook:
+Armed with the plaintext, we can use the following Python code, along with it's builtin dictionary structure to build a codebook:
 
 ```py
 from itertools import izip
