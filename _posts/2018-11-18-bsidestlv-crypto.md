@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Crypto)"
 date: 2018-11-18 12:15:24 +0000
-last_modified_time: 2018-11-18 17:46:13 +0000
+last_modified_time: 2018-11-18 17:51:38 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -221,6 +221,6 @@ Looks like I'm on the right path. Let's put an underscore `_` to represent `\x9b
 ![fdc4eca7.png](/assets/images/posts/bsidestlv-crypto/fdc4eca7.png)
 </a>
 
-By way of inductive reasoning, I think we can infer that the character represented by the underscore is also a digit. From here, it's trivial to use trial-and-error to get to the last digit. We simply supply the flag, stepping up or down, one at a time, to CTFd, and see which one is the correct one.
+By way of inductive reasoning, I think we can infer that the character represented by the underscore is also a digit. From here, it's trivial to use trial-and-error to get to the last digit. We supply the flag, stepping up or down, one at a time, depending on which digit you start with first, to CTFd, and see which one is the correct one.
 
 The flag is `BSidesTLV{49489416671}`.
