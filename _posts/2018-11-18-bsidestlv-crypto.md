@@ -2,6 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Crypto)"
 date: 2018-11-18 12:15:24 +0000
+last_modified_time: 2018-11-18 17:37:40 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -48,7 +49,7 @@ Looks what happen when the first digit is correct. The processing time increases
 ![c21354ac.png](/assets/images/posts/bsidestlv-crypto/c21354ac.png)
 </a>
 
-I suspect the verification process looks at one digit at time. With that in mind, I wrote a bash script to help automate the side-channel attack.
+I suspect the verification process looks at one digit at a time. With that in mind, I wrote a bash script to help automate the side-channel attack.
 
 <div class="filename"><span>attack.sh</span></div>
 
