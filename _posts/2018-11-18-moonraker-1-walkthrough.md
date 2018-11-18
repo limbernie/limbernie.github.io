@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "Moonraker: 1 Walkthrough"
-subtitle: "Who's Hotter? Dolly or Holly?"
+subtitle: "Who's Hotter? Dolly or Holly"
 date: 2018-11-18 17:02:57 +0000
+last_modified_at: 2018-11-18 17:29:08 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
@@ -12,14 +13,16 @@ image:
   creditlink: https://pixabay.com/en/rock-arch-landscape-moon-full-sky-874766/
 ---
 
-This post documents the complete walkthrough of Moonraker: 1, a boot2root VM created by [creosote][1]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of Moonraker: 1, a boot2root [VM][1] created by [creosote][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
 
 ### Background
 
-Invitation to preview Moonraker by [creosote](https://www.reddit.com/user/_creosote) :smile:
+You've received intelligence of a new Villain investing heavily into Space and Laser Technologies. Although the Villain is unknown, we know the motives are ominous and apocalyptic.
+
+Hack into the Moonraker system and discover who's behind these menacing plans once and for all. Find and destroy the Villain before it's too late!
 
 ### Information Gathering
 
@@ -95,7 +98,7 @@ PORT      STATE SERVICE  REASON         VERSION
 
 ### Directory / File Enumeration
 
-I used `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
+I always like to go with `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
 
 ```
 # gobuster -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 20 -e -u http://moonraker/
@@ -123,13 +126,13 @@ http://moonraker/x-files (Status: 301)
 =====================================================
 ```
 
-I spent the next couple of hours fuzzing recursively to no avail. This is crazy. I had to stop. The next thing I looked at was the actual site and at last spotted what looked like an attack surface at `/svc-inq/sales.html`.
+I spend the next couple of hours fuzzing recursively to no avail. This is crazy. I have to stop. The next thing I look at is the actual site and at last spotted what looks like an attack surface at `/svc-inq/sales.html`.
 
 <a class="image-popup" title='"Out of this world" service. Yeah, right!'>
 ![336e19ca.png](/assets/images/posts/moonraker-1-walkthrough/336e19ca.png)
 </a>
 
-Notice the message? Someone will contact me in 5 minutes? Straight away, I started Apache Web Server and `tail` off the access log.
+Notice the message? Someone will contact me in 5 minutes? Straight away, I start Apache Web Server and `tail` off the access log.
 
 I then supply the following data to the inquiry form.
 
@@ -213,13 +216,13 @@ The username and password are in the HR offer letters to Hugo. :laughing:
 ![cc673fca.png](/assets/images/posts/moonraker-1-walkthrough/cc673fca.png)
 </a>
 
-Upon logging in, the server sent a "Set-Cookie" header.
+Upon logging in, the server send me a "Set-Cookie" header.
 
 <a class="image-popup" title="Me want cookie!">
 ![febf16dc.png](/assets/images/posts/moonraker-1-walkthrough/febf16dc.png)
 </a>
 
-Again, I'm familiar with Node.js deserialization exploit. You can read about it [here](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/).
+Good thing I'm familiar with Node.js deserialization exploit. You can read about it [here](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/).
 
 ### Low-Privilege Shell
 
@@ -264,13 +267,13 @@ As expected, the `nc` listener caught the reverse shell.
 
 ### Privilege Escalation
 
-During enumeration of `jaws`'s account, I noticed that Postfix is listening locally at `25/tcp`.
+During enumeration of `jaws`'s account, I notice that Postfix is listening locally at `25/tcp`.
 
 <a class="image-popup" title="Who's that?">
 ![a161ae39.png](/assets/images/posts/moonraker-1-walkthrough/a161ae39.png)
 </a>
 
-Pivoting on that, I noticed four mailboxes in `/var/mail` but I lacked the permissions to read them.
+Pivoting on that, I notice four mailboxes in `/var/mail` but I lack the permissions to read them.
 
 <a class="image-popup" title="You shall not pass!">
 ![cad72d13.png](/assets/images/posts/moonraker-1-walkthrough/cad72d13.png)
@@ -284,7 +287,7 @@ As I was looking for world-writeable files, I came across CouchDB's configuratio
 ![d8396cf6.png](/assets/images/posts/moonraker-1-walkthrough/d8396cf6.png)
 </a>
 
-Armed with `hugo`'s password, I can log in to his account and read his mails.
+Armed with `hugo`'s password, I log in to his account and read his mails.
 
 <a class="image-popup" title="It's rude to read other people's email">
 ![64d475ac.png](/assets/images/posts/moonraker-1-walkthrough/64d475ac.png)
@@ -292,7 +295,7 @@ Armed with `hugo`'s password, I can log in to his account and read his mails.
 
 We have an interesting email.
 
-<a class="image-popup" title="¯\_(ツ)_/¯">
+<a class="image-popup" title="¯\\_(ツ)_/¯">
 ![8135673d.png](/assets/images/posts/moonraker-1-walkthrough/8135673d.png)
 </a>
 
@@ -326,4 +329,6 @@ Mandela Effect?
 ![831338f7.png](/assets/images/posts/moonraker-1-walkthrough/831338f7.png)
 </a>
 
-[1]: https://www.reddit.com/user/_creosote
+[1]: https://www.vulnhub.com/entry/moonraker-1,264/
+[2]: https://www.reddit.com/user/_creosote
+[3]: https://www.vulnhub.com/
