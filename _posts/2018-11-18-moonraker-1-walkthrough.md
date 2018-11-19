@@ -323,6 +323,8 @@ The new password must be "`cyberVR00M`".
 
 ### Afterthought
 
+**If you find the dates in this write-up are off, that's because I wrote this a month ago. I was testing for the [creosote][2]** :smile:
+
 Mandela Effect?
 
 <a class="image-popup" title="Blanche Ravalec as Dolly">
