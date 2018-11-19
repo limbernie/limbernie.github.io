@@ -3,7 +3,7 @@ layout: post
 title: "Moonraker: 1 Walkthrough"
 subtitle: "Who's Hotter? Dolly or Holly"
 date: 2018-11-18 17:02:57 +0000
-last_modified_at: 2018-11-18 17:29:08 +0000
+last_modified_at: 2018-11-19 07:11:55 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
@@ -323,7 +323,7 @@ The new password must be "`cyberVR00M`".
 
 ### Afterthought
 
-_If you find the dates in this write-up are off, that's because I wrote this a month ago. I was testing for the [creosote][2]_ :smile:
+_If you find the dates in this write-up are off, that's because I wrote this a month ago. I was testing for [creosote][2]_ :smile:
 
 Mandela Effect?
 
