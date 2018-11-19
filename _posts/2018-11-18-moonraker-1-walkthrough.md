@@ -3,13 +3,14 @@ layout: post
 title: "Moonraker: 1 Walkthrough"
 subtitle: "Who's Hotter? Dolly or Holly"
 date: 2018-11-18 17:02:57 +0000
-last_modified_at: 2018-11-19 10:01:04 +0000
+last_modified_at: 2018-11-19 10:05:05 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
 image:
   feature: moonraker-1-walkthrough.jpg
   credit: creosote / Moonraker
+  creditlink: https://www.vulnhub.com/entry/moonraker-1,264/
 ---
 
 This post documents the complete walkthrough of Moonraker: 1, a boot2root [VM][1] created by [creosote][2], and hosted at [VulnHub][3]. If you are uncomfortable with spoilers, please stop reading now.
