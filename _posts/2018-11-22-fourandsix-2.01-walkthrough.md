@@ -3,7 +3,7 @@ layout: post
 title: "FourAndSix: 2.01 Walkthrough"
 subtitle: "You see, but you do not observe."
 date: 2018-11-22 04:30:37 +0000
-last_modified_at: 2018-11-22 04:49:09 +0000
+last_modified_at: 2018-11-22 05:02:02 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -184,7 +184,7 @@ Getting the flag is trivial when you have a `root` shell.
 
 ### Afterthought
 
-Frankly, Fred reminds me of the [FRED](https://digitalintelligence.com/products/fred/) Forensic Workstation from Digital Intelligence I used to play with many years ago.
+To be honest, Fred reminds me of the [FRED](https://digitalintelligence.com/products/fred/) Forensic Workstation from Digital Intelligence I used to play with years ago. It’s still nice to dabble in OpenBSD once in a while.
 
 [1]: https://www.vulnhub.com/entry/fourandsix-201,266/
 [2]: https://www.vulnhub.com/
