@@ -3,6 +3,7 @@ layout: post
 title: "Raven: 2 Walkthrough"
 subtitle: Here's a Picture of a Bird with White Cap
 date: 2018-11-20 20:29:18 +0000
+last_modified_at: 2018-11-22 04:28:54 +0000
 category: Walkthrough
 tags: [VulnHub, Raven]
 comments: true
@@ -308,6 +309,8 @@ Meanwhile, at the `nc` listener &hellip;
 <a class="image-popup">
 ![13e83da2.png](/assets/images/posts/raven-2-walkthrough/13e83da2.png)
 </a>
+
+Boom.
 
 ### Flag: 4
 
