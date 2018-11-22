@@ -184,7 +184,7 @@ Getting the flag is trivial when you have a `root` shell.
 
 ### Afterthought
 
-It's nice to dabble in OpenBSD once in a while.
+Frankly, Fred reminds me of the [FRED](https://digitalintelligence.com/products/fred/) Forensic Workstation from Digital Intelligence I used to play with many years ago.
 
 [1]: https://www.vulnhub.com/entry/fourandsix-201,266/
 [2]: https://www.vulnhub.com/
