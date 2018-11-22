@@ -3,6 +3,7 @@ layout: post
 title: "FourAndSix: 2.01 Walkthrough"
 subtitle: "You see, but you do not observe."
 date: 2018-11-22 04:30:37 +0000
+last_modified_at: 2018-11-22 04:49:09 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -179,11 +180,11 @@ Getting the flag is trivial when you have a `root` shell.
 ![269ddcd1.png](/assets/images/posts/fourandsix-2.01-walkthrough/269ddcd1.png)
 </a>
 
+:dancer:
+
 ### Afterthought
 
 It's nice to dabble in OpenBSD once in a while.
-
-:dancer:
 
 [1]: https://www.vulnhub.com/entry/fourandsix-201,266/
 [2]: https://www.vulnhub.com/
