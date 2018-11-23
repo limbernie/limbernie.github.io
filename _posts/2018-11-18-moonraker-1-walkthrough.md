@@ -3,7 +3,7 @@ layout: post
 title: "Moonraker: 1 Walkthrough"
 subtitle: "Who's Hotter? Dolly or Holly"
 date: 2018-11-18 17:02:57 +0000
-last_modified_at: 2018-11-19 10:05:05 +0000
+last_modified_at: 2018-11-23 19:33:23 +0000
 category: Walkthrough
 tags: [VulnHub, Moonraker]
 comments: true
@@ -96,7 +96,7 @@ PORT      STATE SERVICE  REASON         VERSION
 
 `nmap` finds the following open ports: `22/tcp`, `80/tcp`, `3000/tcp`, `4369/tcp`, and `5984/tcp`. In any case, let's go with the web.
 
-### Directory / File Enumeration
+### Directory/File Enumeration
 
 I always like to go with `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
 

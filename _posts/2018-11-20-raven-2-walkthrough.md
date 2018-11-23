@@ -3,7 +3,7 @@ layout: post
 title: "Raven: 2 Walkthrough"
 subtitle: Here's a Picture of a Bird with White Cap
 date: 2018-11-20 20:29:18 +0000
-last_modified_at: 2018-11-23 19:26:37 +0000
+last_modified_at: 2018-11-23 19:33:52 +0000
 category: Walkthrough
 tags: [VulnHub, Raven]
 comments: true
@@ -53,7 +53,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. We'll put the rest of the open ports on the back burner.
 
-### Directory / Files Enumeration
+### Directory/File Enumeration
 
 Let's run through the host with `nikto` and see what we get.
 

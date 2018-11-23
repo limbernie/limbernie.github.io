@@ -3,7 +3,7 @@ layout: post
 title: "WinterMute: 1 Walkthrough"
 subtitle: "Things aren't different. Things are things."
 date: 2018-09-17 11:59:47 +0000
-last_modified_at: 2018-11-19 13:48:57 +0000
+last_modified_at: 2018-11-23 19:34:26 +0000
 category: Walkthrough
 tags: [VulnHub, WinterMute]
 comments: true
@@ -78,7 +78,7 @@ It soon redirects to another page.
 
 ![31b731d5.png](/assets/images/posts/wintermute-1-walkthrough/31b731d5.png)
 
-### Directory / Files Enumeration
+### Directory/File Enumeration
 
 Let's use `gobuster` to see if we can find any extra directories or files.
 

@@ -3,7 +3,7 @@ layout: post
 title: "Blacklight: 1 Walkthrough"
 subtitle: "Invisible to the Eye"
 date: 2018-09-20 18:36:46 +0000
-last_modified_at: 2018-09-21 07:07:53 +0000
+last_modified_at: 2018-11-23 19:32:24 +0000
 category: CTF
 tags: [VulnHub, Blacklight]
 comments: true
@@ -82,7 +82,7 @@ That leaves me with `80/tcp` to explore.
 
 Thank you for the reassurance, Carter.
 
-### Directory/Files Enumeration
+### Directory/File Enumeration
 
 Time for some fuzzing. Let's use `gobuster` with `common.txt` from SecLists.
 
