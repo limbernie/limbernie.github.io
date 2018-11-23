@@ -3,7 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
-last_modified_at: 2018-11-23 15:01:58 +0000
+last_modified_at: 2018-11-23 15:07:23 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -116,13 +116,17 @@ If I've to guess, I'd say this is the concatenation of all the `authorized_keys`
 
 Here's an example of the SSH public key of `user1`.
 
+<a class="image-popup">
 ![d2c8c268.png](/assets/images/posts/rsa-1-walkthrough/d2c8c268.png)
+</a>
 
 It's apparent that we are dealing with nine RSA 2048-bit key pairs.
 
 Heninger _et al._'s research [paper](https://factorable.net/weakkeys12.extended.pdf) found that _RSA and DSA can fail catastrophically when used with malfunctioning random number generators_. Specifically, if an attacker can find two distinct RSA moduli <i>N<sub>1</sub></i> and <i>N<sub>2</sub></i> that share a prime factor <i>p</i> but have different second prime factors <i>q<sub>1</sub></i> and <i>q<sub>2</sub></i>, then the attacker can easily factor both moduli by computing their greatest common divisor (GCD), p, and dividing to find <i>q<sub>1</sub></i> and <i>q<sub>2</sub></i>. The attacker can then compute both private keys according to this equation:
 
+<a class="image-popup">
 ![13fac828.png](/assets/images/posts/rsa-1-walkthrough/13fac828.png)
+</a>
 
 Given this insight, I wrote a bash script, with `ssh-keygen`, `openssl`, and `python` as the main drivers, to first extract the moduli from the public keys, and then to calculate the GCD (<i>p</i>) among <sup>9</sup>C<sub>2</sub> pairs, follow by their <i>q<sub>1</sub></i> and <i>q<sub>2</sub></i> respectively.
 
@@ -215,32 +219,47 @@ We can further convert both RSA private keys to the OpenSSH format with `puttyge
 
 _Log in to `user2`'s account_
 
+<a class="image-popup">
 ![fc96cf0a.png](/assets/images/posts/rsa-1-walkthrough/fc96cf0a.png)
+</a>
 
 _Log in to `user4`'s account_
+
+<a class="image-popup">
 ![1ce528c6.png](/assets/images/posts/rsa-1-walkthrough/1ce528c6.png)
+</a>
 
 ### Privilege Escalation
 
 During enumeration of `user2`'s account, I notice that `root` left an encrypted SMIME message for `user2`.
 
+<a class="image-popup">
 ![22153eb1.png](/assets/images/posts/rsa-1-walkthrough/22153eb1.png)
+</a>
 
 Let's decrypt the message.
 
+<a class="image-popup">
 ![920a4fb4.png](/assets/images/posts/rsa-1-walkthrough/920a4fb4.png)
+</a>
 
 This is not your SMIME format. This is the DER format.
 
+<a class="image-popup">
 ![c74e5f4d.png](/assets/images/posts/rsa-1-walkthrough/c74e5f4d.png)
+</a>
 
 From here, we can see that the message is encrypted with RSA. Good thing we have `user2`'s RSA private key.
 
+<a class="image-popup">
 ![e1a3754f.png](/assets/images/posts/rsa-1-walkthrough/e1a3754f.png)
+</a>
 
 With `root`'s password, getting the flag is trivial.
 
+<a class="image-popup">
 ![7accc2d9.png](/assets/images/posts/rsa-1-walkthrough/7accc2d9.png)
+</a>
 
 :dancer:
 
