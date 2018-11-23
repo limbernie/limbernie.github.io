@@ -3,6 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
+last_modified_at: 2018-11-23 15:01:58 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -247,5 +248,5 @@ With `root`'s password, getting the flag is trivial.
 
 Who knew RSA could offer so much fun?
 
-[1]: https://www.vulnhub.com/entry/fourandsix-201,266/
+[1]: https://www.vulnhub.com/entry/rsa-1,255/
 [2]: https://www.vulnhub.com/
