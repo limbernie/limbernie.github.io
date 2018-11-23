@@ -3,7 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
-last_modified_at: 2018-11-23 15:07:23 +0000
+last_modified_at: 2018-11-23 19:25:54 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -24,7 +24,7 @@ This post documents the complete walkthrough of RSA: 1, a boot2root [VM][1] crea
 
 > In February 2012, two groups of researchers revealed that large numbers of RSA encryption keys that are actively used on the Internet can be cracked because the random numbers used to generate these keys were not random enough.
 
-### Introduction
+### Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 

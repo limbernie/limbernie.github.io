@@ -3,7 +3,7 @@ layout: post
 title: "Raven: 2 Walkthrough"
 subtitle: Here's a Picture of a Bird with White Cap
 date: 2018-11-20 20:29:18 +0000
-last_modified_at: 2018-11-22 04:28:54 +0000
+last_modified_at: 2018-11-23 19:26:37 +0000
 category: Walkthrough
 tags: [VulnHub, Raven]
 comments: true
@@ -22,7 +22,7 @@ This post documents the complete walkthrough of Raven: 2, a boot2root [VM][1] cr
 
 Raven 2 is an intermediate level boot2root VM. There are four flags to capture. After multiple breaches, Raven Security has taken extra steps to harden their web server to prevent hackers from getting in. Can you still breach Raven?
 
-### Introduction
+### Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 

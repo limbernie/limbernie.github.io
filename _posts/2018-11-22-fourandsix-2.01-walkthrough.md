@@ -3,7 +3,7 @@ layout: post
 title: "FourAndSix: 2.01 Walkthrough"
 subtitle: "You see, but you do not observe."
 date: 2018-11-22 04:30:37 +0000
-last_modified_at: 2018-11-22 16:18:04 +0000
+last_modified_at: 2018-11-23 19:26:24 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -22,7 +22,7 @@ This post documents the complete walkthrough of FourAndSix: 2.01, a boot2root [V
 
 Although there’s no description for this VM, except for _"to become `root` and read `/root/flag.txt`"_, the name alone is interesting. FourAndSix is the homophone for forensic—expect fun challenges ahead.
 
-### Introduction
+### Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
