@@ -2,10 +2,10 @@
 layout: post
 title: "Fowsniff: 1 Walkthrough"
 subtitle: "I Smell Foul Play"
-date: 2018-11-23 14:59:31 +0000
+date: 2018-11-24 10:27:11 +0000
 category: Walkthrough
 tags: [VulnHub, Fowsniff]
-comments: false
+comments: true
 image:
   feature: fowsniff-1-walkthrough.jpg
   credit: stevepb / Pixabay
