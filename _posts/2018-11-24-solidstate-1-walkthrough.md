@@ -3,6 +3,7 @@ layout: post
 title: "SolidState: 1 Walkthrough"
 subtitle: "Not Solid Enough!"
 date: 2018-11-24 19:59:42 +0000
+last_modified_at: 2018-11-24 20:05:46 +0000
 category: Walkthrough
 tags: [VulnHub, SolidState]
 comments: true
@@ -120,7 +121,7 @@ During enumeration of `mindy`'s account, I found a world-writable file `/opt/tmp
 ![b832b86f.png](/assets/images/posts/solidstate-1-walkthrough/b832b86f.png)
 </a>
 
-If I've to guess, I'd say this is run by `crontab` under `root`'s account. Let's replace it with something special :wink:
+If I've to guess, I'd say this is run by `crontab` under `root`'s account. Let's replace it with something special. :smiling_imp:
 
 <a class="image-popup">
 ![cb88cc77.png](/assets/images/posts/solidstate-1-walkthrough/cb88cc77.png)
