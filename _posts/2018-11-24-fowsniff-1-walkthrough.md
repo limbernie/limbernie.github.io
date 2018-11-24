@@ -3,6 +3,7 @@ layout: post
 title: "Fowsniff: 1 Walkthrough"
 subtitle: "I Smell Foul Play"
 date: 2018-11-24 10:27:11 +0000
+last_modified_at: 2018-11-24 15:16:39 +0000
 category: Walkthrough
 tags: [VulnHub, Fowsniff]
 comments: true
@@ -75,17 +76,23 @@ PORT    STATE SERVICE REASON         VERSION
 
 Here's what the site looks like.
 
+<a class="image-popup">
 ![f77a9c89.png](/assets/images/posts/fowsniff-1-walkthrough/f77a9c89.png)
+</a>
 
 WTF??!! Are you serious?
 
 Scrolling down, you'll see what went wrong at Fowsniff Corp.
 
+<a class="image-popup">
 ![506e5d19.png](/assets/images/posts/fowsniff-1-walkthrough/506e5d19.png)
+</a>
 
 They are not lying when they say the attackers may release sensitive information through Twitter.
 
+<a class="image-popup">
 ![658278d2.png](/assets/images/posts/fowsniff-1-walkthrough/658278d2.png)
+</a>
 
 Let's see what the attackers have to offer.
 
@@ -181,7 +188,9 @@ Hmm. Someone didn't change their password after the breach.
 
 I know it's unethical to read other's email but the temptation is too great. Can't help it, let's read `seina`'s email then.
 
+<a class="image-popup">
 ![3b31d0de.png](/assets/images/posts/fowsniff-1-walkthrough/3b31d0de.png)
+</a>
 
 Now now now, what do we have here? SSH password??!!
 
@@ -208,7 +217,9 @@ Caught in action. `baksteen` is in trouble.
 
 Armed with the SSH password, let's give ourselves a low-privilege shell.
 
+<a class="image-popup">
 ![4e189efa.png](/assets/images/posts/fowsniff-1-walkthrough/4e189efa.png)
+</a>
 
 Boom. I'm in.
 
@@ -218,17 +229,23 @@ During enumeration of `baksteen`'s account, I notice the kernel (4.4.0-116-gener
 
 `gcc` is also not installed on `fowsniff`. No problem. I can compile the exploit on my attacking machine and transfer it over with `scp`.
 
+<a class="image-popup">
 ![27f32891.png](/assets/images/posts/fowsniff-1-walkthrough/27f32891.png)
+</a>
 
 Damn. This is too easy.
 
+<a class="image-popup">
 ![f45678ec.png](/assets/images/posts/fowsniff-1-walkthrough/f45678ec.png)
+</a>
 
 ### What's the Flag?
 
 Getting the flag with a `root` shell is trivial.
 
+<a class="image-popup">
 ![a55aa93d.png](/assets/images/posts/fowsniff-1-walkthrough/a55aa93d.png)
+</a>
 
 :dancer:
 
