@@ -3,7 +3,7 @@ layout: post
 title: "FourAndSix: 2.01 Walkthrough"
 subtitle: "You see, but you do not observe."
 date: 2018-11-22 04:30:37 +0000
-last_modified_at: 2018-11-23 19:26:24 +0000
+last_modified_at: 2018-11-25 11:14:44 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -104,7 +104,7 @@ If I've to guess, I'd say there's a `/home/user/.ssh/authorized_keys` and the co
 ![492296c1.png](/assets/images/posts/fourandsix-2.01-walkthrough/492296c1.png)
 </a>
 
-### Low-privilege Shell
+### Low-Privilege Shell
 
 Let's see if we can log in to the host with the private key.
 

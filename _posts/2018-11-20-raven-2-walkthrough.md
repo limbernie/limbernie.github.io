@@ -3,7 +3,7 @@ layout: post
 title: "Raven: 2 Walkthrough"
 subtitle: Here's a Picture of a Bird with White Cap
 date: 2018-11-20 20:29:18 +0000
-last_modified_at: 2018-11-23 19:33:52 +0000
+last_modified_at: 2018-11-25 11:16:20 +0000
 category: Walkthrough
 tags: [VulnHub, Raven]
 comments: true
@@ -198,7 +198,7 @@ We need a better view.
 
 Now, let's see if the beloved `nc` with `-e` option is available.
 
-### Low-privilege Shell
+### Low-Privilege Shell
 
 On our attacking machine, open a terminal and have `nc` listen at `1234/tcp`.
 

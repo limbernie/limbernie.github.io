@@ -3,7 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
-last_modified_at: 2018-11-23 19:25:54 +0000
+last_modified_at: 2018-11-25 11:14:16 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -215,7 +215,7 @@ We can further convert both RSA private keys to the OpenSSH format with `puttyge
 # puttygen user4.pem -o user4 -O private-openssh-new
 ```
 
-### Low-privilege Shell
+### Low-Privilege Shell
 
 _Log in to `user2`'s account_
 

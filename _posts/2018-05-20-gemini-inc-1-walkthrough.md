@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-05-20 17:53:34 +0000
-last_modified_at: 2018-08-03 19:04:20 +0000
+last_modified_at: 2018-11-25 11:15:32 +0000
 title: "Gemini Inc: 1 Walkthrough"
 subtitle: "Good Things Come in Pairs"
 category: Walkthrough
@@ -132,7 +132,7 @@ There you have it—`/home/gemini1/.ssh/authorized_keys`. This is `gemini1`'s pu
 
 Awesome. We can now copy and paste the private key to our attacking machine and log in to `gemini1`'s SSH account.
 
-### Low-privilege Shell
+### Low-Privilege Shell
 
 ![0.9mfp03dho49](/assets/images/posts/gemini-inc-1-walkthrough/0.9mfp03dho49.png)
 
