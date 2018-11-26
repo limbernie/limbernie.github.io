@@ -3,9 +3,10 @@ layout: post
 title: "Matrix: 1 Walkthrough"
 subtitle: "It means buckle your seatbelt, Dorothy because Kansas is going bye bye."
 date: 2018-11-26 11:03:25 +0000
+last_modified_at: 2018-11-26 11:09:45 +0000
 category: Walkthrough
 tags: [VulnHub, Matrix]
-comments: false
+comments: true
 image:
   feature: matrix-1-walkthrough.jpg
   credit: Septimiu / Pixabay
@@ -59,11 +60,15 @@ echo "Then you'll see, that it is not the spoon that bends, it is only yourself.
 
 The message is redirected to a file. Perhaps the file is present?
 
+<a class="image-popup">
 ![096cd22e.png](/assets/images/posts/matrix-1-walkthrough/096cd22e.png)
+</a>
 
 What do we have here?
 
+<a class="image-popup">
 ![e95088f2.png](/assets/images/posts/matrix-1-walkthrough/e95088f2.png)
+</a>
 
 Brainfuck!
 
@@ -102,7 +107,9 @@ The random sort at the end is for good measureâ€”hopefully luck is on our sideâ€
 
 Time to give it a shot.
 
+<a class="image-popup">
 ![f279c0e2.png](/assets/images/posts/matrix-1-walkthrough/f279c0e2.png)
+</a>
 
 Awesome. Took less than a minute.
 
@@ -110,25 +117,35 @@ Awesome. Took less than a minute.
 
 I give to you a restricted shell. Damn.
 
+<a class="image-popup">
 ![6119306b.png](/assets/images/posts/matrix-1-walkthrough/6119306b.png)
+</a>
 
 No sweat. We can log out and log back in again, making use of the fact that SSH executes command upon login like so.
 
+<a class="image-popup">
 ![e2ad406e.png](/assets/images/posts/matrix-1-walkthrough/e2ad406e.png)
+</a>
 
 The surprise doesn't end here.
 
+<a class="image-popup">
 ![ca82e1bf.png](/assets/images/posts/matrix-1-walkthrough/ca82e1bf.png)
+</a>
 
 I guess it's over.
 
+<a class="image-popup">
 ![9ccb4955.png](/assets/images/posts/matrix-1-walkthrough/9ccb4955.png)
+</a>
 
 ### What's the Flag?
 
 Getting the flag is one command away.
 
+<a class="image-popup">
 ![18312981.png](/assets/images/posts/matrix-1-walkthrough/18312981.png)
+</a>
 
 :dancer:
 
