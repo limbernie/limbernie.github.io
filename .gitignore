@@ -2,3 +2,4 @@ _drafts
 _site
 .sass-cache
 .rake_tasks~
+Gemfile.lock
