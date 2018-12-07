@@ -81,3 +81,10 @@ plugins:
 
 paginate: 3
 paginate_path: "/:num/"
+
+defaults:
+  -
+    scope:
+      path:	"google61fb576a799de39c.html"
+    values:
+      sitemap: false
