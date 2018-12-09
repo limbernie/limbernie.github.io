@@ -1,6 +1,6 @@
 ---
 layout: post
-last_modified_at: 2018-08-03 17:47:13 +0000
+last_modified_at: 2018-12-09 08:14:55 +0000
 title: "Bulldog: 1 Walkthrough"
 subtitle: "Who Let the Dogs Out?"
 category: Walkthrough
@@ -182,7 +182,7 @@ It's done.
 
 ### Afterthought
 
-If I had to guess, I'd say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
+If I had to guess, I would say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
 
 ![screenshot-21](/assets/images/posts/bulldog-1-walkthrough/screenshot-21.png)
 

@@ -3,7 +3,7 @@ layout: post
 title: "GoldenEye: 1 Walkthrough"
 subtitle: "Shaken, Not Stirred"
 date: 2018-09-14 21:03:27 +0000
-last_modified_at: 2018-09-17 12:00:37 +0000
+last_modified_at: 2018-12-09 08:17:00 +0000
 category: Walkthrough
 tags: [VulnHub, GoldenEye]
 comments: true
@@ -211,7 +211,7 @@ I love juicy stuff!
 
 ![d24c5057.png](/assets/images/posts/goldeneye-1-walkthrough/d24c5057.png)
 
-I also don't know my tradecraft. But, if I've to guess, I'd say that looks like `base64`. Let's decode it and see what it says.
+I also don't know my tradecraft. But, if I had to guess, I would say that looks like `base64`. Let's decode it and see what it says.
 
 ![78b99b42.png](/assets/images/posts/goldeneye-1-walkthrough/78b99b42.png)
 

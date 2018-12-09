@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Reverse Engineering)"
 date: 2018-10-28 00:28:28 +0000
-last_modified_at: 2018-11-09 17:51:17 +0000
+last_modified_at: 2018-12-09 08:16:27 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -519,7 +519,7 @@ Meanwhile, back in IDA.
 
 You can see that the function `sub_140003740` is comparing an argument with `0xC07FC004`. Once the argument matches, the logic continues with the preparation of the input buffer.
 
-If I've to guess, I'd say that `0xC07FC004` is the IOCTL code. What about the input buffer? Moving along the function `sub_140003740`, you'll see a `memcmp` between two buffers.
+If I had to guess, I would say that `0xC07FC004` is the IOCTL code. What about the input buffer? Moving along the function `sub_140003740`, you'll see a `memcmp` between two buffers.
 
 <a class="image-popup">
 ![ida_memcmp.png](/assets/images/posts/bsidestlv-reverse-engineering/ida_memcmp.png)

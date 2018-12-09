@@ -3,7 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
-last_modified_at: 2018-11-25 11:14:16 +0000
+last_modified_at: 2018-12-09 08:11:49 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -112,7 +112,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5bur6r9Kq2SB4YGmSFI14K6X8o4LAM6ZQLoMgp52W
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUC0NKyGoR1EqOS1suQK0YfitFIt0lFkpwKVYVP4YD86aSiPqpWI6rRsLBevGxOfDdRFHqMmzx4S0tVJfYErs7O7X20xWy6oJJRX67h1QghDZOa8hWEFPSr2qlOhNTvfp9yJbTKvCzStSYN0AR81MiuLn6uSmr6N2LUU02mmA1JmuZlO/ilqU7/fECNY9Dl/hrX7oIqvbpxXZDfxa25PQqy9uTrZe71sCkBkdZ11qj+4hkWPUWrhZgosJXJb61h9QGbmhzte3YyJ6RoEzz3ozFamYBzuyszX/4Ne4juBXzXoD5+En+kFIMnfNk5bVYeD4XG6a8jDDcKzsFrvWZ7zgD user9@rsafun
 ```
 
-If I've to guess, I'd say this is the concatenation of all the `authorized_keys` from `user1` to `user9`. We know `authorized_keys` typically contains the public component of the SSH RSA key pair.
+If I had to guess, I would say this is the concatenation of all the `authorized_keys` from `user1` to `user9`. We know `authorized_keys` typically contains the public component of the SSH RSA key pair.
 
 Here's an example of the SSH public key of `user1`.
 

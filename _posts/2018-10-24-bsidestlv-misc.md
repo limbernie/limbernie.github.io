@@ -2,7 +2,7 @@
 layout: post
 title: "BSidesTLV: 2018 CTF (Misc)"
 date: 2018-10-24 18:53:07 +0000
-last_modified_at: 2018-10-28 10:18:32 +0000
+last_modified_at: 2018-12-09 08:12:55 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -44,7 +44,7 @@ After logging in, this is what I found.
 ![d59d61f1.png](/assets/images/posts/bsidestlv-misc/d59d61f1.png)
 </a>
 
-If I've to guess, I'd say that's a Unix socket connected to a Docker. And since I've the SSH credentials, I can make use of SSH local port forwarding and connect to the Docker like so.
+If I had to guess, I would say that's a Unix socket connected to a Docker. And since I've the SSH credentials, I can make use of SSH local port forwarding and connect to the Docker like so.
 
 <a class="image-popup">
 ![3581904c.png](/assets/images/posts/bsidestlv-misc/3581904c.png)

@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2018-08-31 11:09:30 +0000
-last_modified_date: 2018-08-31 20:00:39 +0000
+last_modified_date: 2018-12-09 08:21:08 +0000
 title: "Node: 1 Walkthrough"
 subtitle: "Glory Glory Man United"
 category: Walkthrough
@@ -86,7 +86,7 @@ Like any good security analyst worth his salt, I'm putting on my forensics hat t
 
 ![fde1d30b.png](/assets/images/posts/node-1-walkthrough/fde1d30b.png)
 
-If I had to guess, I'd say the file `myplace.backup` is the `base64` encoding of the another file.
+If I had to guess, I would say the file `myplace.backup` is the `base64` encoding of the another file.
 
 ![00dd6751.png](/assets/images/posts/node-1-walkthrough/00dd6751.png)
 

@@ -3,7 +3,7 @@ layout: post
 title: "FourAndSix: 2.01 Walkthrough"
 subtitle: "You see, but you do not observe."
 date: 2018-11-22 04:30:37 +0000
-last_modified_at: 2018-11-25 11:14:44 +0000
+last_modified_at: 2018-12-09 08:15:51 +0000
 category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
@@ -98,7 +98,7 @@ Now, what do we have here?
 
 A RSA key pair for SSH access.
 
-If I've to guess, I'd say there's a `/home/user/.ssh/authorized_keys` and the content is as follows.
+If I had to guess, I would say there's a `/home/user/.ssh/authorized_keys` and the content is as follows.
 
 <a class="image-popup">
 ![492296c1.png](/assets/images/posts/fourandsix-2.01-walkthrough/492296c1.png)

@@ -2,7 +2,7 @@
 layout: post
 date: 2018-10-11 16:09:07 +0000
 title: "BSidesTLV: 2018 CTF (Web)"
-last_modified_at: 2018-10-24 17:49:35 +0000
+last_modified_at: 2018-12-09 08:12:25 +0000
 category: CTF
 tags: [BSidesTLV]
 comments: true
@@ -43,7 +43,7 @@ This is how the challenge looks like.
 
 ![37e6d963.png](/assets/images/posts/bsidestlv-web/37e6d963.png)
 
-If I've to guess, I'd say the "Referer" header needs to set to the Youtube URL before visiting the challenge URL. To that end, I wrote a `bash` script to do so.
+If I had to guess, I would say the "Referer" header needs to set to the Youtube URL before visiting the challenge URL. To that end, I wrote a `bash` script to do so.
 
 <div class="filename"><span>redirect.sh</span></div>
 
@@ -327,7 +327,7 @@ Here's the `login` function.
 
 ![6078a158.png](/assets/images/posts/bsidestlv-web/6078a158.png)
 
-I'm no NoSQL expert (pun intended). But, if I've to guess, I'd say the challenge looks a classic NoSQL injection to bypass authentication. After consulting with OWASP testing [guide](https://www.owasp.org/index.php/Testing_for_NoSQL_injection), I've settled with this injection through the password field. We already knew the username is `admin`.
+I'm no NoSQL expert (pun intended). But, if I had to guess, I would say the challenge looks a classic NoSQL injection to bypass authentication. After consulting with OWASP testing [guide](https://www.owasp.org/index.php/Testing_for_NoSQL_injection), I've settled with this injection through the password field. We already knew the username is `admin`.
 
 ```
 ' || 1 == '1
