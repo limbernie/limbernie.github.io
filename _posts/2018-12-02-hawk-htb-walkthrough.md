@@ -3,7 +3,7 @@ layout: post
 title: "Hawk: Hack The Box Walkthrough"
 subtitle: "When I bestride him, I soar; I am a hawk."
 date: 2018-12-02 08:34:55 +0000
-last_modified_at: 2018-12-02 08:43:56 +0000
+last_modified_at: 2018-12-09 08:24:05 +0000
 category: Walkthrough
 tags: ["Hack The Box", Hawk, retired]
 comments: true
@@ -23,6 +23,8 @@ This post documents the complete walkthrough of Hawk, a retired vulnerable [VM][
 Hawk is a retired vulnerable VM from Hack The Box.
 
 ### Information Gathering
+
+Let’s start with a `nmap` scan to establish the available services in the host.
 
 ```
 # nmap -T5 -n -v -Pn -p- -A --reason -oN nmap.txt 10.10.10.102
