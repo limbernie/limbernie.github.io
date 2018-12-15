@@ -2,10 +2,10 @@
 layout: post
 title: "Waldo: Hack The Box Walkthrough"
 date: 2018-12-15 17:14:15 +0000
-last_modified_at: 2018-12-15 17:25:12 +0000
+last_modified_at: 2018-12-15 17:26:04 +0000
 category: Walkthrough
 tags: ["Hack The Box", Waldo, retired]
-comments: false
+comments: true
 image:
   feature: waldo-htb-walkthrough.jpg
 ---
