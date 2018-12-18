@@ -2,7 +2,7 @@
 layout: post
 title: "Waldo: Hack The Box Walkthrough"
 date: 2018-12-15 17:14:15 +0000
-last_modified_at: 2018-12-18 16:47:14 +0000
+last_modified_at: 2018-12-18 17:34:14 +0000
 category: Walkthrough
 tags: ["Hack The Box", Waldo, retired]
 comments: true
@@ -122,8 +122,6 @@ If you look at the `authorized_keys`, it seems to suggest the presence of user `
 ![048815d6.png](/assets/images/posts/waldo-htb-walkthrough/048815d6.png)
 </a>
 
-Damn.
-
 After some investigation, it appears that the SSH session I'm hooked up to gets forwarded to the docker container listening at `8888/tcp`.
 
 <a class="image-popup">
@@ -194,7 +192,7 @@ What do you know! We can make use of `tac` to read the `root.txt`.
 
 ### Afterthought
 
-Although I found the presence of `id_rsa` and `id_rsa.pub` in `/root/.ssh`, it's a shame `root` is not allowed to SSH locally because `PermitRootLogin` is set to `no` in `/etc/ssh/sshd_config` and to add salt to the injury, `authorized_keys` is not present.
+Although I found the presence of `id_rsa` and `id_rsa.pub` in `/root/.ssh`, it's a shame `root` is not allowed to SSH locally because `PermitRootLogin` is set to `no` in `/etc/ssh/sshd_config` and to rub salt into the wound, `authorized_keys` is not present.
 
 Well, one could still read `/etc/shadow` for offline cracking. But, good luck to that. :grin:
 
