@@ -2,12 +2,14 @@
 layout: post
 title: "Waldo: Hack The Box Walkthrough"
 date: 2018-12-15 17:14:15 +0000
-last_modified_at: 2018-12-15 17:26:04 +0000
+last_modified_at: 2018-12-18 16:47:14 +0000
 category: Walkthrough
 tags: ["Hack The Box", Waldo, retired]
 comments: true
 image:
   feature: waldo-htb-walkthrough.jpg
+  credit: strawman & capnspacehook / Waldo
+  creditlink: https://www.hackthebox.eu/home/machines/profile/149
 ---
 
 This post documents the complete walkthrough of Waldo, a retired vulnerable [VM][1] created by [strawman][2] and [capnspacehook][3], and hosted at [Hack The Box][4]. If you are uncomfortable with spoilers, please stop reading now.
