@@ -2,7 +2,7 @@
 layout: post
 title: "Waldo: Hack The Box Walkthrough"
 date: 2018-12-15 17:14:15 +0000
-last_modified_at: 2018-12-18 17:34:14 +0000
+last_modified_at: 2018-12-22 17:50:42 +0000
 category: Walkthrough
 tags: ["Hack The Box", Waldo, retired]
 comments: true
@@ -192,7 +192,7 @@ What do you know! We can make use of `tac` to read the `root.txt`.
 
 ### Afterthought
 
-Although I found the presence of `id_rsa` and `id_rsa.pub` in `/root/.ssh`, it's a shame `root` is not allowed to SSH locally because `PermitRootLogin` is set to `no` in `/etc/ssh/sshd_config` and to rub salt into the wound, `authorized_keys` is not present.
+Although I found the presence of `id_rsa` and `id_rsa.pub` in `/root/.ssh`, it's a shame `root` is not allowed to SSH locally because `PermitRootLogin` is set to `no` in `/etc/ssh/sshd_config`. And to rub salt into the wound, `authorized_keys` is not present.
 
 Well, one could still read `/etc/shadow` for offline cracking. But, good luck to that. :grin:
 
