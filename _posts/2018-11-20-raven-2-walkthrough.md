@@ -1,9 +1,8 @@
 ---
 layout: post
 title: "Raven: 2 Walkthrough"
-subtitle: Here's a Picture of a Bird with White Cap
 date: 2018-11-20 20:29:18 +0000
-last_modified_at: 2018-11-25 11:16:20 +0000
+last_modified_at: 2018-12-22 17:38:26 +0000
 category: Walkthrough
 tags: [VulnHub, Raven]
 comments: true
