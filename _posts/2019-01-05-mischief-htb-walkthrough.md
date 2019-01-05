@@ -2,7 +2,7 @@
 layout: post
 title: "Mischief: Hack The Box Walkthrough"
 date: 2019-01-05 16:32:15 +0000
-last_modified_at: 2019-01-05 16:43:34 +0000
+last_modified_at: 2019-01-05 16:53:58 +0000
 category: Walkthrough
 tags: ["Hack The Box", Mischief, retired]
 comments: true
@@ -22,6 +22,8 @@ This post documents the complete walkthrough of Mischief, a retired vulnerable [
 Mischief is a retired vulnerable VM from Hack The Box.
 
 ### Information Gathering
+
+Let’s start with a `nmap` scan to establish the available services in the host.
 
 ```
 # nmap -n -v -Pn -p- -A --reason -oN nmap.txt 10.10.10.92
