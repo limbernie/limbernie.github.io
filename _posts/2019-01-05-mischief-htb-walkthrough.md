@@ -2,10 +2,10 @@
 layout: post
 title: "Mischief: Hack The Box Walkthrough"
 date: 2019-01-05 16:32:15 +0000
-last_modified_at: 2019-01-05 16:40:30 +0000
+last_modified_at: 2019-01-05 16:43:34 +0000
 category: Walkthrough
 tags: ["Hack The Box", Mischief, retired]
-comments: false
+comments: true
 image:
   feature: mischief-htb-walkthrough.jpg
   credit: NeuPaddy / Pixabay
