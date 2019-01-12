@@ -3,10 +3,10 @@ layout: post
 title: "Oz: Hack The Box Walkthrough"
 subtitle: "There is no place like home."
 date: 2019-01-12 14:46:05 +0000
-last_modified_at: 2019-01-12 14:54:43 +0000
+last_modified_at: 2019-01-12 14:56:04 +0000
 category: Walkthrough
 tags: ["Hack The Box", Oz, retired]
-comments: false
+comments: true
 image:
   feature: oz-htb-walkthrough.jpg
   credit: bgphotographyllc / Pixabay
