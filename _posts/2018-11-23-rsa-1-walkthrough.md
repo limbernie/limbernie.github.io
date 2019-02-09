@@ -3,7 +3,7 @@ layout: post
 title: "RSA: 1 Walkthrough"
 subtitle: "Hand over the Keys"
 date: 2018-11-23 14:59:31 +0000
-last_modified_at: 2018-12-09 08:11:49 +0000
+last_modified_at: 2019-02-09 07:39:15 +0000
 category: Walkthrough
 tags: [VulnHub, RSA]
 comments: true
@@ -187,7 +187,7 @@ python gcd.py
 rm user* gcd.py
 ```
 
-Let's run `attack.py`.
+Let's run `attack.sh`.
 
 ```
 # ./attack.sh
