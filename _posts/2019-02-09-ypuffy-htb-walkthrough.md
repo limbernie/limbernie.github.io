@@ -2,7 +2,7 @@
 layout: post
 title: "Ypuffy: Hack The Box Walkthrough"
 date: 2019-02-09 15:03:23 +0000
-last_modified_at: 2019-02-09 15:06:55 +0000
+last_modified_at: 2019-02-10 04:24:15 +0000
 category: Walkthrough
 tags: ["Hack The Box", Ypuffy, retired]
 comments: true
@@ -210,7 +210,7 @@ Indeed. We are able to view `alice`'s share. Now, let's see what we can get from
 ![7b1ba80b.png](/assets/images/posts/ypuffy-htb-walkthrough/7b1ba80b.png)
 </a>
 
-I gotten a copy of `my_private_key.ppk`. It turns out to be `alice`'s private key in the PuTTY format.
+I got a copy of `my_private_key.ppk`. It turns out to be `alice`'s private key in the PuTTY format.
 
 <a class="image-popup">
 ![b0d3e231.png](/assets/images/posts/ypuffy-htb-walkthrough/b0d3e231.png)
