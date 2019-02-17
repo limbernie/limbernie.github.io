@@ -218,11 +218,11 @@ Next, let's stop the service with `Stop-Service`.
 ![c0bcb185.png](/assets/images/posts/giddy-htb-walkthrough/c0bcb185.png)
 </a>
 
-You'll notice that `avservice.exe` is no longer running. And, because I love to get me a shell, I'll attempt to spawn a reverse shell with Java no less. I'd noticed previously Jave Runtime Environment (JRE) is available.
+You'll notice that `avservice.exe` is no longer running. And, because I love to get me a shell, I'll attempt to spawn a reverse shell with Java no less. I'd noticed previously Java Runtime Environment (JRE) is available.
 
-The following takes place on my attacking machine...
+The following takes place on my attacking machine.
 
-...
+&hellip;
 
 I'll use `msfvenom` to generate the reverse shell.
 
@@ -257,9 +257,9 @@ Finally, host all the above with Python's SimpleHTTPServer module.
 # python -m SimpleHTTPServer 80
 ```
 
-Back to the PowerShell Web Access console...
+Back to the PowerShell Web Access console.
 
-...
+&hellip;
 
 Download our `taskkill.exe` and `rev.jar` to `\ProgramData\unifi-video` with `Invoke-WebRequest`.
 
