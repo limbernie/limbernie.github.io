@@ -2,7 +2,7 @@
 layout: post
 title: "Access: Hack The Box Walkthrough"
 date: 2019-03-03 04:43:45 +0000
-last_modified_at: 2019-03-03 04:43:52 +0000
+last_modified_at: 2019-03-03 04:46:16 +0000
 category: Walkthrough
 tags: ["Hack The Box", Access, retired]
 comments: true
@@ -19,7 +19,7 @@ This post documents the complete walkthrough of Access, a retired vulnerable [VM
 
 ### Background
 
-Access is an active vulnerable VM from Hack The Box.
+Access is a retired vulnerable VM from Hack The Box.
 
 ### Information Gathering
 
