@@ -306,7 +306,7 @@ Rule source: Local Setting
 Action: Allow
 ```
 
-Running the command to ***list files in a directory—C:\Program Files (x86)\*** revealed the pressence of OpenSSL.
+Running the command to ***list files in a directory—C:\Program Files (x86)*** revealed the pressence of OpenSSL.
 
 ```
 Microsoft.NET
