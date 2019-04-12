@@ -2,7 +2,7 @@
 layout: post
 title: "Vault: Hack The Box Walkthrough"
 date: 2019-04-06 17:48:12 +0000
-last_modified_at: 2019-04-06 17:48:36 +0000
+last_modified_at: 2019-04-12 03:42:44 +0000
 category: Walkthrough
 tags: ["Hack The Box", Vault, retired]
 comments: true
@@ -135,7 +135,7 @@ The new page exposes a new attack surface at `/changelogo.php` as well.
 
 ### File Upload Bypass
 
-What we are seeing here is a classic file upload attack, specifically by discovering the whitelisted file extensions. To that end, I wrote a `bash` script with `curl` as the main driver and by supplying the script with a wordlist containing a large number of file extensions.
+What we are seeing here is a classic file upload attack, specifically by discovering the whitelisted file extensions. To that end, I wrote a `bash` script with `curl` as the main driver and by supplying the script with a wordlist containing a large number of file extensions, I can determine which extensions are whitelisted.
 
 The wordlist is derived from `/etc/mime.types` like so.
 
@@ -163,7 +163,7 @@ curl -s \
 | grep success &>/dev/null && echo "[+] Uploaded: $UPLOADS/info.${EXT}"
 ```
 
-The script takes in a file extension as argument. I'm using GNU parallels to speed things up like so.
+The script takes in a file extension as argument. I'm using GNU Parallel to speed things up like so.
 
 <a class="image-popup">
 ![33494eeb.png](/assets/images/posts/vault-htb-walkthrough/33494eeb.png)
