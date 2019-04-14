@@ -2,7 +2,7 @@
 layout: post
 title: "RedCross: Hack The Box Walkthrough"
 date: 2019-04-13 15:46:57 +0000
-last_modified_at: 2019-04-13 15:47:39 +0000
+last_modified_at: 2019-04-14 15:49:35 +0000
 category: Walkthrough
 tags: ["Hack The Box", RedCross, retired]
 comments: true
@@ -86,7 +86,7 @@ Filtered Requests: 81624
 Requests/sec.: 230.4201
 ```
 
-The `/documentation` directory is definitely interesting. Let's go deeper. I'll be introducing another wordlist containing file extension of common documents
+The `/documentation` directory is definitely interesting. Let's go deeper. I'll be introducing another wordlist containing file extension of common documents.
 
 ```
 # wfuzz -w dirbuster.txt -w extensions.txt --hc 404 -t 50 https://intra.redcross.htb/documentation/FUZZFUZ2Z
@@ -209,11 +209,11 @@ Well, all is not lost. Penelope left a gift.
 ![37fa6db1.png](/assets/images/posts/redcross-htb-walkthrough/37fa6db1.png)
 </a>
 
-For brevity sake, I'll not display the source code. Suffice to say, the source code will help us in achieving privilege escalation later on.
+For brevity's sake, I'll not display the source code. Suffice to say, the source code will help us in achieving privilege escalation later on.
 
 ### Low-Privilege Shell
 
-Moving on to the Admin Panel and despite what **Network Access** sounds like, it has nothing to do with access control. It's actually contains an input validation vulnerability that we can exploit for remote command execution.
+Moving on to the Admin Panel and despite what **Network Access** sounds like, it has nothing to do with access control. It actually contains an input validation vulnerability that we can exploit for remote command execution.
 
 <a class="image-popup">
 ![5a233225.png](/assets/images/posts/redcross-htb-walkthrough/5a233225.png)
@@ -305,13 +305,13 @@ The best part is—you can modify the `passwd_table` table. Here's how it looks 
 ![b9ae27f2.png](/assets/images/posts/redcross-htb-walkthrough/b9ae27f2.png)
 </a>
 
-Oh good. The `dick` user I created earlier is still around. Let's change the columns to our advantage.
+Good. The `dick` user I created earlier is still around. Let's change the columns to our advantage.
 
 <a class="image-popup">
 ![ff7e6984.png](/assets/images/posts/redcross-htb-walkthrough/ff7e6984.png)
 </a>
 
-Notice I change the `gid` to `sudo` and the home directory to `root`. Let's login to `dick`'s account again and make ourselves `root`.
+Notice I change the `gid` to `sudo` and the home directory to `root`. Let's log in to `dick`'s account again and make ourselves `root`.
 
 <a class="image-popup">
 ![908ac3bf.png](/assets/images/posts/redcross-htb-walkthrough/908ac3bf.png)
@@ -327,7 +327,7 @@ Getting `root.txt` with a `root` shell is so damn easy.
 
 ### Afterthought
 
-For completeness sake, here's `user.txt`.
+For completeness' sake, here's `user.txt`.
 
 <a class="image-popup">
 ![824dd2b3.png](/assets/images/posts/redcross-htb-walkthrough/824dd2b3.png)
