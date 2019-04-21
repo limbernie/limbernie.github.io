@@ -1,0 +1,82 @@
+==================================================================
+https://keybase.io/limbernie
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hackso.me
+  * I am limbernie (https://keybase.io/limbernie) on keybase.
+  * I have a public key with fingerprint 1C9C AC6B 4C93 B140 33E9  3DFC 318F A856 A503 14C4
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01013905872f07b85236095b45bd6782bb38398774050405a564e40b5ca7979f9ca40a",
+      "fingerprint": "1c9cac6b4c93b14033e93dfc318fa856a50314c4",
+      "host": "keybase.io",
+      "key_id": "318fa856a50314c4",
+      "kid": "01013905872f07b85236095b45bd6782bb38398774050405a564e40b5ca7979f9ca40a",
+      "uid": "558fc95b91a2956c2f588235c0f10f19",
+      "username": "limbernie"
+    },
+    "merkle_root": {
+      "ctime": 1555827529,
+      "hash_meta": "860475046ea26c45740d203a5bb39d6324a64ecb11dcc0a37536c3ea1579822a",
+      "seqno": 5213040
+    },
+    "revoke": {
+      "sig_ids": [
+        "8123296369e6e68f2ef64ad6b1c56cc96dafbc8f89f6a93b3e58448b625465a10f"
+      ]
+    },
+    "service": {
+      "hostname": "hackso.me",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1555827535,
+  "expire_in": 157680000,
+  "prev": "957c6f0166c0ecd71a784ac5c8df4ff46502dea53248a33257090692f24557c7",
+  "seqno": 21,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.0
+Comment: https://keybase.io/crypto
+
+yMK4AnicrVNraB1FGL3RJm3jK1G0MYKGrUaoIcx7Z65FjQTqj1K1Bin0luvM7Gyy
+3uTudXeT9lJufVAV8qfWBqUgllboD0nBtNSqVaghUq2WSEF8gK2iYmspLZYQ1Pr4
+NlQE8afLLrszc86Z851vZ+aaKwutTdtvEfeND91Uafp4OhstlN696sHNnomDulfc
+7FXcwssNBy7NypUo8IoewghThbj0SYh8IzmhAiluGDeB8CUxhkqqpO8zxBE8mgvm
+GDLcal/5KlRWM6S9Hi+MqoMuqSVRNQNZbGHBCsOsogYzRKlTNAgtxTLUkgvNEcXM
+MiAOxWnOAHNGp643imEOBuUFe/+B/599jy7IcS5DC3SFNVFcWBJyKQnlFoUYbpUD
+U5dU9YgD9HA0YmAQOa/R4424pDLsykkcZ3m6NotyDOYgSXxOFFSo06HyiMs0UKVA
+zAdHwmkiLOPgLyCIag6GVSAoYRqMWoNxYC3S1OdUWOo05r6ShOSOU/dENfaKnGAK
+lYGDxI3FFZdvnkaDkFvqFdd7EhNKlKBCOeGEDIkLBdOBMNhCfVaJQIfGylCqUGho
+EnVcMiaNIJwJrqFqb0Mj3ywZi+yCeN6oywEMaVtJ41747vFqSZzFNh7Op7Oslhbz
+ULJ6LcdtdKZ8WaFsomoA/wgwxlySRnEVQgLkv/KivMdzm2pR4spRjuC+kAiufB83
+BpKK+1aECAthkbOBj7UvmbbcyiBkYQjeEQmc5pCk1JQS7iOFhCIhYRyo/j8BEgw+
+9SBoQmxVnY0m0M/pI6VFhabWQkvzFfnhKbQubfv7SM1uXfznxqeXi8kHHjnR1/fy
+J51H2z67VNuyfM02fOTVjrdH7210Hb1rouP7xw/OH9pZmKJb2oKJM0vumLMD66qT
+r+3ZcZKUZ2ZXHvhob+f8L/Nv/PpK+zP6tH7r5+tv3LD98Pi5g+fMnWf7znat2tQ0
+Vz1gXrxnT/18yVxY/fptH75//E3v+XdIxw0/1MTaP27/uvHpB93x0q4vn+t76vNO
++c1Xx37cdmrFxa3xktmW08dPdC+rLXo2++2xff3H9rXfPdE5502uz15qRjdP/b67
+TTXv2Dt4MfuiXr//0TP9h8yF3p/2X1q189RA7cmBqcX9K1eP37p710Mrzr933bcP
+N2ZOltbF0/4L3117eNma9u6rW3aV/gLKvXdq
+=6RK3
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/limbernie
+
+==================================================================
+
