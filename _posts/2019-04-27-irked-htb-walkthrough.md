@@ -2,10 +2,10 @@
 layout: post
 title: "Irked: Hack The Box Walkthrough"
 date: 2019-04-27 15:14:43 +0000
-last_modified_at: 
+last_modified_at: 2019-04-27 15:25:53 +0000
 category: Walkthrough
 tags: ["Hack The Box", Irked, retired]
-comments: false
+comments: true
 image:
   feature: irked-htb-walkthrough.jpg
   credit: manfredrichter / Pixabay
