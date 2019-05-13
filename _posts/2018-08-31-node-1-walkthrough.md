@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Node: 1, a boot2root [VM][1] cre
 
 <!--more-->
 
-### Background
+## Background
 
 Node is a medium level boot2root challenge, originally created for HackTheBox. There are two flags to find (user and root flags) and multiple different technologies to play with.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -56,7 +56,7 @@ There's a **LOGIN** button at the top right-hand side; it brings us to the login
 
 I must say the design looks good.
 
-### AngularJS
+## AngularJS
 
 The client side of "MyPlace" uses AngularJS. As such, one has to look at the JavaScript files for clues on how to proceed. The go-to tool in my arsenal to do that is the Debugger from the Developer Tools.
 
@@ -80,7 +80,7 @@ Click on the **Download Backup** button to bring up a dialog box to save the pla
 
 ![25431aaa.png](/assets/images/posts/node-1-walkthrough/25431aaa.png)
 
-### File Analysis
+## File Analysis
 
 Like any good security analyst worth his salt, I'm putting on my forensics hat to examine the file in greater details.
 
@@ -112,7 +112,7 @@ Here's the code that generates the file `myplace.backup`. More on that later.
 
 ![29cce38a.png](/assets/images/posts/node-1-walkthrough/29cce38a.png)
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 The rest of the code seems pretty water-tight to me. I'm guessing the credential (`mark:5AYRft73VtFpc84k`) could also be the credential to log in through SSH. Let's give it a shot.
 
@@ -154,7 +154,7 @@ Download the reverse shell to `/tmp/rev` with `wget` and make it executable.
 
 ![77f70ca9.png](/assets/images/posts/node-1-walkthrough/77f70ca9.png)
 
-### Mongo Shell
+## Mongo Shell
 
 It's time to insert my command to run the reverse shell into the `tasks` collection.
 
@@ -168,13 +168,13 @@ Awesome. But, let's give ourselves a better looking shell with the Python pseudo
 
 ![47c1ba65.png](/assets/images/posts/node-1-walkthrough/47c1ba65.png)
 
-### User Flag
+## User Flag
 
 The user flag is at `/home/tom/user.txt`.
 
 ![5f151c33.png](/assets/images/posts/node-1-walkthrough/5f151c33.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 Remember `/usr/local/bin/backup`? It's the key to privilege escalation—it's `setuid` to `root`.
 
@@ -226,7 +226,7 @@ On our `nc` listener, a `root` shell returns!
 
 ![84aa2dca.png](/assets/images/posts/node-1-walkthrough/84aa2dca.png)
 
-### Root Flag
+## Root Flag
 
 After spawning the pseudo-TTY shell, retrieving the root flag is a piece-of-cake.
 
@@ -234,7 +234,7 @@ After spawning the pseudo-TTY shell, retrieving the root flag is a piece-of-cake
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 The VM sure has its fair share of troll traps like the one you see below.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Rotating Fortress: 1.0.1, a boot
 
 <!--more-->
 
-### Background
+## Background
 
 Zeus the admin of the server is retiring from Project: Rotating Fortress, but he doesn't want the project to die with his retirement. To find the successor to the project he has created a challenge. Will you be able to get in, rotate the fortress, escape isolation and reach `root`?
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -48,7 +48,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 `nmap` finds `80/tcp` and `27025/tcp` open; `27025/tcp` is an unknown service. In any case, let's investigate `80/tcp` first.
 
-### Flag: 1
+## Flag: 1
 
 Here's what the web service looks like as rendered in the browser.
 
@@ -66,7 +66,7 @@ Change the value of `isAdmin` to `1` and refresh the page `/Janus.php`.
 
 ![Flag: 1](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/d096b090.png)
 
-### Flag: 2
+## Flag: 2
 
 This brings us to the next stage.
 
@@ -183,7 +183,7 @@ Turns out that `edvqyhwmfvqrducqjbzumysrwdgmfdht` from Message 1 is the wheel co
 
 ![wheel_code](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/f9eda586.png)
 
-### Flag: 3
+## Flag: 3
 
 Armed with `decrypt.sh`, I went back to decipher the message at `home.html` which was actually part of `/resources/Harpocrates.gif`.
 
@@ -219,7 +219,7 @@ pfychgdpvmxpupdkmcvctggquyfmgvbt
 
 I guess I'm supposed to go to `/pfychgdpvmxpupdkmcvctggquyfmgvbt/`.
 
-### Flag: 4
+## Flag: 4
 
 WTF. Another Janus??!!
 
@@ -237,7 +237,7 @@ Awesome.
 
 ![Flag: 4](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/aab89ded.png)
 
-### Flag: 5
+## Flag: 5
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/Papa_Legba),
 
@@ -340,7 +340,7 @@ ID	Response   Lines      Word         Chars          Payload
 
 ![Flag: 5](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/4f77b8f1.png)
 
-### Knocking on Heaven's Door
+## Knocking on Heaven's Door
 
 Following the previous flag's trail, I come to this.
 
@@ -456,7 +456,7 @@ PORT      STATE SERVICE     REASON         VERSION
 
 Awesome. We have two more open ports: `1337/tcp` and `40000/tcp`.
 
-### Flag: 6
+## Flag: 6
 
 One of the newly open ports, `40000/tcp`, upon connection, displays the following message to enter all the flags collected so far.
 
@@ -498,7 +498,7 @@ Once I've the shell, it's trivial to find the sixth flag. It's at `/home/www-dat
 
 ![Flag: 6](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/a0606dc6.png)
 
-### In the Land of Zeus
+## In the Land of Zeus
 
 The message above says the password of `zeus` is `7daLI]tr09u2~ATXVfzXkd#B=TVf5XOIQMZr98yf53k<2x`.
 
@@ -510,13 +510,13 @@ I sense the end is near.
 
 Of course Zeus can do anything. He is the king of the Greek gods after all.
 
-### Capturing the Rotating Fortress
+## Capturing the Rotating Fortress
 
 ![Flag](/assets/images/posts/rotating-fortress-1.0.1-walkthrough/2ec2e93f.png)
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 I had a fun time looking up the name of the deities and supernatural beings on Wikipedia, and understanding their characteristics and the role they play in the VM.
 

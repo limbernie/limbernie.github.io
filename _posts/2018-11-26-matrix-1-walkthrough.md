@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Matrix: 1, a boot2root [VM][1] c
 
 <!--more-->
 
-### Background
+## Background
 
 This is your last chance. After this, there is no turning back. You take the blue pill - the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill - you stay in Wonderland and I show you how deep the rabbit-hole goes.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a nmap scan to establish the available services in the host.
 
@@ -49,7 +49,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp`, `80/tcp` and `31337/tcp` open. The interesting bit is that both `http` servers are Python's `SimpleHTTPServer`.
 
-### Cypher's Message
+## Cypher's Message
 
 Cypher left a message in the HTML source code of `31337/tcp`.
 
@@ -78,7 +78,7 @@ Using an online [interpreter](https://copy.sh/brainfuck/), one can easily deciph
 You can enter into matrix as guest, with password k1ll0rXX Note: Actually, I forget last two characters so I have replaced with XX try your luck and find correct string of password.
 ```
 
-### Entering the Matrix
+## Entering the Matrix
 
 From the message, it's clear that we need to brute-force our way into the Matrix. The tool of choice here is `hydra`. It's equally easy to use Python to generate a password list for `hydra`'s use.
 
@@ -113,7 +113,7 @@ Time to give it a shot.
 
 Awesome. Took less than a minute.
 
-### Bypass Restricted Shell
+## Bypass Restricted Shell
 
 I give to you a restricted shell. Damn.
 
@@ -139,7 +139,7 @@ I guess it's over.
 ![9ccb4955.png](/assets/images/posts/matrix-1-walkthrough/9ccb4955.png)
 </a>
 
-### What's the Flag?
+## What's the Flag?
 
 Getting the flag is one command away.
 

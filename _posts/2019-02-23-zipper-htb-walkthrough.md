@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Zipper, a retired vulnerable [VM
 
 <!--more-->
 
-### Background
+## Background
 
 Zipper is retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -44,7 +44,7 @@ PORT      STATE SERVICE       REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. Nothing unusual. In any case, let's enumerate the `http` service further.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 As usual, my first goto tool is `wfuzz`. The wordlist I'm using is SecLists' `quickhits.txt`.
 
@@ -175,7 +175,7 @@ The password is in `backup_script.sh`!
 
 Let's keep the password in mind. It might be useful later.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 I found the key to getting a low-privilege shell while exploring the Zabbix server. I noticed that there's a host Zipper installed with a Zabbix Agent, and one can create an item to instruct the agent to run system commands like so!
 
@@ -214,7 +214,7 @@ Perfect. `user.txt` is in `zapper`'s home directory.
 ![10518a8d.png](/assets/images/posts/zipper-htb-walkthrough/10518a8d.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `zapper`'s account, I notice a `setuid` executable at `/home/zapper/utils`.
 

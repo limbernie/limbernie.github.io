@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Blacklight: 1, a CTF-style [VM][
 
 <!--more-->
 
-### Background
+## Background
 
 There's no description for this one. In a way, it's good because you don't know what to expect, and it kinda raises the fun factor.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -82,7 +82,7 @@ That leaves me with `80/tcp` to explore.
 
 Thank you for the reassurance, Carter.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Time for some fuzzing. Let's use `gobuster` with `common.txt` from SecLists.
 
@@ -125,7 +125,7 @@ Hmm. `robots.txt` is available. Why didn't `nmap` pick this up?
 
 Oh, the `robots.txt` is a non-conforming one. Also, the file `blacklight.dict` appears to be a wordlist.
 
-### Flag: 1
+## Flag: 1
 
 The first flag is as follows.
 
@@ -133,7 +133,7 @@ The first flag is as follows.
 
 9072 is the open port found by `nmap` earlier. What's the deal about "_the secret is at home_"?
 
-### Reverse Shell
+## Reverse Shell
 
 Although I've closed the port with my silly attempts, I always create a snapshot when the VM is first online. That way, even if I do anything stupid, I can always revert the snapshot.
 
@@ -155,13 +155,13 @@ _On my `nc` listener_
 
 ![8c849020.png](/assets/images/posts/blacklight-1-walkthrough/8c849020.png)
 
-### Where's the Secret?
+## Where's the Secret?
 
 ![fab23711.png](/assets/images/posts/blacklight-1-walkthrough/fab23711.png)
 
 ![6c64c46b.png](/assets/images/posts/blacklight-1-walkthrough/6c64c46b.png)
 
-### Flag: 2
+## Flag: 2
 
 This is how `flag2-inside.jpg` looks like.
 
@@ -181,13 +181,13 @@ To retrieve flag 2, use the following commond.
 
 You thought this is the end, didn't you?
 
-### Flag: 3
+## Flag: 3
 
 ![ce99e2e6.png](/assets/images/posts/blacklight-1-walkthrough/ce99e2e6.png)
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 This VM is a little different. The story doesn't end with a `root` shell. Rather, it's a CTF. As such, the story ends when you've captured all the flags.
 

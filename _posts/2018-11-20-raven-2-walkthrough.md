@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Raven: 2, a boot2root [VM][1] cr
 
 <!--more-->
 
-### Background
+## Background
 
 Raven 2 is an intermediate level boot2root VM. There are four flags to capture. After multiple breaches, Raven Security has taken extra steps to harden their web server to prevent hackers from getting in. Can you still breach Raven?
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -52,7 +52,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. We'll put the rest of the open ports on the back burner.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's run through the host with `nikto` and see what we get.
 
@@ -118,7 +118,7 @@ http://raven.local/server-status (Status: 403)
 2018/11/19 14:41:19 Finished
 =====================================================
 ```
-### Flag: 1
+## Flag: 1
 
 The `/vendor` directory seems interesting. What is it?
 
@@ -134,7 +134,7 @@ Notice the date/time of file `PATH` is more recent compared to the rest? Let's t
 
 That's our first flag.
 
-### PHPMailer < 5.2.18 - Remote Command Execution
+## PHPMailer < 5.2.18 - Remote Command Execution
 
 Looks like the site is also using PHPMailer 5.2.16.
 
@@ -197,7 +197,7 @@ We need a better view.
 
 Now, let's see if the beloved `nc` with `-e` option is available.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 On our attacking machine, open a terminal and have `nc` listen at `1234/tcp`.
 
@@ -217,7 +217,7 @@ There you have it. A low-privilege shell.
 ![9ed3cd88.png](/assets/images/posts/raven-2-walkthrough/9ed3cd88.png)
 </a>
 
-### Flag: 2
+## Flag: 2
 
 The second flag is at the home directory of `www-data`.
 
@@ -225,7 +225,7 @@ The second flag is at the home directory of `www-data`.
 ![86325e57.png](/assets/images/posts/raven-2-walkthrough/86325e57.png)
 </a>
 
-### Flag: 3
+## Flag: 3
 
 The third flag is hidden within WordPress uploads.
 
@@ -239,7 +239,7 @@ Here's how it looks like.
 ![c515338b.png](/assets/images/posts/raven-2-walkthrough/c515338b.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `www-data`'s account, I notice that MySQL is running as `root`. But because this version of MySQL is 5.5, we can't use the popular EDB-ID [1518](https://www.exploit-db.com/exploits/1518/) user-defined function or UDF.
 
@@ -311,7 +311,7 @@ Meanwhile, at the `nc` listener &hellip;
 
 Boom.
 
-### Flag: 4
+## Flag: 4
 
 With a `root` shell, getting the final flag is trivial.
 
@@ -321,7 +321,7 @@ With a `root` shell, getting the final flag is trivial.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 Good thing I went straight for Raven: 2 first.
 

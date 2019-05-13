@@ -17,11 +17,11 @@ This post documents the complete walkthrough of BigHead, a retired vulnerable [V
 
 <!--more-->
 
-### Background
+## Background
 
 BigHead is an active vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -54,7 +54,7 @@ There's only one service and this is how the site looks like.
 ![8440d9e1.png](/assets/images/posts/bighead-htb-walkthrough/8440d9e1.png)
 </a>
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `gobuster` and `raft`'s directory list, and see what we get.
 
@@ -247,7 +247,7 @@ It has two arguments: the first one is name of the archive file, the second one 
 
 Of course, the password is `bighead`. Silly me!
 
-### Vulnerability Analysis of `BigheadWebSvr.exe`
+## Vulnerability Analysis of `BigheadWebSvr.exe`
 
 At first, I was pretty apprehended by the fact that the executable imports a number of DLLs. It turns out to be unfounded fear. It uses only the `EssentialFunc1` from `bHeadSvr.dll` and it basically prints out diagnostic messages to the standard output. A couple of step-throughs into the `main` function, I saw that the executable creates a new thread whenever it gets a new connection. The thread basically delegates handling of the incoming connection to a `ConnectionHandler` function illustrated below.
 
@@ -267,7 +267,7 @@ Step into the function and you'll notice the unsafe C function used—`strcpy`. 
 ![48ec551c.png](/assets/images/posts/bighead-htb-walkthrough/48ec551c.png)
 </a>
 
-### Exploit Development
+## Exploit Development
 
 Now that we know a buffer overflow vulnerability exists in `BigheadWebSvr.exe`, let's use Immunity Debugger and `mona.py` to assist in the development of an exploit.
 
@@ -399,7 +399,7 @@ evil.recv(1024)
 evil.close()
 ```
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 I'm guessing a variant of the vulnerable `BigheadWebSvr.exe` is behind `dev.bighead.htb`. The `nginx.conf` that comes with it confirms my hypothesis.
 
@@ -427,7 +427,7 @@ Too bad the excitement was short-lived because this isn't the `user.txt` I expec
 
 Curse you, Erlich!
 
-### BitVise SSH Server
+## BitVise SSH Server
 
 During enumeration of `nelson`'s account, I notice two interesting open ports: `2020/tcp` and `5080/tcp` that weren't available during the port scan.
 
@@ -506,7 +506,7 @@ Holy cow. It works!
 ![30a18ac9.png](/assets/images/posts/bighead-htb-walkthrough/30a18ac9.png)
 </a>
 
-### Getting to `user.txt`
+## Getting to `user.txt`
 
 I was absolutely thrilled to see `user.txt` in current working directory which seems to be `c:\xampp`.
 
@@ -538,7 +538,7 @@ Can you see the vulnerability? We can read files as long as there are two POST p
 ![4c515d00.png](/assets/images/posts/bighead-htb-walkthrough/4c515d00.png)
 </a>
 
-### Getting to `root.txt`
+## Getting to `root.txt`
 
 Armed with this knowledge, I wrote a `bash` script that allows me to fetch files and display them on the standard output, given the file path as the arguement.
 

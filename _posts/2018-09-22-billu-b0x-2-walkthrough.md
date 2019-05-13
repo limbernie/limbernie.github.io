@@ -18,11 +18,11 @@ This post documents the complete walkthrough of billu: b0x 2, a boot2root [VM][1
 
 <!--more-->
 
-### Background
+## Background
 
 Try this if you want an OSCP refresher that's not too difficult.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -68,7 +68,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 ![9cbbd925.png](/assets/images/posts/billu-b0x-2-walkthrough/9cbbd925.png)
 
-### Drupalgeddon
+## Drupalgeddon
 
 Suffice to say, the first thought that comes to my mind is Drupalgeddon. Since this is Drupal 8, I'll give EDB-ID [44448](https://www.exploit-db.com/exploits/44448/) a shot. It's a proof-of-concept code written in Python that tests for remote command execution. It writes a file and then checks for the file's existence. In any case, it's easy to rewrite it in `bash`. i.e. wrap the script around `curl` and re-purpose it to take in an argument—any shell command.
 
@@ -138,7 +138,7 @@ _On my `nc` listener_
 
 I got shell.
 
-### Privilege Escalation
+## Privilege Escalation
 
 Long story short. Once you have a low-privilege shell, there are two ways to gain `root` privileges.
 
@@ -172,7 +172,7 @@ Check out the strings in the executable. This is classic—hijacking the default
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 A good way to kill time.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Oz, a retired vulnerable [VM][1]
 
 <!--more-->
 
-### Background
+## Background
 
 Oz is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -58,7 +58,7 @@ PORT     STATE SERVICE REASON         VERSION
 ![0a107b46.png](/assets/images/posts/oz-htb-walkthrough/0a107b46.png)
 </a>
 
-### Directory / File Enumeration
+## Directory / File Enumeration
 
 Let's use `wfuzz` to check out what's next.
 
@@ -158,7 +158,7 @@ There's a mix of `200`s and `500`s responses. Among the `200`'s responses, there
 
 I see what's going on here. Basically there's an injection point at `/users`.
 
-### SQL Injection
+## SQL Injection
 
 Enter `sqlmap`. The popular open source penetration testing tool that automates the process of detecting and exploiting SQL injection flaws and taking over of database servers.
 
@@ -221,7 +221,7 @@ Let's restore the key pair with `xxd`. The RSA private key is protected with a p
 
 What's next?
 
-### John the Ripper
+## John the Ripper
 
 According to the tickets, the GBR Support application is sharing the database. As such, we still have the password hashes of the users in `users_gbw` to crack. We can use John the Ripper for the job.
 
@@ -231,7 +231,7 @@ One of the password hashes was cracked relatively quick. In this case, we don't 
 ![20253fb4.png](/assets/images/posts/oz-htb-walkthrough/20253fb4.png)
 </a>
 
-### Server-Side Template Injection
+## Server-Side Template Injection
 
 Armed with the password of `wizard.oz`, we can now log in to GBR Support.
 
@@ -319,7 +319,7 @@ And the port-knocking sequence.
 ![b1c636bf.png](/assets/images/posts/oz-htb-walkthrough/b1c636bf.png)
 </a>
 
-### Knocking on Heaven's Door
+## Knocking on Heaven's Door
 
 Now that we know the port-knocking sequence, let's write a script with `nmap` as the main driver. Bear in mind the port sequences are in UDP only. That's why `nmap` is ran with `-sU`.
 
@@ -355,7 +355,7 @@ The `user.txt` is located at `dorthi`'s home directory.
 ![5736abe3.png](/assets/images/posts/oz-htb-walkthrough/5736abe3.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `dorthi`'s account, I noticed that `dorthi` is allowed to run the following commands as `root` without password.
 

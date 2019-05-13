@@ -18,13 +18,13 @@ This post documents the complete walkthrough of RSA: 1, a boot2root [VM][1] crea
 
 <!--more-->
 
-### Background
+## Background
 
 [Somewhere](http://www.loyalty.org/~schoen/rsa/) in the Internet.
 
 > In February 2012, two groups of researchers revealed that large numbers of RSA encryption keys that are actively used on the Internet can be cracked because the random numbers used to generate these keys were not random enough.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -46,7 +46,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. Let's explore the `http` service first.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's see if we can get anything with `wfuzz`.
 
@@ -96,7 +96,7 @@ Requests/sec.: 566.4269
 
 What do we have here? A `authorized_keys`??!!
 
-### Weak RSA Keys
+## Weak RSA Keys
 
 Here's what inside `authorized_keys`.
 
@@ -215,7 +215,7 @@ We can further convert both RSA private keys to the OpenSSH format with `puttyge
 # puttygen user4.pem -o user4 -O private-openssh-new
 ```
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 _Log in to `user2`'s account_
 
@@ -229,7 +229,7 @@ _Log in to `user4`'s account_
 ![1ce528c6.png](/assets/images/posts/rsa-1-walkthrough/1ce528c6.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `user2`'s account, I notice that `root` left an encrypted SMIME message for `user2`.
 
@@ -263,7 +263,7 @@ With `root`'s password, getting the flag is trivial.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 Who knew RSA could offer so much fun?
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of DerpNStink: 1, a boot2root [VM][
 
 <!--more-->
 
-### Background
+## Background
 
 Mr. Derp and Uncle Stinky are two system administrators starting their own company, DerpNStink. Instead of hiring qualified professionals to build up their IT landscape, they decide to hack together their own system which is almost ready to go live…
 
-### Information Gathering
+## Information Gathering
 
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
@@ -48,7 +48,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 My usual game plan is to target the web service first whenever `nmap` tells me `robots.txt` exists. Let's start with that.
 
-### HTML Source Code
+## HTML Source Code
 
 I manage to capture the first flag using `curl` and some `grep`-fu on the HTML source code. Easy.
 
@@ -67,7 +67,7 @@ I manage to capture the first flag using `curl` and some `grep`-fu on the HTML s
 <--flag1(52E37291AEDF6A46D7D0BB8A6312F4F9F1AA4975C248C3F0E008CBA09D6E9166) -->
 ```
 
-### Web Notes
+## Web Notes
 
 I notice something else from the HTML source code as well—`/webnotes`
 
@@ -159,7 +159,7 @@ The information from `/webnotes` tells us the following:
 * DocumentRoot is at `/var/www/html`; and
 * User `stinky` exists.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 I'm able to find these directories with `gobuster` and `/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt`.
 
@@ -204,7 +204,7 @@ There's another hint from `/webnotes/info.txt` to do likewise.
 <-- @stinky, make sure to update your hosts file with local dns so the new derpnstink blog can be reached before it goes live -->
 ```
 
-### Slideshow Gallery < 1.4.7 Arbitrary File Upload
+## Slideshow Gallery < 1.4.7 Arbitrary File Upload
 
 I list down all the plugins installed in WordPress with `wpscan`, and I find a particular version (1.4.6) of the Slideshow Gallery plugin that has an arbitrary file upload [vulnerability](https://www.exploit-db.com/exploits/34514/).
 
@@ -265,7 +265,7 @@ I upload a simple PHP file that executes remote command, with the script.
 
 The uploaded file is at `http://derpnstink.local/weblog/wp-content/uploads/slideshow-gallery/cmd.php`.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 After the upload, the next step is to trigger a reverse shell. Whenever possible, I like to use Perl for my reverse shell; Perl is widely available in most Linux distributions.
 
@@ -287,7 +287,7 @@ Let's spawn a pseudo-TTY for better display and output control.
 
 ![screenshot-2](/assets/images/posts/derpnstink-1-walkthrough/screenshot-2.png)
 
-### Database Dump
+## Database Dump
 
 Now that I've access to a low-privilege shell, let's dump the WordPress database. I should be able to locate the database configuration parameters in the WordPress directory.
 
@@ -323,7 +323,7 @@ I manage to capture the **second flag**, and discover WordPress **password hashe
 INSERT INTO `wp_users` VALUES (1,'unclestinky','$P$BW6NTkFvboVVCHU2R9qmNai1WfHSC41','unclestinky','unclestinky@DeRPnStiNK.local','','2017-11-12 03:25:32','1510544888:$P$BQbCmzW/ICRqb1hU96nIVUFOlNMKJM1',0,'unclestinky',''),(2,'admin','$P$BgnU3VLAv.RWd3rdrkfVIuQr6mFvpd/','admin','admin@derpnstink.local','','2017-11-13 04:29:35','',0,'admin','');
 ```
 
-### John the Ripper
+## John the Ripper
 
 Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking WordPress password hashes is easy.
 
@@ -333,7 +333,7 @@ Using John the Ripper with a wordlist like "rockyou" on Kali Linux, cracking Wor
 unclestinky:wedgie57:::::
 admin:admin:::::
 ```
-### Getting to South Park
+## Getting to South Park
 
 Remember that we are still in the low-privileged shell? And since `/etc/passwd` is world-readable, let's determine the users in the host.
 
@@ -418,7 +418,7 @@ We find the resolution of the helpdesk ticket at `https://pastebin.com/RzK9WfGw`
 
 Unbeknownst to poor Mr. Derp and Uncle Stinky, this is in fact the answer to privilege escalation.
 
-### Privilege Escalation
+## Privilege Escalation
 
 Assuming that `mrderp ALL=(ALL) /home/mrderp/binaries/derpy*` is in `/etc/sudoers`, we can take the following actions to gain `root` privileges.
 
@@ -439,7 +439,7 @@ The fourth flag is at `/root/Desktop/flag.txt`.
 
 :dancer:
 
-### Flags
+## Flags
 
 All the captured flags. :smirk:
 

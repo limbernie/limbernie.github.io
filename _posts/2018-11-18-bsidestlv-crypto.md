@@ -15,7 +15,7 @@ This post documents my attempt to complete [BSidesTLV: 2018 CTF (Crypto)](https:
 
 <!--more-->
 
-### Background
+## Background
 
 The 2018 BSidesTLV CTF competition brought together over 310 teams burning the midnight oil to crack our challenges in a bout that lasted for two weeks. You can now enjoy the same pain and suffering, using this easy-to-use, condensed VM that now hosts all our challenges in an easy to digest format. The CTF has five categories:
 
@@ -29,7 +29,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 
 What follows is my humble attempt of cracking the challenges in the **Crypto** category.
 
-### T.A.R.D.I.S.
+## T.A.R.D.I.S.
 
 This is how the challenge looks like.
 
@@ -113,7 +113,7 @@ This is what you see when you provide the correct password, `8105237467`.
 
 The flag is `BSidesTLV{7456urtyifkygvjhb}`.
 
-### Crypto2
+## Crypto2
 
 This is how the challenge looks like.
 

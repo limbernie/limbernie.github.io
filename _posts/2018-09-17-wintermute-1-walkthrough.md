@@ -18,7 +18,7 @@ This post documents the complete walkthrough of WinterMute: 1, a boot2root [VM][
 
 <!--more-->
 
-### Background
+## Background
 
 A new OSCP style lab involving 2 vulnerable machines, themed after the cyberpunk classic Neuromancer - a must read for any cyber-security enthusiast. This lab makes use of pivoting and post exploitation, which I've found other OSCP prep labs seem to lack. The goal is the get root on both machines. All you need is default Kali Linux.
 
@@ -30,7 +30,7 @@ This is how my network is set up.
    (.128)          (.129)       (.128)          (.129)
 ```
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -78,7 +78,7 @@ It soon redirects to another page.
 
 ![31b731d5.png](/assets/images/posts/wintermute-1-walkthrough/31b731d5.png)
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `gobuster` to see if we can find any extra directories or files.
 
@@ -113,7 +113,7 @@ Hmm. What do we have here? `/freeside/` looks interesting.
 
 That's the image of the exterior of a Bernal sphere, a.k.a. Freeside.
 
-### ntopng
+## ntopng
 
 There's another web-related port, `3000/tcp` and **ntopng** is running behind it.
 
@@ -123,13 +123,13 @@ There's another web-related port, `3000/tcp` and **ntopng** is running behind it
 
 ![b8926b2a.png](/assets/images/posts/wintermute-1-walkthrough/b8926b2a.png)
 
-### Be On the Look Out
+## Be On the Look Out
 
 `/turing-bolo/` has something that finally looks like an attack surface.
 
 ![d108fa62.png](/assets/images/posts/wintermute-1-walkthrough/d108fa62.png)
 
-### PHP Injection
+## PHP Injection
 
 There's a Local File Inclusion (LFI) vulnerability with the `bolo` parameter in `bolo.php`, demonstrated below.
 
@@ -183,7 +183,7 @@ Copy and paste the _urlencoded_ Perl reverse shell after `cmd=`. And &hellip; a 
 
 ![3da260e0.png](/assets/images/posts/wintermute-1-walkthrough/3da260e0.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 Long story short. I notice `/bin/screen` is a symbolic link to `/bin/screen-4.5.0`, which is `setuid` to `root`. Like they always say, Google is your best friend.
 
@@ -195,11 +195,11 @@ The exploit is simple enough—run the `bash` script to get `root`. Let's DOOOO 
 
 I am root!
 
-### Proof of Purchase for Straylight
+## Proof of Purchase for Straylight
 
 ![cdc258cd.png](/assets/images/posts/wintermute-1-walkthrough/cdc258cd.png)
 
-### Next Attack: Neuromancer
+## Next Attack: Neuromancer
 
 Straylight doesn't have `nmap` to scan Neuromancer but it does have `nc` and `socat` which is good enough to do network reconnaissance and pivoting.
 
@@ -225,7 +225,7 @@ Since we are at it, we might as well forward another port in Straylight to my at
 
 I should now be able to access these ports from my attacking machine.
 
-### Struts2 Showcase Remote Command Execution
+## Struts2 Showcase Remote Command Execution
 
 ![f8f5f092.png](/assets/images/posts/wintermute-1-walkthrough/f8f5f092.png)
 
@@ -320,7 +320,7 @@ _On the `nc` listener terminal_
 
 Boom. A shell to Neuromancer!
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `ta`'s account in Neuromancer, I notice that SSH is active on `34483/tcp`. Good thing, I had set up the port forwarding rules earlier. Now, I can log in to the `ta` account with a SSH key-pair I control. This way, I get a far superior shell than the one I'm using now.
 
@@ -336,7 +336,7 @@ Now, I execute `wget` to pull the local privilege escalation exploit straight fr
 
 ![082b3226.png](/assets/images/posts/wintermute-1-walkthrough/082b3226.png)
 
-### Proof of Purchase for Neuromancer
+## Proof of Purchase for Neuromancer
 
 With a `root` shell, getting the flag on Neuromancer is trivial.
 
@@ -344,7 +344,7 @@ With a `root` shell, getting the flag on Neuromancer is trivial.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 This is definitely a OSCP-worthy VM.
 

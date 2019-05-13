@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Mischief, a retired vulnerable [
 
 <!--more-->
 
-### Background
+## Background
 
 Mischief is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -1009,7 +1009,7 @@ Log in with the credentials (`administrator:trickeryanddeceit`).
 ![b3af2bd7.png](/assets/images/posts/mischief-htb-walkthrough/b3af2bd7.png)
 </a>
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 What you see here is a remote command execution panel. Suffice to say, certain commands and paths are forbidden. Combined with shell wildcards such as asterisk `*` and question mark `?`, for zero or more characters and single character respectively, we are able to tease out the location of the file and display it in `base64` no less.
 
@@ -1051,7 +1051,7 @@ The user flag is here.
 ![b6af45dd.png](/assets/images/posts/mischief-htb-walkthrough/b6af45dd.png)
 </a>
 
-### Priviege Escalation
+## Priviege Escalation
 
 During enumeration of `loki`'s account, you'll notice that `loki` is stripped off `execute` rights with File Access Control List (ACL) for `su` and `sudo` but not the rest of the users. Look around, what other users are there?
 
@@ -1115,7 +1115,7 @@ Now, let's see if that's the `root` password.
 ![95608a01.png](/assets/images/posts/mischief-htb-walkthrough/95608a01.png)
 </a>
 
-### What's the Flag?
+## What's the Flag?
 
 The trickster is tricky indeed.
 

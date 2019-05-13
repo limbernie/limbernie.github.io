@@ -18,11 +18,11 @@ a boot2root [VM][1] created by [Cyberry][2], and hosted at [VulnHub][3]. If you 
 
 <!--more-->
 
-### Background
+## Background
 Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!
 
-### Information Gathering
+## Information Gathering
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
 ```
@@ -44,7 +44,7 @@ PORT    STATE  SERVICE REASON         VERSION
 
 `nmap` finds three open ports—`21/tcp`, `22/tcp`, and `80/tcp`. I don't know what `666/tcp` is for—the gateway to Hell? Good thing it's closed then. Among the three open ports, `80/tcp`, commonly known as the web service, is the easiest to explore because the protocol (`http`) is well-documented and is in plain text. Let's start with that.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's identify the common directories and files with `gobuster` and `common.txt` from [SecLists](https://github.com/danielmiessler/SecLists).
 
@@ -69,7 +69,7 @@ http://192.168.198.128/phpmyadmin (Status: 301)
 
 Everything looks normal execpt for `.bashrc`.
 
-### Fork Bomb :bomb:
+## Fork Bomb :bomb:
 
  Something sinister is lurking in `.bashrc`.
 
@@ -77,7 +77,7 @@ Everything looks normal execpt for `.bashrc`.
 
 A fork bomb! A fork bomb replicates itself until it depletes system resources, causing your system to "hang". In this case, using `ls` will set off the fork bomb.
 
-### HTML Comments
+## HTML Comments
 
 Another popular place to look for clues is in the HTML source code. Here, I find a couple of HTML comments that look like `base64`.
 
@@ -164,7 +164,7 @@ Flip it horizontally to decode, as in the flipping of "edocrq" to "qrcode"
 
 It decodes to `/berrypedia.html`.
 
-### Directory/File Enumeration (2)
+## Directory/File Enumeration (2)
 
 `dirbuster` reaches the same conclusion without going through the hard way. Duh?!
 
@@ -197,7 +197,7 @@ Dir found: /server-status/ - 403
 DirBuster Stopped
 ```
 
-### Login Page
+## Login Page
 
 The login page has a weakness—it leaks information about the existence of a user.
 
@@ -216,19 +216,19 @@ With this in mind, let's do a online password cracking with `hydra`.
 [80][http-post-form] host: 192.168.198.128 login: root password: password
 ```
 
-### Berrypedia Admin Panel
+## Berrypedia Admin Panel
 
 It's a shame that `password` is not the SSH password for `root`. I can log in to the admin panel, and … there's nothing interesting to see.
 
 ![panel.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-7.png)
 
-### phpMyAdmin 4.6.6
+## phpMyAdmin 4.6.6
 
 PMA is present as well, which is another way of saying the machine runs PHP.
 
 ![pma.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-2_2.png)
 
-### Berrypedia
+## Berrypedia
 
 A request for `/berrypedia.html` reveals the following page.
 
@@ -238,7 +238,7 @@ Elderberry is a hyperlink to an interesting file—`/placeho1der.jpg`.
 
 ![placeho1der.jpg](/assets/images/posts/cyberry-1-walkthrough/placeho1der.jpg)
 
-### Solving the Puzzle
+## Solving the Puzzle
 
 Here's how to reveal the puzzle:
 
@@ -263,7 +263,7 @@ The common denominator that links each person is the song "_I Hear You Knocking_
 
 Port-knocking requires sending network packets with the `SYN` flag set, to a sequence of ports in the correct order. The cover year of the song makes it a good starting point to guess the correct sequence.
 
-### Knockin' on Heaven's Door
+## Knockin' on Heaven's Door
 
 To that end, I wrote a port-knocking script using `nmap`.
 
@@ -364,7 +364,7 @@ A request for `http://192.168.198.128:61955/H` reveals something interesting.
 +[------->++<]>++.+++++++.-[-->+<]>-.[-->+<]>+++.[->+++<]>++.-.++++++++++.------.++++++++++.---------..
 ```
 
-### Brainfuck
+## Brainfuck
 
 Despite its strange looking form, what you see above is the esoteric [Brainfuck][4] language. An online [interpreter][5] deciphers it to the following.
 
@@ -392,7 +392,7 @@ OK. I have the team members' names and a password but to whom does the password 
 
 The password to both `ftp` and `ssh` is `bakeoff`. Although it's a pity that `mary` doesn't have a shell, I'm sure we'll have better luck with `ftp`.
 
-### FTP Access
+## FTP Access
 
 ![ftp.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-9.png)
 
@@ -418,7 +418,7 @@ password
 987654321
 ```
 
-### Decryption of `.reminder.enc`
+## Decryption of `.reminder.enc`
 
 It makes sense to use the passwords above to decrypt the file but I wouldn't know which cipher. To that end, I wrote this `bash` script to try all available ciphers until something clicks.
 
@@ -449,7 +449,7 @@ done
 
 It certainly looks like some sort of password.
 
-### Login Page (2)
+## Login Page (2)
 
 Recall from above the site has a login page to the Berrypedia Admin Panel? Well, this site has a login page as well.
 
@@ -461,7 +461,7 @@ Let's try this credential (`mary:dangleberry69`) and see what we get.
 
 Good, I'm in.
 
-### Secure Section
+## Secure Section
 
 In the secure section, there's a page that appears to do `nslookup` and the `host` parameter has two defined values: **google.com** and **yahoo.com**.
 
@@ -479,7 +479,7 @@ Bingo, I can run a reverse shell with `netcat`.
 
 Awesome.
 
-### Learning the `root` Dance
+## Learning the `root` Dance
 
 I spot an interesting file at `/var/www/html-secure/ub3r-s3cur3` during enumeration of the `www-data` account.
 
@@ -494,7 +494,7 @@ hydra -L members.txt -P nb-latin -f ssh://192.168.198.128
 
 The password to `nick`'s account is `custodio`.
 
-### Unstacking the `sudo` Russian Doll
+## Unstacking the `sudo` Russian Doll
 
 Here's where the crazy `sudo` Russian doll fun begins.
 
@@ -537,7 +537,7 @@ At the home directory of `chuck` there's still something interesting to look out
 
 The file `/home/chuck/.deleted/deleted` provides hints to the `root` password.
 
-### Guessing the `root` Password
+## Guessing the `root` Password
 
 Here's what we know about the `root` password.
 
@@ -607,7 +607,7 @@ One of the above has to be the `root` password. Using `hydra`, verifying the pas
 [22][ssh] host: 192.168.198.128 login: root password: chewbacabemerry
 ```
 
-### I Know the `root` Dance
+## I Know the `root` Dance
 
 ![root-dance.png](/assets/images/posts/cyberry-1-walkthrough/cyberry-18.png)
 

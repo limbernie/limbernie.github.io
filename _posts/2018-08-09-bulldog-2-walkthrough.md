@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Bulldog: 2, a boot2root [VM][1] 
 
 <!--more-->
 
-### Background
+## Background
 
 Three years have passed since Bulldog Industries suffered severe data breaches. In that time, they have recovered and re-branded as **Bulldog.social**, an up and coming social media company. Can you take on this new challenge and get `root` on their production web server?
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -162,7 +162,7 @@ Turns out that the JSON parser produces a syntax error when it's given a malform
 
 ![Response](/assets/images/posts/bulldog-2-walkthrough/3a7cfbd7.png)
 
-### Bulldog 2 - The Reckoning
+## Bulldog 2 - The Reckoning
 
 Not knowing how to proceed, I chanced upon the site's Github [respository](https://github.com/Frichetten/Bulldog-2-The-Reckoning) searching for **"Bulldog-2-The-Reckoning"** in Google.
 
@@ -184,7 +184,7 @@ router.post('/linkauthenticate', (req, res, next) => {
 });
 ```
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Armed with this knowledge, we can make use of command substitution to execute shell commands through the password field.
 
@@ -233,7 +233,7 @@ Now that we have a low-privilege shell, let's spawn a pseudo-tty with Python.
 
 ![TTY](/assets/images/posts/bulldog-2-walkthrough/985251ca.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 I found my ticket to privilege escalation during enumeration of this account.
 
@@ -243,7 +243,7 @@ Since we have write permissions to `/etc/passwd`, let's change the `root` passwo
 
 ![root](/assets/images/posts/bulldog-2-walkthrough/84537774.png)
 
-### Where's the Flag (WTF)
+## Where's the Flag (WTF)
 
 Getting the flag is trivial now that I'm `root`.
 
@@ -251,7 +251,7 @@ Getting the flag is trivial now that I'm `root`.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 Who would have thought that the MEAN stack is so cool? I certainly didn't know anything about it until I tried my hands on this VM. Kudos to Nick for creating it!
 

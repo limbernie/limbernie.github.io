@@ -18,11 +18,11 @@ This post documents the complete walkthrough of digitalworld.local: MERCY, a boo
 
 <!--more-->
 
-### Background
+## Background
 
 The author feels bittersweet about this box. On one hand, it was a box designed as a dedication to the sufferance put through by the Offensive Security team for PWK. I thought I would pay it forward by creating a vulnerable machine too. This is not meant to be a particularly difficult machine, but is meant to bring you through a good number of enumerative steps through a variety of techniques.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -82,7 +82,7 @@ From my experience, entering the manager webapp requires authentication. I'm not
 
 Tomcat is a shit-show. Time to go over to Samba.
 
-### Samba 4.3.11
+## Samba 4.3.11
 
 One can list down the services available in Samba with `smbclient` like so.
 
@@ -112,7 +112,7 @@ That was fast!
 
 Not too bad, I must say.
 
-### Open Sesame
+## Open Sesame
 
 The `.private` directory offers some important system information as follows.
 
@@ -170,7 +170,7 @@ According to EDB-ID [18660](https://www.exploit-db.com/exploits/18660/), RIPS 0.
 
 It's an LFI alright.
 
-### Tomcat Revisit
+## Tomcat Revisit
 
 We can expose the passwords in `tomcat-users.xml` by making use of the LFI vulnerability.
 
@@ -226,7 +226,7 @@ Before I forget, the proof of a low-privilege shell is at `/local.txt`.
 ![40848530.png](/assets/images/posts/digitalworld.local-mercy-walkthrough/40848530.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 I found out that I can log in to `fluffy`'s account with the password retrieved from `tomcat-users.xml`. And during enumeration, I also found out the way to escalate privilege to `root`.
 

@@ -15,7 +15,7 @@ This post documents my attempt to complete [BSidesTLV: 2018 CTF (Web)](https://w
 
 <!--more-->
 
-### Background
+## Background
 
 The 2018 BSidesTLV CTF competition brought together over 310 teams burning the midnight oil to crack our challenges in a bout that lasted for two weeks. You can now enjoy the same pain and suffering, using this easy-to-use, condensed VM that now hosts all our challenges in an easy to digest format. The CTF has five categories:
 
@@ -37,7 +37,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 
 What follows is my humble attempt of cracking the challenges in the **Web** category.
 
-### Redirect me
+## Redirect me
 
 This is how the challenge looks like.
 
@@ -71,7 +71,7 @@ You can see that it got redirected for forty times before displaying the flag.
 
 The flag is `BSidesTLV{D0ntF0rgetR3sp0ns3H34d3r}`.
 
-### IH8emacs
+## IH8emacs
 
 This is how the challenge looks like.
 
@@ -103,7 +103,7 @@ John the Ripper is able to crack the password hash effortlessly. Now, let's log 
 
 The flag is `BSidesTLV{D0ntF0rg3tB4ckupF1l3s}`.
 
-### Creative Agency
+## Creative Agency
 
 This is how the challenge looks like.
 
@@ -125,7 +125,7 @@ And yes, you need directory traversal as well.
 
 The flag is `BSidesTLV{I_Like_FlipFlops_And_I_Cannot_Lie}`.
 
-### I'm Pickle Rick!
+## I'm Pickle Rick!
 
 This is how the challenge looks like.
 
@@ -189,7 +189,7 @@ Voila, we have shell. The flag is at `/flag.txt`
 
 The flag is `BSidesTLV{IC0ntr0ll3dP1ckl3R1ck!}`.
 
-### ContactUs
+## ContactUs
 
 This is how the challenge looks like.
 
@@ -309,7 +309,7 @@ It works! Time to find the flag and capture it.
 
 The flag is `BSidesTLV{K33pY0urM4il3rFullyP4tch3D!}`.
 
-### NoSocket
+## NoSocket
 
 This is how the challenge looks like.
 
@@ -376,7 +376,7 @@ Here's a teaser animation of the script in action.
 
 The flag is `BSidesTLV{0r0n3Equ4l0n3!}`.
 
-### IAmBrute
+## IAmBrute
 
 This is how the challenge looks like.
 
@@ -463,7 +463,7 @@ Now, let's sign in to George's account.
 
 The flag is `BSidesTLV{Brut3Th3W0rld!}`.
 
-### PimpMyRide
+## PimpMyRide
 
 This is how the challenge looks like.
 
@@ -667,7 +667,7 @@ Let's check out `garage` with SerializationDumper.
 
 The flag is `BSidesTLV{I_Am_Inspector_Gadget}`.
 
-### Can you bypass the SOP?
+## Can you bypass the SOP?
 
 This is how the challenge looks like.
 
@@ -857,7 +857,7 @@ The response (flag) after decoding is as follows.
 
 The flag is `BSidesTLV{C4nY0uR3b1n3dMe?}`.
 
-### GamingStore
+## GamingStore
 
 This is how the challenge looks like.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of LazySysAdmin: 1, a boot2root [VM
 
 <!--more-->
 
-### Background
+## Background
 
 The story of a lonely and lazy sysadmin who :cry: himself to sleep.
 
-### Information Gathering
+## Information Gathering
 
 Let's start with a `nmap` scan to establish the available services in the host.
 
@@ -62,7 +62,7 @@ PORT     STATE SERVICE     REASON         VERSION
 
 I'm surprised to be honest. The host has **Samba**; it has **MySQL**. It even has **InspIRCd** beyond the usual `http` and `ssh` services.
 
-### Directory Enumeration
+## Directory Enumeration
 
 Besides the disallowed entries in `robots.txt`, I found the following directories with `dirbuster` and its largest directory wordlist.
 
@@ -87,7 +87,7 @@ _Image shows WordPress_
 
 ![WordPress](/assets/images/posts/lazysysadmin-1-walkthrough/a933d856.png)
 
-### Samba Share
+## Samba Share
 
 Using Gnome Files, I was able to mount `share$`. Here's what I did.
 
@@ -140,7 +140,7 @@ define('DB_PASSWORD', 'TogieMYSQL12345^^');
 
 The sysadmin has messed up—big time.
 
-### WordPress Admin
+## WordPress Admin
 
 Let's use `wpscan` to identify the users in WordPress.
 
@@ -161,7 +161,7 @@ I was lucky. The lazy sysadmin used `TogieMYSQL12345^^`—the database password 
 
 ![WordPress Admin](/assets/images/posts/lazysysadmin-1-walkthrough/e993d1f5.png)
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Now that I've access to WordPress as `admin`, I can edit one of the PHP files using WordPress Theme Editor to execute remote commands like so.
 
@@ -191,7 +191,7 @@ If everything went well, you should have a low-privilege shell like this.
 
 ![Low-Privilege Shell](/assets/images/posts/lazysysadmin-1-walkthrough/b1270b84.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 We know the sysadmin is lazy and has a habit of using the same password for different accounts. That's why I wasn't surprised when I manage to `su` to `togie` using `12345` as the password.
 
@@ -203,7 +203,7 @@ What's horrifying is this—`togie` is able to `sudo` as `root`!
 
 Although `togie` is using `rbash`—or restricted `bash`, it's trivial to change the shell back to `bash` with `chsh`.
 
-### I Love Me Some Random Strings
+## I Love Me Some Random Strings
 
 ![ef7f90db.png](/assets/images/posts/lazysysadmin-1-walkthrough/ef7f90db.png)
 

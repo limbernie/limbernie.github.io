@@ -17,10 +17,10 @@ This post documents the complete walkthrough of The Ether: EvilScience, a boot2r
 
 <!--more-->
 
-### Background
+## Background
 A mysterious company, _The Ether_ has proclaimed an elixir that considerably alters human welfare. The CDC has become suspicious of this group due to the nature of the product they are developing. The goal is to find out what _The Ether_ is up to.
 
-### Information Gathering
+## Information Gathering
 
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
@@ -70,7 +70,7 @@ Among the hyperlinks, two of them stand out:
 
 A hint of LFI vulnerability? Who knows?
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's fuzz the site with `dirbuster` and see what we get.
 
@@ -98,7 +98,7 @@ I notice the content of `/about.php` appears twice before the content of `/index
 
 OK. Now, I'm positive there is LFI vulnerability with the `file` parameter.
 
-### Mapping of DocumentRoot
+## Mapping of DocumentRoot
 
 I try the following common LFI attacks with no success:
 
@@ -210,7 +210,7 @@ At long last. the **DocumentRoot** is at `/var/www/html/theEther.com/public_html
 
 Sweet.
 
-### Access Log
+## Access Log
 
 Since I can't access the default `/var/log/apache2/access.log`, it's possible that the access log is elsewhere, perhaps even somewhere near.
 
@@ -227,7 +227,7 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I'm able to map out this loc
 [!] Found: http://192.168.198.130/?file=/var/www/html/theEther.com/log/access.log
 ```
 
-### LFI to Shell
+## LFI to Shell
 
 Now that I've found `access.log`, I can corrupt it by sending PHP code through `netcat`.
 
@@ -335,7 +335,7 @@ To avoid complications, it's best to `urlencode()` the above and then spawn a ps
 
 I have shell.
 
-### Privilege Escalation
+## Privilege Escalation
 
 I notice that user `evilscience` is able to `sudo` as `root`.
 
@@ -391,7 +391,7 @@ Time to test my hypothesis.
 
 :dancer:
 
-### Getting to Bikini Bottom :bikini:
+## Getting to Bikini Bottom :bikini:
 
 There's a PNG file `flag.png` in `/root` that looks like this.
 
@@ -437,7 +437,7 @@ We have decided to stop conducting these experiments due to the lack of antidote
 --Document scheduled to be shredded on October 15th after PSA.
 </pre>
 
-### Afterthought
+## Afterthought
 
 Not for the faint of heart. :broken_heart:
 

@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Ypuffy, a retired vulnerable [VM
 
 <!--more-->
 
-### Background
+## Background
 
 Ypuffy is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -79,7 +79,7 @@ Host script results:
 
 We are probably looking at a OpenBSD box. In any case, I usually go with the `http` service first but this time round, there isn't much going on there. Let's turn our attention to LDAP or `389/tcp`.
 
-### Lightweight Directory Access Protocol
+## Lightweight Directory Access Protocol
 
 From the nmap scan, we know that the domain is `hackthebox.htb` and in LDAP query language, that's represented as `dc=hackthebox,dc=htb`. We can use `ldapsearch` to search for the objects and attributes from the domain like so.
 
@@ -198,7 +198,7 @@ There's something interesting going on with `Alice`'s account.
 
 We can pass-the-hash with `sambaNTPassword`, using `smbclient`.
 
-### Samba
+## Samba
 
 <a class="image-popup">
 ![f777316f.png](/assets/images/posts/ypuffy-htb-walkthrough/f777316f.png)
@@ -216,7 +216,7 @@ I got a copy of `my_private_key.ppk`. It turns out to be `alice`'s private key i
 ![b0d3e231.png](/assets/images/posts/ypuffy-htb-walkthrough/b0d3e231.png)
 </a>
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 It's trivial to convert the key to OpenSSH's format with `puttygen`.
 
@@ -236,7 +236,7 @@ Once that's done, we can log in to `alice`'s SSH account.
 ![46da813f.png](/assets/images/posts/ypuffy-htb-walkthrough/46da813f.png)
 </a>
 
-### Private Escalation
+## Private Escalation
 
 During enumeration of `alice`'s account, I notice that `~/.ssh/authorized_keys` is missing from her home directory. How the hell did I manage to log in then?
 

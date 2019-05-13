@@ -17,11 +17,11 @@ This post documents the complete walkthrough of RedCross, a retired vulnerable [
 
 <!--more-->
 
-### Background
+## Background
 
 RedCross is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -57,7 +57,7 @@ Awesome. This must be the first attack surface. As I was casually glancing over 
 
 This seems to suggest that I should fuzz for directories.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `wfuzz` with a big directory wordlist from DirBuster.
 
@@ -179,7 +179,7 @@ Notice a different set of cookies for the `admin` vhost? Maybe a session replay 
 
 Sweet.
 
-### `chroot`'d Jail in SSH
+## `chroot`'d Jail in SSH
 
 There's a functionality in the admin panel to add users to a `chroot`'d jail in SSH.
 
@@ -211,7 +211,7 @@ Well, all is not lost. Penelope left a gift.
 
 For brevity's sake, I'll not display the source code. Suffice to say, the source code will help us in achieving privilege escalation later on.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Moving on to the Admin Panel and despite what **Network Access** sounds like, it has nothing to do with access control. It actually contains an input validation vulnerability that we can exploit for remote command execution.
 
@@ -281,7 +281,7 @@ Meanwhile at my `nc` listener, a reverse shell arrives...
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) our shell to a full TTY.
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `www-data`'s account, I realized that the web application makes use of two database technologies in its PHP code: MySQL and PostgreSQL.
 
@@ -325,7 +325,7 @@ Getting `root.txt` with a `root` shell is so damn easy.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 For completeness' sake, here's `user.txt`.
 

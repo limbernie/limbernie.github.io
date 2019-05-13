@@ -15,7 +15,7 @@ This post documents my attempt to complete [BSidesTLV: 2018 CTF (Forensics)](htt
 
 <!--more-->
 
-### Background
+## Background
 
 The 2018 BSidesTLV CTF competition brought together over 310 teams burning the midnight oil to crack our challenges in a bout that lasted for two weeks. You can now enjoy the same pain and suffering, using this easy-to-use, condensed VM that now hosts all our challenges in an easy to digest format. The CTF has five categories:
 
@@ -28,7 +28,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 
 What follows is my humble attempt of cracking the challenges in the **Forensics** category.
 
-### Shared Directory
+## Shared Directory
 
 This is how the challenge looks like.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of FourAndSix: 2.01, a boot2root [V
 
 <!--more-->
 
-### Background
+## Background
 
 Although there’s no description for this VM, except for _"to become `root` and read `/root/flag.txt`"_, the name alone is interesting. FourAndSix is the homophone for forensic—expect fun challenges ahead.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -50,7 +50,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 There’s nothing to explore except for NFS at `2049/tcp`. We’ll start with that.
 
-### Network File System
+## Network File System
 
 As usual, when it comes to NFS we’ll use `showmount` to view the NFS exports from the VM.
 
@@ -76,7 +76,7 @@ It's a 7z archive file alright, but it's password-protected.
 ![94470663.png](/assets/images/posts/fourandsix-2.01-walkthrough/94470663.png)
 </a>
 
-### John the Ripper
+## John the Ripper
 
 Let's see if **John the Ripper** can crack the password.
 
@@ -104,7 +104,7 @@ If I had to guess, I would say there's a `/home/user/.ssh/authorized_keys` and t
 ![492296c1.png](/assets/images/posts/fourandsix-2.01-walkthrough/492296c1.png)
 </a>
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Let's see if we can log in to the host with the private key.
 
@@ -156,7 +156,7 @@ Time to log in.
 
 There you have it.
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of the `user` account, I notice the account is in the `wheel` group. Essentially, this is the superuser group; `root` is also in this group.
 
@@ -174,7 +174,7 @@ What do we have here? We can run `less` as `root`? I smell "escape to shell".
 
 Enter `v` to escape to `vi`, and then `!sh` to escape to shell. It's that simple.
 
-### What's the Flag?
+## What's the Flag?
 
 Getting the flag is trivial when you have a `root` shell.
 
@@ -184,7 +184,7 @@ Getting the flag is trivial when you have a `root` shell.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 To be honest, Fred reminds me of the [FRED](https://digitalintelligence.com/products/fred/) Forensic Workstation from Digital Intelligence I used to play with years ago. It’s still nice to dabble in OpenBSD once in a while.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of wakanda: 1, a boot2root [VM][1] 
 
 <!--more-->
 
-### Background
+## Background
 
 A new Vibranium market will soon be online in the dark net. Your goal, get your hands on the root file containing the exact location of the mine.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -57,7 +57,7 @@ Let's check out the "Vibranium Market" home page.
 
 ![886afd6f.png](/assets/images/posts/wakanda-1-walkthrough/886afd6f.png)
 
-### Local File Inclusion (LFI)
+## Local File Inclusion (LFI)
 
 Let's check the HTML source as well while we are at it.
 
@@ -160,7 +160,7 @@ include($_GET['lang'].".php");
 
 The password `Niamey4Ever227!!!` at the top is most probably `mamadou`'s password.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Let's give it a shot.
 
@@ -170,7 +170,7 @@ Who uses a Python interpreter as shell? Honestly! No big deal–we can give ours
 
 ![17e61202.png](/assets/images/posts/wakanda-1-walkthrough/17e61202.png)
 
-### DevOps Trickery in `systemd`
+## DevOps Trickery in `systemd`
 
 During enumeration of `mamadou`'s account, I found the following:
 
@@ -225,7 +225,7 @@ Before we move on, here's the second flag.
 
 ![e93de75a.png](/assets/images/posts/wakanda-1-walkthrough/e93de75a.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 We know `pip` is for installing Python packages. Does that mean that we have to write our own privilege escalation package?
 
@@ -239,7 +239,7 @@ Let's do something like this.
 
  ![f340b5a8.png](/assets/images/posts/wakanda-1-walkthrough/f340b5a8.png)
 
-### What's the Flag (WTF)
+## What's the Flag (WTF)
 
 After repeating the SSH trick for `root`, getting the flag is trivial.
 
@@ -247,7 +247,7 @@ After repeating the SSH trick for `root`, getting the flag is trivial.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 But where's the Vibranium?
 

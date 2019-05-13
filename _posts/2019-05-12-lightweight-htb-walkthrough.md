@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Lightweight, a retired vulnerabl
 
 <!--more-->
 
-### Background
+## Background
 
 Lightweight is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -59,7 +59,7 @@ PORT    STATE SERVICE REASON         VERSION
 ![cb5e03fc.png](/assets/images/posts/lightweight-htb-walkthrough/cb5e03fc.png)
 </a>
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Instead of going straight for directories/files enumeration, it pays to explore the site in greater details by carefully reading the instructions.
 
@@ -79,7 +79,7 @@ Let's do that.
 ![b1f0ac36.png](/assets/images/posts/lightweight-htb-walkthrough/b1f0ac36.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `10.10.14.2`'s account, I used `ldapsearch` to enumerate the LDAP database.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Jarbas: 1, a boot2root [VM][1] c
 
 <!--more-->
 
-### Background
+## Background
 
 A tribute to a nostalgic Brazilian search engine in the end of 90’s. The aim is to get a `root` shell.
 
-### Information
+## Information
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -52,7 +52,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp`, `80/tcp`, `3306/tcp`, and `8080/tcp` open. Nothing unusual here.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `wfuzz` to determine any directories or files of interest. I use the following options.
 
@@ -86,7 +86,7 @@ Here's what `access.html` looks like.
 
 The usernames and password hashes is a clear invitation to perform offline password cracking.
 
-### Jenkins
+## Jenkins
 
 **John the Ripper** can crack the password hashes as follows.
 
@@ -111,7 +111,7 @@ I soon discover that **Jenkins** allows the execution of Groovy scripts in **Scr
 
 ![Script Console](/assets/images/posts/jarbas-1-walkthrough/7507d3e1.png)
 
-### Groovy Script
+## Groovy Script
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/Apache_Groovy),
 
@@ -157,7 +157,7 @@ We should be good to go. Let's run our `netcat` listener and execute `/tmp/rev` 
 
 We have shell.
 
-### Privilege Escalation
+## Privilege Escalation
 
 I had my hopes pinned on [CVE-2017-1000253](https://www.qualys.com/2017/09/26/linux-pie-cve-2017-1000253/cve-2017-1000253.txt) from the get-go.
 
@@ -191,7 +191,7 @@ My guess was right.
 
 ![crontab](/assets/images/posts/jarbas-1-walkthrough/2198ba7e.png)
 
-### Eyes on the Prize
+## Eyes on the Prize
 
 Getting the flag is trivial.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Pinky's Palace: v3, a boot2root 
 
 <!--more-->
 
-### Background
+## Background
 
 I wished there's a backstory to the VM—it'll make it a little more interesting. Having said that, the previous two VMs were challenging, fun, and provided plenty of learning opportunities—no backstory no big deal.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -67,7 +67,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can log in anonymously.
 
-### Passive FTP
+## Passive FTP
 
 First up, I notice active FTP is not working.
 
@@ -89,7 +89,7 @@ Fair enough. Now, let's dig deeper.
 
 No wonder active FTP is not working—the VM is unable to start outbound connections—the firewall blocks it.
 
-### Drupal 7
+## Drupal 7
 
 Next, let's focus our attention on Drupal 7. I'm sure you are aware that Drupal versions before 7.58, 8.3.9, 8.4.6 and 8.5.1 is susceptible to a remote code execution attack known as 'Drupalgeddon2'.
 
@@ -124,7 +124,7 @@ Let's run it.
 
 I get a low-privilege shell.
 
-### Low-Privilege Shell Redux
+## Low-Privilege Shell Redux
 
 I don't know about you but I like me a proper shell. Remember the firewall blocks outbound connections? Because of that, I'll have to upload a bind shell instead.
 
@@ -211,7 +211,7 @@ Sweet. I can access both instances.
 
 ![a83ee1f6.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a83ee1f6.png)
 
-### Let the Fuzzing Begin
+## Let the Fuzzing Begin
 
 It's time for a round of fuzzing to determine the directories and files for further exploration. As usual, my weapon of choice is `wfuzz` combined with quality wordlists.
 
@@ -314,7 +314,7 @@ Requests/sec.: 507.0508
 
 Boom. I got it this time.
 
-### PinkSec Control Panel
+## PinkSec Control Panel
 
 The credential is correct (`pinkadmin:AaPinkSecaAdmin4467:55849`). After logging in, I got redirected to this.
 
@@ -387,7 +387,7 @@ During the enumeration of `pinksecmanagement`'s account, I found the following:
 + `/usr/local/bin/PSMCCLI` is `setuid` to `pinky`
 + `pinkysecmanagement` group is able to read, write and execute `/usr/local/bin/PSMCCLI`
 
-### Format String Vulnerability
+## Format String Vulnerability
 
 Using `pinksecmanagement`'s account, I was able to download a copy of `/usr/local/bin/PSMCCLI` for further analysis. I soon discover `/usr/local/bin/PSMCCLI` accepts one argument and uses `printf` to print the argument without using a format string in the `argshow` function.
 
@@ -476,7 +476,7 @@ Now, we can repeat the same SSH trick shown above to get a proper shell.
 
 I've full access to `pinky`, `pinksec`, and `pinksecmanagement`. Now, it's time to be `root`.
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `pinky`'s account, this is what I found.
 
@@ -544,7 +544,7 @@ Open another `terminal` and SSH to the VM with this credential (`toor:toor`).
 
 ![1f409c38.png](/assets/images/posts/pinkys-palace-v3-walkthrough/1f409c38.png)
 
-### Eyes on the Prize
+## Eyes on the Prize
 
 Boohoo. It's over.
 
@@ -552,7 +552,7 @@ Boohoo. It's over.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 I've always been a fan of the Pinky's Palace series. This one is as good, if not better than the previous ones—the systematic approach of privilege escalation from `www-data` to `root`—all the participating '<span style="color:rgb(255,192,203);"><strong>pink</strong></span>' characters without missing a beat. And of course the challenges—fuzz to pass—format string vulnerability—writing your own kernel module. I love it all!
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of FourAndSix: 1, a boot2root [VM][
 
 <!--more-->
 
-### Background
+## Background
 
 Although there's no description for this VM, the name alone is interesting. FourAndSix is the homophone for forensic—expect fun challenges ahead.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -50,7 +50,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 There's nothing to explore except for NFS at `2049/tcp`. We'll start with that.
 
-### Network File System
+## Network File System
 
 As usual, when it comes to NFS we'll use `showmount` to view the NFS exports from the VM.
 
@@ -100,13 +100,13 @@ Wait a minute. Something's not right.
 
 We have a corrupted RSA private key and a what seems like a complete RSA public key for SSH.
 
-### RSA Private Key Recovery
+## RSA Private Key Recovery
 
 For the curious and interested, there's an academic [paper](https://hovav.net/ucsd/papers/hs09.html) on this subject matter, "Reconstructing RSA Private Keys from Random Key Bits" by Nadia Heninger and Hovav Shacham.
 
 I was thinking to myself, "It can't be this hard, right?".
 
-### Network File System Redux
+## Network File System Redux
 
 A feeling of defeat loomed upon me. I've no choice but to revisit the possibility of gaining access through NFS. As I was reading the OpenBSD [manpage](https://man.openbsd.org/exports.5) of `exports(5)`, a glimpse of hope starts to emerge.
 
@@ -118,7 +118,7 @@ What if Fred left `-alldirs` in `/etc/exports`?
 
 OMFG. This can't be true??!!
 
-### What's the Flag (WTF)
+## What's the Flag (WTF)
 
 If the goal is to capture the flag, then I'm already there.
 
@@ -132,7 +132,7 @@ If the goal is to get a `root` shell in OpenBSD, then you may want to consider t
 2. Inject your own SSH public key to `/root/.ssh/authorized_keys`. However, `root` is not permitted to log in and `PubKeyAuthentication` is also disabled. Nonetheless, we can edit the relevant options and manually reboot the VM.
 3. Crack the `bcrypt` hashes in `/etc/master.passwd`. The default cost is ten rounds. Good luck with that!
 
-### Afterthought
+## Afterthought
 
 I almost fell for the corrupted key rabbit hole. :laughing:
 

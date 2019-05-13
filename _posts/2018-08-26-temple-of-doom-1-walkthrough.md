@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Temple of Doom: 1, a boot2root [
 
 <!--more-->
 
-### Background
+## Background
 
 You know it's a high quality VM when it's from [@Pink_P4nther](https://twitter.com/@pink_p4nther)'s homie, [@katz](https://twitter.com/@0katz).
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -43,7 +43,7 @@ PORT    STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `666/tcp` open.
 
-### Node.js Deserialization Bug
+## Node.js Deserialization Bug
 
 Let's pay `666/tcp` a visit and see what we can find there.
 
@@ -112,7 +112,7 @@ Next, create `/home/nodeadmin/.ssh` and echo the SSH public key to `authorized_k
 
 Now, SSH into `nodeadmin`'s account.
 
-### Command Execution in `shadowsocks-libev`
+## Command Execution in `shadowsocks-libev`
 
 During enumeration of `nodeadmin`'s account, I notice `/usr/local/bin/ss-manager` is running as `fireman`.
 
@@ -136,7 +136,7 @@ On our `nc` listener, a reverse shell returns as `fireman`.
 
 We can repeat the same SSH trick for `fireman`.
 
-### Dangerous `tcpdump`
+## Dangerous `tcpdump`
 
 During enumeration of `fireman`'s account, I found the following.
 
@@ -162,7 +162,7 @@ After repeating the SSH trick, getting the flag is trivial.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 I wonder what's the second method for getting `root`? Could it be the exploitation of `abrt`?
 

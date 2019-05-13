@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Access, a retired vulnerable [VM
 
 <!--more-->
 
-### Background
+## Background
 
 Access is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -77,7 +77,7 @@ There's also a big file—`Access Control.zip`, in the `Engineers` directory.
 
 The archive file is password-protected and it appears to contain a Personal Storage Table (PST) file in it.
 
-### Microsoft Office
+## Microsoft Office
 
 I know there are Linux tools to read MDB and PST files but for the sake of convenience, let's use Microsoft Office to open them. I'll use Microsoft Access to read the MDB file. Here's what I found in the `auth_user` table.
 
@@ -93,7 +93,7 @@ The password `access4u@security` is the one to extract the PST file from the arc
 
 Another credential (`security:4Cc3ssC0ntr0ller`) in the bag!
 
-### Telnet
+## Telnet
 
 Let's give the credential a shot with the Telnet service.
 
@@ -109,7 +109,7 @@ The file `user.txt` is at `security`'s desktop.
 ![0c8d6cb5.png](/assets/images/posts/access-htb-walkthrough/0c8d6cb5.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 Telnet is painfully slow. Let's run a reverse shell in PowerShell. First of all, let's write a `wget` script in PowerShell. Note that this system is running Windows Server 2008. As such, only PowerShell 2.0 is available. Echo the following lines to `C:\Users\security\Downloads\wget.ps1`.
 

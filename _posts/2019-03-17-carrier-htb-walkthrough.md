@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Carrier, a retired vulnerable [V
 
 <!--more-->
 
-### Background
+## Background
 
 Carrier is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -54,7 +54,7 @@ PORT   STATE    SERVICE REASON         VERSION
 
 It's a login page with strange looking error codes.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `wfuzz` and see what we can discover.
 
@@ -106,7 +106,7 @@ What do you know! The serial number is exposed and we manage to log in with cred
 
 Holy cow!
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 While I was checking out the pages, I chanced upon the **Diagnostics** page. It allows built-in checks and this is how it looks like.
 
@@ -224,7 +224,7 @@ Neat. Saves me the effort to hunt for it in `/24` space.
 
 _A bigger problem looms._ What's next? Where do we proceed from here?
 
-### Privilege Escalation
+## Privilege Escalation
 
 Earlier on, the `doc` directory revealed the error codes. Along with it, lies the ISPs' [BGP](https://en.wikipedia.org/wiki/Border_Gateway_Protocol) peering layout of their respective autonomous systems (or AS).
 
@@ -357,7 +357,7 @@ And our prize...
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 It was hell of a ride. The creator sure knows a thing or two about containers and container networking!
 

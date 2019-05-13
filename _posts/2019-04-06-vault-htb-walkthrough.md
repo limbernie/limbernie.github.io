@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Vault, a retired vulnerable [VM]
 
 <!--more-->
 
-### Background
+## Background
 
 Vault is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -47,7 +47,7 @@ PORT   STATE SERVICE REASON         VERSION
 ![6b88c991.png](/assets/images/posts/vault-htb-walkthrough/6b88c991.png)
 </a>
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's go ahead and make a guess that everything related to Sparklays is behind the directory `/sparklays`. We'll use `wfuzz` coupled with SecLists's `quickhits.txt` and see what we can find.
 
@@ -133,7 +133,7 @@ The new page exposes a new attack surface at `/changelogo.php` as well.
 </a>
 
 
-### File Upload Bypass
+## File Upload Bypass
 
 What we are seeing here is a classic file upload attack, specifically by discovering the whitelisted file extensions. To that end, I wrote a `bash` script with `curl` as the main driver and by supplying the script with a wordlist containing a large number of file extensions, I can determine which extensions are whitelisted.
 
@@ -191,7 +191,7 @@ With that in mind, we can craft another file with the following PHP code and sav
 
 Perfect.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 We can now execute a reverse shell. I always go for a Perl reverse shell simply because it's more likely to be available than any other interpreted languages such as Python.
 
@@ -225,7 +225,7 @@ Notice that the host has many virtual network interfaces. One of them is a virtu
 ![6cb58904.png](/assets/images/posts/vault-htb-walkthrough/6cb58904.png)
 </a>
 
-### DNS + Configurator
+## DNS + Configurator
 
 Let's use the following command to scan the ports of `192.168.122.4` to see what we are up against.
 
@@ -247,7 +247,7 @@ ssh -D9999 dave@10.10.10.109 -f -N 2>/dev/null
 
 The proxy on the browser is set up to point to `socks5://127.0.0.1:9999`.
 
-### Directory/Files Redux
+## Directory/Files Redux
 
 Now that we have a new enumeration point, let's do what we always do: `wfuzz`
 

@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Curling, a retired vulnerable [V
 
 <!--more-->
 
-### Background
+## Background
 
 Curling is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -47,7 +47,7 @@ Let's start with the `http` service. This is how it looks like in a browser.
 ![8551cc0f.png](/assets/images/posts/curling-htb-walkthrough/8551cc0f.png)
 </a>
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `wfuzz` and SecLists' `quickhits.txt`, and see what we can get.
 
@@ -88,7 +88,7 @@ Now, what do we have here? Joomla!
 ![12613c27.png](/assets/images/posts/curling-htb-walkthrough/12613c27.png)
 </a>
 
-### Joomla 3.8
+## Joomla 3.8
 
 If you look at the articles posted, the first article was signed off by Floris and written by Super User. Could `floris` be the username? And, what's the password?
 
@@ -118,7 +118,7 @@ Could this be the password? There's only one way to find out.
 
 The credential is indeed (`floris:Curling2018!`) and a Super User no less.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Searching for "writing joomla article in php" in Google led me to [Sourcerer](https://www.regularlabs.com/extensions/sourcerer), a Joomla extension that allows one to write in any code, more importantly in PHP. And since I'm the Super User, installing an extension is a breeze. Go to Extensions->Manage->Install.
 
@@ -158,7 +158,7 @@ Meanwhile at my `nc` listener, a reverse shell appears...
 ![255ebd1e.png](/assets/images/posts/curling-htb-walkthrough/255ebd1e.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `www-data`'s account, I notice an interesting file `password_backup` at `/home/floris`. The `user.txt` is here but only `floris` can read it.
 

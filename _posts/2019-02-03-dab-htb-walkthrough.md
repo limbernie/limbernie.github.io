@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Dab, a retired vulnerable [VM][1
 
 <!--more-->
 
-### Background
+## Background
 
 Dab is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -78,7 +78,7 @@ This is how the image looks like. Duh!
 ![e0f85be5.png](/assets/images/posts/dab-htb-walkthrough/e0f85be5.png)
 </a>
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Time to move on to the `http` services, starting with `80/tcp`.
 
@@ -120,7 +120,7 @@ The value for the `password` cookie is `secret`. This is how the site looks like
 ![2cba17c0.png](/assets/images/posts/dab-htb-walkthrough/2cba17c0.png)
 </a>
 
-### Memcached
+## Memcached
 
 Using this page, I was able to enumerate a further local service listening at `11211/tcp`: `memcached`. It's easy. Any non-listening port will result in a respode code of `500` (INTERAL SERVER ERROR). Again, we'll use `wfuzz` for such a job. The file `ports.txt` contains integers from 1 to 65535.
 
@@ -280,7 +280,7 @@ irma:strength
 12 password hashes cracked, 483 left
 ```
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Using `hydra` to validate the credentials, you'll discover that the credential (`genevieve:Princess1`) works for both `ftp` and `ssh`.
 
@@ -294,7 +294,7 @@ There you have it. While we are here, `user.txt` is located at `genevieve`'s hom
 ![32ff2a2d.png](/assets/images/posts/dab-htb-walkthrough/32ff2a2d.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 The path to privilege escalation is not hard to find; it's the way to do it that's harder.
 
@@ -361,7 +361,7 @@ Boom. We have a `root` shell.
 ![0acf598a.png](/assets/images/posts/dab-htb-walkthrough/0acf598a.png)
 </a>
 
-### Root Dance
+## Root Dance
 
 Getting `root.txt` is trivial with a `root` shell.
 

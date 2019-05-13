@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Waldo, a retired vulnerable [VM]
 
 <!--more-->
 
-### Background
+## Background
 
 Waldo is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -52,7 +52,7 @@ Let's see what we can find with the `http` service. This is how the site looks l
 
 Colorful!
 
-### JavaScript/PHP Helpers
+## JavaScript/PHP Helpers
 
 The site allows the creation/deletion of lists with the help of a combination of JavaScript and PHP. This is obvious when you look at the JavaScript debugger.
 
@@ -90,7 +90,7 @@ Let's give it a shot and see if we can read `/etc/passwd`.
 
 Perfect.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 By making use of the helper functions, I can read most of the directories and files that I have permissions. I also found the location of the `user.txt` at `/home/nobody` but I lacked the permission to read it.
 
@@ -148,7 +148,7 @@ What if the private key also allows me to log in to `monitor`'s account locally?
 
 Holy cow!
 
-### Waldo's Land
+## Waldo's Land
 
 It's clear that `monitor` is using a restricted bash. It's easy to bypass that. We know that SSH allows command execution upon login. Let's leverage on that.
 
@@ -162,7 +162,7 @@ Now, we just need to export a proper `PATH` and we should be set.
 $ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH
 ```
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `monitor`'s account, I noticed an executable that's able to access logs that only `root` can read.
 
@@ -190,7 +190,7 @@ What do you know! We can make use of `tac` to read the `root.txt`.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 Although I found the presence of `id_rsa` and `id_rsa.pub` in `/root/.ssh`, it's a shame `root` is not allowed to SSH locally because `PermitRootLogin` is set to `no` in `/etc/ssh/sshd_config`. And to rub salt into the wound, `authorized_keys` is not present.
 

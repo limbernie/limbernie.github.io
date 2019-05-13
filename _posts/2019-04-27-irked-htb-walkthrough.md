@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Irked, a retired vulnerable [VM]
 
 <!--more-->
 
-### Background
+## Background
 
 Irked is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -69,7 +69,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 Hmm. IRC? Is this what it's about?
 
-### Remote Command Execution - UnrealIRCd 3.2.8.1
+## Remote Command Execution - UnrealIRCd 3.2.8.1
 
 So, the IRC daemon is UnrealIRCd 3.2.8.1.
 
@@ -91,7 +91,7 @@ Meanwhile at my `nc` listener...
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `ircd`'s account, I notice a `setuid` executable. Look at the timestamp on this guy.
 
@@ -115,7 +115,7 @@ Getting `user.txt` and `root.txt` should be easy with a `root` shell.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 I thought it was interesting to share an additional observation during my enumeration of `ircd`'s account. I was looking for `user.txt` and found a text file `.backup` at `/home/djmardov/Documents`.
 

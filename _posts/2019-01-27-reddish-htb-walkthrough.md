@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Reddish, a retired vulnerable [V
 
 <!--more-->
 
-### Background
+## Background
 
 Reddish is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -43,7 +43,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 Since I can't `GET`, let's try `POST`.
 
-### Node-RED
+## Node-RED
 
 <a class="image-popup">
 ![34217a09.png](/assets/images/posts/reddish-htb-walkthrough/34217a09.png)
@@ -150,7 +150,7 @@ Forward the remote ports to my attacking machine like so.
 
 Now, I can access these docker containers!
 
-### Next Container: `www`
+## Next Container: `www`
 
 <a class="image-popup">
 ![ca73aed2.png](/assets/images/posts/reddish-htb-walkthrough/ca73aed2.png)
@@ -215,7 +215,7 @@ We have shell into `www`!
 ![93b832f1.png](/assets/images/posts/reddish-htb-walkthrough/93b832f1.png)
 </a>
 
-### Next Container: `backup`
+## Next Container: `backup`
 
 We'll soon realize that `www` is another multi-homed container.
 
@@ -328,7 +328,7 @@ A minute later, you'll receive a `root` shell on `backup`.
 ![1c0006c2.png](/assets/images/posts/reddish-htb-walkthrough/1c0006c2.png)
 </a>
 
-### Flags
+## Flags
 
 The `backup` container as the name suggests, stores the data on the host. Because of that, we can `mount` the host's partitions within the container. And since we are `root` on this container, we can read any files from the `mount`ed volumes.
 

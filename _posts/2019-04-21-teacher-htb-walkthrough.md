@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Teacher, a retired vulnerable [V
 
 <!--more-->
 
-### Background
+## Background
 
 Teacher is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -38,7 +38,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `80/tcp` open. Let's go with that.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Based on my experience, it's always good to run some kind of fuzzing when faced with a lack of hints. Let's run `wfuzz` and SecList's `common.txt`, and see what we can find.
 
@@ -148,7 +148,7 @@ The credential is (`giovanni:Th4C00lTheacha#`).
 ![ca2fc9fc.png](/assets/images/posts/teacher-htb-walkthrough/ca2fc9fc.png)
 </a>
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Following the instructions from this [post](https://blog.ripstech.com/2018/moodle-remote-code-execution/), I was able to execute a reverse shell back to me.
 
@@ -178,7 +178,7 @@ There you have it, a low-privilege shell.
 
 Let's upgrade our shell with a pseudo-TTY using Python and then `stty raw -echo; fg; reset`.
 
-### Privilege Escalation
+## Privilege Escalation
 
 I'm aware that Moodle connects to a database backend to store all the good stuff. The database settings are in `config.php` at the Moodle directory.
 

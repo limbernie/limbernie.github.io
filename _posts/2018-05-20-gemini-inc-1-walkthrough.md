@@ -18,10 +18,10 @@ This post documents the complete walkthrough of Gemini Inc: 1, a boot2root [VM][
 
 <!--more-->
 
-### Background
+## Background
 **Gemini Inc** contacted you to perform a penetration testing on one of their internal servers. The server has a web application for employees to export their profile to a PDF. Identify any possible vulnerabilities with the goal of complete server compromise with `root` privilege. Provide the content of `flag.txt` located in the `root` directory as proof.
 
-### Information Gathering
+## Information Gathering
 
 Let's kick this off with a `nmap` scan to establish the available services in the host.
 
@@ -49,7 +49,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 There's no need to fuzz the site for directories and/or files because the landing page has offered an important piece of information about the web application—it's built on [Master Login System](https://github.com/ionutvmi/master-login-system).
 
-### Master Login System
+## Master Login System
 
 If you'd watched the walkthrough [video](http://www.youtube.com/watch?v=y7SdQfZfLbA) at the project page, you'd have gotten the default login credential without resorting to any brute-force attack; and it's valid too.
 
@@ -92,7 +92,7 @@ XSS'd.
 
 ![0.mvqpaa9wm5n](/assets/images/posts/gemini-inc-1-walkthrough/0.mvqpaa9wm5n.png)
 
-### Issue #3570
+## Issue #3570
 
 SSRF refers to an attack where an attacker is able to send a crafted request to trick a vulnerable web application to perform an unanticipated action.
 
@@ -132,13 +132,13 @@ There you have it—`/home/gemini1/.ssh/authorized_keys`. This is `gemini1`'s pu
 
 Awesome. We can now copy and paste the private key to our attacking machine and log in to `gemini1`'s SSH account.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 ![0.9mfp03dho49](/assets/images/posts/gemini-inc-1-walkthrough/0.9mfp03dho49.png)
 
 Not too shabby.
 
-### Privilege Escalation
+## Privilege Escalation
 
 One of my favorite privilege escalation techniques is to target files `setuid` to `root`. If there's a way to exploit such a file, we can become `root`.
 
@@ -209,7 +209,7 @@ The pesky output from `listinfo` is still there. Let's do what I always do: gene
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 I learned a great deal about SSRF from this VM.
 

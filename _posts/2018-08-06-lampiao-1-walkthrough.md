@@ -18,11 +18,11 @@ This post documents the complete walkthrough of Lampião: 1, a boot2root [VM][1]
 
 <!--more-->
 
-### Background
+## Background
 
 "Captain" Virgulino Ferreira da Silva, better known as **Lampião**, was the most famous bandit leader of the Cangaço. The aim is to get `root`.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -68,7 +68,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 "Fi duma égua" is a not-so-elegant word for referring to someone. I leave it for the curious reader to find out what it means. :laughing:
 
-### Drupal
+## Drupal
 
 Another service worth exploring is Drupal, which runs behind `1898/tcp`. Here's how it looks like.
 
@@ -84,7 +84,7 @@ Let's use `cewl` to generate a wordlist from the post "**Lampião, herói ou vil
 835 cewl.txt
 ```
 
-### Hail Hydra
+## Hail Hydra
 
 Notice the two usernames below: `tiago` and `eder`.
 
@@ -103,13 +103,13 @@ Let's put them into a username list and go with `hydra` and the generated wordli
 
 Lucky indeed.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Not too shabby.
 
 ![shell](/assets/images/posts/lampiao-1-walkthrough/bd92b620.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 Let's perform some basic enumeration to determine what we're dealing with.
 
@@ -152,7 +152,7 @@ $ ./dcow -s
 
 Boom.
 
-### What's the Flag (WTF)?
+## What's the Flag (WTF)?
 
 ![Flag](/assets/images/posts/lampiao-1-walkthrough/caa45484.png)
 
@@ -162,7 +162,7 @@ I wonder what's the significance of `lampiao.jpg` to the flag. Here's what `lamp
 
 ![Lampião](/assets/images/posts/lampiao-1-walkthrough/lampiao.jpg)
 
-### Afterthought
+## Afterthought
 
 The VM isn't hard. Don't think too deep, too far. Don't go down the rabbit hole. Tiago (the creator of this VM) laid down a bunch of teasers that may steer you off course.
 

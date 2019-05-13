@@ -17,7 +17,7 @@ This post documents the complete walkthrough of Depth: 1, a boot2root [VM][1] cr
 
 <!--more-->
 
-### Background
+## Background
 
 In Dan's own words:
 
@@ -25,7 +25,7 @@ In Dan's own words:
 
 >I was still able to leverage the command injection to compromise not just the server, but the entire infrastructure it was running on. After the dust settled, the critical report was made, and the vulnerability was closed, I thought the entire attack path was kind of fun, and decided to share how I went about it. Since I enjoy being a free man and only occasionally visit prisons, I've created a simple boot2root style VM that has a similar set of vulnerabilities to use in a walkthrough.
 
-### Information Gathering
+## Information Gathering
 
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
@@ -43,7 +43,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 One open port? Well, I guess I've to brute-force my way to an attack surface.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's start with directory/file enumeration, using `wfuzz` and its associated wordlists.
 
@@ -72,7 +72,7 @@ Requests/sec.: 365.5435
 
 We find `/test.jsp`. It may be interesting.
 
-### File Listing Checker
+## File Listing Checker
 
 This is what I see when I navigate to `http://192.168.100.4:8080/test.jsp` with my browser.
 
@@ -204,7 +204,7 @@ LOGLEVEL=low
 
 This explains why there's one open port from the earlier `nmap` scan. SSH is probably blocked by the firewall.
 
-### The Key to a Man's Heart Is Through His Stomach
+## The Key to a Man's Heart Is Through His Stomach
 
 With `cat.sh`, combined with the directory listing from `test.jsp`, I'm able to discover and extract `tomcat8`'s SSH key pair from its home directory.
 
@@ -212,7 +212,7 @@ With `cat.sh`, combined with the directory listing from `test.jsp`, I'm able to 
 
 I take an educated guess, put two and two together, and gather that `tomcat8` probably has its public key listed in `/home/bill/.ssh/authorized_keys`. If that's the case, I should be able to log in to `bill`'s account via SSH in **localhost**. Well, let's find out and as Yoda put it, "**Do or do not. There's no try.**"
 
-### Kill Bill: Vol. 1
+## Kill Bill: Vol. 1
 
 I know one can execute a command upon login via SSH. But first, let's see if I can log in as `bill` with `tomcat8`'s private key.
 
@@ -260,7 +260,7 @@ curl -s $_HOST:$_PORT/$_TEST?$_PATH=${CMD//XXX/%60} \
 | base64 -d
 ```
 
-### Kill Bill: Vol. 2
+## Kill Bill: Vol. 2
 
 Let's give it a spin.
 
@@ -287,7 +287,7 @@ From my attacking machine, I can now login as `bill` and `sudo` as `root`.
 
 :dancer:
 
-### Where Is the Flag?
+## Where Is the Flag?
 
 ![screenshot-8](/assets/images/posts/depth-1-walkthrough/screenshot-8.png)
 

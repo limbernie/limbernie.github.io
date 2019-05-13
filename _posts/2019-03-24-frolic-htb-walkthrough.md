@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Frolic, a retired vulnerable [VM
 
 <!--more-->
 
-### Background
+## Background
 
 Frolic is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `nmap` scan to establish the available services in the host.
 
@@ -96,7 +96,7 @@ _`9999/tcp`_
 ![9aa5e98e.png](/assets/images/posts/frolic-htb-walkthrough/9aa5e98e.png)
 </a>
 
-### Directory/Files Enumeration
+## Directory/Files Enumeration
 
 Let's use `wfuzz` like I normally do with `9999/tcp` first.
 
@@ -213,7 +213,7 @@ The directory `/dev/backup` provides a hint to a new directory: `/playsms`. Here
 ![688bc7ed.png](/assets/images/posts/frolic-htb-walkthrough/688bc7ed.png)
 </a>
 
-### playSMS Remote Code Execution
+## playSMS Remote Code Execution
 
 An attack surface finally emerges! The credential to log in to the web application is (`admin:idkwhatispass`)
 
@@ -229,7 +229,7 @@ I'm assuming this is the vulnerable version which is susceptible to remote code 
 
 In equally lame situation, the exploit works and we have ourselves an interactive shell.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 Let's upgrade the interactive shell to a full TTY shell.
 
@@ -248,7 +248,7 @@ The `user.txt` is in `ayush`'s home directory.
 ![249d3546.png](/assets/images/posts/frolic-htb-walkthrough/249d3546.png)
 </a>
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `www-data`'s account, I noticed a `setuid` executable at `/home/ayush/.binary/rop`.
 

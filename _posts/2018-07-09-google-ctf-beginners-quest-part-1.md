@@ -15,7 +15,7 @@ This post documents Part 1 of my attempt to complete [Google CTF: Beginners Ques
 
 <!--more-->
 
-### Background
+## Background
 
 Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) not too long ago. I didn't take part, so I thought of giving a go at the Beginners Quest first. I was thinking to myself, "_how hard could this be?_"—boy was I wrong. It's not that easy.
 
@@ -38,7 +38,7 @@ Click or tap on the circles above to go to the respective challenge and its writ
 
 _A special shoutout to [ktbonefish](https://www.reddit.com/u/ktbonefish), [tsuro\_](https://www.reddit.com/u/tsuro_) and [Pharisaeus](https://www.reddit.com/u/Pharisaeus). They gave constructive comment and feedback that helped to improve the quality of this write-up._
 
-### Letter
+## Letter
 
 Let's start with the first challenge—Letter. The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/5a0fad5699f75dee39434cc26587411b948e0574a545ef4157e5bf4700e9d62a).
 
@@ -64,7 +64,7 @@ The challenge is to read the password. That's trivial. Select the password field
 
 The flag is `CTF{ICanReadDis}`.
 
-### Floppy
+## Floppy
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/4e69382f661878c7da8f8b6b8bf73a20acd6f04ec253020100dfedbd5083bb39).
 
@@ -116,7 +116,7 @@ In case of emergency, run www.com
 ```
 The flag is `CTF{qeY80sU6Ktko8BJW}`.
 
-### Floppy 2
+## Floppy 2
 
 There's no attachment in this challenge. The challenge is basically an exercise in compiling [DOSBox](https://www.dosbox.com/) debugger and debugging a 16-bit DOS application, for those old enough to recognize the ".com" extension in `www.com`.
 
@@ -154,7 +154,7 @@ As you can see in the image below, the flag is in display. `int 21` accesses the
 
 The flag is `CTF{g00do1dDOS-FTW}`.
 
-### Moar
+## Moar
 
 There's no attachment in this challenge. Instead, there's a hint to connect to `moar.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -176,7 +176,7 @@ The flag is in `/home/moar/disable_dmz.sh`.
 
 The flag is `CTF{SOmething-CATastr0phic}`.
 
-### Admin UI
+## Admin UI
 
 There's no attachment in this challenge. Instead, there's a hint to connect to `mngmnt-iface.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -200,7 +200,7 @@ If I had to guess, I would say the flag is at `/home/user`.
 
 The flag is `CTF{I_luv_buggy_sOFtware}`.
 
-### Admin UI 2
+## Admin UI 2
 
 There's no attachment in this challenge. Instead, we are to continue from the previous challenge.
 
@@ -293,7 +293,7 @@ CTF{Two_PasSworDz_Better_th4n_1_k?}
 
 The flag is `CTF{Two_PasSworDz_Better_th4n_1_k?}`.
 
-### OCR is Cool
+## OCR is Cool
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/7ad5a7d71a7ac5f5056bb95dd326603e77a38f25a76a1fb7f7e6461e7d27b6a3).
 
@@ -343,7 +343,7 @@ CTF{caesarcipherisasubstitutioncipher}
 
 The flag is `CTF{caesarcipherisasubstitutioncipher}`.
 
-### Security by Obscurity
+## Security by Obscurity
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/2cdc6654fb2f8158cd976d8ffac28218b15d052b5c2853232e4c1bafcb632383).
 
@@ -393,7 +393,7 @@ CTF{CompressionIsNotEncryption}
 
 The flag is `CTF{CompressionIsNotEncryption}`.
 
-### JS Safe
+## JS Safe
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/7a50da3856dc766fc167a3a9395e86bdcecabefc1f67c53f0b5d4a660f17cd50).
 

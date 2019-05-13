@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] 
 
 <!--more-->
 
-### Background
+## Background
 Bulldog Industries has its website defaced and gets owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :smile:
 
-### Information Gathering
+## Information Gathering
 
 Let's kick this off with a `nmap` scan to establish the services available in the host.
 
@@ -50,7 +50,7 @@ Let's explore the web service first. This is how the site looks like in my brows
 
 There's no clue in the HTML source of the landing page as well as its internal link, on how to proceed.
 
-### Directory/File Enumeration
+## Directory/File Enumeration
 
 Let's use `gobuster` with `common.txt` from [SecLists][4] to look for directories and/or files.
 
@@ -74,7 +74,7 @@ http://192.168.36.3/robots.txt (Status: 200)
 
 The `robots.txt` probably doesn't conform to specifications or it'll appear in the `nmap` scan. Now, I've two more directories—`admin` and `dev` to explore.
 
-### Under Development
+## Under Development
 
 This page `/dev` contains interesting information. There's a link to `/dev/shell`, I suppose, a web shell. Under the hood of the HTML source, there are SHA1 password-hashes of members from the development team.
 
@@ -93,7 +93,7 @@ Thank goodness authentication is a must, to use the web shell.
 
 ![screenshot-3](/assets/images/posts/bulldog-1-walkthrough/screenshot-3.png)
 
-### Django Site Administration
+## Django Site Administration
 
 Let's use one of the credentials (`nick:bulldog`) and see if we can authenticate with the server to use the web shell.
 
@@ -107,7 +107,7 @@ I have a session with the site. Now, are we able to use the web shell by going t
 
 Sweet. The web shell appears to restrict itself to certain commands.
 
-### Command Substitution
+## Command Substitution
 
 One of my favorite features in `bash` is [command substitution][5] using backtick (`).
 
@@ -115,7 +115,7 @@ One of my favorite features in `bash` is [command substitution][5] using backtic
 
 ![screenshot-7](/assets/images/posts/bulldog-1-walkthrough/screenshot-7.png)
 
-### Low Privilege Shell
+## Low Privilege Shell
 
 Let's transfer (using `wget`) a single-stage reverse shell payload and then run a reverse shell back. I can do that with `msfvenom` and Metasploit multi-handler.
 
@@ -133,7 +133,7 @@ Although a low-privilege shell appears, let's spawn a pseudo-TTY for better outp
 
 ![screenshot-11](/assets/images/posts/bulldog-1-walkthrough/screenshot-11.png)
 
-### Privilege Escalation
+## Privilege Escalation
 
 I find two users—`django` and `bulldogadmin`, during enumeration. They can `sudo` as `root`. It's a pity I don't have their passwords.
 
@@ -153,7 +153,7 @@ Notice `.hiddenadmindirectory` in the home directory of `bulldogadmin`?
 
 Seems like reverse engineering the ELF binary is my ticket to `root`.
 
-### What the ELF?
+## What the ELF?
 
 The first thing to do in reverse engineering is to look for interesting strings and that's what I did.
 
@@ -180,7 +180,7 @@ It's done.
 
 :dancer:
 
-### Afterthought
+## Afterthought
 
 If I had to guess, I would say the other way to get root is perhaps through the Dirty CoW exploit as hinted in the notice page.
 
