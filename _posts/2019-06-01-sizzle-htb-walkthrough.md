@@ -2,7 +2,7 @@
 layout: post
 title: "Sizzle: Hack The Box Walkthrough"
 date: 2019-06-01 16:38:28 +0000
-last_modified_at: 2019-06-01 16:39:25 +0000
+last_modified_at: 2019-06-02 21:27:58 +0000
 category: Walkthrough
 tags: ["Hack The Box", Sizzle, retired]
 comments: true
@@ -187,7 +187,7 @@ Host script results:
 |_  start_date: 2019-03-08 19:23:58
 ```
 
-Wow. Again, too much information. Let's check out the file shares. But before we do that, notice that [WS-Management and PowerShell remoting](https://blogs.msdn.microsoft.com/wmi/2009/07/22/new-default-ports-for-ws-management-and-powershell-remoting/) is available at `5985/tcp` and `5986/tcp`for connections over HTTP and HTTPS respectively. Let's keep that in mind and make a mental note.
+Wow. Again, too much information. Let's check out the file shares. But before we do that, notice that [WS-Management and PowerShell remoting](https://blogs.msdn.microsoft.com/wmi/2009/07/22/new-default-ports-for-ws-management-and-powershell-remoting/) is available at `5985/tcp` and `5986/tcp` for connections over HTTP and HTTPS respectively. Let's keep that in mind and make a mental note.
 
 ## Common Internet File System
 
