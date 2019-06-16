@@ -2,7 +2,7 @@
 layout: post
 title: "FluJab: Hack The Box Walkthrough"
 date: 2019-06-16 04:17:44 +0000
-last_modified_at: 2019-06-16 04:17:51 +0000
+last_modified_at: 2019-06-16 22:38:13 +0000
 category: Walkthrough
 tags: ["Hack The Box", FluJab, retired]
 comments: true
@@ -146,7 +146,7 @@ Save the above into `hosts.txt`. Pop these hostnames into `/etc/hosts` and we sh
 
 ## Free Flu Jab. Why Not?
 
-Long story short, the only site that yields any kind of sensible result is https://freeflujab.htb. The rest of the sites are there for a purpose—to keep you within the the scope of the penetration testing engagement, if you are into that sort of thing. The name of the box already suggests that.
+Long story short, the only site that yields any kind of sensible result is https://freeflujab.htb. The rest of the sites are there for a purpose—to keep you within the scope of the penetration testing engagement, if you are into that sort of thing. The name of the box already suggests that.
 
 The site is influenced by three cookies: `Modus`, `Patient` and `Registered`.
 
