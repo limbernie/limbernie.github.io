@@ -112,19 +112,19 @@ Interesting. I don't see the usual `http` service. However, we do have SMB. Let'
 
 ## Server Message Block
 
-Let's list the file shares, if any, like so.
+Let's list the file shares, if any, using `smbclient`.
 
 <a class="image-popup">
 ![e2d713e8.png](/assets/images/posts/querier-htb-walkthrough/e2d713e8.png)
 </a>
 
-Sweet. Looks like there's one share, Reports.
+Sweet. Looks like there's one share, `Reports`.
 
 <a class="image-popup">
 ![0e36f17d.png](/assets/images/posts/querier-htb-walkthrough/0e36f17d.png)
 </a>
 
-And, there's a file in it. Let's grab it.
+And, there's a file in it. Let's grab that.
 
 ## Visual Basic for Applications
 
@@ -138,7 +138,7 @@ Database credentials!
 
 ## Tabular Data Stream
 
-Microsoft and Sybase uses Tabular Data Stream (TDS) as the underlying protocol for data transfer between a database server and a client. We can use `sqsh` in Kali Linux to remotely connect to Microsoft SQL Server.
+Microsoft and Sybase uses Tabular Data Stream (TDS) as the underlying protocol for data transfer between a client and a database server. We can use `sqsh` in Kali Linux to remotely connect to Microsoft SQL Server.
 
 First, we define a SQL server by creating `~/.freetds.conf` as follows.
 
@@ -171,9 +171,9 @@ Awesome.
 
 ## Undocumented Stored Procedure - `xp_dirtree`
 
-Now that we have access to a MSSQL shell, so to speak, we can execute `xp_dirtree` to exfiltrate NTLM hashes. But first, we need to set up a fake SMB server.
+Now that we have access to a MSSQL shell so to speak, we can execute `xp_dirtree` to exfiltrate NTLM hashes. But first, we need to set up a fake SMB server.
 
-Impacket provides an excellent SMB server right off the box. Let's run that like so.
+Impacket provides an excellent SMB server right off the box. Let's run that.
 
 ```
 # impacket-smbserver deep /root/Downloads/querier -smb2support
@@ -198,7 +198,7 @@ ost script results:
 |_  start_date: N/A
 ```
 
-Execute `xp_dirtree` like so.
+Execute `xp_dirtree`.
 
 <a class="image-popup">
 ![499f86f6.png](/assets/images/posts/querier-htb-walkthrough/499f86f6.png)
@@ -270,7 +270,7 @@ During enumeration of `mssql-svc`'s account, I notice that it's in the `NT AUTHO
 ![e2f6f709.png](/assets/images/posts/querier-htb-walkthrough/e2f6f709.png)
 </a>
 
-In other words, the operating system enabled "Log on as a service" in the local security policy and `mssql-svc` is service account as the name suggests. Makes sense...
+In other words, the operating system enabled "Log on as a service" in the local security policy and `mssql-svc` is service account as the name suggests. Makes sense.
 
 This gave me an idea to enumerate for weak services. Since I can use PowerShell, let's transfer [accesschk.exe](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk) from SysInternals to the box. This nifty tool will aid us in the enumeration. I'll be looking for services where `NT AUTHORITY\SERVICE` group has write access.
 
@@ -284,7 +284,7 @@ What a pleasant surprise. `mssql-svc` has all access! Let's check out the servic
 ![497e1c83.png](/assets/images/posts/querier-htb-walkthrough/497e1c83.png)
 </a>
 
-Notice that the service is executed with the `NT AUTHORITY\System` account? This is getting interesting. Suppose we change the service path to `nc.exe` previously uploaded and use it to run another reverse shell back to me. I get a `root` shell with privileges ranked higher than that of `Administrator`. How cool is that?
+Notice that the service is executed with the `NT AUTHORITY\System` account? This is getting interesting. Suppose we change the service path to `nc.exe` previously uploaded and use it to run another reverse shell back to me. I get a `root` shell with privileges higher than that of `Administrator`. How cool is that?
 
 Again, we'll use `sc` to modify the service path and to verify the result of our action.
 
