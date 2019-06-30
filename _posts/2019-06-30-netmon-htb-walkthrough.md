@@ -2,7 +2,7 @@
 layout: post
 title: "Netmon: Hack The Box Walkthrough"
 date: 2019-06-30 05:27:39 +0000
-last_modified_at: 2019-06-30 05:45:29 +0000
+last_modified_at: 2019-06-30 05:51:06 +0000
 category: Walkthrough
 tags: ["Hack The Box", Netmon, retired]
 comments: false
@@ -19,7 +19,7 @@ This post documents the complete walkthrough of Netmon, a retired vulnerable [VM
 
 ### Background
 
-Netmon is an active vulnerable VM from Hack The Box.
+Netmon is a retired vulnerable VM from Hack The Box.
 
 ### Information Gathering
 
