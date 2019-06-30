@@ -2,7 +2,7 @@
 layout: post
 title: "Netmon: Hack The Box Walkthrough"
 date: 2019-06-30 05:27:39 +0000
-last_modified_at: 2019-06-30 05:51:06 +0000
+last_modified_at: 2019-06-30 07:56:06 +0000
 category: Walkthrough
 tags: ["Hack The Box", Netmon, retired]
 comments: true
@@ -132,7 +132,7 @@ Moving on to the `http` service, this is how it looks like.
 ![542fe300.png](/assets/images/posts/netmon-htb-walkthrough/542fe300.png)
 </a>
 
-In conjuntion with the official security [advisory](https://www.paessler.com/about-prtg-17-4-35-through-18-1-37) and the [location](https://kb.paessler.com/en/topic/463-how-and-where-does-prtg-store-its-data) of the various configuration files, I was able to uncover a plaintext password from the file below.
+In conjunction with the official security [advisory](https://www.paessler.com/about-prtg-17-4-35-through-18-1-37) and the [location](https://kb.paessler.com/en/topic/463-how-and-where-does-prtg-store-its-data) of the various configuration files, I was able to uncover a plaintext password from the file below.
 
 <a class="image-popup">
 ![adca4be4.png](/assets/images/posts/netmon-htb-walkthrough/adca4be4.png)
@@ -144,7 +144,7 @@ Here's the plaintext password.
 ![56c19c7a.png](/assets/images/posts/netmon-htb-walkthrough/56c19c7a.png)
 </a>
 
-And since this is a backup and knowing many administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
+And since this is a backup and knowing administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
 
 <a class="image-popup">
 ![3214f2a7.png](/assets/images/posts/netmon-htb-walkthrough/3214f2a7.png)
