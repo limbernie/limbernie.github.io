@@ -2,7 +2,7 @@
 layout: post
 title: "Netmon: Hack The Box Walkthrough"
 date: 2019-06-30 05:27:39 +0000
-last_modified_at: 2019-06-30 05:37:10 +0000
+last_modified_at: 2019-06-30 05:41:08 +0000
 category: Walkthrough
 tags: ["Hack The Box", Netmon, retired]
 comments: false
@@ -144,7 +144,7 @@ Here's the plaintext password.
 ![56c19c7a.png](/assets/images/posts/netmon-htb-walkthrough/56c19c7a.png)
 </a>
 
-And since, this is a backup and knowing many administrators simply increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
+And since this is a backup and knowing administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
 
 <a class="image-popup">
 ![3214f2a7.png](/assets/images/posts/netmon-htb-walkthrough/3214f2a7.png)
