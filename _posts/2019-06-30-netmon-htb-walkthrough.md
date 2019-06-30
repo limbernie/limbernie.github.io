@@ -188,8 +188,6 @@ Getting `root.txt` is trivial when you have `SYSTEM` privileges.
 
 :dancer:
 
-:dancer:
-
 [1]: https://www.hackthebox.eu/home/machines/profile/177
 [2]: https://www.hackthebox.eu/home/users/profile/2984
 [3]: https://www.hackthebox.eu/
