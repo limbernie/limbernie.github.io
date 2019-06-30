@@ -5,7 +5,7 @@ date: 2019-06-30 05:27:39 +0000
 last_modified_at: 2019-06-30 05:51:06 +0000
 category: Walkthrough
 tags: ["Hack The Box", Netmon, retired]
-comments: false
+comments: true
 image:
   feature: netmon-htb-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
