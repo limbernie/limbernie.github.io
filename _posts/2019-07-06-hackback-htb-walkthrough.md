@@ -2,7 +2,7 @@
 layout: post
 title: "Hackback: Hack The Box Walkthrough"
 date: 2019-07-06 16:22:48 +00000
-last_modified_at: 2019-07-06 16:29:03 +0000
+last_modified_at: 2019-07-08 11:45:05 +0000
 category: Walkthrough
 tags: ["Hack The Box", Hackback, retired]
 comments: true
@@ -416,7 +416,8 @@ curl -i -b "PHPSESSID=$SESS" "$URL?action=show&site=hackthebox&password=$PW&sess
 
 where,
 
-+ `URL` is `../2bb6916122f1da34dcd916421e531578/webadmin.php`
++ `URL` is
+`../2bb6...1578/webadmin.php`
 + `PW` is `12345678`
 + `SESS` is the SHA256 digest of my IP address
 
