@@ -2,7 +2,7 @@
 layout: post
 title: "Fortune: Hack The Box Walkthrough"
 date: 2019-08-03 16:15:20 +0000
-last_modified_at: 2019-08-03 16:16:41 +0000
+last_modified_at: 2019-08-03 16:35:07 +0000
 category: Walkthrough
 tags: ["Hack The Box", Fortune, retired]
 comments: true
@@ -138,7 +138,7 @@ I made the initial mistake of thinking that I could insert my own public key (th
 ![4e739432.png](/assets/images/posts/fortune-htb-walkthrough/4e739432.png)
 </a>
 
-See? `appsrv` can select, insert and update on `authpf`. Well, for consolation, `bob` can view the table authorized_keys without password. At least, I can tell if the generated public key and my IP address got inserted into the table or not.
+See? `appsrv` can select, insert and update on `authpf`. Well, for consolation, `bob` can view the table `authorized_keys` without password. At least, I can tell if the generated public key and my IP address got inserted into the table or not.
 
 ...
 
@@ -189,7 +189,7 @@ Time to generate SSH key-pair for `nfsuser`.
 ![b8a3c8b5.png](/assets/images/posts/fortune-htb-walkthrough/b8a3c8b5.png)
 </a>
 
-Copy-n-paste the key-pair to nfsuser and nfuser.pub respectively and SSH-in to open the gateway.
+Copy-and-paste the key-pair to `nfsuser` and `nfuser.pub` respectively and SSH-in to open the gateway.
 
 <a class="image-popup">
 ![839a855b.png](/assets/images/posts/fortune-htb-walkthrough/839a855b.png)
