@@ -2,7 +2,7 @@
 layout: post
 title: "Arkham: Hack The Box Walkthrough"
 date: 2019-08-11 02:22:38 +0000
-last_modified_at: 2019-08-11 02:22:55 +0000
+last_modified_at: 2019-08-11 18:26:58 +0000
 category: Walkthrough
 tags: ["Hack The Box", Arkham, retired]
 comments: true
@@ -72,7 +72,7 @@ Nothing extraordinary.
 And since SMB is available, let's use `smbmap` to see what we can find.
 
 ```
-# smbmap -H 10.10.10.103 -u alfred -R | tee smbmap.txt
+# smbmap -H 10.10.10.130 -u guest -R | tee smbmap.txt
 [+] Finding open SMB ports....                                                                                                                                              [0/1821]
 [+] Guest SMB session established on 10.10.10.130...
 [+] IP: 10.10.10.130:445        Name: 10.10.10.130
@@ -87,7 +87,7 @@ And since SMB is available, let's use `smbmap` to see what we can find.
         C$                                                      NO ACCESS
 ```
 
-Hmm. The Bat is sharing something in BatSHare. Let's mount the share and copy it to my attacking machine for further analysis.
+Hmm. The Bat is sharing something in BatShare. Let's mount the share and copy it to my attacking machine for further analysis.
 
 ```
 # mount -t cifs -o rw,username=guest,uid=0,gid=0 //10.10.10.130/BatShare bs
