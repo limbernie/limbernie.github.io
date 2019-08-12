@@ -2,7 +2,7 @@
 layout: post
 title: "Arkham: Hack The Box Walkthrough"
 date: 2019-08-11 02:22:38 +0000
-last_modified_at: 2019-08-11 18:26:58 +0000
+last_modified_at: 2019-08-12 04:38:04 +0000
 category: Walkthrough
 tags: ["Hack The Box", Arkham, retired]
 comments: true
@@ -130,9 +130,9 @@ backup.img: LUKS encrypted file, ver 1 [aes, xts-plain64, sha256] UUID: d931ebb1
 
 Holy cow! A Linux encrypted disk image.
 
-The fine folks at hashcat has enabled LUKS support according to this forum [post](https://hashcat.net/forum/thread-6225.html).
+The fine folks at **hashcat** has enabled LUKS support according to this forum [post](https://hashcat.net/forum/thread-6225.html).
 
-All we have to do is to extract the header and send it to hashcat for cracking.
+All we have to do is to extract the header and send it to **hashcat** for cracking.
 
 ```
 # dd if=backup.img of=header.luks bs=512 count=4097
@@ -141,7 +141,7 @@ All we have to do is to extract the header and send it to hashcat for cracking.
 2097664 bytes (2.1 MB, 2.0 MiB) copied, 0.0553653 s, 37.9 MB/s
 ```
 
-Because I have a GPU in my windows host machine, I'll be using hashcat in Windows for the job.
+Because I have a GPU in my windows host machine, I'll be using **hashcat** in Windows for the job.
 
 ```
 C:\Users\Bernard Lim\Downloads\tools\hashcat-5.1.0> hashcat64 -m 14600 -a 0 -o cracked.txt header.luks rockyou.txt
@@ -179,7 +179,7 @@ It'll prompt you for the password, which is `batmanforever`. Once that's done, w
 # mount /dev/mapper/batman /root/Downloads/arkham/batman
 ```
 
-It's really a backup of the Tomcat instance at `8080/tcp` after all.
+It's the backup of the Tomcat instance at `8080/tcp`.
 
 <a class="image-popup">
 ![b5f8ee81.png](/assets/images/posts/arkham-htb-walkthrough/b5f8ee81.png)
