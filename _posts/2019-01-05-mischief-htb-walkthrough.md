@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Mischief, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -1057,7 +1057,7 @@ The user flag is here.
 ![b6af45dd.png](/assets/images/posts/mischief-htb-walkthrough/b6af45dd.png)
 </a>
 
-## Priviege Escalation
+## Privilege Escalation
 
 During enumeration of `loki`'s account, you'll notice that `loki` is stripped off `execute` rights with File Access Control List (ACL) for `su` and `sudo` but not the rest of the users. Look around, what other users are there?
 

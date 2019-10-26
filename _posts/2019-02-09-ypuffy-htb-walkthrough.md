@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Ypuffy, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -242,7 +242,7 @@ Once that's done, we can log in to `alice`'s SSH account.
 ![46da813f.png](/assets/images/posts/ypuffy-htb-walkthrough/46da813f.png)
 </a>
 
-## Private Escalation
+## Privilege Escalation
 
 During enumeration of `alice`'s account, I notice that `~/.ssh/authorized_keys` is missing from her home directory. How the hell did I manage to log in then?
 
