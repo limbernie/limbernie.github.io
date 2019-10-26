@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Bulldog: 2, a boot2root [VM][1] 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Three years have passed since Bulldog Industries suffered severe data breaches. In that time, they have recovered and re-branded as **Bulldog.social**, an up and coming social media company. Can you take on this new challenge and get `root` on their production web server?

@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Gemini Inc: v2, a boot2root [VM]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 >**Neo**: Hmm, upgrades&hellip;

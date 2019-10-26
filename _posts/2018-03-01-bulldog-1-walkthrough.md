@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Bulldog: 1, a boot2root [VM][1] 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 Bulldog Industries has its website defaced and gets owned by the malicious German Shepherd Hack Team. Could this mean there are more vulnerabilities to exploit? Why don't you find out? :smile:
 

@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Blacklight: 1, a CTF-style [VM][
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 There's no description for this one. In a way, it's good because you don't know what to expect, and it kinda raises the fun factor.

@@ -18,6 +18,12 @@ a boot2root [VM][1] created by [Cyberry][2], and hosted at [VulnHub][3]. If you 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 Cyberry are eagerly anticipating the release of their new "Berrypedia" website,
 a life-long project which offers knowledge and insight into all things Berry!

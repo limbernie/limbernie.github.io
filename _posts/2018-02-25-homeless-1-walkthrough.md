@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Homeless: 1, a boot2root [VM][1]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 **Warning**, this challenge is not for beginners. :smiling_imp:
 

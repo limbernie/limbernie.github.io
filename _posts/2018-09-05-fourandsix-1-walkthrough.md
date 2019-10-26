@@ -18,6 +18,12 @@ This post documents the complete walkthrough of FourAndSix: 1, a boot2root [VM][
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Although there's no description for this VM, the name alone is interesting. FourAndSix is the homophone for forensic—expect fun challenges ahead.

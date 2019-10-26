@@ -17,6 +17,12 @@ This post documents the complete walkthrough of CTF, a retired vulnerable [VM][1
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 CTF is a retired vulnerable VM from Hack The Box.

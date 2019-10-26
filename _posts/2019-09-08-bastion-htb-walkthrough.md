@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Bastion, a retired vulnerable [V
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Bastion is a retired vulnerable VM from Hack The Box.

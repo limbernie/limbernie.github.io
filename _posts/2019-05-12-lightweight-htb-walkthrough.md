@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Lightweight, a retired vulnerabl
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Lightweight is a retired vulnerable VM from Hack The Box.

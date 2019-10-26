@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Node: 1, a boot2root [VM][1] cre
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Node is a medium level boot2root challenge, originally created for HackTheBox. There are two flags to find (user and root flags) and multiple different technologies to play with.

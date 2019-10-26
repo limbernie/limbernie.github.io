@@ -18,6 +18,12 @@ This post documents the complete walkthrough of wakanda: 1, a boot2root [VM][1] 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 A new Vibranium market will soon be online in the dark net. Your goal, get your hands on the root file containing the exact location of the mine.

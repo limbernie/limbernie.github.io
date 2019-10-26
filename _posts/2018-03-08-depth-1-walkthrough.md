@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Depth: 1, a boot2root [VM][1] cr
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 In Dan's own words:

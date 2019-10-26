@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Frolic, a retired vulnerable [VM
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Frolic is a retired vulnerable VM from Hack The Box.

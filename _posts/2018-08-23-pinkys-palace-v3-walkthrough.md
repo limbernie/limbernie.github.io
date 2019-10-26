@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Pinky's Palace: v3, a boot2root 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 I wished there's a backstory to the VM—it'll make it a little more interesting. Having said that, the previous two VMs were challenging, fun, and provided plenty of learning opportunities—no backstory no big deal.

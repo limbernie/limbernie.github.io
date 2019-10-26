@@ -18,6 +18,12 @@ This post documents the complete walkthrough of BlackMarket: 1, a boot2root [VM]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 The BlackMarket VM was first presented at Brisbane SecTalks BNE0x1B. This VM has a total of six flags and one `root` flag. Each flag leads to another and the flag format is `flag{blahblah}`.

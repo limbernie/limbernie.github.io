@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Temple of Doom: 1, a boot2root [
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 You know it's a high quality VM when it's from [@Pink_P4nther](https://twitter.com/@pink_p4nther)'s homie, [@katz](https://twitter.com/@0katz).

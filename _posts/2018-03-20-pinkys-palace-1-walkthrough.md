@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Pinky's Palace: 1, a boot2root [
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 Pinky is creating his own website! He has began setting up services and some simple web applications.
 

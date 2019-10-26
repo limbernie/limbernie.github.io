@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Vault, a retired vulnerable [VM]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Vault is a retired vulnerable VM from Hack The Box.

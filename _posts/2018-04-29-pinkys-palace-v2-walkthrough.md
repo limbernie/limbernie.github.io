@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Pinky's Palace: v2, a boot2root 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 This is a realistic and **hellish** (emphasis mine) boot2root, a name given to a safe and controlled environment (typically distributed as a virtual machine) where you can perform real-world penetration testing on intentionally vulnerable applications and/or services. You **boot** up the virtual machine and you **root** it. The ultimate goal is to gain `root` access and read `/root/root.txt`.

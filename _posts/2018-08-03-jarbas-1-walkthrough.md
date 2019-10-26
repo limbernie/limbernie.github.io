@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Jarbas: 1, a boot2root [VM][1] c
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 A tribute to a nostalgic Brazilian search engine in the end of 90’s. The aim is to get a `root` shell.

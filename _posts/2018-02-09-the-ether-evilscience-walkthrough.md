@@ -17,6 +17,12 @@ This post documents the complete walkthrough of The Ether: EvilScience, a boot2r
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 A mysterious company, _The Ether_ has proclaimed an elixir that considerably alters human welfare. The CDC has become suspicious of this group due to the nature of the product they are developing. The goal is to find out what _The Ether_ is up to.
 

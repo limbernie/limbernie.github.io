@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Ypuffy, a retired vulnerable [VM
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Ypuffy is a retired vulnerable VM from Hack The Box.

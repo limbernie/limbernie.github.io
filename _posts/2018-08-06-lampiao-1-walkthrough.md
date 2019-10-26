@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Lampião: 1, a boot2root [VM][1]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 "Captain" Virgulino Ferreira da Silva, better known as **Lampião**, was the most famous bandit leader of the Cangaço. The aim is to get `root`.

@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Rotating Fortress: 1.0.1, a boot
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Zeus the admin of the server is retiring from Project: Rotating Fortress, but he doesn't want the project to die with his retirement. To find the successor to the project he has created a challenge. Will you be able to get in, rotate the fortress, escape isolation and reach `root`?

@@ -18,6 +18,12 @@ This post documents the complete walkthrough of SolidState: 1, a boot2root [VM][
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 It's originally created for HackTheBox.

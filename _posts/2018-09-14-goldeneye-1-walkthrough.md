@@ -18,6 +18,12 @@ This post documents the complete walkthrough of GoldenEye: 1, a boot2root [VM][1
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 This VM is an OSCP-type vulnerable machine that's themed after the great James Bond film (and even better n64 game) GoldenEye. The goal is to get `root` and capture the secret GoldenEye codes—`flag.txt`.

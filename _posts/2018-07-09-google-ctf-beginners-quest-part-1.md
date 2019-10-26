@@ -15,6 +15,12 @@ This post documents Part 1 of my attempt to complete [Google CTF: Beginners Ques
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Google concluded their [Google CTF](https://capturetheflag.withgoogle.com/) not too long ago. I didn't take part, so I thought of giving a go at the Beginners Quest first. I was thinking to myself, "_how hard could this be?_"—boy was I wrong. It's not that easy.

@@ -17,6 +17,12 @@ This post documents the complete walkthrough of g0rmint: 1, a boot2root [VM][1] 
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 The Gormint Aunty is a social media sensation made famous by her "_yeh bik gai hai gormint_" rant to a news reporter. In other words, she's the boss. :sunglasses:

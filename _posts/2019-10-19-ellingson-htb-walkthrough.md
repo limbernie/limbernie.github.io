@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Ellingson, a retired vulnerable 
 
 <!--more-->
 
+## On this post
+{:.no_toc}
+
+* TOC
+{:toc}
+
 ## Background
 
 Ellingson is a retired vulnerable VM from Hack The Box.
@@ -61,7 +67,7 @@ Well, I'm left with `http` service to explore. Here's how it looks like in my br
 ![ca84f425.png](/assets/images/posts/ellingson-htb-walkthrough/ca84f425.png)
 </a>
 
-## Interactive Werkzeug Debugger
+### Interactive Werkzeug Debugger
 
 It isn't long before I chance upon the interactive debugger. Turns out the site is powered by Flask, though it isn't clear from the outset.
 
@@ -83,7 +89,7 @@ Long story short, the debugger is ran with `hal`'s permissions. As such, we can 
 
 Play nice, append and leave a newline for the next contender.
 
-## Low-Privilege Shell
+### Low-Privilege Shell
 
 With that, we can log in to SSH as `hal`.
 

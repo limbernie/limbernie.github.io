@@ -17,6 +17,12 @@ This post documents the complete walkthrough of BigHead, a retired vulnerable [V
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 BigHead is an active vulnerable VM from Hack The Box.

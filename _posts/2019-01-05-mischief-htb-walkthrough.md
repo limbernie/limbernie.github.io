@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Mischief, a retired vulnerable [
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Mischief is a retired vulnerable VM from Hack The Box.

@@ -18,6 +18,12 @@ This post documents the easiest walkthrough of BSides Vancouver: 2018 (Workshop)
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 This VM aims to create a safe environment to perform real-world penetration testing on an intentionally vulnerable target. As the name implied, the VM appeared as course material in a workshop during 2018 BSides Vancouver.

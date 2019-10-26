@@ -17,6 +17,12 @@ This post documents the complete walkthrough of SecNotes, a retired vulnerable [
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 SecNotes is a retired vulnerable VM from Hack The Box.

@@ -17,6 +17,12 @@ This post documents the complete walkthrough of MinU: 1, a boot2root [VM][1] cre
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 This boot2root is an Ubuntu Based virtual machine and has been tested using VirtualBox. The network interface of the virtual machine will take it's IP settings from DHCP. Your goal is to capture the flag on `/root`.

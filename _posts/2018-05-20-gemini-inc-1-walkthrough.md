@@ -18,6 +18,12 @@ This post documents the complete walkthrough of Gemini Inc: 1, a boot2root [VM][
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 **Gemini Inc** contacted you to perform a penetration testing on one of their internal servers. The server has a web application for employees to export their profile to a PDF. Identify any possible vulnerabilities with the goal of complete server compromise with `root` privilege. Provide the content of `flag.txt` located in the `root` directory as proof.
 

@@ -17,6 +17,12 @@ This post documents the complete walkthrough of LaCasaDePapel, a retired vulnera
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 LaCasaDePapel is a retired vulnerable VM from Hack The Box.

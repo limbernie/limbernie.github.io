@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Ghoul, a retired vulnerable [VM]
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Ghoul is a retired vulnerable VM from Hack The Box.

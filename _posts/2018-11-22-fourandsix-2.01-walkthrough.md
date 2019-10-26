@@ -18,6 +18,12 @@ This post documents the complete walkthrough of FourAndSix: 2.01, a boot2root [V
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Although there’s no description for this VM, except for _"to become `root` and read `/root/flag.txt`"_, the name alone is interesting. FourAndSix is the homophone for forensic—expect fun challenges ahead.

@@ -18,6 +18,12 @@ This post documents the complete walkthrough of DerpNStink: 1, a boot2root [VM][
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Mr. Derp and Uncle Stinky are two system administrators starting their own company, DerpNStink. Instead of hiring qualified professionals to build up their IT landscape, they decide to hack together their own system which is almost ready to go live…

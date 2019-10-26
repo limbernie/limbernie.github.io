@@ -18,6 +18,12 @@ This post documents the complete walkthrough of LazySysAdmin: 1, a boot2root [VM
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 The story of a lonely and lazy sysadmin who :cry: himself to sleep.

@@ -17,6 +17,12 @@ This post documents the complete walkthrough of Toppo: 1, a boot2root [VM][1] cr
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 There's no backstory for this VM. All we know is that it isn't hard to pwn and doesn't require advanced exploitation. The one "Toppo" I know is a character from Dragon Ball Super–God of Destruction candidate from Universe 11 :laughing:

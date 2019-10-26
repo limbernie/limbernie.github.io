@@ -17,6 +17,12 @@ This post documents the complete walkthrough of FriendZone, a retired vulnerable
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 FriendZone is a retired vulnerable VM from Hack The Box.

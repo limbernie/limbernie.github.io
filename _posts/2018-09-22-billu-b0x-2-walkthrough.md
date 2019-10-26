@@ -18,6 +18,12 @@ This post documents the complete walkthrough of billu: b0x 2, a boot2root [VM][1
 
 <!--more-->
 
+## On this post 
+{:.no_toc} 
+
+* TOC 
+{:toc}
+
 ## Background
 
 Try this if you want an OSCP refresher that's not too difficult.
