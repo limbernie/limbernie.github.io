@@ -214,7 +214,7 @@ During enumeration of `user`\'s account, I noticed the presence of a KeePass dat
 ![8924871a.png](/assets/images/posts/safe-htb-walkthrough/8924871a.png)
 </a>
 
-This feels strangly familiar like BigHead. Well, in any case, let's grab these files to my attacking machine but note that there\'s no `nc` in this machine. We\'ll just have to transfer our `nc` over.
+This feels strangely familiar to BigHead. Well, in any case, let's grab these files to my attacking machine but note that there\'s no `nc` in this machine. We\'ll just have to transfer our `nc` over.
 
 <a class="image-popup">
 ![f2aa8982.png](/assets/images/posts/safe-htb-walkthrough/f2aa8982.png)
