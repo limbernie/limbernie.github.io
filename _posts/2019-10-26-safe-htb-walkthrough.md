@@ -208,7 +208,7 @@ Sweet. The `user.txt` is at `user`\'s home directory.
 
 ## Privilege Escalation
 
-During enumeration of `user`\'s account, I noticed the presence of a KeyPass database and five image files in the home directory as well.
+During enumeration of `user`\'s account, I noticed the presence of a KeePass database and five image files in the home directory as well.
 
 <a class="image-popup">
 ![8924871a.png](/assets/images/posts/safe-htb-walkthrough/8924871a.png)
