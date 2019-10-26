@@ -1121,7 +1121,7 @@ Now, let's see if that's the `root` password.
 ![95608a01.png](/assets/images/posts/mischief-htb-walkthrough/95608a01.png)
 </a>
 
-## What's the flag?
+### What's the flag?
 
 The trickster is tricky indeed.
 

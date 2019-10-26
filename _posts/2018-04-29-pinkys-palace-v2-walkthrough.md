@@ -51,7 +51,7 @@ PORT      STATE    SERVICE REASON         VERSION
 
 `nmap` finds `80/tcp` open, no SSH service, and a bunch of filtered ports. Although I don't know what to make of the filtered ports now, they may prove interesting later. Who knows, right?
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 The combination of `wfuzz` and `big.txt` from [SecLists](https://github.com/danielmiessler/SecLists) is my go-to weapon and ammunition to fuzz for directories and/or files because they produce actionable results. Here, I find two WordPress installations and the presence of one interesting directory `/secret` in the host.
 
@@ -91,7 +91,7 @@ pinkydb
 
 I get three numbers and I already know `pinkydb` is the host name.
 
-## WordPress
+### WordPress
 
 The best tool, hands down and bar none, to scan for WordPress vulnerabilities and to identify users, is `wpscan`.
 
@@ -132,7 +132,7 @@ While I was skimming through the blog, I spotted non-English words. Based on exp
 # john --rules --wordlist=cewl.txt --stdout | tee wordlist.txt
 ```
 
-## Knock Knock. Who's There?
+### Knock Knock. Who's There?
 
 Back to the numbers in `bambam.txt`. If I had to guess, I would say I'm looking at port numbers (`0-65535`) and that suggests [port-knocking](https://en.wikipedia.org/wiki/Port_knocking).
 
@@ -206,7 +206,7 @@ Now that I know the correct sequence to unlock those ports, I can always use `nm
 
 The service at `tcp/7654` appears to be running `nginx`, while the service at `tcp/31337` appears to be `echo`ing whatever that's thrown at it.
 
-## Pinky's Database
+### Pinky's Database
 
 Pinky's Database Login (`http://pinkydb:7654/login.php`) is the attack surface we've been looking for!
 
@@ -387,7 +387,7 @@ We proceed to generate a payload with `msfvenom`. I prefer to use a single-stage
 
 The generated payload is 119 bytes, and fits in nicely onto the given 120 bytes of space with one byte to spare. :smirk:
 
-## Getting to the `root` of the matter
+### Getting to the `root` of the matter
 
 The stage is now set for the real privilege escalation. I run the following command on my machine.
 

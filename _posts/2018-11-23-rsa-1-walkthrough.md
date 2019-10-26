@@ -52,7 +52,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. Let's explore the `http` service first.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's see if we can get anything with `wfuzz`.
 
@@ -102,7 +102,7 @@ Requests/sec.: 566.4269
 
 What do we have here? A `authorized_keys`??!!
 
-## Weak RSA Keys
+### Weak RSA Keys
 
 Here's what inside `authorized_keys`.
 

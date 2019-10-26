@@ -60,7 +60,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 ![Clean Blog](/assets/images/posts/toppo-1-walkthrough/460c48a6.png)
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 I like `wfuzz` a lot. When it's combined with a quality wordlist like the ones in SecLists, you can uncover directories and files that will point you in the next direction.
 
@@ -102,7 +102,7 @@ Everything was identical to those listed in the repository except for `/admin`.
 
 ![/admin/notes.txt](/assets/images/posts/toppo-1-walkthrough/532aac6c.png)
 
-## Hail Hydra
+### Hail Hydra
 
 I also like `hydra` a lot. It's always my go-to weapon of choice for online password cracking and user validation. Let's give it a shot.
 
@@ -158,7 +158,7 @@ os.system("/bin/bash")
 
 ![root](/assets/images/posts/toppo-1-walkthrough/b08a64c9.png)
 
-## Where's the Flag (WTF)
+### Where's the Flag (WTF)
 
 With `root`, getting the flag is trivial.
 

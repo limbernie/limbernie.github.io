@@ -73,7 +73,7 @@ PORT      STATE SERVICE       REASON          VERSION
 
 Nothing extraordinary.
 
-## SMB Net Shares
+### SMB Net Shares
 
 And since SMB is available, let's use `smbmap` to see what we can find.
 
@@ -171,7 +171,7 @@ Time for cracking.
 
 Boom!
 
-## Mounting a LUKS Image
+### Mounting a LUKS Image
 
 We need to open the LUKS image with `cryptsetup` like so.
 
@@ -191,7 +191,7 @@ It's the backup of the Tomcat instance at `8080/tcp`.
 ![b5f8ee81.png](/assets/images/posts/arkham-htb-walkthrough/b5f8ee81.png)
 </a>
 
-## Apache MyFaces Serialization Remote Command Execution
+### Apache MyFaces Serialization Remote Command Execution
 
 From the look of `faces-config.xml`, it appears that Apache MyFaces 1.2 is in use. This is further confirmed by this link on the `http` service at `8080/tcp`.
 

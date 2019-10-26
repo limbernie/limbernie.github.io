@@ -114,7 +114,7 @@ It's obvious that user `tyler` is present in the system. If we re-login with `ty
 ![b6096c25.png](/assets/images/posts/secnotes-htb-walkthrough/b6096c25.png)
 </a>
 
-## 2nd-order SQL Injection
+### 2nd-order SQL Injection
 
 Hmm. Let's use `wfuzz` to inject common SQL injection strings into the registration page just to see what we get. Here, I'm soliciting `200` responses to see what's going on with the registration. Typically, a successful registration will return a `302` response.
 
@@ -166,7 +166,7 @@ It's the credentials that's interesting!
 
 Armed with this new information, we can mount the file share.
 
-## New Site
+### New Site
 
 We can mount the file share with `mount` of course.
 

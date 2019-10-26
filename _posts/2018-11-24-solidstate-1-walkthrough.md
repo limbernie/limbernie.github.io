@@ -63,7 +63,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 `nmap` finds a couple of open ports. JAMES 2.3.2 sure brings back memories. :wink:
 
-## JAMES Remote Administration Tool 2.3.2
+### JAMES Remote Administration Tool 2.3.2
 
 Heck. This is **screwed up**.
 
@@ -83,7 +83,7 @@ I have an evil idea. Let's change all the users' password to their usernames.
 ![69947cb7.png](/assets/images/posts/solidstate-1-walkthrough/69947cb7.png)
 </a>
 
-## Reading Other's Emails
+### Reading Other's Emails
 
 Now that I have changed all the passwords, I can log in to their POP3 account to read their emails.
 
@@ -111,7 +111,7 @@ The password works but we have a small problem.
 ![600ffd3d.png](/assets/images/posts/solidstate-1-walkthrough/600ffd3d.png)
 </a>
 
-## Bypass Restricted Shell
+### Bypass Restricted Shell
 
 This is almost trivial to bypass. We know SSH allows us to execute commands upon login. With this in mind, we can do something like this.
 
@@ -139,7 +139,7 @@ About three minutes later, a `root` shell appears.
 ![e2b80d6f.png](/assets/images/posts/solidstate-1-walkthrough/e2b80d6f.png)
 </a>
 
-## What's the Flag?
+### What's the Flag?
 
 <a class="image-popup">
 ![1f886db9.png](/assets/images/posts/solidstate-1-walkthrough/1f886db9.png)

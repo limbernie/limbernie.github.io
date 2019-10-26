@@ -77,7 +77,7 @@ Nothing much is going on for the `http` service, to be honest. Let's take a look
 
 WTF. A default page??!!
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Maybe `wfuzz` and SecLists's wordlist will offer a better fortune?
 
@@ -154,7 +154,7 @@ _`server-status`_
 
 This is absolutely surprising for me because `server-status` is usually `403 - Forbidden`. I can probably run a script to monitor incoming requests to the Apache instance.
 
-## SQL Injection
+### SQL Injection
 
 And since there isn't any other clues to proceed, I'll use `sqlmap` to see what else I can glean from the site.
 

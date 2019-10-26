@@ -152,7 +152,7 @@ to any real persons or organizations.
 Any similarities to actual people or entities is purely coincidental and occurred accidentally.
 ```
 
-## Password Recovery
+### Password Recovery
 
 Let's recover the passwords from those hashes with John the Ripper. Yummy!
 
@@ -170,7 +170,7 @@ sciana@fowsniff:07011972
 
 Eight out of nine recovered. Impressive.
 
-## Password Verification
+### Password Verification
 
 Now, let's verify who has access to what with `hydra`.
 
@@ -190,7 +190,7 @@ Hydra (http://www.thc.org/thc-hydra) finished at 2018-11-24 09:20:29
 
 Hmm. Someone didn't change their password after the breach.
 
-## Popping Emails
+### Popping Emails
 
 I know it's unethical to read other's email but the temptation is too great. Can't help it, let's read `seina`'s email then.
 
@@ -200,7 +200,7 @@ I know it's unethical to read other's email but the temptation is too great. Can
 
 Now now now, what do we have here? SSH password??!!
 
-## Password Verification Redux
+### Password Verification Redux
 
 Let's see who hasn't change their password.
 
@@ -245,7 +245,7 @@ Damn. This is too easy.
 ![f45678ec.png](/assets/images/posts/fowsniff-1-walkthrough/f45678ec.png)
 </a>
 
-## What's the Flag?
+### What's the Flag?
 
 Getting the flag with a `root` shell is trivial.
 

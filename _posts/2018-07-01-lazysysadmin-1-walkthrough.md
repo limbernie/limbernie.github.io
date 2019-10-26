@@ -68,7 +68,7 @@ PORT     STATE SERVICE     REASON         VERSION
 
 I'm surprised to be honest. The host has **Samba**; it has **MySQL**. It even has **InspIRCd** beyond the usual `http` and `ssh` services.
 
-## Directory Enumeration
+### Directory Enumeration
 
 Besides the disallowed entries in `robots.txt`, I found the following directories with `dirbuster` and its largest directory wordlist.
 
@@ -93,7 +93,7 @@ _Image shows WordPress_
 
 ![WordPress](/assets/images/posts/lazysysadmin-1-walkthrough/a933d856.png)
 
-## Samba Share
+### Samba Share
 
 Using Gnome Files, I was able to mount `share$`. Here's what I did.
 
@@ -146,7 +146,7 @@ define('DB_PASSWORD', 'TogieMYSQL12345^^');
 
 The sysadmin has messed up—big time.
 
-## WordPress Admin
+### WordPress Admin
 
 Let's use `wpscan` to identify the users in WordPress.
 
@@ -209,7 +209,7 @@ What's horrifying is this—`togie` is able to `sudo` as `root`!
 
 Although `togie` is using `rbash`—or restricted `bash`, it's trivial to change the shell back to `bash` with `chsh`.
 
-## I Love Me Some Random Strings
+### I Love Me Some Random Strings
 
 ![ef7f90db.png](/assets/images/posts/lazysysadmin-1-walkthrough/ef7f90db.png)
 

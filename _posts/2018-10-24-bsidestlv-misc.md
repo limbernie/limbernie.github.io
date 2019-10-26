@@ -36,7 +36,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 
 What follows is my humble attempt of cracking the challenges in the **Misc** category.
 
-## DockingStation
+### DockingStation
 
 This is how the challenge looks like.
 
@@ -84,7 +84,7 @@ After extracting the files from the tarball, the flag is at `/home/flag_is_here/
 
 The flag is `BSidesTLV{i_am_r34dy_t0_esc4p3_th3_d0ck3r!}`.
 
-## c1337Shell
+### c1337Shell
 
 This is how the challenge looks like.
 
@@ -136,7 +136,7 @@ The flag is:
 BSidesTLV{1_l1k3_wildcards_&_r3g3x_but_h8_th3_cr34t0r}
 ```
 
-## PySandbox-Insane
+### PySandbox-Insane
 
 This is how the challenge looks like.
 

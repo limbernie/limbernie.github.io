@@ -93,7 +93,7 @@ echo $RESP
 
 Indeed, Line 32 of the HTTP response always shows the supplied `User-Agent` string.
 
-## Finding the Way Home
+### Finding the Way Home
 
 Recall the hint about the "rockyou" password list? Perhaps the secret to finding the way home is by submitting one of the entries in the list as `User-Agent` to the site?
 
@@ -169,7 +169,7 @@ On hindsight, I could have unlocked the secret backdoor by looking at the `favic
 
 ![favicon](/assets/images/posts/homeless-1-walkthrough/favicon.jpg)
 
-## Uploader Page
+### Uploader Page
 
 There's an uploader page at `/myuploader_priv`.
 
@@ -203,7 +203,7 @@ This is how I imagine the PHP code of the uploader page to look like.
 ?>
 ```
 
-## PHP Tags and Execution Operators
+### PHP Tags and Execution Operators
 
 Gathering the restrictions from above, the challenge now is to write a short and valid PHP code of no more than eight bytes. PHP supports [short open tag][5] (<tt><?=</tt>) and [execution operators][6] (<tt>\`&hellip;\`</tt>). Using these two short forms, I'm able to squeeze in eight bytes of valid PHP code to list the files in `/myuploader_priv/files` like so.
 
@@ -217,7 +217,7 @@ echo -n '<?=`ls`;' > test.php
 
 ![screenshot-8](/assets/images/posts/homeless-1-walkthrough/screenshot-8.png)
 
-## Secure Login Page
+### Secure Login Page
 
 There's a Secure Login page at `/d5fa314e8577e3a7b8534a014b4dcb221de823ad`.
 
@@ -300,7 +300,7 @@ for file in 00 01 10 11; do
 done
 ```
 
-## On a Collision Course
+### On a Collision Course
 
 Using `curl` to submit three colliding blobs as `username`, `password` and `code` respectively, I'm able to get a session and access `admin.php` like so.
 
@@ -326,7 +326,7 @@ I replace the existing session cookie with the one above to display `admin.php`.
 
 ![screenshot-10](/assets/images/posts/homeless-1-walkthrough/screenshot-10.png)
 
-## Low Privilege Shell
+### Low Privilege Shell
 
 The terminal allows remote command execution and `nc` with `-e` is available.
 
@@ -340,7 +340,7 @@ I come across the user `downfall` and the contents of his/her home directory dur
 
 ![screenshot-13](/assets/images/posts/homeless-1-walkthrough/screenshot-13.png)
 
-## Hail Hydra!
+### Hail Hydra!
 
 The creator of this VM is kind enough to suggest that the password starts with "sec".
 
@@ -379,7 +379,7 @@ A minute later, a `root` shell appears on my `netcat` listener.
 
 :dancer:
 
-## All Your Base Are Belong to Us
+### All Your Base Are Belong to Us
 
 Getting the flag when you have a `root` shell, is trivial. :laughing:
 

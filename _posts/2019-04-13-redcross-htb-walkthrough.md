@@ -63,7 +63,7 @@ Awesome. This must be the first attack surface. As I was casually glancing over 
 
 This seems to suggest that I should fuzz for directories.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `wfuzz` with a big directory wordlist from DirBuster.
 
@@ -185,7 +185,7 @@ Notice a different set of cookies for the `admin` vhost? Maybe a session replay 
 
 Sweet.
 
-## `chroot`'d Jail in SSH
+### `chroot`'d Jail in SSH
 
 There's a functionality in the admin panel to add users to a `chroot`'d jail in SSH.
 

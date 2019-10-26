@@ -126,7 +126,7 @@ _64831/tcp_
 ![fee3d677.png](/assets/images/posts/hackback-htb-walkthrough/fee3d677.png)
 </a>
 
-## GoPhish
+### GoPhish
 
 GoPhish sure looks interesting. By the way, the default credential (`admin:gophish`) allows us to log in. The following email templates also show the virtual hosts that need to be added to `/etc/hosts`.
 
@@ -134,7 +134,7 @@ GoPhish sure looks interesting. By the way, the default credential (`admin:gophi
 ![77bb0860.png](/assets/images/posts/hackback-htb-walkthrough/77bb0860.png)
 </a>
 
-## Obfuscated JavaScript
+### Obfuscated JavaScript
 
 Among the virtual hosts, only `admin.hackback.htb` offers a real clue on where to proceed. Here's how it looks like.
 
@@ -441,7 +441,7 @@ _Login attempt recorded_
 
 I smell PHP log poisoning...
 
-## PHP Log Poisoning
+### PHP Log Poisoning
 
 During enumeration, all the handy PHP functions to display PHP information (e.g. `phpinfo`), execute commands (e.g. `shell_exec`, `exec`, etc.), open sockets (e.g. `fsockopen`) were observed to be disabled.
 
@@ -488,7 +488,7 @@ Once that's done, we can use `proxychains` to access the additional services. Bu
 ![bdebac49.png](/assets/images/posts/hackback-htb-walkthrough/d368339b.png)
 </a>
 
-## WinRM/WSMan and PowerShell
+### WinRM/WSMan and PowerShell
 
 Armed with the credential (`simple:ZonoProprioZomaro:-(`) and the latest version of the [Ruby WinRM library](https://github.com/WinRb/WinRM), we can do something like this.
 

@@ -93,7 +93,7 @@ PORT     STATE SERVICE       REASON          VERSION
 
 It's a Windows box alright. Check out the various services associated with Windows. And, it's likely running PowerShell Web Access as seen in the self-signed certificate.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 I should probably start the enumeration with `gobuster` and DirBuster's wordlist.
 
@@ -116,7 +116,7 @@ My guess was correct—it's really running PowerShell Web Access. It delivers a 
 
 Another directory houses a ASP.NET web application. I smell SQL injection...
 
-## SQL Injection
+### SQL Injection
 
 Long story short, this is an example application from OWASP Top 10 Injection exercises and it's vulnerable to all sorts of SQL injection techniques.
 
@@ -134,7 +134,7 @@ As you can see from above, the current user is `giddy\stacy`. We can actually us
 
 Here's how.
 
-## Harvesting SMB Credentials
+### Harvesting SMB Credentials
 
 On your attacking machine, assuming it's Kali Linux, you can set up a SMB server to capture SMB credentials using Metasploit's auxiliary module `auxiliary/server/capture/smb` like so.
 
@@ -166,7 +166,7 @@ We can now send the captured NT hashes for offline cracking by John the Ripper.
 
 So, Stacy's password is `xNnWo6272k7x`.
 
-## PowerShell Web Access
+### PowerShell Web Access
 
 Armed with Stacy's password, I think it's time to get ourselves a PowerShell.
 

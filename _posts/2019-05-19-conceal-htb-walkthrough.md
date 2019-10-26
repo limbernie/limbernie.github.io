@@ -43,7 +43,7 @@ Discovered open port 161/udp on 10.10.10.116
 
 Interesting! There's only one open port `161/udp`, which is SNMP. For the first time, I didn't use `nmap` to perform further enumeration.
 
-## Simple Network Management Protocol
+### Simple Network Management Protocol
 
 Let's use `snmp-check` and see what we can find.
 
@@ -550,7 +550,7 @@ IKE VPN password PSK - 9C8B1A372B1878851BE2C097031B6E43
 
 It turns out that this is not the shared secret. Instead, this is the MD5 hash of the password. A quick search for the hash in [online cracker](https://hashkiller.co.uk/Cracker/MD5) reveals the password to be `Dudecake1!`
 
-## IPSec - Internet Key Exchange (IKE) and Encapulating Security Payload (ESP)
+### IPSec - Internet Key Exchange (IKE) and Encapulating Security Payload (ESP)
 
 Good thing Linux is well-eqipped to take advantage of this, all we have to do is to install [strongSwan](https://www.strongswan.org/). The problem now is to find the correct configuration because IPSec is complex and we don't know the configuration on the "right" side as per strongSwan's parlance.
 
@@ -646,7 +646,7 @@ Host script results:
 
 To be honest, I could have skipped this step. I did it to show some love to `nmap`.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Finally, we can continue with our enumeration journey. Let's start with `wfuzz`.
 

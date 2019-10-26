@@ -102,7 +102,7 @@ _`9999/tcp`_
 ![9aa5e98e.png](/assets/images/posts/frolic-htb-walkthrough/9aa5e98e.png)
 </a>
 
-## Directory/Files Enumeration
+### Directory/Files Enumeration
 
 Let's use `wfuzz` like I normally do with `9999/tcp` first.
 
@@ -219,7 +219,7 @@ The directory `/dev/backup` provides a hint to a new directory: `/playsms`. Here
 ![688bc7ed.png](/assets/images/posts/frolic-htb-walkthrough/688bc7ed.png)
 </a>
 
-## playSMS Remote Code Execution
+### playSMS Remote Code Execution
 
 An attack surface finally emerges! The credential to log in to the web application is (`admin:idkwhatispass`)
 

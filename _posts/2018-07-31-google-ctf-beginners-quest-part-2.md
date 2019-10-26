@@ -52,7 +52,7 @@ The quest has nineteen challenges as shown in the quest map—each color represe
 
 Click or tap on the circles above to go to the respective challenge and its write-up.
 
-## Admin UI 3
+### Admin UI 3
 
 There’s no attachment in this challenge. Instead, we are to continue from the previous challenge.
 
@@ -100,7 +100,7 @@ We got shell!
 
 The flag is `CTF{c0d3ExEc?W411_pL4y3d}`.
 
-## Router-UI
+### Router-UI
 
 There’s no attachment in this challenge. Instead, we are to follow the link.
 
@@ -183,7 +183,7 @@ The flag is in the password `<input>` field.
 
 The flag is `CTF{Kao4pheitot7Ahmu}`.
 
-## Firmware
+### Firmware
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/9522120f36028c8ab86a37394903b100ce90b81830cee9357113c54fd3fc84bf)
 
@@ -222,7 +222,7 @@ CTF{I_kn0W_tH15_Fs}
 
 The flag is `CTF{I_kn0W_tH15_Fs}`.
 
-## Gatekeeper
+### Gatekeeper
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/f7e577b61f5b98aa3c0e453e83c60729f6ce3ef15c59fc76d64490377f5a0b5b).
 
@@ -290,7 +290,7 @@ Look Ma, no assembly. :grin:
 
 The flag is `CTF{I_g0T_m4d_sk1lLz}`.
 
-## Media-DB
+### Media-DB
 
 There’s no attachment in this challenge. Instead, there’s a hint to connect to `media-db.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -322,7 +322,7 @@ This is the database schema. Armed with this knowledge, we can dump out all the 
 
 The flag is `CTF{fridge_cast_oauth_token_cahn4Quo}`.
 
-## Message of the Day
+### Message of the Day
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/cf6c6160966eae95b4313f05ad33b9794d2817b06766a5261d952990ad27a6a6). And there's a hint to connect to `motd.ctfcompeetition.com` at port 1337 with `nc`.
 
@@ -399,7 +399,7 @@ Time to run the exploit.
 
 The flag is `CTF{m07d_1s_r3t_2_r34d_fl4g}`
 
-## Poetry
+### Poetry
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/3fecb3de10be268f896adbb2ac7ddb29a8a8a05de6085abc9d0edb53f5a64259). And there's a hint to connect to `poetry.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -536,7 +536,7 @@ When we execute the file descriptor, it's the same as executing `x`— a hardlin
 
 The flag is `CTF{CV3-2009-1894}`.
 
-## Filter Env
+### Filter Env
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/0915d9f2952cfce0d7c39fc8690dd808323b0a2e261bfe65fc95edeac7f2c24f). And there’s a hint to connect to `env.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -641,7 +641,7 @@ Let's give it a shot.
 
 The flag is `CTF{H3ll0-Kingc0p3}`.
 
-## Fridge Todo List
+### Fridge Todo List
 
 The attachement is [here](https://storage.googleapis.com/gctf-2018-attachments/6662358181e0d4bf5fabd94f2dd5d41ab7c90685617a4b0fbb12df5be6044a59). And there’s a hint to connect to `fridge-todo-list.ctfcompetition.com` at port 1337 with `nc`.
 
@@ -773,7 +773,7 @@ Now that we know Wintermuted is CountZero, let's look at the TODO list the right
 
 The flag is `CTF{goo.gl/cjHknW}`.
 
-## Holey Beep
+### Holey Beep
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/575142163b9bf4762ce4e2412ff05ee855dc7644b402522f79e39af017d99955).
 

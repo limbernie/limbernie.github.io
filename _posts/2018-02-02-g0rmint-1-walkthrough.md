@@ -54,7 +54,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 ![login.php](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-1.png)
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's find out the directories and/or files with `dirbuster`.
 
@@ -83,7 +83,7 @@ Among the PHP pages, we can disregard those that returns **302** (because they r
 
 Let's explore each page in turn in reverse order starting with `/reset.php`.
 
-## Password Reset Page
+### Password Reset Page
 
 Well, the page looks like your normal password reset page. If you know the email address and the username, you'll be able to reset the password.
 
@@ -91,7 +91,7 @@ Well, the page looks like your normal password reset page. If you know the email
 
 At this point, I'm not aware of any email address or username. :sob:
 
-## Main Menu
+### Main Menu
 
 Although this page appears interesting on the surface, the HTML source code offers a clue on how to proceed.
 
@@ -103,7 +103,7 @@ Here's the source code. Notice `/secretlogfile.php`?
 
 Navigating to the page redirects back to `/login.php`. No luck there. At least, it gives me the idea to look at the HTML source code closer for further hints.
 
-## Login Page
+### Login Page
 
 Indeed, if you look at the HTML source code of `/login.php`, something stands out.
 
@@ -111,7 +111,7 @@ Indeed, if you look at the HTML source code of `/login.php`, something stands ou
 
 A secret backup directory?! Take a mental note. :heavy_check_mark:
 
-## Header
+### Header
 
 This page appears to contain the headers of the admin portal and it shows the admin's full name at the dropdown menu—**Noman Riffat.**
 
@@ -133,7 +133,7 @@ Again, looking at the HTML source code of this page, one of the CSS proves inter
 
 Could this be the email address and the username of the admin? Well, there's a high chance if you compare it with the name on the header page.
 
-## Directory/File Enumeration (2)
+### Directory/File Enumeration (2)
 
 Remember the secret backup directory? Taking a leaf from the previous enumeration with `dirbuster`, let's give it another shot starting with this path: `/g0rmint/s3cretbackupdirect0ry`.
 
@@ -143,13 +143,13 @@ File found: /g0rmint/s3cretbackupdirect0ry/info.php - 200
 
 Good. One more page shows up.
 
-## Information Page
+### Information Page
 
 This page proves to be informative despite its lack of aesthetics.
 
 ![info.php](/assets/images/posts/g0rmint-1-walkthrough/g0rmint-7.png)
 
-## Backup Archive
+### Backup Archive
 
 Let's peek inside the backup archive at `/g0rmint/s3cretbackupdirect0ry/backup.zip`.
 
@@ -183,7 +183,7 @@ Archive:  backup.zip
 
 Sweet. The archive appears to be the backup of the site.
 
-## Resetting Password
+### Resetting Password
 
 Suffice to say, the most obvious thing to try would be to look at `db.sql` for the admin credential. Too bad the credential (`demo@example.com:demo`) isn't the correct one.
 
@@ -219,7 +219,7 @@ echo -n "$1" | sha1sum | cut -d' ' -f1 | cut -c1-20
 
 The password reset works.
 
-## Remote Command Execution
+### Remote Command Execution
 
 Now that I've gained access to the g0rmint Admin Portal, this is also a good time to review the application source code and to determine our attack plan.
 
@@ -310,7 +310,7 @@ mysql:x:108:117:MySQL Server,,,:/nonexistent:/bin/false
 sshd:x:109:65534::/var/run/sshd:/usr/sbin/nologin
 ```
 
-## Backup Archive (2)
+### Backup Archive (2)
 
 There's another `backup.zip` at `/var/www`.
 
@@ -350,7 +350,7 @@ It appears to be like the previous `backup.zip` with a twist. This time round, `
 
 The password hash was already cracked by an online MD5 [cracker][4]. The password is `tayyab123`.
 
-## SSH Login
+### SSH Login
 
 Let's try the credential (`g0rmint:tayyab123`) and see if we can get a low-privilege shell.
 

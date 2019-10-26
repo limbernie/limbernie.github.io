@@ -50,7 +50,7 @@ PORT      STATE SERVICE       REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. Nothing unusual. In any case, let's enumerate the `http` service further.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 As usual, my first goto tool is `wfuzz`. The wordlist I'm using is SecLists' `quickhits.txt`.
 

@@ -75,7 +75,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 Hmm. IRC? Is this what it's about?
 
-## Remote Command Execution - UnrealIRCd 3.2.8.1
+### Remote Command Execution - UnrealIRCd 3.2.8.1
 
 So, the IRC daemon is UnrealIRCd 3.2.8.1.
 

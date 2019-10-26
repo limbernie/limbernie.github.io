@@ -84,7 +84,7 @@ It soon redirects to another page.
 
 ![31b731d5.png](/assets/images/posts/wintermute-1-walkthrough/31b731d5.png)
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `gobuster` to see if we can find any extra directories or files.
 
@@ -119,7 +119,7 @@ Hmm. What do we have here? `/freeside/` looks interesting.
 
 That's the image of the exterior of a Bernal sphere, a.k.a. Freeside.
 
-## ntopng
+### ntopng
 
 There's another web-related port, `3000/tcp` and **ntopng** is running behind it.
 
@@ -129,13 +129,13 @@ There's another web-related port, `3000/tcp` and **ntopng** is running behind it
 
 ![b8926b2a.png](/assets/images/posts/wintermute-1-walkthrough/b8926b2a.png)
 
-## Be On the Look Out
+### Be On the Look Out
 
 `/turing-bolo/` has something that finally looks like an attack surface.
 
 ![d108fa62.png](/assets/images/posts/wintermute-1-walkthrough/d108fa62.png)
 
-## PHP Injection
+### PHP Injection
 
 There's a Local File Inclusion (LFI) vulnerability with the `bolo` parameter in `bolo.php`, demonstrated below.
 
@@ -201,11 +201,11 @@ The exploit is simple enough—run the `bash` script to get `root`. Let's DOOOO 
 
 I am root!
 
-## Proof of Purchase for Straylight
+### Proof of Purchase for Straylight
 
 ![cdc258cd.png](/assets/images/posts/wintermute-1-walkthrough/cdc258cd.png)
 
-## Next Attack: Neuromancer
+### Next Attack: Neuromancer
 
 Straylight doesn't have `nmap` to scan Neuromancer but it does have `nc` and `socat` which is good enough to do network reconnaissance and pivoting.
 
@@ -231,7 +231,7 @@ Since we are at it, we might as well forward another port in Straylight to my at
 
 I should now be able to access these ports from my attacking machine.
 
-## Struts2 Showcase Remote Command Execution
+### Struts2 Showcase Remote Command Execution
 
 ![f8f5f092.png](/assets/images/posts/wintermute-1-walkthrough/f8f5f092.png)
 
@@ -342,7 +342,7 @@ Now, I execute `wget` to pull the local privilege escalation exploit straight fr
 
 ![082b3226.png](/assets/images/posts/wintermute-1-walkthrough/082b3226.png)
 
-## Proof of Purchase for Neuromancer
+### Proof of Purchase for Neuromancer
 
 With a `root` shell, getting the flag on Neuromancer is trivial.
 

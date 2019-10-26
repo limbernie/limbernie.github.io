@@ -58,7 +58,7 @@ Let's see what we can find with the `http` service. This is how the site looks l
 
 Colorful!
 
-## JavaScript/PHP Helpers
+### JavaScript/PHP Helpers
 
 The site allows the creation/deletion of lists with the help of a combination of JavaScript and PHP. This is obvious when you look at the JavaScript debugger.
 
@@ -154,7 +154,7 @@ What if the private key also allows me to log in to `monitor`'s account locally?
 
 Holy cow!
 
-## Waldo's Land
+### Waldo's Land
 
 It's clear that `monitor` is using a restricted bash. It's easy to bypass that. We know that SSH allows command execution upon login. Let's leverage on that.
 

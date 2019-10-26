@@ -23,11 +23,11 @@ This post documents the complete walkthrough of Netmon, a retired vulnerable [VM
 * TOC 
 {:toc}
 
-### Background
+## Background
 
 Netmon is a retired vulnerable VM from Hack The Box.
 
-### Information Gathering
+## Information Gathering
 
 Let’s start with a `masscan` probe to establish the open ports in the host.
 

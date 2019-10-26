@@ -148,7 +148,7 @@ Jeez. There are so many services I don't know where to start! Let's start with S
 
 Excellent. We have a couple of shares that we can explore.
 
-## Information Disclosure
+### Information Disclosure
 
 Among the three shares, we can mount `general` and `Development` without any credentials.
 
@@ -165,7 +165,7 @@ In `general`, there's a file `creds.txt` that looks like this.
 
 Meanwhile, in `Development`, I can write files to it and it's already crowded with files. I'm pretty sure these files weren't there when the box was created. :smirk: Too bad the credential (`admin:WORKWORKHhallelujah@#`) can't mount the `Files` share. I'll just have to keep this in mind while I explore other services.
 
-## DNS Zone Transfer
+### DNS Zone Transfer
 
 Let's turn our attention on the `http` service. This is how it looks like on the browser.
 
@@ -199,7 +199,7 @@ Same thing. Put these subdomains to `/etc/hosts`.
 # echo -e "10.10.10.123\t$(host -l friendzone.red 10.10.10.123 | grep "has address" | cut -d' ' -f1 | tr '\n' ' ')" >> /etc/hosts
 ```
 
-## In the Zone
+### In the Zone
 
 The domain `friendzoneportal.red` is a rabbit hole. Suffice to say, I've done my enumeration and it didn't yield any useful results. Meanwhile, the domain `friendzone.red` is the real deal under `https`. Check this out.
 

@@ -109,7 +109,7 @@ Interesting. Basically, we only have WinRM and `http` services to explore. Let's
 ![3bf902a7.png](/assets/images/posts/helpline-htb-walkthrough/3bf902a7.png)
 </a>
 
-## ManageEngine ServiceDesk Plus 9.3
+### ManageEngine ServiceDesk Plus 9.3
 
 This version of ServiceDesk Plus is susceptible to [CVE-2019-10008](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-10008), which allows session hijacking and privilege escalation from guest to administrator. And I have just the perfect exploit (EDB-ID [46659](https://www.exploit-db.com/exploits/46659)) for it.
 

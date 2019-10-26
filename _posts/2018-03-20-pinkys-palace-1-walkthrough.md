@@ -54,7 +54,7 @@ Now, in full pink glory.
 
 ![screenshot-2](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-2.png)
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Now that I've gotten over the first hurdle, let's use `dirbuster` to fuzz the directories/files. But first, we need to set up the proxy in `dirbuster`.
 
@@ -68,7 +68,7 @@ After `dirbuster` has completed doing its thing, this is what I get.
 
 ![screenshot-5](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-5.png)
 
-## Pinky's Admin Files Login
+### Pinky's Admin Files Login
 
 This is the attack surface I see at `http://pinkys-palace:8080/littlesecrets-main/`.
 
@@ -82,7 +82,7 @@ The form on this page points to `login.php` and `logs.php` logs any failed login
 
 Notice `logs.php` shows three parameters (`user`, `pass` and `User-Agent`)? This calls for `sqlmap`, which can test these parameters for SQLi far better and faster .
 
-## SQL Injection
+### SQL Injection
 
 According to `sqlmap` usage [wiki](https://github.com/sqlmapproject/sqlmap/wiki/Usage),
 
@@ -125,7 +125,7 @@ I'm able to log in to `pinkymanage`'s account with the cracked password.
 
 ![screenshot-12](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-12.png)
 
-## Ultra Secret Admin Files
+### Ultra Secret Admin Files
 
 I see `ultrasecretadminf1l35` in `littlesecrets-main` during enumeration of `pinkymanage`'s account.
 
@@ -238,7 +238,7 @@ A perfectionist may argue that `euid=0` is not a real `root` shell. Well, that's
 
 ![screenshot-28](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-29.png)
 
-## Eyes on the Prize
+### Eyes on the Prize
 
 ![screenshot-30](/assets/images/posts/pinkys-palace-1-walkthrough/screenshot-30.png)
 

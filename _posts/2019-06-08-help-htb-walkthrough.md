@@ -77,7 +77,7 @@ We have two `http` services in the form of Apache and Node.js. This is how they 
 
 The default Apache page suggests more enumeration needs to be done.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's fuzz it with `gobuster` and DirBuster's wordlist just to see what we'll get.
 
@@ -112,7 +112,7 @@ I think I've seen enough. Let's pay `/support` a visit.
 
 Well, well, well. What do we have here? This must be our first attack surface.
 
-## HelpDeskZ 1.0.2 - Unauthenticated Arbitrary File Upload
+### HelpDeskZ 1.0.2 - Unauthenticated Arbitrary File Upload
 
 Searching Google for an exploit in HelpDeskZ led me to EDB-ID [40300](https://www.exploit-db.com/exploits/40300). Anyway, it looks like the site is running the vulnerable version.
 

@@ -150,7 +150,7 @@ Save the above into `hosts.txt`. Pop these hostnames into `/etc/hosts` and we sh
 # echo -e "10.10.10.124\t$HOSTS" >> /etc/hosts
 ```
 
-## Free Flu Jab. Why Not?
+### Free Flu Jab. Why Not?
 
 Long story short, the only site that yields any kind of sensible result is https://freeflujab.htb. The rest of the sites are there for a purpose—to keep you within the scope of the penetration testing engagement, if you are into that sort of thing. The name of the box already suggests that.
 
@@ -260,7 +260,7 @@ We got ourselves a SHA256 password hash! Keep my fingers crossed that rockyou wo
 
 Pretty fast!
 
-## Ajenti Panel
+### Ajenti Panel
 
 We can now proceed to the next clue, armed with the credential (`sysadm:th3doct0r`) and the access host. Suffice to say, we need to put `sysadmin-console-01.flujab.htb` into `/etc/hosts` as well.
 

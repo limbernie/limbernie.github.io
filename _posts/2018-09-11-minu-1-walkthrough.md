@@ -42,7 +42,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 This should be fun. `nmap` finds one open port: `80/tcp`.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `wfuzz` to fuzz the site and see what we are up against.
 
@@ -54,7 +54,7 @@ Something's up. There's way too many `403`s. Probably some Rewrite rules and/or 
 
 Now, this is more like it.
 
-## ModSecurity (OWASP CRS)
+### ModSecurity (OWASP CRS)
 
 Let's use `wafw00f` to determine if there's a WAF in place.
 
@@ -78,7 +78,7 @@ No js yay! But, are we looking at a Local File Inclusion (LFI) vulnerability her
 
 Anyway, long story short. It's not LFI, it's something else—remote command execution. Basically, this is an exercise in bypassing OWASP CRS.
 
-## Remote Command Execution
+### Remote Command Execution
 
 Don't believe it? Look here.
 
@@ -169,7 +169,7 @@ There's a online [debugger](https://jwt.io/#debugger) that we can use to find ou
 
 Judging by the file name, I guess we need to crack the JWT to determine the secret used in HS256 to create the signature.
 
-## JWT Cracker
+### JWT Cracker
 
 Searching for "jwt crack github" in Google gave plenty of results. I decided on [c-jwt-cracker](https://github.com/brendan-rius/c-jwt-cracker) based on performance considerations—it's multi-threaded and written in C.
 
@@ -177,7 +177,7 @@ Cracking the JWT with it, is crazy fast compared to the rest.
 
 ![0aecce8c.png](/assets/images/posts/minu-1-walkthrough/0aecce8c.png)
 
-## What's the Flag (WTF)
+### What's the Flag (WTF)
 
 It turns out that the secret is `root`'s password. With that, getting the flag is trivial.
 

@@ -195,7 +195,7 @@ Host script results:
 
 Wow. Again, too much information. Let's check out the file shares. But before we do that, notice that [WS-Management and PowerShell remoting](https://blogs.msdn.microsoft.com/wmi/2009/07/22/new-default-ports-for-ws-management-and-powershell-remoting/) is available at `5985/tcp` and `5986/tcp` for connections over HTTP and HTTPS respectively. Let's keep that in mind and make a mental note.
 
-## Common Internet File System
+### Common Internet File System
 
 ```
 # smbclient -L SIZZLE -I 10.10.10.103 -N
@@ -304,7 +304,7 @@ Alternatively, we can use `smbmap` to achieve the same result.
 
 `ZZ_ARCHIVE` is nothing but a rabbit hole. Notice the files here have the same size? Well, at least we manage to get some usernames, and we can write to `\Users\Public` and `\ZZ_Archive`.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's move on to the `http` service. Here's how it looks like.
 
@@ -346,7 +346,7 @@ It appears that Microsoft Active Directory Certificate Services is enabled with 
 ![afb0fc24.png](/assets/images/posts/sizzle-htb-walkthrough/afb0fc24.png)
 </a>
 
-## Shell Command File Attack
+### Shell Command File Attack
 
 Since the other enumeration didn't yield tangible results, perhaps we can launch a client-side attack using Shell Command File (SCF) to harvest SMB credentials in the form of NTLM hashes. Even if a file share doesn’t contain any data that could be used to connect to other systems, and it's configured with write permissions for unauthenticated users, then it is possible to obtain passwords hashes with a malicious SCF file like this.
 
@@ -376,7 +376,7 @@ Sending the hash to John the Ripper reveals the password of `amanda` to be `Asha
 
 Armed with the credential (`amanda:Ashare1972`), I can now access Microsoft Active Directory Certificate Services.
 
-## Microsoft Active Directory Certificate Services
+### Microsoft Active Directory Certificate Services
 
 Here's how it looks like.
 
@@ -404,7 +404,7 @@ Once you click **Install this certificate**, your browser's personal certificate
 
 What next? PowerShell Remoting!
 
-## Windows Remote Management (WinRM)
+### Windows Remote Management (WinRM)
 
 For the sake of convenience, I'll use a Windows 10 virtual machine to generate a client certificate request and repeat the steps to generate a client certificate for the purpose of client authentication with the remote WinRM service using PowerShell Remoting.
 
@@ -435,7 +435,7 @@ Copy the thumbprint and execute the following commands to get a remote shell int
 
 Boom. A low-privilege shell!
 
-## PowerShell Downgrade Attack
+### PowerShell Downgrade Attack
 
 The PowerShell session I got is using constrained language, and many of the good stuff from PowerSploit won't run. As such, I need to downgrade the session to Version 2.
 
@@ -475,7 +475,7 @@ Execute the reverse shell in Version 2.
 
 Awesome!
 
-## PowerView and Kerberoasting
+### PowerView and Kerberoasting
 
 Now, we can download and execute PowerView on the session!
 

@@ -60,7 +60,7 @@ PORT   STATE    SERVICE REASON         VERSION
 
 It's a login page with strange looking error codes.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `wfuzz` and see what we can discover.
 

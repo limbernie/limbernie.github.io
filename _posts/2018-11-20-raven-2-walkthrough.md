@@ -58,7 +58,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. We'll put the rest of the open ports on the back burner.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's run through the host with `nikto` and see what we get.
 
@@ -124,7 +124,7 @@ http://raven.local/server-status (Status: 403)
 2018/11/19 14:41:19 Finished
 =====================================================
 ```
-## Flag: 1
+### Flag: 1
 
 The `/vendor` directory seems interesting. What is it?
 
@@ -140,7 +140,7 @@ Notice the date/time of file `PATH` is more recent compared to the rest? Let's t
 
 That's our first flag.
 
-## PHPMailer < 5.2.18 - Remote Command Execution
+### PHPMailer < 5.2.18 - Remote Command Execution
 
 Looks like the site is also using PHPMailer 5.2.16.
 
@@ -223,7 +223,7 @@ There you have it. A low-privilege shell.
 ![9ed3cd88.png](/assets/images/posts/raven-2-walkthrough/9ed3cd88.png)
 </a>
 
-## Flag: 2
+### Flag: 2
 
 The second flag is at the home directory of `www-data`.
 
@@ -231,7 +231,7 @@ The second flag is at the home directory of `www-data`.
 ![86325e57.png](/assets/images/posts/raven-2-walkthrough/86325e57.png)
 </a>
 
-## Flag: 3
+### Flag: 3
 
 The third flag is hidden within WordPress uploads.
 
@@ -317,7 +317,7 @@ Meanwhile, at the `nc` listener &hellip;
 
 Boom.
 
-## Flag: 4
+### Flag: 4
 
 With a `root` shell, getting the final flag is trivial.
 

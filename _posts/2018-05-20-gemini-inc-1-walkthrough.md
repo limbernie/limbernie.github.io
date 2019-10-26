@@ -55,7 +55,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 There's no need to fuzz the site for directories and/or files because the landing page has offered an important piece of information about the web application—it's built on [Master Login System](https://github.com/ionutvmi/master-login-system).
 
-## Master Login System
+### Master Login System
 
 If you'd watched the walkthrough [video](http://www.youtube.com/watch?v=y7SdQfZfLbA) at the project page, you'd have gotten the default login credential without resorting to any brute-force attack; and it's valid too.
 
@@ -98,7 +98,7 @@ XSS'd.
 
 ![0.mvqpaa9wm5n](/assets/images/posts/gemini-inc-1-walkthrough/0.mvqpaa9wm5n.png)
 
-## Issue #3570
+### Issue #3570
 
 SSRF refers to an attack where an attacker is able to send a crafted request to trick a vulnerable web application to perform an unanticipated action.
 

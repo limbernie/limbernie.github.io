@@ -168,7 +168,7 @@ Turns out that the JSON parser produces a syntax error when it's given a malform
 
 ![Response](/assets/images/posts/bulldog-2-walkthrough/3a7cfbd7.png)
 
-## Bulldog 2 - The Reckoning
+### Bulldog 2 - The Reckoning
 
 Not knowing how to proceed, I chanced upon the site's Github [respository](https://github.com/Frichetten/Bulldog-2-The-Reckoning) searching for **"Bulldog-2-The-Reckoning"** in Google.
 
@@ -249,7 +249,7 @@ Since we have write permissions to `/etc/passwd`, let's change the `root` passwo
 
 ![root](/assets/images/posts/bulldog-2-walkthrough/84537774.png)
 
-## Where's the Flag (WTF)
+### Where's the Flag (WTF)
 
 Getting the flag is trivial now that I'm `root`.
 

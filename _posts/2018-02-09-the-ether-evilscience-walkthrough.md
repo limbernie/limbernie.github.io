@@ -76,7 +76,7 @@ Among the hyperlinks, two of them stand out:
 
 A hint of LFI vulnerability? Who knows?
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's fuzz the site with `dirbuster` and see what we get.
 
@@ -104,7 +104,7 @@ I notice the content of `/about.php` appears twice before the content of `/index
 
 OK. Now, I'm positive there is LFI vulnerability with the `file` parameter.
 
-## Mapping of DocumentRoot
+### Mapping of DocumentRoot
 
 I try the following common LFI attacks with no success:
 
@@ -216,7 +216,7 @@ At long last. the **DocumentRoot** is at `/var/www/html/theEther.com/public_html
 
 Sweet.
 
-## Access Log
+### Access Log
 
 Since I can't access the default `/var/log/apache2/access.log`, it's possible that the access log is elsewhere, perhaps even somewhere near.
 
@@ -233,7 +233,7 @@ Using `quickhits.txt` from SecLists with `fuzz.sh`, I'm able to map out this loc
 [!] Found: http://192.168.198.130/?file=/var/www/html/theEther.com/log/access.log
 ```
 
-## LFI to Shell
+### LFI to Shell
 
 Now that I've found `access.log`, I can corrupt it by sending PHP code through `netcat`.
 
@@ -397,7 +397,7 @@ Time to test my hypothesis.
 
 :dancer:
 
-## Getting to Bikini Bottom :bikini:
+### Getting to Bikini Bottom :bikini:
 
 There's a PNG file `flag.png` in `/root` that looks like this.
 

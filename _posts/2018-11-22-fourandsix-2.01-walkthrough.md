@@ -56,7 +56,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 There’s nothing to explore except for NFS at `2049/tcp`. We’ll start with that.
 
-## Network File System
+### Network File System
 
 As usual, when it comes to NFS we’ll use `showmount` to view the NFS exports from the VM.
 
@@ -82,7 +82,7 @@ It's a 7z archive file alright, but it's password-protected.
 ![94470663.png](/assets/images/posts/fourandsix-2.01-walkthrough/94470663.png)
 </a>
 
-## John the Ripper
+### John the Ripper
 
 Let's see if **John the Ripper** can crack the password.
 
@@ -180,7 +180,7 @@ What do we have here? We can run `less` as `root`? I smell "escape to shell".
 
 Enter `v` to escape to `vi`, and then `!sh` to escape to shell. It's that simple.
 
-## What's the Flag?
+### What's the Flag?
 
 Getting the flag is trivial when you have a `root` shell.
 

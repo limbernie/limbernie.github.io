@@ -53,7 +53,7 @@ Let's start with the `http` service. This is how it looks like in a browser.
 ![8551cc0f.png](/assets/images/posts/curling-htb-walkthrough/8551cc0f.png)
 </a>
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `wfuzz` and SecLists' `quickhits.txt`, and see what we can get.
 
@@ -94,7 +94,7 @@ Now, what do we have here? Joomla!
 ![12613c27.png](/assets/images/posts/curling-htb-walkthrough/12613c27.png)
 </a>
 
-## Joomla 3.8
+### Joomla 3.8
 
 If you look at the articles posted, the first article was signed off by Floris and written by Super User. Could `floris` be the username? And, what's the password?
 

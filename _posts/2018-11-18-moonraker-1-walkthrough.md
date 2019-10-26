@@ -102,7 +102,7 @@ PORT      STATE SERVICE  REASON         VERSION
 
 `nmap` finds the following open ports: `22/tcp`, `80/tcp`, `3000/tcp`, `4369/tcp`, and `5984/tcp`. In any case, let's go with the web.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 I always like to go with `gobuster` and the biggest wordlist from DirBuster to fuzz for directories.
 
@@ -168,7 +168,7 @@ http://127.0.0.1/svc-inq/salesmoon-gui.php
 ![8eadba61.png](/assets/images/posts/moonraker-1-walkthrough/8eadba61.png)
 </a>
 
-## Admin Interface
+### Admin Interface
 
 The new page exposes the Sales Admin Interface. This is how it looks like.
 
@@ -176,7 +176,7 @@ The new page exposes the Sales Admin Interface. This is how it looks like.
 ![7e5ff814.png](/assets/images/posts/moonraker-1-walkthrough/7e5ff814.png)
 </a>
 
-## CouchDB / Project Fauxton
+### CouchDB / Project Fauxton
 
 Good thing I'm familiar with the RESTful nature of CouchDB and Project Fauxton.
 
@@ -204,7 +204,7 @@ The `links` database exposes more links!
 ![21faa2e4.png](/assets/images/posts/moonraker-1-walkthrough/21faa2e4.png)
 </a>
 
-## Node.js Deserialization
+### Node.js Deserialization
 
 Another important hint lies in **Hugo's page moved to port 3k**.
 
@@ -319,7 +319,7 @@ The new password must be "`cyberVR00M`".
 ![af53ca6b.png](/assets/images/posts/moonraker-1-walkthrough/af53ca6b.png)
 </a>
 
-## Was Dolly Wearing Braces?
+### Was Dolly Wearing Braces?
 
 <a class="image-popup" title="James Bond saves the day again">
 ![3d059e8e.png](/assets/images/posts/moonraker-1-walkthrough/3d059e8e.png)

@@ -164,7 +164,7 @@ It appears that we have two backup file systems in VHD, presumably one for the b
 
 Of course, we are interested in the C: volume.
 
-## Mounting a guest filesystem with `guestmount`
+### Mounting a guest filesystem with `guestmount`
 
 We can simply mount the backup file system with [`guestmount`](http://libguestfs.org/guestmount.1.html), which is an awesome project by the way.
 
@@ -182,7 +182,7 @@ It'll take a while because we are mounting over SMB. Once it's done, it should l
 ![2b76aa92.png](/assets/images/posts/bastion-htb-walkthrough/2b76aa92.png)
 </a>
 
-## Credentials Recovery
+### Credentials Recovery
 
 Now that we have access to the backup file system, what files should we get? Credentials are stored in the SAM file as NTLM hashes, protected by the SYSKEY which in turn is stored in the SYSTEM registry hive. We can recover these credentials using Impacket's `secretsdump.py`. The required files SAM, SECURITY, and SYSTEM can all be found in `C:\Windows\System32\config`.
 

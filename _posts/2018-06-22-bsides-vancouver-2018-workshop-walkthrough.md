@@ -68,7 +68,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `21/tcp`, `22/tcp`, and `80/tcp` open. None of the services are vulnerable to any remote code execution attacks right off the bat. Let's explore the `ftp` service next since we can log in anonymously.
 
-## FTP Service
+### FTP Service
 
 There's a file `users.txt.bk` in the `public` directory—it contains usernames.
 
@@ -80,7 +80,7 @@ mai
 anne
 doomguy
 ```
-## SSH Service
+### SSH Service
 
 If I had to guess, I would say these are probably users with an account in the target. Let's find out.
 
@@ -88,7 +88,7 @@ If I had to guess, I would say these are probably users with an account in the t
 
 As you can see, `anne` is the sole account that can login via SSH with a password. This calls for a brute-force attack.
 
-## Hail Hydra
+### Hail Hydra
 
 For online brute-force attack, I like to use `hydra` and the **rockyou** wordlist. Here's the command.
 
@@ -97,7 +97,7 @@ For online brute-force attack, I like to use `hydra` and the **rockyou** wordlis
 [22][ssh] host: 192.168.30.129   login: anne   password: princess
 ```
 
-## SSH Access
+### SSH Access
 
 I don't believe it—this is way too easy.
 
@@ -109,7 +109,7 @@ Guess what? `anne` is able to `sudo` as `root`.
 
 ![sudo](/assets/images/posts/bsides-vancouver-2018-workshop-walkthrough/0.6pu5qdr84a.png)
 
-## Eyes on the Prize
+### Eyes on the Prize
 
 I got my eyes on the prize.
 

@@ -111,7 +111,7 @@ Hmm. Must have something to do with the `Host` request header. Let's map 10.10.1
 ![91378288.png](/assets/images/posts/chaos-htb-walkthrough/91378288.png)
 </a>
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Let's use `wfuzz` on the site and see what we can find.
 
@@ -176,7 +176,7 @@ Requests/sec.: 48.86814
 
 What do you know? WordPress is installed!
 
-## WordPress Protected Post
+### WordPress Protected Post
 
 This is how the blog looks like. You can see that there's a protected post.
 
@@ -190,7 +190,7 @@ After much guessing :-1:, the password is `human`. :unamused:
 ![1f96aae6.png](/assets/images/posts/chaos-htb-walkthrough/1f96aae6.png)
 </a>
 
-## Webmail
+### Webmail
 
 Let's verify the webmail credentials with IMAPS. IMAPS seem to be more likely to be powering webmail. We can use `openssl s_client`, very much like `nc`, to connect to SSL-enabled services.
 

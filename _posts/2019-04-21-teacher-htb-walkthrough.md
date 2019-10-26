@@ -44,7 +44,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `80/tcp` open. Let's go with that.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 Based on my experience, it's always good to run some kind of fuzzing when faced with a lack of hints. Let's run `wfuzz` and SecList's `common.txt`, and see what we can find.
 

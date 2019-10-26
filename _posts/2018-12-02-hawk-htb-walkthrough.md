@@ -107,7 +107,7 @@ Going the `ftp` route reveals a `messages` directory that contains a hidden file
 ![0b315a7f.png](/assets/images/posts/hawk-htb-walkthrough/0b315a7f.png)
 </a>
 
-## Decryption of AES-256-CBC
+### Decryption of AES-256-CBC
 
 I'm guessing the password or passphrase to decrypt the file must be simple. As such, I wrote the following script to automate the decryption of the file by going through a wordlist.
 
@@ -140,7 +140,7 @@ Since I don't know the cipher used, the script runs through all the available ci
 ![083d4843.png](/assets/images/posts/hawk-htb-walkthrough/083d4843.png)
 </a>
 
-## Drupal 7.58
+### Drupal 7.58
 
 This version is not affected by Drupalgeddon2. The credentials to the administrative interface is (`admin:PencilKeyboardScanner123`)
 
@@ -154,7 +154,7 @@ Simple as it looks, the code allows us to execute remote commands as `www-data`.
 
 I have a preference for Perl reverse shell because Perl is, more often than not, available in Linux.
 
-## H2 1.4.196 Remote Code Execution
+### H2 1.4.196 Remote Code Execution
 
 During enumeration of the `www-data` account, I notice the H2 database is ran as `root`. Simply run the proof-of-concept code from EDB-ID [45506](https://www.exploit-db.com/exploits/45506) to get a `root` shell.
 

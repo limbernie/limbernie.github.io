@@ -74,7 +74,7 @@ PORT      STATE SERVICE REASON         VERSION
 
 ![9cbbd925.png](/assets/images/posts/billu-b0x-2-walkthrough/9cbbd925.png)
 
-## Drupalgeddon
+### Drupalgeddon
 
 Suffice to say, the first thought that comes to my mind is Drupalgeddon. Since this is Drupal 8, I'll give EDB-ID [44448](https://www.exploit-db.com/exploits/44448/) a shot. It's a proof-of-concept code written in Python that tests for remote command execution. It writes a file and then checks for the file's existence. In any case, it's easy to rewrite it in `bash`. i.e. wrap the script around `curl` and re-purpose it to take in an argument—any shell command.
 

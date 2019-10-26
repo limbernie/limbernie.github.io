@@ -116,7 +116,7 @@ Host script results:
 
 Interesting. I don't see the usual `http` service. However, we do have SMB. Let's see what can we find with `smbclient`.
 
-## Server Message Block
+### Server Message Block
 
 Let's list the file shares, if any, using `smbclient`.
 
@@ -132,7 +132,7 @@ Sweet. Looks like there's one share, `Reports`.
 
 And, there's a file in it. Let's grab that.
 
-## Visual Basic for Applications
+### Visual Basic for Applications
 
 It turns out that the file is a macro-enabled spreadsheet. The best way to analyze macros spreadsheet is still, in my opinion, Microsoft Office, primarily because of the excellent Visual Basic Editor bundled with it. It doesn't take long to find what we are looking for.
 
@@ -142,7 +142,7 @@ It turns out that the file is a macro-enabled spreadsheet. The best way to analy
 
 Database credentials!
 
-## Tabular Data Stream
+### Tabular Data Stream
 
 Microsoft and Sybase uses Tabular Data Stream (TDS) as the underlying protocol for data transfer between a client and a database server. We can use `sqsh` in Kali Linux to remotely connect to Microsoft SQL Server.
 
@@ -175,7 +175,7 @@ Now, let's connect to the server using its name.
 
 Awesome.
 
-## Undocumented Stored Procedure - `xp_dirtree`
+### Undocumented Stored Procedure - `xp_dirtree`
 
 Now that we have access to a MSSQL shell so to speak, we can execute `xp_dirtree` to exfiltrate NTLM hashes. But first, we need to set up a fake SMB server.
 

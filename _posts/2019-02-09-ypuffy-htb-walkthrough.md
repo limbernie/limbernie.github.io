@@ -85,7 +85,7 @@ Host script results:
 
 We are probably looking at a OpenBSD box. In any case, I usually go with the `http` service first but this time round, there isn't much going on there. Let's turn our attention to LDAP or `389/tcp`.
 
-## Lightweight Directory Access Protocol
+### Lightweight Directory Access Protocol
 
 From the nmap scan, we know that the domain is `hackthebox.htb` and in LDAP query language, that's represented as `dc=hackthebox,dc=htb`. We can use `ldapsearch` to search for the objects and attributes from the domain like so.
 
@@ -204,7 +204,7 @@ There's something interesting going on with `Alice`'s account.
 
 We can pass-the-hash with `sambaNTPassword`, using `smbclient`.
 
-## Samba
+### Samba
 
 <a class="image-popup">
 ![f777316f.png](/assets/images/posts/ypuffy-htb-walkthrough/f777316f.png)

@@ -69,7 +69,7 @@ Bummer. Nothing unusual stands out. Let's check out the `http` service. Here's h
 
 There's some kind of **Fail2Ban** thing going on here I guess, so brute-force actions that result in HTTP response >= 400 is out of the question. :no_good:
 
-## Blind LDAP Injection
+### Blind LDAP Injection
 
 It turns out that our next hint lies in the HTML comments of the login page.
 
@@ -238,7 +238,7 @@ echo -e "\n[+] Token string is: $TOKEN"
 ![0ab438a3.png](/assets/images/posts/ctf-htb-walkthrough/0ab438a3.png)
 </a>
 
-## Software Token
+### Software Token
 
 Now that we have the token string, we can import the token string into `stoken`. According to the manual, `stoken` is  a software token compatible with RSA SecurID 128-bit (AES) tokens. We can use it to generate the OTPs.
 

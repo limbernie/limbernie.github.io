@@ -62,7 +62,7 @@ There's a **LOGIN** button at the top right-hand side; it brings us to the login
 
 I must say the design looks good.
 
-## AngularJS
+### AngularJS
 
 The client side of "MyPlace" uses AngularJS. As such, one has to look at the JavaScript files for clues on how to proceed. The go-to tool in my arsenal to do that is the Debugger from the Developer Tools.
 
@@ -86,7 +86,7 @@ Click on the **Download Backup** button to bring up a dialog box to save the pla
 
 ![25431aaa.png](/assets/images/posts/node-1-walkthrough/25431aaa.png)
 
-## File Analysis
+### File Analysis
 
 Like any good security analyst worth his salt, I'm putting on my forensics hat to examine the file in greater details.
 
@@ -160,7 +160,7 @@ Download the reverse shell to `/tmp/rev` with `wget` and make it executable.
 
 ![77f70ca9.png](/assets/images/posts/node-1-walkthrough/77f70ca9.png)
 
-## Mongo Shell
+### Mongo Shell
 
 It's time to insert my command to run the reverse shell into the `tasks` collection.
 
@@ -174,7 +174,7 @@ Awesome. But, let's give ourselves a better looking shell with the Python pseudo
 
 ![47c1ba65.png](/assets/images/posts/node-1-walkthrough/47c1ba65.png)
 
-## User Flag
+### User Flag
 
 The user flag is at `/home/tom/user.txt`.
 
@@ -232,7 +232,7 @@ On our `nc` listener, a `root` shell returns!
 
 ![84aa2dca.png](/assets/images/posts/node-1-walkthrough/84aa2dca.png)
 
-## Root Flag
+### Root Flag
 
 After spawning the pseudo-TTY shell, retrieving the root flag is a piece-of-cake.
 

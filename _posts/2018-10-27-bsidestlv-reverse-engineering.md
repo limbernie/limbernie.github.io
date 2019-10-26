@@ -36,7 +36,7 @@ The 2018 BSidesTLV CTF competition brought together over 310 teams burning the m
 
 What follows is my humble attempt of cracking the challenges in the **Reverse Engineering** category.
 
-## Into the rabbit hole
+### Into the rabbit hole
 
 This is how the challenge looks like.
 
@@ -110,7 +110,7 @@ The flag is:
 BSidesTLV{We_gonna_run_run_run_to_the_cities_of_the_future,_take_what_we_can_and_bring_it_back_home._So_take_me_down_to_the_cities_of_the_future,_everybody's_happy_and_I_feel_at_home.}
 ```
 
-## hideinplLainsight
+### hideinplLainsight
 
 This is how the challenge looks like.
 
@@ -358,7 +358,7 @@ Let's re-assemble the above as `rickandmorty.exe` and run it.
 
 The flag is `BSidesTLV{Look, Rick, I know IL!}`.
 
-## wtflol
+### wtflol
 
 This is how the challenge looks like.
 

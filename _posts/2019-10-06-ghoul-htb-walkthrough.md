@@ -90,7 +90,7 @@ _`8080/tcp` (`admin:admin`)_
 
 Looks like we have an uploader.
 
-## Directory/File Enumeration
+### Directory/File Enumeration
 
 But first, let's touch base with `gobuster` first on `80/tcp`.
 
@@ -135,7 +135,7 @@ http://10.10.10.101/less (Status: 301)
 
 Looks like we have a remote command/code execution (RCE) vulnerability somewhere! :triumph:
 
-## Zip Slip Vulnerability
+### Zip Slip Vulnerability
 
 It's easy to miss this if you don't navigate around for a bit.
 
@@ -183,7 +183,7 @@ We want to put `cmd.php` at the document root (likely to be `/var/www/html`) of 
 
 Bam. We have remote command execution alright.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 From here on, it\'s easy to get a shell. I'm using the following Perl one-liner.
 
@@ -515,7 +515,7 @@ The highlighted password is the correct one to `su` as `root`. And guess what's 
 
 Damn, again. :angry:
 
-### Privilege Escalation
+## Privilege Escalation
 
 During enumeration of `root` in `kaneki-pc`, I noticed something weird. This occurs every couple of minutes. `kaneki_adm` logs in to `kaneki-pc` only to log in to `172.18.0.1` as `root` at `2222/tcp` to execute `log.sh`.
 

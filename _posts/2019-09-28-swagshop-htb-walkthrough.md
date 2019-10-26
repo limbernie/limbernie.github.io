@@ -67,7 +67,7 @@ The `http` service appears to be running an old version of Magento Community Edi
 
 Scroll down.
 
-## Magento Community Edition 1.7.0.2
+### Magento Community Edition 1.7.0.2
 
 How do I know the version? Check out the release notes basically. The directory structure is also found in a GitHub repository [mirror](https://github.com/OpenMage/magento-mirror/tree/1.7.0.2) for older versions.
 

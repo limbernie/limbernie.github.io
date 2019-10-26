@@ -49,7 +49,7 @@ PORT    STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `666/tcp` open.
 
-## Node.js Deserialization Bug
+### Node.js Deserialization Bug
 
 Let's pay `666/tcp` a visit and see what we can find there.
 
@@ -118,7 +118,7 @@ Next, create `/home/nodeadmin/.ssh` and echo the SSH public key to `authorized_k
 
 Now, SSH into `nodeadmin`'s account.
 
-## Command Execution in `shadowsocks-libev`
+### Command Execution in `shadowsocks-libev`
 
 During enumeration of `nodeadmin`'s account, I notice `/usr/local/bin/ss-manager` is running as `fireman`.
 
@@ -142,7 +142,7 @@ On our `nc` listener, a reverse shell returns as `fireman`.
 
 We can repeat the same SSH trick for `fireman`.
 
-## Dangerous `tcpdump`
+### Dangerous `tcpdump`
 
 During enumeration of `fireman`'s account, I found the following.
 

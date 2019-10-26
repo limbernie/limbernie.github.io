@@ -69,7 +69,7 @@ Wow. This is as good as nothing. Anyways, here's how the site looks like.
 
 Well, at least we have `index.php`. :smile:
 
-## OneTwoSeven Site
+### OneTwoSeven Site
 
 The site has four features: SFTP, static file hosting, IPv6, DDoS Protection.
 
@@ -97,7 +97,7 @@ Checking the HTML source of `index.php` shows something interesting.
 
 The link to "Admin" is greyed out and it's hosted at `60080/tcp`. It should be clear from the anti-DDoS description, that there's no point in brute-forcing directories or files. Other pages include `signup.php`, `stats.php`, and `attribution.php`.
 
-## Secure File Transfer Protocol
+### Secure File Transfer Protocol
 
 Let's grab an account first above all else.
 
@@ -206,7 +206,7 @@ What a surprise, `user.txt` is here.
 ![d5610a6e.png](/assets/images/posts/onetwoseven-htb-walkthrough/d5610a6e.png)
 </a>
 
-## Administration Backend
+### Administration Backend
 
 Recall the link to Admin was on `60080/tcp`? We can make use of ProxyCommand to run `ssh` and forward a local port on our attacking machine to the remote port of `60080/tcp` like so.
 

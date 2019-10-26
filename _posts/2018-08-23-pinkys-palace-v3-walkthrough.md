@@ -73,7 +73,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 SSH is at `5555/tcp` while Drupal 7 is running behind `8000/tcp`. In any case, let's check out the FTP since I can log in anonymously.
 
-## Passive FTP
+### Passive FTP
 
 First up, I notice active FTP is not working.
 
@@ -95,7 +95,7 @@ Fair enough. Now, let's dig deeper.
 
 No wonder active FTP is not working—the VM is unable to start outbound connections—the firewall blocks it.
 
-## Drupal 7
+### Drupal 7
 
 Next, let's focus our attention on Drupal 7. I'm sure you are aware that Drupal versions before 7.58, 8.3.9, 8.4.6 and 8.5.1 is susceptible to a remote code execution attack known as 'Drupalgeddon2'.
 
@@ -217,7 +217,7 @@ Sweet. I can access both instances.
 
 ![a83ee1f6.png](/assets/images/posts/pinkys-palace-v3-walkthrough/a83ee1f6.png)
 
-## Let the Fuzzing Begin
+### Let the Fuzzing Begin
 
 It's time for a round of fuzzing to determine the directories and files for further exploration. As usual, my weapon of choice is `wfuzz` combined with quality wordlists.
 
@@ -320,7 +320,7 @@ Requests/sec.: 507.0508
 
 Boom. I got it this time.
 
-## PinkSec Control Panel
+### PinkSec Control Panel
 
 The credential is correct (`pinkadmin:AaPinkSecaAdmin4467:55849`). After logging in, I got redirected to this.
 
@@ -393,7 +393,7 @@ During the enumeration of `pinksecmanagement`'s account, I found the following:
 + `/usr/local/bin/PSMCCLI` is `setuid` to `pinky`
 + `pinkysecmanagement` group is able to read, write and execute `/usr/local/bin/PSMCCLI`
 
-## Format String Vulnerability
+### Format String Vulnerability
 
 Using `pinksecmanagement`'s account, I was able to download a copy of `/usr/local/bin/PSMCCLI` for further analysis. I soon discover `/usr/local/bin/PSMCCLI` accepts one argument and uses `printf` to print the argument without using a format string in the `argshow` function.
 
@@ -550,7 +550,7 @@ Open another `terminal` and SSH to the VM with this credential (`toor:toor`).
 
 ![1f409c38.png](/assets/images/posts/pinkys-palace-v3-walkthrough/1f409c38.png)
 
-## Eyes on the Prize
+### Eyes on the Prize
 
 Boohoo. It's over.
 

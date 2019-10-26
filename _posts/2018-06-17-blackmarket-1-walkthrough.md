@@ -82,7 +82,7 @@ PORT    STATE SERVICE    REASON         VERSION
 
 `nmap` finds plenty of open services. But, let's continue our efforts with `http` since there is a higher chance of finding an attack surface here.
 
-## Flag: 1
+### Flag: 1
 
 Indeed, the first flag is in the HTML source of the landing page at `http://192.168.10.130/`.
 
@@ -105,7 +105,7 @@ Here's how.
 # cewl -w cewl.txt http://bourne.wikia.com/wiki/Operation_Treadstone
 ```
 
-## Directory Fuzzing
+### Directory Fuzzing
 
 Next, I use `dirbuster` with one of the bigger wordlists to fuzz the site—to uncover any directories that are not visible from the get-go.
 
@@ -128,7 +128,7 @@ Dir found: /vendor/ - 403
 
 The fuzz turns up `/squirrelmail` and `/upload`—potential attack surfaces. Files like `/header.php` and `/navbar` are also consistently seen (return code `200`) under `/admin`, `/supplier`, and `/user`, which suggests that the site could be using role-based access.
 
-## BlackMarket Login
+### BlackMarket Login
 
 This is how the login page looks like.
 
@@ -145,7 +145,7 @@ Boom. I'm in. And as you can see, what is in `top10.txt` is unimportant because 
 
 ![Login Success - supplier](/assets/images/posts/blackmarket-1-walkthrough/0.g3bb3gue5yu.png)
 
-## SQL Injection
+### SQL Injection
 
 I know that I'm looking at a potential SQL injection vulnerability when it involves product ID in a table of products.
 
@@ -188,7 +188,7 @@ nicky:x:1002:1002:,,,:/home/nicky:/bin/ftponly
 ftp:x:112:120:ftp daemon,,,:/srv/ftp:/bin/false
 ```
 
-## Flag: 2
+### Flag: 2
 
 Notice that the way for `nicky` to log in is through `ftp`? I know that `ftp` is available from the `nmap` scan. Armed with this information, let's give a shot to `hydra` and the wordlist I built earlier on, and try to brute-force our way in.
 
@@ -215,7 +215,7 @@ Congrats Proceed Further
 
 Let's proceed further then.
 
-## Flag: 3
+### Flag: 3
 
 The third flag is in the `flag` table—one of the tables in `BlackMarket` database.
 
@@ -225,7 +225,7 @@ I'm supposed to find the email access of Jason Bourne; and we know from the resu
 
 ![SquirrelMail](/assets/images/posts/blackmarket-1-walkthrough/0.ufgx697kl7l.png)
 
-## Flag: 4
+### Flag: 4
 
 Recall the `supplier` login access? Because of poor coding in the role-based access, I can point the URL to a different role such as `/admin` and access their respective landing pages with `supplier`'s session cookie.
 
@@ -248,7 +248,7 @@ nothing is here
 
 Trolled—the decoded message says "nothing is here".
 
-## Flag: 5
+### Flag: 5
 
 Since there's a tendency of trolling, could `?????` be the password to Jason Bourne email access?
 
@@ -269,7 +269,7 @@ Everything is encrypted
 
 Duh. The decoded flag offers nothing of value.
 
-## Decryption
+### Decryption
 
 It's obvious that we are looking at some kind of substitution cipher. The method to decipher it—is to look for words with repeated characters. For example, straight up we have "Wrnrgir", which is a substitution for "Dimitri". As such, the first line is "Hi Dimitri".
 
@@ -313,7 +313,7 @@ workshop under /kgbbackdoor folder you must have to use
 PassPass.jpg in order to get access.
 ```
 
-## BlackMarket Auto Workshop
+### BlackMarket Auto Workshop
 
 Hmm. Another web application? I got a `404 - Not Found` when I navigated to `/eworkshop` following the trail.
 
@@ -353,7 +353,7 @@ The web application is at `/vworkshop`. Wait a minute! Didn't the second flag me
 
 ![BlackMarket Workshop](/assets/images/posts/blackmarket-1-walkthrough/0.drh14ev63nm.png)
 
-## KGB Backdoor
+### KGB Backdoor
 
 From the decrypted message, we got to know that a backdoor is in the BlackMarket Auto Workshop and that we need `PassPass.jpg` to gain access to it. Here's how `PassPass.jpg` looks like.
 
@@ -366,7 +366,7 @@ Like they always say—the devil is in the detail.
 Pass = 5215565757312090656
 ```
 
-## Backdoor Login
+### Backdoor Login
 
 This time round, I rely on good ol' fashion guesswork to determine the location of the backdoor. It's at `/vworkshop/kgbbackdoor/backdoor.php`.
 
@@ -422,7 +422,7 @@ This is more like it.
 
 Boom. I'm in.
 
-## Flag: 6
+### Flag: 6
 
 The sixth flag is at the home directory of the backdoor.
 
@@ -437,7 +437,7 @@ Root time
 
 I must be getting close.
 
-## Dimitri Hates Apple
+### Dimitri Hates Apple
 
 I get it—Dimitri hates Apple products.
 
@@ -447,7 +447,7 @@ Having gone so far into this challenge, I'm pretty sure this is the password for
 
 ![Login Success - dimitri](/assets/images/posts/blackmarket-1-walkthrough/0.w0kkzwogx9i.png)
 
-## Root Time
+### Root Time
 
 My lucky streak continues—`dimitri` is able to `sudo` as `root`.
 
@@ -459,7 +459,7 @@ Time to be `root` and call it a day.
 
 :dancer:
 
-## Decoded Flags
+### Decoded Flags
 
 ```
 1. CIA - Operation Treadstone

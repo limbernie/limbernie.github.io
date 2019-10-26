@@ -63,7 +63,7 @@ Let's check out the "Vibranium Market" home page.
 
 ![886afd6f.png](/assets/images/posts/wakanda-1-walkthrough/886afd6f.png)
 
-## Local File Inclusion (LFI)
+### Local File Inclusion (LFI)
 
 Let's check the HTML source as well while we are at it.
 
@@ -176,7 +176,7 @@ Who uses a Python interpreter as shell? Honestly! No big deal–we can give ours
 
 ![17e61202.png](/assets/images/posts/wakanda-1-walkthrough/17e61202.png)
 
-## DevOps Trickery in `systemd`
+### DevOps Trickery in `systemd`
 
 During enumeration of `mamadou`'s account, I found the following:
 
@@ -245,7 +245,7 @@ Let's do something like this.
 
  ![f340b5a8.png](/assets/images/posts/wakanda-1-walkthrough/f340b5a8.png)
 
-## What's the Flag (WTF)
+### What's the Flag (WTF)
 
 After repeating the SSH trick for `root`, getting the flag is trivial.
 

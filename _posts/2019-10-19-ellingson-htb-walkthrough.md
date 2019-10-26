@@ -89,7 +89,7 @@ Long story short, the debugger is ran with `hal`'s permissions. As such, we can 
 
 Play nice, append and leave a newline for the next contender.
 
-### Low-Privilege Shell
+## Low-Privilege Shell
 
 With that, we can log in to SSH as `hal`.
 

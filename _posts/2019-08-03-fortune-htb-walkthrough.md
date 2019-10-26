@@ -87,7 +87,7 @@ I think we got command injection in our hands!
 ![f8b5f98b.png](/assets/images/posts/fortune-htb-walkthrough/f8b5f98b.png)
 </a>
 
-## Client-side SSL Certificate
+### Client-side SSL Certificate
 
 I was very eager to run a reverse shell back but it seems the firewall is blocking outbound communications. During enumeration of the SSH configuration, I noticed the following.
 

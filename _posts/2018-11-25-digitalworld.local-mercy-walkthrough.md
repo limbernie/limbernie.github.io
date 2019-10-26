@@ -88,7 +88,7 @@ From my experience, entering the manager webapp requires authentication. I'm not
 
 Tomcat is a shit-show. Time to go over to Samba.
 
-## Samba 4.3.11
+### Samba 4.3.11
 
 One can list down the services available in Samba with `smbclient` like so.
 
@@ -118,7 +118,7 @@ That was fast!
 
 Not too bad, I must say.
 
-## Open Sesame
+### Open Sesame
 
 The `.private` directory offers some important system information as follows.
 
@@ -176,7 +176,7 @@ According to EDB-ID [18660](https://www.exploit-db.com/exploits/18660/), RIPS 0.
 
 It's an LFI alright.
 
-## Tomcat Revisit
+### Tomcat Revisit
 
 We can expose the passwords in `tomcat-users.xml` by making use of the LFI vulnerability.
 

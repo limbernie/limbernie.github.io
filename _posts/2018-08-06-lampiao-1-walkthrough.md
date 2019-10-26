@@ -74,7 +74,7 @@ PORT     STATE SERVICE REASON         VERSION
 
 "Fi duma égua" is a not-so-elegant word for referring to someone. I leave it for the curious reader to find out what it means. :laughing:
 
-## Drupal
+### Drupal
 
 Another service worth exploring is Drupal, which runs behind `1898/tcp`. Here's how it looks like.
 
@@ -90,7 +90,7 @@ Let's use `cewl` to generate a wordlist from the post "**Lampião, herói ou vil
 835 cewl.txt
 ```
 
-## Hail Hydra
+### Hail Hydra
 
 Notice the two usernames below: `tiago` and `eder`.
 
@@ -158,7 +158,7 @@ $ ./dcow -s
 
 Boom.
 
-## What's the Flag (WTF)?
+### What's the Flag (WTF)?
 
 ![Flag](/assets/images/posts/lampiao-1-walkthrough/caa45484.png)
 

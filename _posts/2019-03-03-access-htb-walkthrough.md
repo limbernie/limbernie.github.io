@@ -83,7 +83,7 @@ There's also a big file—`Access Control.zip`, in the `Engineers` directory.
 
 The archive file is password-protected and it appears to contain a Personal Storage Table (PST) file in it.
 
-## Microsoft Office
+### Microsoft Office
 
 I know there are Linux tools to read MDB and PST files but for the sake of convenience, let's use Microsoft Office to open them. I'll use Microsoft Access to read the MDB file. Here's what I found in the `auth_user` table.
 
@@ -99,7 +99,7 @@ The password `access4u@security` is the one to extract the PST file from the arc
 
 Another credential (`security:4Cc3ssC0ntr0ller`) in the bag!
 
-## Telnet
+### Telnet
 
 Let's give the credential a shot with the Telnet service.
 
