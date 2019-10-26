@@ -43,7 +43,7 @@ Discovered open port 1337/tcp on 10.10.10.147
 Discovered open port 22/tcp on 10.10.10.147
 ```
 
-Hmm. masscan finds three open ports. `1337/tcp` sure looks interesting. Let\'s do one better with nmap scanning the discovered ports to establish their services.
+Hmm. `masscan` finds three open ports. `1337/tcp` sure looks interesting. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80,1337 -A --reason -oN nmap.txt 10.10.10.147
