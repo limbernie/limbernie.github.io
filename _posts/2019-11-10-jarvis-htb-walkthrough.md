@@ -25,7 +25,7 @@ This post documents the complete walkthrough of Jarvis, a retired vulnerable [VM
 
 ## Background
 
-Jarvis is retired vulnerable VM from Hack The Box.
+Jarvis is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
