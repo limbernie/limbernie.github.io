@@ -249,7 +249,7 @@ The file `user.txt` is at `guly`'s home directory.
 
 ### Getting `root.txt`
 
-During enumeration of guly\'s account, I notice `guly` is able to run the following command as `root` without password.
+During enumeration of `guly`\'s account, I notice `guly` is able to run the following command as `root` without password.
 
 <a class="image-popup">
 ![f1268379.png](/assets/images/posts/networked-htb-walkthrough/f1268379.png)
