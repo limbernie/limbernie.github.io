@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Pseudo: Reversing Walkthrough"
+title: "Pseudo: A Reversing Challenge"
 date: 2019-11-19 02:11:27 +0000
 last_modified_at: 2019-11-19 02:11:27 +0000
-category: Walkthrough
+category: CTF
 tags: ["Hack The Box", Pseudo, Reversing, retired]
 comments: true
 image:
   feature: pseudo-reversing-walkthrough.jpg
 ---
 
-This post documents the walkthrough of Pseudo, a retired challenge created by [RoliSoft][1], and hosted at [Hack The Box][2]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents my attempt to complete Pseudo, a retired challenge created by [RoliSoft][1], and hosted at [Hack The Box][2]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
