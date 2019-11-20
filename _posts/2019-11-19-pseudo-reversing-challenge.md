@@ -27,7 +27,7 @@ Do you have enough permissions to get the flag?
 
 ## Introduction
 
-The challenge is located at https://www.hackthebox.eu/home/challenges/download/18. It\'s a password-protected archive file.
+The challenge is located [here](https://www.hackthebox.eu/home/challenges/download/18). It\'s a password-protected archive file.
 
 ## Analysis
 
