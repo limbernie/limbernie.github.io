@@ -5,7 +5,7 @@ date: 2019-12-14 16:00:49 +0000
 last_modified_at: 2019-12-14 16:00:49 +0000
 category: Walkthrough
 tags: ["Hack The Box", Smasher2, retired]
-comments: false
+comments: true
 image:
   feature: smasher2-htb-walkthrough.jpg
   credit: kliempictures / Pixabay
