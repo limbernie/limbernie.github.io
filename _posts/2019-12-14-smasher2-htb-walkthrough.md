@@ -25,7 +25,7 @@ This post documents the complete walkthrough of Smasher2, a retired vulnerable [
 
 ## Background
 
-Smasher2 is retired vulnerable VM from Hack The Box.
+Smasher2 is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
