@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Craft: Hack The Box Walkthrough"
-date: 2020-07-15 09:15:25 +0000
+date: 2020-01-07 09:15:25 +0000
 last_modified_at: 2020-01-07 09:15:25 +0000
 category: Walkthrough
 tags: ["Hack The Box", Craft, retired]
