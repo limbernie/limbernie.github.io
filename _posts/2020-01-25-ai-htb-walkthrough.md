@@ -4,7 +4,7 @@ title: "AI: Hack The Box Walkthrough"
 date: 2020-01-25 16:23:54 +0000
 last_modified_at: 2020-01-25 16:23:54 +0000
 category: Walkthrough
-tags: ["Hack The Box", AI, retired]
+tags: ["Hack The Box", AI, retired, Linux]
 comments: true
 image:
   feature: ai-htb-walkthrough.jpg
