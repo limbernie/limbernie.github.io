@@ -56,7 +56,7 @@ Discovered open port 3389/tcp on 10.10.10.158
 Discovered open port 135/tcp on 10.10.10.158
 ```
 
-Whoa. Many interesting open ports. Let\'s do one better with `nmap` scanning the discovered ports to esstablish their services.
+Whoa. Many interesting open ports. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p21,80,135,139,445,3389,5985 -A --reason -oN nmap.txt 10.10.10.158
