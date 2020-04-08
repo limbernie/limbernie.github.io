@@ -23,3 +23,9 @@ SimpleJekyllSearch({
   json: '/search.json'
 })
 </script>
+
+<script>
+    $('#search-input').on('focus', function() {
+        document.body.scrollTop += this.getBoundingClientRect().top - 10
+    });
+</script>
