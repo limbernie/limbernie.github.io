@@ -26,6 +26,6 @@ SimpleJekyllSearch({
 
 <script>
     $('#search-input').on('focus', function() {
-        document.body.scrollTop += this.getBoundingClientRect().top - 10
+        document.body.scrollTop = $(this).offset().top; 
     });
 </script>
