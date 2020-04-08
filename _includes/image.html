@@ -1,0 +1,3 @@
+{% if include.image_src %}
+<a class="image-popup" href="{{ include.image_src }}"><img data-sizes="(max-width: 480px) 480px, 800px" data-src="{{ include.image_src }}" data-srcset="{{ include.image_src | replace: ".png", "-s.png" }} 480w, {{ include.image_src }}" alt="{{ include.image_alt }}" class="lazyload" /><noscript><img src="{{ include.image_src | replace: ".png", "-s.png" }}" alt="{{ include.image_alt }}" /></noscript></a>
+{% endif %}
