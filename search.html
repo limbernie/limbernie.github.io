@@ -33,8 +33,11 @@ SimpleJekyllSearch({
             sidebar.style.display = "none";
         };
     
-        search.onblur = function() {
-            location.reload(false);
+        search.onkeyup = function() {
+            if (!search.value) {
+                sidebar.style.display = "flex";
+                search.blur();
+            }
         };
     }
 </script>

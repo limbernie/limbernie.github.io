@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
 }
-@media (min-width: 847px) {
+@media (min-width: 900px) {
   .sidebar {
     text-align: right;
     position: fixed;
@@ -23,7 +23,7 @@
   }
 }
 
-@media (min-width: 847px) {
+@media (min-width: 900px) {
   .sidebar-sticky {
     position: absolute;
     right:  1rem;
@@ -41,7 +41,7 @@
   padding: 1rem;
 }
 
-@media (min-width: 847px) {
+@media (min-width: 900px) {
   .content {
     max-width: 40rem;
     margin-left: auto;
