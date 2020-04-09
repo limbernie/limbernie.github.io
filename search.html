@@ -27,6 +27,7 @@ SimpleJekyllSearch({
 <script>
     let isPortrait = window.matchMedia("only screen and (orientation: portrait)").matches;
     let search = document.getElementById("search-input");
+    let sidebar = document.getElementsByClassName("sidebar")[0];
     if (isPortrait) {
         search.onfocus = function() {
             sidebar.style.display = "none";
