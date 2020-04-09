@@ -25,19 +25,34 @@ SimpleJekyllSearch({
 </script>
 
 <script>
-    let isPortrait = window.matchMedia("only screen and (orientation: portrait)").matches;
-    let search = document.getElementById("search-input");
+    var searchOn = false; 
+    if (window.matchMedia("only screen and (min-width: 900px)").matches)
+        searchOn = false;
+    else
+        searchOn = true;
+    
+    window.addEventListener("orientationchange", function() {
+        if (window.matchMedia("only screen and (min-width: 900px)").matches)
+            searchOn = false;
+        else
+            searchOn = true;
+    });
+
+    let search  = document.getElementById("search-input");
     let sidebar = document.getElementsByClassName("sidebar")[0];
-    if (isPortrait) {
-        search.onfocus = function() {
+    let menu    = document.getElementsByClassName("menu")[0];
+        
+    search.onfocus = function() {
+        if (searchOn)
             sidebar.style.display = "none";
         };
     
         search.onkeyup = function() {
-            if (!search.value) {
-                sidebar.style.display = "flex";
-                search.blur();
+            if (searchOn) {
+                if (!search.value) {
+                    sidebar.style.display = "";
+                    search.blur();
+                }
             }
         };
-    }
 </script>
