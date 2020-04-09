@@ -57,7 +57,7 @@ layout: default
         {% else %}
         <source type="image/png" srcset="{{ site.url }}/img/{{ post.image.feature }}">
         {% endif %}
-        <img src=
+        <img class="feature-image" src=
         {% if post.image.feature contains 'http' or post.image.feature contains 'https' %}
         "{{ post.image.feature }}"
         {% else %}
