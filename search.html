@@ -27,20 +27,13 @@ SimpleJekyllSearch({
 <script>
     let isPortrait = window.matchMedia("only screen and (orientation: portrait)").matches;
     let search = document.getElementById("search-input");
-    let sidebar = document.getElementsByClassName("sidebar")[0];
-    let results = document.getElementById("results-container");
-    search.onfocus = function() {
-        if (isPortrait)
+    if (isPortrait) {
+        search.onfocus = function() {
             sidebar.style.display = "none";
-    };
-    search.onblur = function() {
-        if (isPortrait)
-            sidebar.style.display = "flex";
-        search.value = "";
-        result = results.lastElementChild;
-        while (result) {
-            results.removeChild(result);
-            result = results.lastElementChild;
-        }
-    };
+        };
+    
+        search.onblur = function() {
+            location.reload(false);
+        };
+    }
 </script>
