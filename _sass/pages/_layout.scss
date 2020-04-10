@@ -238,6 +238,7 @@ footer {
 }
 
 #search-container {
+    display: flex;
 	background-color: #fff;
 	height: 2.75rem;
 	vertical-align: top;
@@ -263,6 +264,11 @@ footer {
 	color: #000;
 	line-height: 2.125rem;
 	height: 2.125rem !important;
+}
+
+#clear-search {
+    line-height: 2.125rem;
+    height: 2.125rem;
 }
 
 #results-div {
