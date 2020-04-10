@@ -222,6 +222,11 @@ footer {
 	display: table-footer-group;
 }
 
+.loaded {
+    margin: -1.2em auto;
+    text-align: center;
+}
+
 @media (min-width: 360px) {
 	.credit, .copyright {
 		display: inline-block;
