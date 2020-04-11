@@ -1,0 +1,13 @@
+<html>
+    <body>
+    <h3>Height: <span id="output"></span>px</h3>
+    <script>
+        output = document.querySelector("#output");
+        output.textContent = window.innerHeight;
+        window.onresize = function() {
+            output.textContent = window.innerHeight;
+        }
+    </script>
+    </body>
+</html>
+        
