@@ -21,7 +21,7 @@ layout: default
   {% else %}
   <source type="image/png" srcset="{{ site.url }}/img/{{ page.image.feature }}"> 
   {% endif %}
-  <img class="feature-image" src=
+  <img class="feature-image lazyload" src=
   {% if page.image.feature contains 'https' or page.image.feature contains 'http' %}
   "{{ page.image.feature }}"
   {% else %}
