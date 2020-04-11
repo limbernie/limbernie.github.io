@@ -3,7 +3,7 @@
 <div class="container sidebar-sticky">
 <div class="cover-card">
   {% if author.logo %}
-  <img src="{{ site.url }}/img/{{ author.logo }}" alt="logo.png" class="logo">
+  <img class="lazyload" src="{{ site.url }}/img/{{ author.logo }}" alt="logo.png" class="logo">
   {% endif %}
   <div class="noavatar">
   <a href="https://keybase.io/{{ author.keybase }}/" class="author_name" target="_blank" rel="noreferrer">{{ author.name }}</a>
