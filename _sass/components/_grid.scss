@@ -50,6 +50,9 @@
 }
 
 @media all and (orientation: landscape) {
-	.sidebar { height: 100vh }
+	.sidebar { 
+        height: 100vh; /* fallback for browsers that don't support custom properties */
+        height: calc(var(--vh, 1vh) * 100);
+    }
 	.cover-card > * { display: inline-block }
 }
