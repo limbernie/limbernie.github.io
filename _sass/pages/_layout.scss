@@ -182,13 +182,13 @@
 	cursor: pointer;
 	position: fixed;
 	top: 1rem;
-	left: 1rem;
+	//left: 1rem;
 	font-size: 1.25em;
 	z-index: 30;
 	visibility: hidden;
 	width: 2.3rem;
 	height: 2.3rem;
-	@media (min-width: 900px) {
+	@media (min-width: 850px) {
 		visibility: visible;
         display: flex;
         align-items: center;
@@ -198,7 +198,7 @@
 
 .overlay {
 	visibility: hidden;
-	@media (min-width: 900px) {
+	@media (min-width: 850px) {
 		visibility: visible;
 	}
 }
