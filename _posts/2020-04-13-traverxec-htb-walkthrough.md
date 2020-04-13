@@ -61,7 +61,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: TRAVERXEC
 ```
 
-Hmm. I wonder what's `nostromo`? Anyway, this is what the site looks like.
+Hmm. I wonder what's nostromo? Anyway, this is what the site looks like.
 
 {% include image.html image_alt="5c9cb423.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/5c9cb423.png" %}
 
@@ -106,7 +106,7 @@ With that, we can get our shell with ease.
 
 ### John the Ripper
 
-It wasn't long before I found the configuration directory for `nostromo` at `/var/nostromo/conf`. I found the `.htpasswd` in that directory.
+It wasn't long before I found the configuration directory for nostromo at `/var/nostromo/conf`. I found the `.htpasswd` in that directory.
 
 {% include image.html image_alt="b25b1d9f.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/b25b1d9f.png" %}
 
@@ -167,7 +167,7 @@ In summary, as long as you know the absolute path to a file and you have read pe
 
 {% include image.html image_alt="18eeace6.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/18eeace6.png" %}
 
-Well well well, what have we here? Looks like we have David's SSH keys!
+Well well well, what have we here? Looks like we have `david`'s SSH keys!
 
 ### John the Ripper Redux
 
@@ -175,7 +175,7 @@ It should come as no surprise that `david`'s private key is password-protected.
 
 {% include image.html image_alt="4795dd73.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/4795dd73.png" %}
 
-Well. this is something that John the Ripper is very good at.
+Well, this is something that John the Ripper is good at.
 
 {% include image.html image_alt="9cf04fc7.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/9cf04fc7.png" %}
 
@@ -189,7 +189,7 @@ Armed with `david`'s private key, we can SSH in and retrieve `user.txt`.
 
 ## Privilege Escalation
 
-During enumeration of david's account, I notice something odd. First of all, the PATH is set to the following.
+During enumeration of `david`'s account, I notice something odd. First of all, the PATH is set to the following.
 
 {% include image.html image_alt="0631fdac.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/0631fdac.png" %}
 
@@ -210,13 +210,13 @@ echo "Last 5 journal log lines:"
 /usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service | /usr/bin/cat
 ```
 
-Upon seeing the script, I knew a classic shell-escape was imminent. Notice that david was able to `sudo journalctl` as `root` without password?
+Upon seeing the script, I knew a classic shell-escape was imminent. Notice that `david` is able to `sudo journalctl` as `root` without password?
 
 {% include image.html image_alt="b4fe47a1.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/b4fe47a1.png" %}
 
 ### Classic Shell Escape
 
-What's this class shell-escape I'm talking about? Well, since we can `sudo journalctl` displaying the most recent five lines, we can open up a terminal with less than five lines, forcing the `PAGER` to be in effect. In most distributions, `PAGER` is normally set to `less`, which we can then escape to shell.
+What's this class shell-escape I'm talking about? Well, since we can `sudo journalctl` displaying the most recent five lines, we can open up a terminal with less than five lines, forcing `PAGER` to take effect. In most distributions, `PAGER` is usually set to `less`, which we can then escape to shell.
 
 Here's `xterm` running with four lines.
 
