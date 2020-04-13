@@ -23,7 +23,11 @@
   	<div class="menu"><i class="fas fa-ellipsis-v"></i></div>
       {% include sidebar.html %}
     <div class="overlay" style="visibility: hidden;width: 100%;height: 100%;position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 9;background: rgba(0,0,0,0.5);"></div>
+    {% if page.path contains "index.html" %}
+    <div class="content container adjust">
+    {% else %}
     <div class="content container">
+    {% endif %}
       {{ content }}
       {% include footer.html %}
     </div>
