@@ -234,7 +234,7 @@ Boom!
 
 ### Getting `root.txt`
 
-Getting root.txt with a `root` shell is trivial.
+Getting `root.txt` with a `root` shell is trivial.
 
 {% include image.html image_alt="1754956e.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/1754956e.png" %}
 
