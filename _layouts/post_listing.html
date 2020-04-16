@@ -50,14 +50,14 @@ layout: default
 
     {% if post.image.feature %}
     <div class="post-image-feature">
-      <picture class="lazyload">
-        <source type="image/webp" srcset="{{ site.url }}/img/{{ post.image.feature | replace: ".jpg", ".webp" | replace: ".png", ".webp" }}">
+      <picture>
+        <source type="image/webp" data-srcset="{{ site.url }}/img/{{ post.image.feature | replace: ".jpg", ".webp" | replace: ".png", ".webp" }}">
         {% if page.image.feature contains "jpg" %}
-        <source type="image/jpeg" srcset="{{ site.url }}/img/{{ post.image.feature }}">
+        <source type="image/jpeg" data-srcset="{{ site.url }}/img/{{ post.image.feature }}">
         {% else %}
-        <source type="image/png" srcset="{{ site.url }}/img/{{ post.image.feature }}">
+        <source type="image/png" data-srcset="{{ site.url }}/img/{{ post.image.feature }}">
         {% endif %}
-        <img class="feature-image lazyload" src=
+        <img class="feature-image lazyload" data-src=
         {% if post.image.feature contains 'http' or post.image.feature contains 'https' %}
         "{{ post.image.feature }}"
         {% else %}
