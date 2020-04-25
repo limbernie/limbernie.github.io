@@ -73,7 +73,7 @@ According to [CVE-2019-16278](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE
 
 <div class="filename"><span>test.sh</span></div>
 
-```
+```bash
 #!/bin/bash
 
 HOST=$1
@@ -197,7 +197,7 @@ And in `/home/david/bin`, there's a `bash` script.
 
 <div class="filename"><span>server-stats.sh</span></div>
 
-```
+```bash
 #!/bin/bash
 
 cat /home/david/bin/server-stats.head
