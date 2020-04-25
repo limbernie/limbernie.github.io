@@ -2,10 +2,16 @@
   color: $text-color;
   padding: 1rem; // 0 30px;
   .logo {
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    float: none;
+    //border-radius: 50%;
+    //width: 100px;
+    //height: 100px;
+    //float: none;
+    padding: 10px;
+  }
+  @media (min-width: 850px) {
+    .logo {
+        margin-right: -1.5rem;
+    }
   }
   .author_name {
     display: block;
@@ -49,6 +55,13 @@
     }
   }
 }
+
+@media (min-width: 850px) {
+    .social-links {
+        margin-right: -1.0rem;
+    }
+}
+
 .nav-list {
   margin: 0;
   padding: 0;
