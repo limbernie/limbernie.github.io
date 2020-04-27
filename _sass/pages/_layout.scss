@@ -266,7 +266,8 @@ footer {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	overflow: hidden;
-	padding: 5px 10px 0;
+	//padding: 5px 10px 0;
+    padding: 10px;
 	&:focus-within, &:hover {
 		box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
 	}
@@ -275,18 +276,18 @@ footer {
 #search-input {
 	border: medium none;
 	padding: 0px;
-	margin: 0px;
+    margin: 0px;
 	width: 100%;
 	background: transparent url("data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D") repeat scroll 0% 0%;
 	outline: medium none;
 	color: #000;
-	line-height: 2.125rem;
-	height: 2.125rem !important;
+	//line-height: 2.125rem;
+	//height: 2.125rem !important;
 }
 
 #clear-search {
-    line-height: 2.125rem;
-    height: 2.125rem;
+    //line-height: 2.125rem;
+    //height: 2.125rem;
     border: none;
     background-color: transparent;
 }
