@@ -172,7 +172,7 @@ Time to get that shell. First, let's transfer `nc.exe` (from `/usr/share/windows
 
 {% include image.html image_alt="176de520.png" image_src="/assets/images/posts/control-htb-walkthrough/176de520.png" %}
 
-On one hand let's run the reverse shell back to us while `nc` listens for the incoming shell on the other hand.
+Let's run the reverse shell back to us while `nc` listens for the incoming shell.
 
 {% include image.html image_alt="0f4003be.png" image_src="/assets/images/posts/control-htb-walkthrough/0f4003be.png" %}
 
