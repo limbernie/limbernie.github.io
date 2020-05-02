@@ -15,15 +15,3 @@ permalink: /search/
 
 <div id="exit"></div>
 
-<script src="{{ site.url }}/js/simple-jekyll-search.min.js" type="text/javascript"></script>
-
-<script>
-SimpleJekyllSearch({
-  searchInput: document.getElementById('search-input'),
-  resultsContainer: document.getElementById('results-container'),
-  searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
-  noResultsText: '<span style="padding: 0 10px;">No results found</span>',
-  json: '/search.json'
-})
-</script>
-
