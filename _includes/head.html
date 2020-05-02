@@ -102,6 +102,15 @@
   {% endif %}
 
   <!-- Base fonts -->
+  {% if page.id %}
+  <link rel="preload" href="{{ site.url }}/assets/fonts/9oRONYoBnWILk-9AnC8zMw.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ site.url }}/assets/fonts/jizYRExUiTo99u79D0e0x8mI.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ site.url }}/assets/fonts/EJRTQgYoZZY2vCFuvAFT_r21cg.woff2" as="font" type="font/woff2" crossorigin>
+  {% endif %}
+  <link rel="preload" href="{{ site.url }}/assets/fonts/jizaRExUiTo99u79D0KExQ.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ site.url }}/assets/fonts/jizfRExUiTo99u79B_mh0O6tLQ.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ site.url }}/assets/fonts/EJRVQgYoZZY2vCFuvAFWzr8.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ site.url }}/assets/fonts/EJRSQgYoZZY2vCFuvAnt66qSVys.woff2" as="font" type="font/woff2" crossorigin> 
   <style>
     {% if page.id %}
 	/* latin */
@@ -170,7 +179,7 @@
 	  src: local('PT Serif Bold'), local('PTSerif-Bold'), url(/assets/fonts/EJRSQgYoZZY2vCFuvAnt66qSVys.woff2) format('woff2');
 	  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 	}
-	</style>
+  </style>
 
   <!-- Misc -->
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url }}">
