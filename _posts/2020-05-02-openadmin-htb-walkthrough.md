@@ -232,13 +232,13 @@ Enter JtR.
 
 {% include image.html image_alt="8fa14feb.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/8fa14feb.png" %}
 
-The password to unlock 'joanna''s private key is `bloodninjas`. With that, we can finally log in to `joanna`'s account and retrieve `user.txt`.
+The password to unlock `joanna`'s private key is `bloodninjas`. With that, we can finally log in to `joanna`'s account and retrieve `user.txt`.
 
 {% include image.html image_alt="3eb09f1d.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/3eb09f1d.png" %}
 
 ## Privilege Escalation
 
-During enumeration of `joanna`'s account, I notice that 'joanna' is able to `sudo` `nano` to open `/opt/priv`.
+During enumeration of `joanna`'s account, I notice that `joanna` is able to `sudo` `nano` to open `/opt/priv`.
 
 {% include image.html image_alt="a3b414ee.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/a3b414ee.png" %}
 
