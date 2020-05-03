@@ -205,7 +205,7 @@
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
   <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  {% if site.owner.disqus-shortname %}
+  {% if page.id and site.owner.disqus-shortname and page.comments %}
   <link rel="preconnect" href="https://disqus.com" crossorigin>
   <link rel="dns-prefetch" href="https://disqus.com">
   <link rel="preconnect" href="https://a.disquscdn.com" crossorigin>
