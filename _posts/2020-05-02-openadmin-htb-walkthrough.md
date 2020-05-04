@@ -198,9 +198,7 @@ if ($_POST['username'] == 'jimmy' && hash('sha512',$_POST['password']) == '00e30
 }  
 ~~~
 
-In order to **"log in"**, the SHA512 hash of the password must match `00e302...0523b1`. Using an online [cracker](https://crackstation.net/), the password was revealed to be...Are you ready?
-
-:drum: `Revealed`
+In order to **"log in"**, the SHA512 hash of the password must match `00e302...0523b1`. Using an online [cracker](https://crackstation.net/), the password was revealed to be, are you ready? `Revealed` :drum:
 
 Well, in any case, I could have edited `index.php` to have any password I like without resorting to password cracking.
 
