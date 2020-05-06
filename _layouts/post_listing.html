@@ -72,7 +72,7 @@ layout: default
     </div><!-- /.image-wrap -->
     {% endif %}
 
-		{% if excerpt_words != content_words %}
+		{% if excerpt_words != content_words and post == site.posts.first %}
 		<div class="read-more">
             <a rel="bookmark" href="{{ post.url }}#on-this-post" title="{{ post.title }}">Continue reading &raquo;</a>
 		</div>

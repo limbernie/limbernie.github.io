@@ -101,6 +101,9 @@ div.post-meta {
 	a {
 		font-weight: normal !important;
 	}
+    a:focus, a:hover {
+        text-decoration: underline;
+    }
 }
 
 // Post content
