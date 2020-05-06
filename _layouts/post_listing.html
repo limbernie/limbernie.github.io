@@ -74,7 +74,7 @@ layout: default
 
 		{% if excerpt_words != content_words %}
 		<div class="read-more">
-			<a href="{{ post.url }}#start">Read more&hellip;</a>
+            <a rel="bookmark" href="{{ post.url }}#on-this-post" title="{{ post.title }}">Continue reading &raquo;</a>
 		</div>
 		{% endif %}
 </section>

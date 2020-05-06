@@ -221,6 +221,11 @@ footer {
 	margin: 0 auto;
 }
 
+.bottle {
+    color: #f83e4b;
+    text-shadow: 0 0 5px #fff,0 0 10px #f83e4b;
+}
+
 .credit, .copyright {
 	&::after {
 		content: "";
