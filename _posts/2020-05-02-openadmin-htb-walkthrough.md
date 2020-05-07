@@ -117,7 +117,7 @@ I think we have the exploit we need in EDB-ID [47691](https://www.exploit-db.com
 
 <div class="filename"><span>cmd.sh</span></div>
 
-```
+```bash
 #!/bin/bash
 
 HOST=10.10.10.171
