@@ -15,12 +15,12 @@
           text-decoration: none; // No underlines on circle links
           width: $pages-item-size;
           height: $pages-item-size;
-          border-radius: $pages-item-size;
+          border-radius: .4rem; // $pages-item-size;
           line-height: $pages-item-size;
           background: $pages-item-background;
           color: $pages-item-color;
           box-shadow: $pages-item-shadow;
-
+          font-size: 80%;
         }
         
         a:hover {
@@ -29,7 +29,7 @@
 
         &.current-page {
           .pagination-item {
-            background: $pages-item-active;
+            background: black; // $pages-item-active;
             box-shadow: $pages-item-active-shadow;
             color: $pages-item-active-color;
           }
