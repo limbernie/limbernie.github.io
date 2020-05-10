@@ -53,8 +53,6 @@ function encrypt(password) {
 				encryptedFrontMatter = 'encrypted: ' + hmac + encryptedBody,
 				result = [ delimiter, frontMatter, encryptedFrontMatter, '\n', delimiter ];
 			
-			console.log(originalBody);
-			
 			file.contents = new Buffer(result.join(''));
 			this.push(file);
 			return callback();

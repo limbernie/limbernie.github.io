@@ -6,3 +6,5 @@ _site
 .rake_tasks~
 Gemfile.lock
 node_modules
+package.json
+package-lock.json
