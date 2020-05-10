@@ -1,17 +1,17 @@
 'use strict';
 
-var gulp          = require('gulp');
-var gutil         = require('gulp-util');
-var del           = require('del');
+var gulp             = require('gulp');
+var cloudinary       = require('gulp-cloudinary-upload');
+var gutil            = require('gulp-util');
 
-var cryptojs      = require('crypto-js');
-var jsdom         = require('jsdom');
-const { JSDOM }   = jsdom;
-
-var minimist      = require('minimist');
-var fs            = require('fs');
-var through       = require('through2');
-var PluginError   = gutil.PluginError;
+var cryptojs         = require('crypto-js');
+var del              = require('del');
+var fs               = require('fs');
+var jsdom            = require('jsdom');
+const { JSDOM }      = jsdom;
+var minimist         = require('minimist');
+var through          = require('through2');
+var PluginError      = gutil.PluginError;
 
 function hasProtect(frontMatter) {
 	return frontMatter.match(/protect: true/) ? 1 : 0;
@@ -62,24 +62,35 @@ function encrypt(password) {
 
 var knownOptions = {
     string: 'password',
-    string: 'file'
+    string: 'file',
+    string: 'folder',
+    string: 'path'
 };
 
 var options = minimist(process.argv.slice(2), knownOptions);
 
 gulp.task('backup', () => {
 	return gulp.src(options.file)
-		.pipe(gulp.dest('_protected'))
+		.pipe(gulp.dest('_protected'));
 });
 
 gulp.task('clean', () => {
-	return del(options.file)
+	return del(options.file);
 });
 
 gulp.task('encrypt', () => {
 	return gulp.src(options.file)
 		.pipe(encrypt(options.password))
-		.pipe(gulp.dest('_posts'))
+		.pipe(gulp.dest('_posts'));
+});
+
+gulp.task('upload', () => {
+	return gulp.src(options.path.replace(/\/$/, '') + '/*')
+		.pipe(cloudinary({
+			params: {
+				folder: options.folder
+			}
+		}))
 });
 
 gulp.task('default', gulp.series('encrypt', 'backup', 'clean'));
