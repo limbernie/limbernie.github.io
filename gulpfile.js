@@ -78,7 +78,6 @@ gulp.task('clean', () => {
 
 gulp.task('encrypt', () => {
 	return gulp.src(options.file)
-		.pipe(gulp.dest('_protected'))
 		.pipe(encrypt(options.password))
 		.pipe(gulp.dest('_posts'))
 });
