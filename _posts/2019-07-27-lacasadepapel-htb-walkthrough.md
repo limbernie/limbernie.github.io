@@ -206,7 +206,7 @@ curl -s \
      $URL/$FILE
 ```
 
-Here\'s `user.txt`.
+Here's `user.txt`.
 
 <a class="image-popup">
 ![13c35673.png](/assets/images/posts/lacasadepapel-htb-walkthrough/13c35673.png)
@@ -214,13 +214,13 @@ Here\'s `user.txt`.
 
 ## Privilege Escalation
 
-During enumeration of `berlin`\'s account, I chanced upon the fact that `berlin`'s SSH key pair is available for download.
+During enumeration of `berlin`'s account, I chanced upon the fact that `berlin`'s SSH key pair is available for download.
 
 <a class="image-popup">
 ![feed4d9a.png](/assets/images/posts/lacasadepapel-htb-walkthrough/feed4d9a.png)
 </a>
 
-Needless to say, I went ahead to download the key pair. Now, this is where I was stucked for a while. Who would have guessed that `berlin`'s key can log in to `professor`'s SSH account when you have no access to `professor`\'s `.ssh/authorized_keys`? Not unless you watch the TV show and know the relationship between Professor and Berlin.
+Needless to say, I went ahead to download the key pair. Now, this is where I was stucked for a while. Who would have guessed that `berlin`'s key can log in to `professor`'s SSH account when you have no access to `professor`'s `.ssh/authorized_keys`? Not unless you watch the TV show and know the relationship between Professor and Berlin.
 
 Once you can obtain a shell as `professor`, the rest is easy...
 

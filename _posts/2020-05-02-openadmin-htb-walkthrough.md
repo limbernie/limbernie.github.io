@@ -151,7 +151,7 @@ Bam. There you have it.
 
 ### Getting `user.txt`
 
-During enumeration of `www-data`\'s account, I notice that there are two accounts in the same group: `jimmy` (1000) and `joanna` (1001).
+During enumeration of `www-data`'s account, I notice that there are two accounts in the same group: `jimmy` (1000) and `joanna` (1001).
 
 {% include image.html image_alt="2ea45d44.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/2ea45d44.png" %}
 
@@ -175,11 +175,11 @@ I chanced upon ONA's database configuration while I was exploring the `/opt/ona/
 
 {% include image.html image_alt="06c6a6fe.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/06c6a6fe.png" %}
 
-Hmm. The password `n1nj4W4rri0R!` piques my curiosity. Maybe it\'s the password to one of the accounts? There\'s only one way to find out.
+Hmm. The password `n1nj4W4rri0R!` piques my curiosity. Maybe it's the password to one of the accounts? There's only one way to find out.
 
 #### Logging in as `jimmy`
 
-Indeed. It\'s `jimmy`\'s password.
+Indeed. It's `jimmy`'s password.
 
 {% include image.html image_alt="504c1d7c.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/504c1d7c.png" %}
 

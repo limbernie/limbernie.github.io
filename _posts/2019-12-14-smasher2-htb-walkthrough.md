@@ -141,7 +141,7 @@ if [ $RESULT -eq 200 ]; then
 fi
 ```
 
-I\'m making a second guess here. I don\'t want to run the script against the entire `rockyou.txt` which has about 14M lines. I stripped down `rockyou.txt` to words which contain 8 to 9 characters in the `[a-z]` character set. It has 1.2 million lines which is much more manageable.
+I'm making a second guess here. I don't want to run the script against the entire `rockyou.txt` which has about 14M lines. I stripped down `rockyou.txt` to words which contain 8 to 9 characters in the `[a-z]` character set. It has 1.2 million lines which is much more manageable.
 
 I got lucky. It took about 35 mins.
 
@@ -149,7 +149,7 @@ I got lucky. It took about 35 mins.
 ![f9752e72.png](/assets/images/posts/smasher2-htb-walkthrough/f9752e72.png)
 </a>
 
-With that, we can finally see what\'s behind `/backup`.
+With that, we can finally see what's behind `/backup`.
 
 <a class="image-popup">
 ![e29b58ae.png](/assets/images/posts/smasher2-htb-walkthrough/e29b58ae.png)
@@ -307,13 +307,13 @@ def job(key):
 app.run(host='127.0.0.1', port=5000)
 ~~~~
 
-It turns out that `ses.so` is a Python module. I\'m pretty sure the credential is NOT `<REDACTED>:<REDACTED>`. :laughing:
+It turns out that `ses.so` is a Python module. I'm pretty sure the credential is NOT `<REDACTED>:<REDACTED>`. :laughing:
 
 ### Cracking the `auth.py` and `ses.so` puzzle
 
 Analysis of `ses.so` tells me that it doesn't matter what the password is for DSM, it's the same as the username. Every new connection creates a new thread and a new `SessionManager` object, added to the `Managers` dictionary, referenced by `get_secure_key()`. The login credential is stored in `user_login` while `craft_secure_token(login)` is stored in `secret_key`, which is also the API key.
 
-Brute-force (after 976 attempts) triggers a segfault in one of the threads. I guess that\'s where the timeout occurs at `wonderfulsessionmanager.smasher2.htb` as well. This is also where the username is revealed in the `$rsi` register when I attached `gdb` to the process `python auth.py` running locally on my machine.
+Brute-force (after 976 attempts) triggers a segfault in one of the threads. I guess that's where the timeout occurs at `wonderfulsessionmanager.smasher2.htb` as well. This is also where the username is revealed in the `$rsi` register when I attached `gdb` to the process `python auth.py` running locally on my machine.
 
 <a class="image-popup">
 ![1ae17c69.png](/assets/images/posts/smasher2-htb-walkthrough/1ae17c69.png)
@@ -401,11 +401,11 @@ fi
 rm -rf $SESS
 ~~~~
 
-I suspect that OWASP ModSecurity Core Rule Set (CRS) is turned on because I can\'t execute certain commands, resulting in `403 Forbidden`.
+I suspect that OWASP ModSecurity Core Rule Set (CRS) is turned on because I can't execute certain commands, resulting in `403 Forbidden`.
 
 ### Bypassing CRS
 
-It\'s actually pretty easy to bypass CRS with `bash` wildcards such as `[]`, `$`, and `*`. You can even bypass CRS and execure  and even string commands and arguments by wrapping them in single quote, e.g. `'e''c''h''o'`  For the record, `base64` is not prohibited.
+It's actually pretty easy to bypass CRS with `bash` wildcards such as `[]`, `$`, and `*`. You can even bypass CRS and execure  and even string commands and arguments by wrapping them in single quote, e.g. `'e''c''h''o'`  For the record, `base64` is not prohibited.
 
 <a class="image-popup">
 ![adb46146.png](/assets/images/posts/smasher2-htb-walkthrough/adb46146.png)
@@ -413,7 +413,7 @@ It\'s actually pretty easy to bypass CRS with `bash` wildcards such as `[]`, `$`
 
 ## Privilege Escalation
 
-I\'ll just let myself in through SSH by injecting a SSH public key I control to `/home/dzonerzy/.ssh/authorized_keys`.
+I'll just let myself in through SSH by injecting a SSH public key I control to `/home/dzonerzy/.ssh/authorized_keys`.
 
 <a class="image-popup">
 ![ab5150c2.png](/assets/images/posts/smasher2-htb-walkthrough/ab5150c2.png)
@@ -427,19 +427,19 @@ There you have it.
 
 ### Kernel Driver Exploitation
 
-During enumeration of `dzonerzy`\'s account, I noticed a `README` file which hinted at a double-free vulnerability.
+During enumeration of `dzonerzy`'s account, I noticed a `README` file which hinted at a double-free vulnerability.
 
 <a class="image-popup">
 ![9721fc14.png](/assets/images/posts/smasher2-htb-walkthrough/9721fc14.png)
 </a>
 
-Putting on my forensic investigator\'s hat, I noticed that `README` was last modified on **Feb 16 2019 @ 0116hrs**. Let\'s find out what files are modified before that time.
+Putting on my forensic investigator's hat, I noticed that `README` was last modified on **Feb 16 2019 @ 0116hrs**. Let's find out what files are modified before that time.
 
 <a class="image-popup">
 ![96b54209.png](/assets/images/posts/smasher2-htb-walkthrough/96b54209.png)
 </a>
 
-Something doesn\'t look right. Why is there a kernel driver modified so near the `README` file? I better copy the file to my machine for further analysis. Looking at the `strings` in the file tells me that I should probably look into the kernel driver.
+Something doesn't look right. Why is there a kernel driver modified so near the `README` file? I better copy the file to my machine for further analysis. Looking at the `strings` in the file tells me that I should probably look into the kernel driver.
 
 <a class="image-popup">
 ![85e493e6.png](/assets/images/posts/smasher2-htb-walkthrough/85e493e6.png)
@@ -487,13 +487,13 @@ Time to load the kernel debug symbols into `gdb`.
 ![19b5e028.png](/assets/images/posts/smasher2-htb-walkthrough/19b5e028.png)
 </a>
 
-Where\'s my jiffies at? This is proof that the kernel debug symbols were loaded.
+Where's my jiffies at? This is proof that the kernel debug symbols were loaded.
 
 <a class="image-popup">
 ![f93b609e.png](/assets/images/posts/smasher2-htb-walkthrough/f93b609e.png)
 </a>
 
-Let\'s load the dynamic symbols of `dhid.ko` into `gdb` as well. We can get those symbols from `/sys/modules/dhid/sections`.
+Let's load the dynamic symbols of `dhid.ko` into `gdb` as well. We can get those symbols from `/sys/modules/dhid/sections`.
 
 <a class="image-popup">
 ![60de8da1.png](/assets/images/posts/smasher2-htb-walkthrough/60de8da1.png)
@@ -519,7 +519,7 @@ We want to view the `fops` structure first. It contains function pointers or han
 
 #### Disassembly of `dhid.ko`
 
-Let\'s see what we can discover from the disassembly of the various functions.
+Let's see what we can discover from the disassembly of the various functions.
 
 _dev_open_
 
@@ -545,7 +545,7 @@ _dev_mmap_
 ![76c72975.png](/assets/images/posts/smasher2-htb-walkthrough/76c72975.png)
 </a>
 
-You might ask how the hell do I know the address of the kernel functions. Well, I don\'t. I wrote a script that simply `grep` address from `/proc/kallsymc`.
+You might ask how the hell do I know the address of the kernel functions. Well, I don't. I wrote a script that simply `grep` address from `/proc/kallsymc`.
 
 <div class="filename"><span>symbol.sh</span></div>
 

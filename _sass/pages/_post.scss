@@ -1,3 +1,27 @@
+input[type="password"] {
+    font-family: arial, sans-serif;
+    font-size: 0.7rem;
+    height: 1.8rem;
+}
+
+input[type="submit"] {
+    background-color: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+    color: #5f6368;
+    font-family: arial, sans-serif; 
+    font-size: 0.7rem;
+    height: 1.8rem;
+    text-align: center;
+    padding: 0 16px;
+}
+
+input[type="submit"]:hover {
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    background-color: #f8f8f8;
+    color: #222;
+}
+
 .image-credit * {
   float: right;
   font-weight: normal !important;

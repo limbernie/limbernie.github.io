@@ -44,7 +44,7 @@ Discovered open port 445/tcp on 10.10.10.154
 Discovered open port 443/tcp on 10.10.10.154
 ```
 
-Interesting list of web-oriented open ports. Let\'s do one better with `nmap` scanning the discovered port to establish their services.
+Interesting list of web-oriented open ports. Let's do one better with `nmap` scanning the discovered port to establish their services.
 
 ```
 # nmap -e tun0 -n -v -Pn -p80,443,445,3306 -A --reason -oN nmap.txt 10.10.10.154
@@ -216,9 +216,9 @@ if grep 'admin' <<<"$CHECK" &>/dev/null; then
 fi
 ```
 
-Combined with GNU Parallel, we get a poor man version\'s of a multi-threaded brute-forcer. It took me a while to brute-force the passsword. The credential is (`admin:hopelessromantic`).
+Combined with GNU Parallel, we get a poor man version's of a multi-threaded brute-forcer. It took me a while to brute-force the passsword. The credential is (`admin:hopelessromantic`).
 
-Let\'s check it out.
+Let's check it out.
 
 <a class="image-popup">
 ![2ed0a32c.png](/assets/images/posts/bankrobber-htb-walkthrough/2ed0a32c.png)
@@ -236,7 +236,7 @@ Long story short. The creators left a PHP backdoor that can only be executed fro
 
 Recall `notes.txt`? It says that only comments from `localhost` are not encoded. This means that we may be able to inject JavaScript into the backend and run it as `localhost`. But where to inject the JavaScript?
 
-Earlier on, I went ahead to register a new user. In the user\'s page there\'s a feature that allows one to transfer E-coins with a custom comment to the recipient.
+Earlier on, I went ahead to register a new user. In the user's page there's a feature that allows one to transfer E-coins with a custom comment to the recipient.
 
 <a class="image-popup">
 ![861cf35b.png](/assets/images/posts/bankrobber-htb-walkthrough/861cf35b.png)
@@ -292,7 +292,7 @@ hello();
 </script>
 ```
 
-Let\'s minify the JavaScript while we are at it.
+Let's minify the JavaScript while we are at it.
 
 <a class="image-popup">
 ![7936b333.png](/assets/images/posts/bankrobber-htb-walkthrough/7936b333.png)
@@ -312,7 +312,7 @@ With that in mind, we can probably execute some kind of reverse [shell](https://
 ![d84ca684.png](/assets/images/posts/bankrobber-htb-walkthrough/d84ca684.png)
 </a>
 
-Bam! The file `user.txt` is at Cortin\'s desktop.
+Bam! The file `user.txt` is at Cortin's desktop.
 
 <a class="image-popup">
 ![f0c5e13d.png](/assets/images/posts/bankrobber-htb-walkthrough/f0c5e13d.png)
@@ -320,7 +320,7 @@ Bam! The file `user.txt` is at Cortin\'s desktop.
 
 ## Privilege Escalation
 
-During enumeration of Cortin\'s account, I notice a weird service `bankapp`, listening at `910/tcp`. The executable path is `C:\bankv2.exe`. And since the port wasn't discovered during our port scan, it can only mean that this service is listening through `localhost` or the loopback interface.
+During enumeration of Cortin's account, I notice a weird service `bankapp`, listening at `910/tcp`. The executable path is `C:\bankv2.exe`. And since the port wasn't discovered during our port scan, it can only mean that this service is listening through `localhost` or the loopback interface.
 
 <a class="image-popup">
 ![a42df46a.png](/assets/images/posts/bankrobber-htb-walkthrough/a42df46a.png)
@@ -371,7 +371,7 @@ See? Easy.
 ![3ad896c0.png](/assets/images/posts/bankrobber-htb-walkthrough/3ad896c0.png)
 </a>
 
-Long story short, the program is susceptible to a command injection vulnerability, after 32 bytes of string input. Prior to that, I\'ve already copied `nc.exe` over to `C:\users\cortin\appdata\nc.exe`, so we'll launch a reverse shell from there.
+Long story short, the program is susceptible to a command injection vulnerability, after 32 bytes of string input. Prior to that, I've already copied `nc.exe` over to `C:\users\cortin\appdata\nc.exe`, so we'll launch a reverse shell from there.
 
 <a class="image-popup">
 ![966210fe.png](/assets/images/posts/bankrobber-htb-walkthrough/966210fe.png)

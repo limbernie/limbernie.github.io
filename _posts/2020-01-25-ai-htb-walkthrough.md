@@ -29,7 +29,7 @@ AI is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
-Let\'s start with a `masscan` probe to establish the open ports in the host.
+Let's start with a `masscan` probe to establish the open ports in the host.
 
 ```
 # masscan -e tun0 -p1-65535,U:1-65535 10.10.10.163 --rate=1000

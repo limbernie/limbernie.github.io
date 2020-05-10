@@ -42,7 +42,7 @@ Discovered open port 22/tcp on 10.10.10.114
 Discovered open port 80/tcp on 10.10.10.114
 ```
 
-Nothing special stands out. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Nothing special stands out. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80 -A --reason -oN nmap.txt 10.10.10.114
@@ -80,7 +80,7 @@ Long story short, I found an interesting file `bookmarks.html` at `/help`.
 ![0eeae026.png](/assets/images/posts/bitlab-htb-walkthrough/0eeae026.png)
 </a>
 
-There\'s a JavaScript hyperlink at GitLab Login.
+There's a JavaScript hyperlink at GitLab Login.
 
 <a class="image-popup">
 ![e5885788.png](/assets/images/posts/bitlab-htb-walkthrough/e5885788.png)
@@ -102,7 +102,7 @@ As you can see, there's a credential (`clave:11des0081x`). I suppose that's for 
 
 ### GitLab
 
-Let\'s give it a shot.
+Let's give it a shot.
 
 <a class="image-popup">
 ![001b2463.png](/assets/images/posts/bitlab-htb-walkthrough/001b2463.png)
@@ -124,7 +124,7 @@ It coincides with the Profile repository under the Administrator's projects. Sim
 ![51c81730.png](/assets/images/posts/bitlab-htb-walkthrough/51c81730.png)
 </a>
 
-Let\'s check it out.
+Let's check it out.
 
 <a class="image-popup">
 ![ea1271ea.png](/assets/images/posts/bitlab-htb-walkthrough/ea1271ea.png)
@@ -146,7 +146,7 @@ On my `nc` listening at `1234/tcp`, a reverse shell appears...
 
 ## Privilege Escalation
 
-During enumeration of `www-data`\'s account, I notice that `www-data` is able to `sudo` to `root` without password for `git pull`.
+During enumeration of `www-data`'s account, I notice that `www-data` is able to `sudo` to `root` without password for `git pull`.
 
 <a class="image-popup">
 ![a552c8b9.png](/assets/images/posts/bitlab-htb-walkthrough/a552c8b9.png)

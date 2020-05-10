@@ -29,7 +29,7 @@ Mango is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
-Let\'s start with a `masscan` probe to establish the open ports in the host.
+Let's start with a `masscan` probe to establish the open ports in the host.
 
 ```
 # masscan -e tun0 -p1-65535,U:1-65535 10.10.10.162 --rate=1000
@@ -94,7 +94,7 @@ Well, I managed to get Flexmonster to work by including `codepen.io` to `/etc/ho
 
 {% include image.html image_alt="fd20ca62.png" image_src="/assets/images/posts/mango-htb-walkthrough/fd20ca62.png" %}
 
-I don\'t think `analytics.php` is the way in. I\'ve to think of something else...
+I don't think `analytics.php` is the way in. I've to think of something else...
 
 ### "Extracting" the juice out of the mango
 
@@ -117,14 +117,14 @@ while True:
     for c in charset:
         if c not in ['*','+','.','?','|', '#', '&', '$']:
             payload = password + c
-            r = os.system("./brute.sh \'" + payload + "\'")
+            r = os.system("./brute.sh '" + payload + "'")
             if r == 0:
                 print("Found one more char : %s" % (password + c))
                 password += c
                 break
 ```
 
-As you can see from above, I\'m making use of Python to produce the character set while using `brute.sh` as the main driver for HTTP requests (because I love `curl`!).
+As you can see from above, I'm making use of Python to produce the character set while using `brute.sh` as the main driver for HTTP requests (because I love `curl`!).
 
 <div class="filename"><span>brute.sh</span></div>
 
@@ -157,15 +157,15 @@ fi
 rm -rf $TEMP; exit 1
 ```
 
-Long story short, early on, I\'ve already established that there are two users to the site: `admin` and `mango`. Here\'s the script trying to extract the password of `mango`.
+Long story short, early on, I've already established that there are two users to the site: `admin` and `mango`. Here's the script trying to extract the password of `mango`.
 
 {% include image.html image_alt="bc893547.png" image_src="/assets/images/posts/mango-htb-walkthrough/bc893547.png" %}
 
-This must be the ugliest script I\'ve written. It\'s not pretty but it gets the job done. The password of `mango` is `h3mXK8RhU~f{]f5H`. What a password!
+This must be the ugliest script I've written. It's not pretty but it gets the job done. The password of `mango` is `h3mXK8RhU~f{]f5H`. What a password!
 
 ### Low-Privilege Shell
 
-Armed with `mango`\'s password, we can log in to her account.
+Armed with `mango`'s password, we can log in to her account.
 
 {% include image.html image_alt="7d461387.png" image_src="/assets/images/posts/mango-htb-walkthrough/7d461387.png" %}
 
@@ -183,7 +183,7 @@ With that, the file `user.txt` is at `admin`'s home directory.
 
 ## Privilege Escalation
 
-During enumeration of `admin`\'s account, you\'ll notice that a SUID executable at `/usr/lib/jvm/java-11-openjdk-amd64/bin/jjs`.
+During enumeration of `admin`'s account, you'll notice that a SUID executable at `/usr/lib/jvm/java-11-openjdk-amd64/bin/jjs`.
 
 {% include image.html image_alt="cb10a974.png" image_src="/assets/images/posts/mango-htb-walkthrough/cb10a974.png" %}
 
@@ -193,7 +193,7 @@ Notice that the executable is also `setgid` to the `admin` group. Something tell
 
 According to the Java [documentation](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/jjs.html), `jjs` invokes the Nashorn JavaScript engine, which means the executable is able to run JavaScript files. How cool is that? Well, JavaScript files aside, this executable can also run Java code.
 
-Towards that end, let\'s add `admin` to the `sudo` group. And from there, we can `sudo` ourselves to `root`.
+Towards that end, let's add `admin` to the `sudo` group. And from there, we can `sudo` ourselves to `root`.
 
 {% include image.html image_alt="aefb1fc8.png" image_src="/assets/images/posts/mango-htb-walkthrough/aefb1fc8.png" %}
 

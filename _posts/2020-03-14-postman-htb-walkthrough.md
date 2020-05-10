@@ -29,7 +29,7 @@ Postman is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
-Let\'s start with a `masscan` probe to establish the open ports in the host.
+Let's start with a `masscan` probe to establish the open ports in the host.
 
 ```
 # masscan -e tun0 -p1-65535,U:1-65535 10.10.10.160 --rate=1000
@@ -83,7 +83,7 @@ Anyway since the Redis service is available, let's check and see what we can gle
 ![28521bc8.png](/assets/images/posts/postman-htb-walkthrough/28521bc8.png)
 </a>
 
-Interesting. The creator seems to be suggesting that there\'s a `redis` SSH account and the way to get a foothold is to dump a SSH public key we control to `authorized_keys`.
+Interesting. The creator seems to be suggesting that there's a `redis` SSH account and the way to get a foothold is to dump a SSH public key we control to `authorized_keys`.
 
 That should be easy.
 

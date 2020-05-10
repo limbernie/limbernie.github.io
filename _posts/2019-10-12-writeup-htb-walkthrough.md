@@ -122,7 +122,7 @@ Baam. Straight to `user.txt`.
 
 ## Privilege Escalation
 
-During enumeration of `jkr`\'s account, I noticed that it's in the `staff` group, which is pretty unusual. Check out what the `staff` group can do.
+During enumeration of `jkr`'s account, I noticed that it's in the `staff` group, which is pretty unusual. Check out what the `staff` group can do.
 
 <a class="image-popup">
 ![44c65da7.png](/assets/images/posts/writeup-htb-walkthrough/44c65da7.png)
@@ -144,7 +144,7 @@ Classic search path hijacking. Armed with this knowledge, we can create the foll
 
 It creates a `.ssh` directory in `/root` if it doesn't exist and then `echo` a SSH public key I control to `authorized_keys`. Lastly, we simply pass all the original options and arguments to the real `run-parts`.
 
-Let\'s test this concept.
+Let's test this concept.
 
 <a class="image-popup">
 ![254e65e8.png](/assets/images/posts/writeup-htb-walkthrough/254e65e8.png)

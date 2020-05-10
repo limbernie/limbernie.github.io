@@ -27,7 +27,7 @@ Do you have enough permissions to get the flag?
 
 ## Introduction
 
-The challenge is located [here](https://www.hackthebox.eu/home/challenges/download/18). It\'s a password-protected archive file.
+The challenge is located [here](https://www.hackthebox.eu/home/challenges/download/18). It's a password-protected archive file.
 
 ## Analysis
 
@@ -103,7 +103,7 @@ Let's see if I can log in to it.
 ![1cac7182.png](/assets/images/challenges/pseudo-reversing-walkthrough/1cac7182.png)
 </a>
 
-Awesome. It\'s like having my own AWS EC2 instance!
+Awesome. It's like having my own AWS EC2 instance!
 
 ### File Analysis
 

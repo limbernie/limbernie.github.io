@@ -29,7 +29,7 @@ Heist is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
-Let\'s start with a `masscan` probe to establish the open ports in the host.
+Let's start with a `masscan` probe to establish the open ports in the host.
 
 ```
 # masscan -e tun0 -p1-65535,U:1-65535 10.10.10.149 --rate=1000
@@ -45,7 +45,7 @@ Discovered open port 445/tcp on 10.10.10.149
 Discovered open port 80/tcp on 10.10.10.149
 ```
 
-Hmm. It's Windows alright. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Hmm. It's Windows alright. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p80,135,445,5985,49668 -A --reason -oN nmap.txt 10.10.10.149
@@ -112,9 +112,9 @@ For one, we know that this credential (`hazard:stealh1agent`) is valid from `smb
 ![c1d55bc2.png](/assets/images/posts/heist-htb-walkthrough/c1d55bc2.png)
 </a>
 
-You might ask what\'s next? Well, WinRM is open, isn't it? We can make use of the WinRM Ruby library, combined with a Python shell to "simulate" a PowerShell session.
+You might ask what's next? Well, WinRM is open, isn't it? We can make use of the WinRM Ruby library, combined with a Python shell to "simulate" a PowerShell session.
 
-Unfortunately, that isn\'t the correct credential. We need to determine more usernames. Enter Impacket's `lookupsid.py`. This nifty script, combined with `hazard`'s credential will help us in gathering the username we need.
+Unfortunately, that isn't the correct credential. We need to determine more usernames. Enter Impacket's `lookupsid.py`. This nifty script, combined with `hazard`'s credential will help us in gathering the username we need.
 
 <a class="image-popup">
 ![b54e3aec.png](/assets/images/posts/heist-htb-walkthrough/b54e3aec.png)
@@ -171,7 +171,7 @@ if __name__ == "__main__":
         s.cmdloop("Windows PowerShell\nCopyright (C) Microsoft Corporation. All rights reserved.\n")
 ~~~~
 
-Let\'s give it a shot.
+Let's give it a shot.
 
 ### Low-Privileged Shell
 
@@ -179,9 +179,9 @@ Let\'s give it a shot.
 ![94fc420a.png](/assets/images/posts/heist-htb-walkthrough/94fc420a.png)
 </a>
 
-It\'s all fine and dandy but it\'s also kinda slow. I\'d personally suggest checking [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) which is a far more superior shell, if you haven\'t already done so.
+It's all fine and dandy but it's also kinda slow. I'd personally suggest checking [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) which is a far more superior shell, if you haven't already done so.
 
-The file `user.txt` is at `chase`\'s desktop.
+The file `user.txt` is at `chase`'s desktop.
 
 <a class="image-popup">
 ![60897bc1.png](/assets/images/posts/heist-htb-walkthrough/60897bc1.png)
@@ -230,7 +230,7 @@ Something tells me that `chase` is constantly checking `issues.php`.
 ![c60711f7.png](/assets/images/posts/heist-htb-walkthrough/c60711f7.png)
 </a>
 
-Now, if we can dump out the process memory, maybe we can search for the password from it? Long story short, SysInternal's ProcDump didn\'t work for me so I went for [`Out-Minidump.ps1`](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1) instead.
+Now, if we can dump out the process memory, maybe we can search for the password from it? Long story short, SysInternal's ProcDump didn't work for me so I went for [`Out-Minidump.ps1`](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1) instead.
 
 I appended the following line to the PowerShell script like so.
 

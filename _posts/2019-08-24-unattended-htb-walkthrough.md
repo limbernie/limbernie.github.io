@@ -167,7 +167,7 @@ And since there isn't any other clues to proceed, I'll use `sqlmap` to see what 
 |___|_  [,]_|_|_|__,|  _|
       |_|V...       |_|   http://sqlmap.org
 
-[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It\'s the end user\'s responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program.
+[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program.
 
 [*] starting @ 00:24:43 /2019-04-24/
 
@@ -384,13 +384,13 @@ rm cookie
 ![d1d6968e.png](/assets/images/posts/unattended-htb-walkthrough/d1d6968e.png)
 </a>
 
-Let\'s see if we can read the nginx configuration file.
+Let's see if we can read the nginx configuration file.
 
 <a class="image-popup">
 ![f8182226.png](/assets/images/posts/unattended-htb-walkthrough/f8182226.png)
 </a>
 
-If I can read any of the log files, then it\'s pretty clear that PHP log poisoning is next.
+If I can read any of the log files, then it's pretty clear that PHP log poisoning is next.
 
 <a class="image-popup">
 ![af59bd59.png](/assets/images/posts/unattended-htb-walkthrough/af59bd59.png)
@@ -414,7 +414,7 @@ Yes, I can execute remote commands.
 
 ...
 
-Next, we\'ll get that reverse shell.
+Next, we'll get that reverse shell.
 
 <a class="image-popup">
 ![1f8e4b9f.png](/assets/images/posts/unattended-htb-walkthrough/1f8e4b9f.png)

@@ -43,7 +43,7 @@ Discovered open port 22/tcp on 10.10.10.115
 Discovered open port 9200/tcp on 10.10.10.115
 ```
 
-Nothing unusual with the ports. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Nothing unusual with the ports. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80,9200 -A --reason -oN nmap.txt 10.10.10.115
@@ -88,7 +88,7 @@ Now, this is interesting. Elasticsearch is in the house.
 
 ### How to use Elasticsearch
 
-Let\'s see how we can find the needle in the haystack.
+Let's see how we can find the needle in the haystack.
 
 #### Listing all the indices in the node
 
@@ -104,7 +104,7 @@ Notice the size of the indices? Keep that in mind because we are going to use it
 ![5598a9a6.png](/assets/images/posts/haystack-htb-walkthrough/5598a9a6.png)
 </a>
 
-By default, Elasticsearch displays ten results. In order to include all the results, we need the `size` parameter. Let\'s switch to `curl` and download the two indices.
+By default, Elasticsearch displays ten results. In order to include all the results, we need the `size` parameter. Let's switch to `curl` and download the two indices.
 
 ```
 # curl -s "http://10.10.10.115:9200/bank/_search?q=*:*&size=1000" > bank
@@ -129,7 +129,7 @@ This string is `base64`-decoded to ***la aguja en el pajar es "clave"***. Damn, 
 
 Duh? :fu:
 
-Anyways, that line is cliché and it looks like it's straight out of a book of quotations. :wink: With that in mind, let\'s see what we can find in the `quotes` index.
+Anyways, that line is cliché and it looks like it's straight out of a book of quotations. :wink: With that in mind, let's see what we can find in the `quotes` index.
 
 <a class="image-popup">
 ![b916c77e.png](/assets/images/posts/haystack-htb-walkthrough/b916c77e.png)

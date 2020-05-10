@@ -80,9 +80,42 @@ layout: default
 
   </header>
 
-  <article class="post-content">
-    {{ content | replace: '<!--more-->', '<a class="anchor" id="start" rel="bookmark" style="position: relative; top: 1.75em"></a>' }}
-  </article>
+  {% if page.protect %}
+  <div id="encrypted_content">
+      <form id="encrypt_form" action="#" method="post">
+          <input id="encrypt_password" type="password" name="password" placeholder="HTB root flag or equivalent" />
+          <input type="submit" value="Unlock" />
+      </form>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+      <script>
+          document.getElementById('encrypt_form').addEventListener('submit', function(e) {
+              e.preventDefault();
+              var passphrase = document.getElementById('encrypt_password').value,
+              encryptedMsg   = '{{ page.encrypted }}',
+              encryptedHMAC  = encryptedMsg.substring(0, 64),
+              encryptedHTML  = encryptedMsg.substring(64),
+              decryptedHMAC  = CryptoJS.HmacSHA256(encryptedHTML, CryptoJS.SHA256(passphrase).toString()).toString();
+
+              if (decryptedHMAC !== encryptedHMAC) {
+                  alert('Bad passphrase!');
+                  return;
+              }
+
+              var plainHTML = CryptoJS.AES.decrypt(encryptedHTML, passphrase).toString(CryptoJS.enc.Utf8);
+              document.getElementById('encrypted_content').innerHTML = plainHTML;
+          });
+      </script>
+      <article class="post-content">
+          {{ content }}
+      </article>
+  </div>
+  {% else %}
+  <div id="unencrypted_content">
+      <article class="post-content">
+          {{ content }}
+      </article>
+  </div>
+  {% endif %}
 </div>
 
 <div class="share-buttons">

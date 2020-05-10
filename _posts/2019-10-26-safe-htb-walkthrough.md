@@ -29,7 +29,7 @@ Safe is a retired vulnerable VM from Hack The Box.
 
 ## Information Gathering
 
-Let\'s start with a `masscan` probe to establish the open ports in the host.
+Let's start with a `masscan` probe to establish the open ports in the host.
 
 ```
 # masscan -e tun0 -p1-65535,U:1-65535 10.10.10.147 --rate=1000
@@ -43,7 +43,7 @@ Discovered open port 1337/tcp on 10.10.10.147
 Discovered open port 22/tcp on 10.10.10.147
 ```
 
-Hmm. `masscan` finds three open ports. `1337/tcp` sure looks interesting. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Hmm. `masscan` finds three open ports. `1337/tcp` sure looks interesting. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80,1337 -A --reason -oN nmap.txt 10.10.10.147
@@ -134,7 +134,7 @@ A quick `checksec` in PEDA shows that NX is enabled (non-executable stack).
 ![2c2d224a.png](/assets/images/posts/safe-htb-walkthrough/2c2d224a.png)
 </a>
 
-If I have to guess, I would say this is a simple ROP exploit. Don\'t take my word for it. Look at the `main()` function of `myapp`.
+If I have to guess, I would say this is a simple ROP exploit. Don't take my word for it. Look at the `main()` function of `myapp`.
 
 <a class="image-popup">
 ![87b73f8e.png](/assets/images/posts/safe-htb-walkthrough/87b73f8e.png)
@@ -190,17 +190,17 @@ p.send(payload)
 p.interactive()
 ~~~~
 
-I\'ve chosen to write the string "/bin/bash" at `.bss` because its address doesn\'t change.
+I've chosen to write the string "/bin/bash" at `.bss` because its address doesn't change.
 
 ## Low-Privilege Shell
 
-Let\'s give it a go.
+Let's give it a go.
 
 <a class="image-popup">
 ![8b20e99a.png](/assets/images/posts/safe-htb-walkthrough/8b20e99a.png)
 </a>
 
-Sweet. The `user.txt` is at `user`\'s home directory.
+Sweet. The `user.txt` is at `user`'s home directory.
 
 <a class="image-popup">
 ![c26b1848.png](/assets/images/posts/safe-htb-walkthrough/c26b1848.png)
@@ -208,13 +208,13 @@ Sweet. The `user.txt` is at `user`\'s home directory.
 
 ## Privilege Escalation
 
-During enumeration of `user`\'s account, I noticed the presence of a KeePass database and five image files in the home directory as well.
+During enumeration of `user`'s account, I noticed the presence of a KeePass database and five image files in the home directory as well.
 
 <a class="image-popup">
 ![8924871a.png](/assets/images/posts/safe-htb-walkthrough/8924871a.png)
 </a>
 
-This feels strangely familiar to BigHead. Well, in any case, let's grab these files to my attacking machine but note that there\'s no `nc` in this machine. We\'ll just have to transfer our `nc` over.
+This feels strangely familiar to BigHead. Well, in any case, let's grab these files to my attacking machine but note that there's no `nc` in this machine. We'll just have to transfer our `nc` over.
 
 <a class="image-popup">
 ![f2aa8982.png](/assets/images/posts/safe-htb-walkthrough/f2aa8982.png)

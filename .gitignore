@@ -1,6 +1,8 @@
 _drafts
+_protected
 _site
 .jekyll-cache
 .sass-cache
 .rake_tasks~
 Gemfile.lock
+node_modules

@@ -42,7 +42,7 @@ Discovered open port 445/tcp on 10.10.10.144
 Discovered open port 80/tcp on 10.10.10.144
 ```
 
-`masscan` finds two open ports. Let\'s do one better with nmap scanning the discovered ports to establish their services.
+`masscan` finds two open ports. Let's do one better with nmap scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p80,445 -A --reason -oN nmap.txt 10.10.10.144
@@ -57,13 +57,13 @@ PORT    STATE SERVICE       REASON          VERSION
 445/tcp open  microsoft-ds? syn-ack ttl 127
 ```
 
-Hmm. Nothing much from `nmap`. But since SMB is enabled, let\'s see what we can discover from `smbmap`.
+Hmm. Nothing much from `nmap`. But since SMB is enabled, let's see what we can discover from `smbmap`.
 
 <a class="image-popup">
 ![09d7ff14.png](/assets/images/posts/re-htb-walkthrough/09d7ff14.png)
 </a>
 
-Well, at least there\'s a directory `malware_dropbox` we can read. Too bad it doesn't have any files in it.
+Well, at least there's a directory `malware_dropbox` we can read. Too bad it doesn't have any files in it.
 
 <a class="image-popup">
 ![d6e0cf79.png](/assets/images/posts/re-htb-walkthrough/d6e0cf79.png)
@@ -81,13 +81,13 @@ I better put `reblog.htb` into `/etc/hosts`.
 ![6061c2af.png](/assets/images/posts/re-htb-walkthrough/6061c2af.png)
 </a>
 
-Looks like there\'s one more host to add to `/etc/hosts`. And, check out the HTML source of `re.htb`.
+Looks like there's one more host to add to `/etc/hosts`. And, check out the HTML source of `re.htb`.
 
 <a class="image-popup">
 ![6c578963.png](/assets/images/posts/re-htb-walkthrough/6c578963.png)
 </a>
 
-Is that a hint of privilege escalation? I\'ve no clue how to proceed up to this point. Perhaps we can glean some insights from the blog posts?
+Is that a hint of privilege escalation? I've no clue how to proceed up to this point. Perhaps we can glean some insights from the blog posts?
 
 ### Custom ODS and Evading Yara Detection
 
@@ -136,7 +136,7 @@ Sweet. The `user.txt` is at `luke`'s desktop.
 
 ## Privilege Escalation
 
-During enumeration of `luke`\'s account, I noticed a scheduled task running `process_samples.ps1` under `luke`\'s privileges.
+During enumeration of `luke`'s account, I noticed a scheduled task running `process_samples.ps1` under `luke`'s privileges.
 
 ~~~~powershell
 $process_dir = "C:\Users\luke\Documents\malware_process"
@@ -190,7 +190,7 @@ while($true) {
 }
 ~~~~
 
-At the bottom of the script, there\'s  mention of upstream processing of RAR files. I noticed any RAR file I put into `C:\users\luke\Documents\ods` disappears faster than I can blink my eye while I was staring at my screen. Long story short, I was able to use EvilWinRar [generator](https://github.com/manulqwerty/Evil-WinRAR-Gen) to exploit [CVE-2018-20250](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20250) to write files as `re/cam`. But, what files do I write and where?
+At the bottom of the script, there's  mention of upstream processing of RAR files. I noticed any RAR file I put into `C:\users\luke\Documents\ods` disappears faster than I can blink my eye while I was staring at my screen. Long story short, I was able to use EvilWinRar [generator](https://github.com/manulqwerty/Evil-WinRAR-Gen) to exploit [CVE-2018-20250](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-20250) to write files as `re/cam`. But, what files do I write and where?
 
 Recall the web server is IIS? In `C:\inetpub\wwwroot`, there are three folders `blog`, `ip` and `re` where `luke` has no write access. I can probably probably use EvilWinRar to write an ASPX webshell (from `/usr/share/webshells/aspx/cmdasp.aspx` in Kali Linux) to one of the folders.
 

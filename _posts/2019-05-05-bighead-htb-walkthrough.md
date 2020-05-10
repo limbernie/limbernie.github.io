@@ -571,7 +571,7 @@ dd if=$TEMP count=$((SIZE - GARBAGE)) bs=1 2>/dev/null
 rm -f $TEMP
 ```
 
-Let\'s see if we can read `root.txt`.
+Let's see if we can read `root.txt`.
 
 <a class="image-popup">
 ![7d60a8f8.png](/assets/images/posts/bighead-htb-walkthrough/7d60a8f8.png)

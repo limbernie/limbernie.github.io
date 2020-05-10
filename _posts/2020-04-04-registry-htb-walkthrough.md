@@ -180,7 +180,7 @@ We can also list out the image manifest like so.
    ],
 ```
 
-The blobs are like commits to the "latest" image. They are `gzip`\'d tarballs. We can download these blobs and inspect them further for any sensitive information. Let's write a shell script to download all of them.
+The blobs are like commits to the "latest" image. They are `gzip`'d tarballs. We can download these blobs and inspect them further for any sensitive information. Let's write a shell script to download all of them.
 
 <div class="filename"><span>fetch.sh</span></div>
 

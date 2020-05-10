@@ -296,7 +296,7 @@ I also obtained a 512KB XOR key file, conveniently named as `key`, in case the f
 
 ### Not your usual LFI
 
-Now that we have the decryption out of the way, it\'s time to figure out how to read files off the machine. I first noticed that I was able to read `/server-status`, which is normally `403 Forbidden`, when I used the local hostname (which I assume to be `kryptos`) in the URL like so:
+Now that we have the decryption out of the way, it's time to figure out how to read files off the machine. I first noticed that I was able to read `/server-status`, which is normally `403 Forbidden`, when I used the local hostname (which I assume to be `kryptos`) in the URL like so:
 
 <a class="image-popup">
 ![acbfbb2b.png](/assets/images/posts/kryptos-htb-walkthrough/acbfbb2b.png)
@@ -575,7 +575,7 @@ python xor.py "$RC4"
 rm -f $COOKIE
 ```
 
-Let\'s give it a shot.
+Let's give it a shot.
 
 <a class="image-popup">
 ![e268c9c7.png](/assets/images/posts/kryptos-htb-walkthrough/e268c9c7.png)
@@ -634,7 +634,7 @@ python xor.py "$RC4" \
 rm -f $COOKIE
 ```
 
-Let\'s give a shot to `read.sh`.
+Let's give a shot to `read.sh`.
 
 ```
 # ./read.sh info.php > info.html
@@ -690,7 +690,7 @@ mysql:x:107:113:MySQL Server,,,:/nonexistent:/bin/false
 
 ### Breaking `set cryptmethod=blowfish` in Vim
 
-Long story short, I found a file `creds.txt`, which was encrypted by Blowfish (`set cryptmethod=blowfish`) in Vim. There isn\'t any weakness with Blowfish (a block cipher) per se, the weakness is how Vim chose to use Blowfish: the first 64-bytes or eight blocks (8-byte block) of plaintext are encrypted with the same IV, reducing the cryptosystem to a mere XOR operation of each block with a fixed-length XOR key (yes, a 8-byte key). You can see this weakness when you encrypt a plaintext of say, 24 characters of "A" for example, repeating bytes appear.
+Long story short, I found a file `creds.txt`, which was encrypted by Blowfish (`set cryptmethod=blowfish`) in Vim. There isn't any weakness with Blowfish (a block cipher) per se, the weakness is how Vim chose to use Blowfish: the first 64-bytes or eight blocks (8-byte block) of plaintext are encrypted with the same IV, reducing the cryptosystem to a mere XOR operation of each block with a fixed-length XOR key (yes, a 8-byte key). You can see this weakness when you encrypt a plaintext of say, 24 characters of "A" for example, repeating bytes appear.
 
 ```
 # perl -e 'print "A" x 24' > test.txt
@@ -961,7 +961,7 @@ Here, I'm using the `warnings` module, to import the `os` module, in order to ex
 ![8011f698.png](/assets/images/posts/kryptos-htb-walkthrough/8011f698.png)
 </a>
 
-From here on, it\'s trivial to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) to a fully functioning shell and retrieve `root.txt`.
+From here on, it's trivial to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) to a fully functioning shell and retrieve `root.txt`.
 
 <a class="image-popup">
 ![7d946056.png](/assets/images/posts/kryptos-htb-walkthrough/7d946056.png)

