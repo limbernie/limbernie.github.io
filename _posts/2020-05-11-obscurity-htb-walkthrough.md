@@ -280,7 +280,7 @@ I have two terminal windows. On one hand, I had the script watching for new file
 
 {% include image.html image_alt="c115ee36.png" image_src="/471fc23c-9a1d-4b65-974a-92b516907d9f/c115ee36.png" %}
 
-Wohoo!
+Woohoo!
 
 ### Getting `root.txt`
 
