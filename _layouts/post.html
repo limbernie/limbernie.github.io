@@ -18,7 +18,7 @@ layout: default
 <div class="post-image-feature">
 <picture class="lazyload">
   <source media="(max-width: 480px)" srcset="{{ cloudinary | append: 'w_480,f_auto,q_auto' }}/img/{{ page.image.feature }}"> 
-  <source media="(min-width: 800px)" srcset="{{ cloudinary | append: 'f_jpg,q_auto'  }}/img/{{ page.image.feature }}"> 
+  <source media="(min-width: 800px)" srcset="{{ cloudinary | append: 'f_auto,q_auto'  }}/img/{{ page.image.feature }}"> 
   <img class="feature-image lazyload" data-src=
   "{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }}"
   alt="{{ page.title | escape }}">
