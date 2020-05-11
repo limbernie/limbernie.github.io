@@ -53,11 +53,10 @@ layout: default
     {% if post.image.feature %}
     <div class="post-image-feature">
       <picture>
-        <source type="image/webp" data-srcset="{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ post.image.feature }}">
-        <source type="image/jpeg" data-srcset="{{ cloudinary | append: 'f_jpg,q_auto'  }}/img/{{ post.image.feature }}">
-        <source type="image/png"  data-srcset="{{ cloudinary | append: 'f_png,q_auto'  }}/img/{{ post.image.feature }}">
+        <source media="(max-width: 480px)" data-srcset="{{ cloudinary | append: 'w_480,f_auto,q_auto' }}/img/{{ post.image.feature }}">
+        <source media="(min-width: 800px)" data-srcset="{{ cloudinary | append: 'f_jpg,q_auto'  }}/img/{{ post.image.feature }}">
         <img class="feature-image lazyload" data-src=
-        "{{ site.url }}/img/{{ post.image.feature }}"
+        "{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ post.image.feature }}"
         alt="{{ post.title | escape }}">
       </picture>
 
