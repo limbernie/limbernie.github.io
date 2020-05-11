@@ -15,10 +15,13 @@ $border-width:               .0625rem !default;
 // Typography
 //
 // Font, line-height, and color for body text, headings, and more.
-
-$font-family-sans-serif:     "PT Sans", sans-serif !default;
-$font-family-serif:          "PT Serif", serif !default;
-$font-family-monospace:      "PT Mono", monospace !default;
+//
+// "PT Sans", sans-serif !default;
+// "PT Serif", serif !default;
+// "PT Mono", monospace !default;
+$font-family-sans-serif:     -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, Ubuntu, roboto, noto, segoe ui, arial, sans-serifi !default;
+$font-family-serif:          Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !default; 
+$font-family-monospace:      Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace !default;
 $font-family-base:           $font-family-sans-serif !default;
 
 // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
