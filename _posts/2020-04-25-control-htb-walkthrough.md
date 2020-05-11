@@ -98,11 +98,11 @@ SF:DB\x20server");
 
 I'm pretty sure there's a MySQL database service behind `3306/tcp`.
 
-{% include image.html image_alt="1e13aa78.png" image_src="/assets/images/posts/control-htb-walkthrough/1e13aa78.png" %}
+{% include image.html image_alt="1e13aa78.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/1e13aa78.png" %}
 
 That leaves us with the `http` service. This is how it looks like.
 
-{% include image.html image_alt="619db695.png" image_src="/assets/images/posts/control-htb-walkthrough/619db695.png" %}
+{% include image.html image_alt="619db695.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/619db695.png" %}
 
 Oh, before I forget, the IIS is running PHP as well.
 
@@ -110,19 +110,19 @@ Oh, before I forget, the IIS is running PHP as well.
 
 There's something interesting in the HTML source of `index.php`.
 
-{% include image.html image_alt="002b3297.png" image_src="/assets/images/posts/control-htb-walkthrough/002b3297.png" %}
+{% include image.html image_alt="002b3297.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/002b3297.png" %}
 
 I've checked. `/myfiles` doesn't exist. And also there's this interesting message when I try to access `admin.php`.
 
-{% include image.html image_alt="d9d672aa.png" image_src="/assets/images/posts/control-htb-walkthrough/d9d672aa.png" %}
+{% include image.html image_alt="d9d672aa.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/d9d672aa.png" %}
 
 I put two and two together, and made an educated guess. This is the client IP address that's allowed to access `admin.php`, usually through `X-Forwarded-For` type of header. To facilitate that, we can make use of Burp's Bypass WAF extension.
 
-{% include image.html image_alt="ce2b6956.png" image_src="/assets/images/posts/control-htb-walkthrough/ce2b6956.png" %}
+{% include image.html image_alt="ce2b6956.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/ce2b6956.png" %}
 
 Set the scope to the remote machine and we are good to go.
 
-{% include image.html image_alt="0f56c489.png" image_src="/assets/images/posts/control-htb-walkthrough/0f56c489.png" %}
+{% include image.html image_alt="0f56c489.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/0f56c489.png" %}
 
 Presto!
 
@@ -130,7 +130,7 @@ Presto!
 
 It's not long before I discovered a classic vulnerability with a single quote (`'`) entered into the search field: SQL injection within the `search_products.php` page.
 
-{% include image.html image_alt="76f5a3cf.png" image_src="/assets/images/posts/control-htb-walkthrough/76f5a3cf.png" %}
+{% include image.html image_alt="76f5a3cf.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/76f5a3cf.png" %}
 
 Usually, we have to determine the number of columns from the `products` table but looking at above, the number of columns should be five or six. Let's enter the following into the search field.
 
@@ -138,7 +138,7 @@ Usually, we have to determine the number of columns from the `products` table bu
 ' ORDER BY 7 -- -
 ```
 
-{% include image.html image_alt="c68f4794.png" image_src="/assets/images/posts/control-htb-walkthrough/c68f4794.png" %}
+{% include image.html image_alt="c68f4794.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/c68f4794.png" %}
 
 Confirmed. The number of columns is six. Let's enter the following into the search field.
 
@@ -146,7 +146,7 @@ Confirmed. The number of columns is six. Let's enter the following into the sear
 ' UNION SELECT 1,2,3,4,5,@@VERSION -- -
 ```
 
-{% include image.html image_alt="a820c474.png" image_src="/assets/images/posts/control-htb-walkthrough/a820c474.png" %}
+{% include image.html image_alt="a820c474.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/a820c474.png" %}
 
 So, the `search_products.php` page is susceptible to a UNION-based SQL injection. Time to upload a simple PHP backdoor like so.
 
@@ -162,7 +162,7 @@ Enter the following into the search field.
 
 Let's see if we can execute remote commands through PHP.
 
-{% include image.html image_alt="abed8a8f.png" image_src="/assets/images/posts/control-htb-walkthrough/abed8a8f.png" %}
+{% include image.html image_alt="abed8a8f.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/abed8a8f.png" %}
 
 Awesome!
 
@@ -170,21 +170,21 @@ Awesome!
 
 Time to get that shell. First, let's transfer `nc.exe` (from `/usr/share/windows-resources/binaries/nc.exe`) to a world-writable folder (like `\Windows\System32\spool\drivers\color`).
 
-{% include image.html image_alt="176de520.png" image_src="/assets/images/posts/control-htb-walkthrough/176de520.png" %}
+{% include image.html image_alt="176de520.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/176de520.png" %}
 
 Let's run the reverse shell back to us while `nc` listens for the incoming shell.
 
-{% include image.html image_alt="0f4003be.png" image_src="/assets/images/posts/control-htb-walkthrough/0f4003be.png" %}
+{% include image.html image_alt="0f4003be.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/0f4003be.png" %}
 
 And we have the initial foothold.
 
-{% include image.html image_alt="21095228.png" image_src="/assets/images/posts/control-htb-walkthrough/21095228.png" %}
+{% include image.html image_alt="21095228.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/21095228.png" %}
 
 ### Hector is in the Remote Management Users group
 
 During enumeration of `iusr`'s account, I noticed that Hector is in the **Remote Management Users** group. That means his credentials must be lying somewhere...
 
-{% include image.html image_alt="bf4295b3.png" image_src="/assets/images/posts/control-htb-walkthrough/bf4295b3.png" %}
+{% include image.html image_alt="bf4295b3.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/bf4295b3.png" %}
 
 ### Get that hash
 
@@ -194,7 +194,7 @@ To be honest, I was pleasantly surprised that I could even run the following SQL
 ' UNION SELECT 1,2,3,4,user, password from mysql.user -- -
 ```
 
-{% include image.html image_alt="90b5db2d.png" image_src="/assets/images/posts/control-htb-walkthrough/90b5db2d.png" %}
+{% include image.html image_alt="90b5db2d.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/90b5db2d.png" %}
 
 What do we have here? Hector's password hash!
 
@@ -202,7 +202,7 @@ What do we have here? Hector's password hash!
 
 Armed with Hector's password hash, let's show John the Ripper some :heart:.
 
-{% include image.html image_alt="0d976e8b.png" image_src="/assets/images/posts/control-htb-walkthrough/0d976e8b.png" %}
+{% include image.html image_alt="0d976e8b.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/0d976e8b.png" %}
 
 Hector's password is `l33th4x0rhector`.
 
@@ -210,11 +210,11 @@ Hector's password is `l33th4x0rhector`.
 
 Now that we have Hector's password, we can proceed to log in to Hector's account via PowerShell Remoting. But first, we need to spawn a PowerShell. To do that, we can use `nc.exe` to spawn another reverse shell and enter into PowerShell from there.
 
-{% include image.html image_alt="c27079de.png" image_src="/assets/images/posts/control-htb-walkthrough/c27079de.png" %}
+{% include image.html image_alt="c27079de.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/c27079de.png" %}
 
 The hostname is Fidelity by the way. That's the only plot twist.
 
-{% include image.html image_alt="ff4168b6.png" image_src="/assets/images/posts/control-htb-walkthrough/ff4168b6.png" %}
+{% include image.html image_alt="ff4168b6.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/ff4168b6.png" %}
 
 With that, we can execute Start-Process to call upon our `nc.exe` to run the third reverse shell. This time as Hector. :wink:
 
@@ -226,13 +226,13 @@ With that, we can execute Start-Process to call upon our `nc.exe` to run the thi
 
 The file `user.txt` is at Hector's Desktop. No surprise there.
 
-{% include image.html image_alt="c6489ffc.png" image_src="/assets/images/posts/control-htb-walkthrough/c6489ffc.png" %}
+{% include image.html image_alt="c6489ffc.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/c6489ffc.png" %}
 
 ## Privilege Escalation
 
 During enumeration of Hector's account, I notice that Hector is able to do something special with one of the Registry keys.
 
-{% include image.html image_alt="8b8970c1.png" image_src="/assets/images/posts/control-htb-walkthrough/8b8970c1.png" %}
+{% include image.html image_alt="8b8970c1.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/8b8970c1.png" %}
 
 I generated the above with [AccessChk](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk) from Microsoft SysInternals like so.
 
@@ -246,15 +246,15 @@ Long story short, I chose **Secondary Logon** service or `seclogon`. Here's why.
 
 #### Stopped state
 
-{% include image.html image_alt="d8a86a4f.png" image_src="/assets/images/posts/control-htb-walkthrough/d8a86a4f.png" %}
+{% include image.html image_alt="d8a86a4f.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/d8a86a4f.png" %}
 
 #### Run as LocalSystem with no dependencies
 
-{% include image.html image_alt="11dbfdb5.png" image_src="/assets/images/posts/control-htb-walkthrough/11dbfdb5.png" %}
+{% include image.html image_alt="11dbfdb5.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/11dbfdb5.png" %}
 
 #### Hector is able to start the service
 
-{% include image.html image_alt="5f2a7c42.png" image_src="/assets/images/posts/control-htb-walkthrough/5f2a7c42.png" %}
+{% include image.html image_alt="5f2a7c42.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/5f2a7c42.png" %}
 
 Basically, the security descriptor string says that Hector as an Authenticated User has the Read Property (RP) of the service object, i.e. Hector can start the Secondary Logon service.
 
@@ -270,7 +270,7 @@ To change the `ImagePath` of the `seclogon` service, we can use the very versati
 
 Time to claim the prize...
 
-{% include image.html image_alt="64d82b24.png" image_src="/assets/images/posts/control-htb-walkthrough/64d82b24.png" %}
+{% include image.html image_alt="64d82b24.png" image_src="/828bf584-bc2b-4d87-b20b-f083d3220fa1/64d82b24.png" %}
 
 :dancer:
 

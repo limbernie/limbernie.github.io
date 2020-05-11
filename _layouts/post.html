@@ -41,7 +41,7 @@ layout: default
     <div class="post-meta">
 			<div class="avatar-box">
 			{% if author.avatar %}
-			<img class="avatar lazyload" data-src="{{ cloudinary | append: 'f_auto,q_auto,c_crop,g_face,r_max' }}/img/{{ author.avatar }}" alt="{{ author.avatar }}" title="{{ author.shoutout }}">
+			<img class="avatar lazyload" data-src="{{ cloudinary | append: 'w_96,f_auto,q_auto' }}/img/{{ author.avatar }}" alt="{{ author.avatar }}" title="{{ author.shoutout }}">
 			{% endif %}
 			</div>
 			<div>

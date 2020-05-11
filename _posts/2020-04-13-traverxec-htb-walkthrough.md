@@ -63,7 +63,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 Hmm. I wonder what's nostromo? Anyway, this is what the site looks like.
 
-{% include image.html image_alt="5c9cb423.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/5c9cb423.png" %}
+{% include image.html image_alt="5c9cb423.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/5c9cb423.png" %}
 
 Nice and clean template :+1:
 
@@ -90,7 +90,7 @@ shift 2
 
 Let's give it a shot!
 
-{% include image.html image_alt="625e764a.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/625e764a.png" %}
+{% include image.html image_alt="625e764a.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/625e764a.png" %}
 
 Perfect.
 
@@ -98,21 +98,21 @@ Perfect.
 
 Lucky for us, there's a copy of `nc` in `/usr/bin/nc` that supports command execution.
 
-{% include image.html image_alt="0787984e.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/0787984e.png" %}
+{% include image.html image_alt="0787984e.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/0787984e.png" %}
 
 With that, we can get our shell with ease.
 
-{% include image.html image_alt="e2f58ae3.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/e2f58ae3.png" %}
+{% include image.html image_alt="e2f58ae3.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/e2f58ae3.png" %}
 
 ### John the Ripper
 
 It wasn't long before I found the configuration directory for nostromo at `/var/nostromo/conf`. I found the `.htpasswd` in that directory.
 
-{% include image.html image_alt="b25b1d9f.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/b25b1d9f.png" %}
+{% include image.html image_alt="b25b1d9f.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/b25b1d9f.png" %}
 
 Sending the hash to JtR gave the following.
 
-{% include image.html image_alt="8768b736.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/8768b736.png" %}
+{% include image.html image_alt="8768b736.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/8768b736.png" %}
 
 Well, the excitement sure is short-lived because it's not the password for `david`'s account. We'll just have to keep this in mind the next time we encounter something that requires a password.
 
@@ -157,15 +157,15 @@ homedirs_public         public_www
 
 Notice that there's supposed to be a `public_www` directory in `/home/david`? (This sure is old school) Combined that with the permission of `david`'s home directory I suspect something is up.
 
-{% include image.html image_alt="69e09227.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/69e09227.png" %}
+{% include image.html image_alt="69e09227.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/69e09227.png" %}
 
 Check this out.
 
-{% include image.html image_alt="421a228e.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/421a228e.png" %}
+{% include image.html image_alt="421a228e.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/421a228e.png" %}
 
 In summary, as long as you know the absolute path to a file and you have read permissions, you can download a file to your attacking machine for further analysis.
 
-{% include image.html image_alt="18eeace6.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/18eeace6.png" %}
+{% include image.html image_alt="18eeace6.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/18eeace6.png" %}
 
 Well well well, what have we here? Looks like we have `david`'s SSH keys!
 
@@ -173,11 +173,11 @@ Well well well, what have we here? Looks like we have `david`'s SSH keys!
 
 It should come as no surprise that `david`'s private key is password-protected.
 
-{% include image.html image_alt="4795dd73.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/4795dd73.png" %}
+{% include image.html image_alt="4795dd73.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/4795dd73.png" %}
 
 Well, this is something that John the Ripper is good at.
 
-{% include image.html image_alt="9cf04fc7.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/9cf04fc7.png" %}
+{% include image.html image_alt="9cf04fc7.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/9cf04fc7.png" %}
 
 The password is `hunter`.
 
@@ -185,13 +185,13 @@ The password is `hunter`.
 
 Armed with `david`'s private key, we can SSH in and retrieve `user.txt`.
 
-{% include image.html image_alt="dcf3a097.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/dcf3a097.png" %}
+{% include image.html image_alt="dcf3a097.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/dcf3a097.png" %}
 
 ## Privilege Escalation
 
 During enumeration of `david`'s account, I notice something odd. First of all, the PATH is set to the following.
 
-{% include image.html image_alt="0631fdac.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/0631fdac.png" %}
+{% include image.html image_alt="0631fdac.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/0631fdac.png" %}
 
 And in `/home/david/bin`, there's a `bash` script.
 
@@ -212,7 +212,7 @@ echo "Last 5 journal log lines:"
 
 Upon seeing the script, I knew a classic shell-escape was imminent. Notice that `david` is able to `sudo journalctl` as `root` without password?
 
-{% include image.html image_alt="b4fe47a1.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/b4fe47a1.png" %}
+{% include image.html image_alt="b4fe47a1.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/b4fe47a1.png" %}
 
 ### Classic Shell Escape
 
@@ -220,15 +220,15 @@ What's this class shell-escape I'm talking about? Well, since we can `sudo journ
 
 Here's `xterm` running with four lines.
 
-{% include image.html image_alt="cd72a987.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/cd72a987.png" %}
+{% include image.html image_alt="cd72a987.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/cd72a987.png" %}
 
 See what happens when `sudo journalctl` is run.
 
-{% include image.html image_alt="8605ffcc.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/8605ffcc.png" %}
+{% include image.html image_alt="8605ffcc.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/8605ffcc.png" %}
 
 Only the first three lines are displayed and `less` is executed as `root`. Escape to shell with `!sh`.
 
-{% include image.html image_alt="7b06a162.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/7b06a162.png" %}
+{% include image.html image_alt="7b06a162.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/7b06a162.png" %}
 
 Boom!
 
@@ -236,7 +236,7 @@ Boom!
 
 Getting `root.txt` with a `root` shell is trivial.
 
-{% include image.html image_alt="1754956e.png" image_src="/assets/images/posts/traverxec-htb-walkthrough/1754956e.png" %}
+{% include image.html image_alt="1754956e.png" image_src="/db790aaf-ea50-46b0-8a84-5f421092d92d/1754956e.png" %}
 
 :dancer:
 

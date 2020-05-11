@@ -80,19 +80,19 @@ PORT    STATE SERVICE  REASON         VERSION
 
 It's best to pop `staging-order.mango.htb` and `mango.htb` into `/etc/hosts`. And this is how the site looks like for `http` and `https` respectively.
 
-{% include image.html image_alt="c82ceef1.png" image_src="/assets/images/posts/mango-htb-walkthrough/c82ceef1.png" %}
+{% include image.html image_alt="c82ceef1.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/c82ceef1.png" %}
 
 Sweet and juicy indeed!
 
-{% include image.html image_alt="ef1f2e57.png" image_src="/assets/images/posts/mango-htb-walkthrough/ef1f2e57.png" %}
+{% include image.html image_alt="ef1f2e57.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/ef1f2e57.png" %}
 
 Simple and clean search! Well, in the search page, there's a link to Analytics.
 
-{% include image.html image_alt="fccb8eca.png" image_src="/assets/images/posts/mango-htb-walkthrough/fccb8eca.png" %}
+{% include image.html image_alt="fccb8eca.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/fccb8eca.png" %}
 
 Well, I managed to get Flexmonster to work by including `codepen.io` to `/etc/hosts`.
 
-{% include image.html image_alt="fd20ca62.png" image_src="/assets/images/posts/mango-htb-walkthrough/fd20ca62.png" %}
+{% include image.html image_alt="fd20ca62.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/fd20ca62.png" %}
 
 I don't think `analytics.php` is the way in. I've to think of something else...
 
@@ -100,7 +100,7 @@ I don't think `analytics.php` is the way in. I've to think of something else...
 
 This is when the name of the box, Mango, reminded of me of MongoDB, which uses NoSQL. Although that frees MongoDB from SQL injection attacks, other form of attacks through the web application are still possible. Using the `$ne` and `$regex` operators, we are able to extract sensitive information from MongoDB even though we may not have direct access to it. It took me a while to chance upon this interesting behavior with the site.
 
-{% include image.html image_alt="99185636.png" image_src="/assets/images/posts/mango-htb-walkthrough/99185636.png" %}
+{% include image.html image_alt="99185636.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/99185636.png" %}
 
 When the username and password matches a regular expression, a 302 response is seen instead of a 200. Armed with this insight, we can write a script to extract pertinent information one character at a time.
 
@@ -159,7 +159,7 @@ rm -rf $TEMP; exit 1
 
 Long story short, early on, I've already established that there are two users to the site: `admin` and `mango`. Here's the script trying to extract the password of `mango`.
 
-{% include image.html image_alt="bc893547.png" image_src="/assets/images/posts/mango-htb-walkthrough/bc893547.png" %}
+{% include image.html image_alt="bc893547.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/bc893547.png" %}
 
 This must be the ugliest script I've written. It's not pretty but it gets the job done. The password of `mango` is `h3mXK8RhU~f{]f5H`. What a password!
 
@@ -167,25 +167,25 @@ This must be the ugliest script I've written. It's not pretty but it gets the jo
 
 Armed with `mango`'s password, we can log in to her account.
 
-{% include image.html image_alt="7d461387.png" image_src="/assets/images/posts/mango-htb-walkthrough/7d461387.png" %}
+{% include image.html image_alt="7d461387.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/7d461387.png" %}
 
 See how evil is the password of `admin`, with all the different punctuations!
 
-{% include image.html image_alt="5d0f809e.png" image_src="/assets/images/posts/mango-htb-walkthrough/5d0f809e.png" %}
+{% include image.html image_alt="5d0f809e.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/5d0f809e.png" %}
 
 I was able to `su` to `admin`'s account with his password (`t9KcS3>!0B#2`).
 
-{% include image.html image_alt="df21d8b0.png" image_src="/assets/images/posts/mango-htb-walkthrough/df21d8b0.png" %}
+{% include image.html image_alt="df21d8b0.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/df21d8b0.png" %}
 
 With that, the file `user.txt` is at `admin`'s home directory.
 
-{% include image.html image_alt="0c0ff65a.png" image_src="/assets/images/posts/mango-htb-walkthrough/0c0ff65a.png" %}
+{% include image.html image_alt="0c0ff65a.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/0c0ff65a.png" %}
 
 ## Privilege Escalation
 
 During enumeration of `admin`'s account, you'll notice that a SUID executable at `/usr/lib/jvm/java-11-openjdk-amd64/bin/jjs`.
 
-{% include image.html image_alt="cb10a974.png" image_src="/assets/images/posts/mango-htb-walkthrough/cb10a974.png" %}
+{% include image.html image_alt="cb10a974.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/cb10a974.png" %}
 
 Notice that the executable is also `setgid` to the `admin` group. Something tells me this is the right way to go.
 
@@ -195,19 +195,19 @@ According to the Java [documentation](https://docs.oracle.com/javase/8/docs/tech
 
 Towards that end, let's add `admin` to the `sudo` group. And from there, we can `sudo` ourselves to `root`.
 
-{% include image.html image_alt="aefb1fc8.png" image_src="/assets/images/posts/mango-htb-walkthrough/aefb1fc8.png" %}
+{% include image.html image_alt="aefb1fc8.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/aefb1fc8.png" %}
 
 Let's see if `admin` is really in the `sudo` group.
 
-{% include image.html image_alt="110e9ef4.png" image_src="/assets/images/posts/mango-htb-walkthrough/110e9ef4.png" %}
+{% include image.html image_alt="110e9ef4.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/110e9ef4.png" %}
 
 Awesome. All that's left is `sudo`.
 
-{% include image.html image_alt="84e4a71f.png" image_src="/assets/images/posts/mango-htb-walkthrough/84e4a71f.png" %}
+{% include image.html image_alt="84e4a71f.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/84e4a71f.png" %}
 
 That's it. We are done.
 
-{% include image.html image_alt="95d5153c.png" image_src="/assets/images/posts/mango-htb-walkthrough/95d5153c.png" %}
+{% include image.html image_alt="95d5153c.png" image_src="/cea019d4-4143-4712-b411-acd0e8409954/95d5153c.png" %}
 
 [1]: https://www.hackthebox.eu/home/machines/profile/214
 [2]: https://www.hackthebox.eu/home/users/profile/13531
