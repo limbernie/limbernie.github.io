@@ -8,7 +8,7 @@ category: Walkthrough
 tags: [VulnHub, FourAndSix]
 comments: true
 image:
-  feature: fourandsix-2.01-walkthrough.jpg
+  feature: fourandsix-2-0-1-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/police-crime-scene-murder-forensics-3284258/
 ---

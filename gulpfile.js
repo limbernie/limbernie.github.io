@@ -65,7 +65,8 @@ var knownOptions = {
     string: 'password',
     string: 'file',
     string: 'folder',
-    string: 'path'
+    string: 'path',
+    string: 'type'
 };
 
 var options = minimist(process.argv.slice(2), knownOptions);
@@ -89,7 +90,8 @@ gulp.task('upload', () => {
 	return gulp.src(options.file ? options.file : options.path.replace(/\/$/, '') + '/*')
 		.pipe(cloudinary({
 			params: {
-				folder: options.folder
+				folder: options.folder,
+                resource_type: options.type ? options.type : "auto"
 			}
 		}))
 });

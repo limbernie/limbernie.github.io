@@ -8,7 +8,7 @@ category: Walkthrough
 tags: [VulnHub, digitalworld.local]
 comments: true
 image:
-  feature: digitalworld.local-mercy-walkthrough.jpg
+  feature: digitalworld-local-mercy-walkthrough.jpg
   credit: Alexas_Fotos / Pixabay
   creditlink: https://pixabay.com/en/i-beg-your-pardon-excuse-me-frog-927748/
 ---

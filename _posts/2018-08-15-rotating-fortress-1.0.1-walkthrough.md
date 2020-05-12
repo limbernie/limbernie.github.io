@@ -8,7 +8,7 @@ category: Walkthrough
 tags: [VulnHub, "Rotating Fortress"]
 comments: true
 image:
-  feature: rotating-fortress-1.0.1-walkthrough.jpg
+  feature: rotating-fortress-1-0-1-walkthrough.jpg
   credit: Bru-nO / Pixabay
   creditlink: https://pixabay.com/en/window-opening-sun-light-3495156/
 ---
