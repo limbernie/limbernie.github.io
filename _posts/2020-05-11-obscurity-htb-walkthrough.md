@@ -15,8 +15,6 @@ image:
 This post documents the complete walkthrough of Obscurity, a retired vulnerable [VM][1] created by [clubby789][2], and hosted at [Hack The Box][3]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
-<!--more-->
-
 ## On this post
 {:.no_toc}
 
@@ -153,7 +151,7 @@ exec(info.format(path)) # This is how you do string formatting, right?
 
 `exec()` is a built-in function that *supports the dynamic execution of Python code*.
 
-### Low-Privlege Shell
+### Low-Privilege Shell
 
 Armed with this knowledge, we can execute remote Python code like so.
 
