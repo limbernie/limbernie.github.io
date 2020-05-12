@@ -67,7 +67,7 @@ layout: default
     {% endif %}
 
 		<div class="read-more">
-		{% if excerpt_words == content_words and post == site.posts.first %}
+		{% if excerpt_words == content_words %}
             <a rel="bookmark" href="{{ post.url }}#post" title="{{ post.title }}">Unlock to read &raquo;</a>
         {% elsif excerpt_words != content_words and post == site.posts.first %}
             <a rel="bookmark" href="{{ post.url }}#post" title="{{ post.title }}">Continue reading &raquo;</a>

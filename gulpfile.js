@@ -14,7 +14,7 @@ var through          = require('through2');
 var PluginError      = gutil.PluginError;
 
 function hasProtect(frontMatter) {
-	return frontMatter.match(/protect: true/) ? 1 : 0;
+	return frontMatter.match(/protect: ?true/) ? 1 : 0;
 }
 
 function encrypt(password) {
@@ -47,11 +47,12 @@ function encrypt(password) {
 			}
 
 			var dom = new JSDOM(String(fs.readFileSync(index))),
+                readTime = 'read_time: ' + '"' + dom.window.document.querySelector('.read-time').textContent.trim() + '"',
 				originalBody = dom.window.document.querySelector('.post-content').outerHTML,
 				encryptedBody = cryptojs.AES.encrypt(originalBody, password),
 				hmac = cryptojs.HmacSHA256(encryptedBody.toString(), cryptojs.SHA256(password).toString()).toString(),
 				encryptedFrontMatter = 'encrypted: ' + hmac + encryptedBody,
-				result = [ delimiter, frontMatter, encryptedFrontMatter, '\n', delimiter ];
+				result = [ delimiter, frontMatter, readTime, '\n', encryptedFrontMatter, '\n', delimiter ];
 
 			file.contents = new Buffer(result.join(''));
 			this.push(file);

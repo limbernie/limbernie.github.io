@@ -85,6 +85,7 @@ layout: default
           document.getElementById('encrypt_form').addEventListener('submit', function(e) {
               e.preventDefault();
               var passphrase = document.getElementById('encrypt_password').value,
+              readTime       = '{{ page.read_time }}',
               encryptedMsg   = '{{ page.encrypted }}',
               encryptedHMAC  = encryptedMsg.substring(0, 64),
               encryptedHTML  = encryptedMsg.substring(64),
@@ -97,6 +98,7 @@ layout: default
 
               var plainHTML = CryptoJS.AES.decrypt(encryptedHTML, passphrase).toString(CryptoJS.enc.Utf8);
               document.getElementById('encrypted_content').innerHTML = plainHTML;
+              document.querySelector('.read-time').textContent = readTime;
           });
       </script>
       <article class="post-content">
