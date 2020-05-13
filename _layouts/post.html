@@ -77,7 +77,7 @@ layout: default
   {% if page.protect %}
   <div id="encrypted_content">
       <form id="encrypt_form" action="#" method="post">
-          <input id="encrypt_password" type="password" name="password" placeholder="HTB root flag or equivalent" />
+          <input id="encrypt_password" type="password" name="password" placeholder="HTB root flag or equivalent" size="30" required autocomplete="off" />
           <input type="submit" value="Unlock" />
       </form>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
@@ -96,8 +96,10 @@ layout: default
                   return;
               }
 
-              var plainHTML = CryptoJS.AES.decrypt(encryptedHTML, passphrase).toString(CryptoJS.enc.Utf8);
-              document.getElementById('encrypted_content').innerHTML = plainHTML;
+              var plainHTML = CryptoJS.AES.decrypt(encryptedHTML, passphrase).toString(CryptoJS.enc.Utf8),
+                  encryptedContent = document.getElementById('encrypted_content');
+                  encryptedContent.innerHTML = plainHTML;
+                  encryptedContent.id = 'decrypted_content';
               document.querySelector('.read-time').textContent = readTime;
           });
       </script>
