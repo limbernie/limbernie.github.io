@@ -1,3 +1,4 @@
+{% assign cloudinary = "http://res.cloudinary.com/limbernie/image/upload/" %}
 {% if page.title %}
   {% capture title %}{{ page.title }}{% endcapture %}
 {% elsif paginator.page != 1 %}
@@ -28,7 +29,7 @@
 {% endif %}
 
 {% if page.image.feature %}
-  {% capture image %}{{ site.url }}/img/{{ page.image.feature }}{% endcapture %}
+  {% capture image %}{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }}{% endcapture %}
   {% capture card %}summary_large_image{% endcapture %}
   {% capture creator %}<meta name="twitter:creator" content="@{{ site.owner.twitter }}" />{% endcapture %}
 {% else %}
