@@ -1,0 +1,5 @@
+<div class="player-wrapper">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/asciinema-player@2.6.1/resources/public/css/asciinema-player.min.css" crossorigin />
+    <asciinema-player id="player" src="{{ include.url | append: '.cast' }}" poster="{{ include.poster }}" speed="{{ include.speed }}" title="{{ include.title }}" author="{{ include.author }}" cols="{{ include.cols }}" rows="{{ include.rows }}" preload></asciinema-player>
+    <script src="https://cdn.jsdelivr.net/npm/asciinema-player@2.6.1/resources/public/js/asciinema-player.min.js" async></script>
+</div>
