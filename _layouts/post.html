@@ -96,9 +96,20 @@ layout: default
                   return;
               }
 
+              var setInnerHTML = function(elm, html) {
+                    elm.innerHTML = html;
+                    Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
+                            const newScript = document.createElement("script");
+                            Array.from(oldScript.attributes)
+                              .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+                            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                          });
+              }
+
               var plainHTML = CryptoJS.AES.decrypt(encryptedHTML, passphrase).toString(CryptoJS.enc.Utf8),
                   encryptedContent = document.getElementById('encrypted_content');
-                  encryptedContent.innerHTML = plainHTML;
+                  setInnerHTML(encryptedContent, plainHTML);
                   encryptedContent.id = 'decrypted_content';
               document.querySelector('.read-time').textContent = readTime;
           });
