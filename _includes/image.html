@@ -4,11 +4,11 @@
     <img data-sizes="(max-width: 480px) 480px, 800px" 
     data-src="{{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
     data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' | append: include.image_src }} 480w, {{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
-    alt="{{ include.image_alt }}" 
+    alt="" 
     class="lazyload screenshot" width="800" height="450" />
     <noscript>
         <img src="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' | append: include.image_src }}" 
-        alt="{{ include.image_alt }}" class="screenshot" />
+        alt="" class="screenshot" />
     </noscript>
 </a>
 {% endif %}

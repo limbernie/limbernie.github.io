@@ -57,7 +57,7 @@ layout: default
              data-sizes="(max-width: 480px) 480px, 800px" 
              data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ post.image.feature }} 480w, 
                            {{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ post.image.feature }} 800w" 
-        alt="{{ post.title | escape }}" width="800" height="450">
+             alt="" width="800" height="450">
       {% if post.image.credit %}
       <span class="image-credit"><a href="{{ post.image.creditlink }}">{{ post.image.credit }}</a></span>
       {% endif %}

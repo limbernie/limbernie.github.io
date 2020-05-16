@@ -19,9 +19,9 @@ $border-width:               .0625rem !default;
 // "PT Sans", sans-serif !default;
 // "PT Serif", serif !default;
 // "PT Mono", monospace !default;
-$font-family-sans-serif:     "PT Sans", arial, sans-serif !default;
-$font-family-serif:          "PT Serif", "Times New Roman", times, serif !default; 
-$font-family-monospace:      "PT Mono", monospace !default;
+$font-family-sans-serif:     -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, arial, sans-serif !default; 
+$font-family-serif:          Georgia, Times New Roman, Times, serif !default; 
+$font-family-monospace:      SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace !default;
 $font-family-base:           $font-family-sans-serif !default;
 
 // Pixel value used to responsively scale all typography. Applied to the `<html>` element.
