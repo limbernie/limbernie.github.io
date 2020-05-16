@@ -173,9 +173,17 @@ div.post-meta {
 .post-image-feature {
   margin-bottom: 40px;
   .feature-image {
-    width: 100%;
     border-radius: 0.4em;
   }
+}
+
+#post .screenshot {
+    max-width: 100%;
+    height: auto;
+    @media (min-width: 800px) {
+        object-fit: scale-down;
+        object-position: left center;
+    }
 }
 
 // Shares Buttons

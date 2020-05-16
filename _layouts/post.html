@@ -16,13 +16,12 @@ layout: default
 
 {% if page.image.feature %}
 <div class="post-image-feature">
-<picture class="lazyload">
-  <source media="(max-width: 480px)" srcset="{{ cloudinary | append: 'w_480,f_auto,q_auto' }}/img/{{ page.image.feature }}"> 
-  <source media="(min-width: 800px)" srcset="{{ cloudinary | append: 'f_auto,q_auto'  }}/img/{{ page.image.feature }}"> 
   <img class="feature-image lazyload" data-src=
-  "{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }}"
-  alt="{{ page.title | escape }}">
-</picture>
+    "{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ page.image.feature }}"
+    data-sizes="(max-width: 480px) 480px, 800px" 
+    data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ page.image.feature }} 480w, 
+                    {{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }} 800w"
+    alt="{{ page.title | escape }}" width="800" height="450">
   {% if page.image.credit %}
   <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
   {% endif %}

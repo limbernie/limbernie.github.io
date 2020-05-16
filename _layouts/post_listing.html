@@ -52,14 +52,12 @@ layout: default
 
     {% if post.image.feature %}
     <div class="post-image-feature">
-      <picture>
-        <source media="(max-width: 480px)" data-srcset="{{ cloudinary | append: 'w_480,f_auto,q_auto' }}/img/{{ post.image.feature }}">
-        <source media="(min-width: 800px)" data-srcset="{{ cloudinary | append: 'f_auto,q_auto'  }}/img/{{ post.image.feature }}">
         <img class="feature-image lazyload" data-src=
-        "{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ post.image.feature }}"
-        alt="{{ post.title | escape }}">
-      </picture>
-
+            "{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ post.image.feature }}" 
+             data-sizes="(max-width: 480px) 480px, 800px" 
+             data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ post.image.feature }} 480w, 
+                           {{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ post.image.feature }} 800w" 
+        alt="{{ post.title | escape }}" width="800" height="450">
       {% if post.image.credit %}
       <span class="image-credit"><a href="{{ post.image.creditlink }}">{{ post.image.credit }}</a></span>
       {% endif %}

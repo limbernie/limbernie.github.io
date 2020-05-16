@@ -4,7 +4,7 @@
 <div class="container sidebar-sticky">
 <div class="cover-card">
   {% if author.logo %}
-  <img class="logo lazyload" data-src="{{ cloudinary | append: 'w_100,f_auto,q_auto' }}/img/{{ author.logo }}" alt="Cat Silhouette">
+  <img class="logo lazyload" data-src="{{ cloudinary | append: 'w_100,f_auto,q_auto' }}/img/{{ author.logo }}" alt="Cat Silhouette" width="120" height="120">
   {% endif %}
   <div class="noavatar">
   <a href="https://keybase.io/{{ author.keybase }}/" class="author_name" target="_blank" rel="noreferrer">{{ author.name }}</a>
