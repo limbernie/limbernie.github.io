@@ -16,12 +16,14 @@ layout: default
 
 {% if page.image.feature %}
 <div class="post-image-feature">
-  <img class="feature-image lazyload" data-src=
-    "{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ page.image.feature }}"
-    data-sizes="(max-width: 480px) 480px, 800px" 
-    data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' }}/img/{{ page.image.feature }} 480w, 
-                    {{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }} 800w"
-    alt="" width="800" height="450">
+	<img data-srcset=
+			"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }} 480w, 
+			 {{ cloudinary | append: 'w_800,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }}" 
+		 data-sizes="(max-width: 800px) 480px, 800px" 
+	     data-src=
+			"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }}" 
+	     class="feature-image lazyload" 
+	     alt="" width="800" height="450">
   {% if page.image.credit %}
   <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
   {% endif %}
@@ -39,7 +41,7 @@ layout: default
     <div class="post-meta">
 			<div class="avatar-box">
 			{% if author.avatar %}
-			<img class="avatar lazyload" data-src="{{ cloudinary | append: 'w_96,f_auto,q_auto' }}/img/{{ author.avatar }}" alt="" title="{{ author.shoutout }}">
+			<img class="avatar lazyload" data-src="{{ cloudinary | append: 'w_96,f_auto,q_auto' }}/img/{{ author.avatar }}" alt="" title="{{ author.shoutout }}" width="100" height="100">
 			{% endif %}
 			</div>
 			<div>

@@ -178,8 +178,6 @@ div.post-meta {
 }
 
 #post .screenshot {
-    max-width: 100%;
-    height: auto;
     @media (min-width: 800px) {
         object-fit: scale-down;
         object-position: left center;

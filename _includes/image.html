@@ -1,11 +1,14 @@
 {% assign cloudinary = "https://res.cloudinary.com/limbernie/image/upload/" %}
 {% if include.image_src %}
 <a class="image-popup" href="{{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}">
-    <img data-sizes="(max-width: 480px) 480px, 800px" 
-    data-src="{{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
-    data-srcset="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' | append: include.image_src }} 480w, {{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
-    alt="" 
-    class="lazyload screenshot" width="800" height="450" />
+	<img data-sizes="(max-width: 800px) 480px, 800px" 
+		 data-src="{{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
+		 data-srcset=
+		 	"{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' | append: include.image_src }} 480w, 
+		 	 {{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}" 
+    	 alt="" 
+    	 class="lazyload screenshot"
+    	 width="800" height="450">
     <noscript>
         <img src="{{ cloudinary | append: 'w_480,c_lpad,g_west,f_auto,q_auto' | append: include.image_src }}" 
         alt="" class="screenshot" />
