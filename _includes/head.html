@@ -1,4 +1,4 @@
-{% assign cloudinary = "https://res.cloudinary.com/limbernie/image/upload/" %}
+{% assign cloudinary = "http://res.cloudinary.com/limbernie/image/upload/" %}
 {% if page.title %}
   {% capture title %}{{ page.title }}{% endcapture %}
 {% elsif paginator.page != 1 %}
@@ -60,8 +60,8 @@
 	<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 	<link rel="dns-prefetch" href="https://www.google-analytics.com">
     {% if page.layout != "page" %}
-	<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-	<link rel="dns-prefetch" href="https://res.cloudinary.com">
+	<link rel="preconnect" href="http://res.cloudinary.com" crossorigin>
+	<link rel="dns-prefetch" href="http://res.cloudinary.com">
     {% endif %}
     {% if page.id %}
 	<link rel="preconnect" href="https://github.githubassets.com" crossorigin>
