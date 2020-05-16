@@ -1,4 +1,4 @@
-{% assign cloudinary = "http://res.cloudinary.com/limbernie/image/upload/" %}
+{% assign cloudinary = "https://res.cloudinary.com/limbernie/image/upload/" %}
 {% if include.image_src %}
 <a class="image-popup" href="{{ cloudinary | append: 'f_auto,q_auto' | append: include.image_src }}">
 	<img data-sizes="(max-width: 800px) 480px, 800px" 
