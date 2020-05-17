@@ -226,7 +226,7 @@ Requests/sec.: 348.7276
 
 {% include image.html image_alt="aeb6c549.png" image_src="/ab168b60-50ed-4c06-a675-54c1149e2c93/aeb6c549.png" %}
 
-Something about entity parsing in the custom folder caught my eye. If I had to guess, I would say that means XXE injection is possible in Microsoft Office Word's custom XML.
+Something about entity parsing in the custom folder caught my eye. If I had to guess, I would say it means that XXE injection is possible in Microsoft Office Word's custom XML.
 
 ### XXE Injection
 
