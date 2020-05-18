@@ -26,19 +26,16 @@ SimpleJekyllSearch({
 })
 </script>
 {% endif %}
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.0/lazysizes.min.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" async></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-rwdImageMaps/1.6/jquery.rwdImageMaps.min.js" async></script>
-<script type="text/javascript" src="{{ site.url }}/js/main.min.js" async></script>
--->
+
 {% if page.id %}
 <script type="text/javascript" src="{{ site.url }}/js/post.min.js" async></script>
 {% else %}
-<script type="text/javascript" src="{{ site.url }}/js/page.min.js" async></script>
+    <script>
+        if (window.matchMedia('(min-width: 850px)').matches)
+            document.write('<scr' + 'ipt type="text/javascript" src="' + "{{ site.url }}" + '/js/page.min.js" async></scr' + 'ipt>');
+    </script>
 {% endif %}
+
 {% if site.owner.google.analytics %}
 <!-- Asynchronous Google Analytics snippet -->
 <script>
