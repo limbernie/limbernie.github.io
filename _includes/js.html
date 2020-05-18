@@ -30,10 +30,7 @@ SimpleJekyllSearch({
 {% if page.id %}
 <script type="text/javascript" src="{{ site.url }}/js/post.min.js" async></script>
 {% else %}
-    <script>
-        if (window.matchMedia('(min-width: 850px)').matches)
-            document.write('<scr' + 'ipt type="text/javascript" src="' + "{{ site.url }}" + '/js/page.min.js" async></scr' + 'ipt>');
-    </script>
+<script type="text/javascript" src="{{ site.url }}/js/page.min.js" async></script>
 {% endif %}
 
 {% if site.owner.google.analytics %}
