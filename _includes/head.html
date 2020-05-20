@@ -29,7 +29,11 @@
 {% endif %}
 
 {% if page.image.feature %}
+  {% if page.image.feature contains "http" %}
+  {% capture image %}{{ cloudinary | replace: "upload", "fetch" | append: 'f_auto,q_auto' }}/{{ page.image.feature }}{% endcapture %}
+  {% else %}
   {% capture image %}{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ page.image.feature }}{% endcapture %}
+  {% endif %}
   {% capture card %}summary_large_image{% endcapture %}
   {% capture creator %}<meta name="twitter:creator" content="@{{ site.owner.twitter }}" />{% endcapture %}
 {% else %}
