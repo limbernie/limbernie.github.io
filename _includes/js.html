@@ -17,13 +17,23 @@ window.onload = function(){
 {% if page.title == "Search" %}
 <script src="{{ site.url }}/js/simple-jekyll-search.min.js" type="text/javascript"></script>
 <script>
+window.matchMedia("(min-width: 850px)").matches ?
 SimpleJekyllSearch({
   searchInput: document.getElementById('search-input'),
   resultsContainer: document.getElementById('results-container'),
   searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
   noResultsText: '<span style="padding: 0 10px;">No results found</span>',
-  json: '/search.json'
-})
+  json: '/search.json',
+  limit: 8
+}) : 
+SimpleJekyllSearch({
+  searchInput: document.getElementById('search-input'),
+  resultsContainer: document.getElementById('results-container'),
+  searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+  noResultsText: '<span style="padding: 0 10px;">No results found</span>',
+  json: '/search.json',
+  limit: 5
+}) 
 </script>
 {% endif %}
 
