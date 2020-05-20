@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Ethereal, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -67,15 +67,15 @@ PORT     STATE SERVICE REASON          VERSION
 
 Since FTP allows anonymous login, let's start with that first. Long story short, the only usable piece of information lies in `FDISK.zip`.
 
-<a class="image-popup">
-![3cae9980.png](/assets/images/posts/ethereal-htb-walkthrough/3cae9980.png)
-</a>
+
+{% include image.html image_alt="3cae9980.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/3cae9980.png" %}
+
 
 The file contains a FAT filesystem that we can mount like so.
 
-<a class="image-popup">
-![a3c74dd3.png](/assets/images/posts/ethereal-htb-walkthrough/a3c74dd3.png)
-</a>
+
+{% include image.html image_alt="a3c74dd3.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/a3c74dd3.png" %}
+
 
 ### PasswordBox
 
@@ -83,87 +83,87 @@ The directory `pbox` contains a MS-DOS executable `PBOX.EXE`, i.e. PasswordBox [
 
 We can use DOSBox to open it. We'll mount directory `pbox` as `C:` volume.
 
-<a class="image-popup">
-![8284f9c3.png](/assets/images/posts/ethereal-htb-walkthrough/8284f9c3.png)
-</a>
+
+{% include image.html image_alt="8284f9c3.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/8284f9c3.png" %}
+
 
 When you try to run `PBOX.EXE`, DOSBox will complain that there's no DPMI (DOS Protected Mode Interface). We can enable DPMI through [CWSDPMI](http://sandmann.dotster.com/cwsdpmi/), a DPMI host that allows DOS programs to run in protected mode.
 
 Simply place `CWSDPMI.exe` in the same location as `PBOX.EXE` and we are good to go.
 
-<a class="image-popup">
-![c05c4d7e.png](/assets/images/posts/ethereal-htb-walkthrough/c05c4d7e.png)
-</a>
+
+{% include image.html image_alt="c05c4d7e.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/c05c4d7e.png" %}
+
 
 The master password is `password`, which I got it on my first attempt. :laughing:
 
-<a class="image-popup">
-![000c545f.png](/assets/images/posts/ethereal-htb-walkthrough/000c545f.png)
-</a>
+
+{% include image.html image_alt="000c545f.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/000c545f.png" %}
+
 
 To make things easier for copying, you can also run `PBOX.EXE` with the `--dump` switch. This switch will dump all the credentials onto standard output.
 
-<a class="image-popup">
-![3bb1590a.png](/assets/images/posts/ethereal-htb-walkthrough/3bb1590a.png)
-</a>
+
+{% include image.html image_alt="3bb1590a.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/3bb1590a.png" %}
+
 
 ### Internet Information Services (IIS)
 
 Now, let's turn our attention to the `http` services, `80/tcp` and `8080/tcp`. This is how `80/tcp` looks like.
 
-<a class="image-popup">
-![901acc57.png](/assets/images/posts/ethereal-htb-walkthrough/901acc57.png)
-</a>
+
+{% include image.html image_alt="901acc57.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/901acc57.png" %}
+
 
 Very nice! Anyways, the key to the next clue lies here.
 
-<a class="image-popup">
-![96a032ef.png](/assets/images/posts/ethereal-htb-walkthrough/96a032ef.png)
-</a>
+
+{% include image.html image_alt="96a032ef.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/96a032ef.png" %}
+
 
 See where it links to?
 
-<a class="image-popup">
-![5b2507a1.png](/assets/images/posts/ethereal-htb-walkthrough/5b2507a1.png)
-</a>
+
+{% include image.html image_alt="5b2507a1.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/5b2507a1.png" %}
+
 
 It'll be wise to add `ethereal.htb` to `/etc/hosts` because this is what you get if you have not done so.
 
-<a class="image-popup">
-![74353936.png](/assets/images/posts/ethereal-htb-walkthrough/74353936.png)
-</a>
+
+{% include image.html image_alt="74353936.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/74353936.png" %}
+
 
 And this is what you get otherwise. :smirk:
 
-<a class="image-popup">
-![08720c5f.png](/assets/images/posts/ethereal-htb-walkthrough/08720c5f.png)
-</a>
+
+{% include image.html image_alt="08720c5f.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/08720c5f.png" %}
+
 
 Recall the credentials we collected earlier? Turns out that (`alan:!C414m17y57r1k3s4g41n!`) is the right combination to login for the Basic Authentication scheme.
 
-<a class="image-popup">
-![4c9e5bee.png](/assets/images/posts/ethereal-htb-walkthrough/4c9e5bee.png)
-</a>
+
+{% include image.html image_alt="4c9e5bee.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/4c9e5bee.png" %}
+
 
 ### Test Connection
 
 This is how it looks like after logging in.
 
-<a class="image-popup">
-![a36d7d47.png](/assets/images/posts/ethereal-htb-walkthrough/a36d7d47.png)
-</a>
+
+{% include image.html image_alt="a36d7d47.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/a36d7d47.png" %}
+
 
 This form allows one to send exactly two ICMP echo request messages to an external IP address. Here's me using the form to send the request to my own IP address.
 
-<a class="image-popup">
-![e64a8d77.png](/assets/images/posts/ethereal-htb-walkthrough/e64a8d77.png)
-</a>
+
+{% include image.html image_alt="e64a8d77.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/e64a8d77.png" %}
+
 
 I had a `tcpdump` session to capture ICMP traffic.
 
-<a class="image-popup">
-![3f0f95b5.png](/assets/images/posts/ethereal-htb-walkthrough/3f0f95b5.png)
-</a>
+
+{% include image.html image_alt="3f0f95b5.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/3f0f95b5.png" %}
+
 
 The form must have been implemented with the following Windows command:
 
@@ -185,15 +185,15 @@ Meanwhile, I have another terminal windows to display just the query.
 
 This is the test.
 
-<a class="image-popup">
-![71356cb8.png](/assets/images/posts/ethereal-htb-walkthrough/71356cb8.png)
-</a>
+
+{% include image.html image_alt="71356cb8.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/71356cb8.png" %}
+
 
 If the test is successful, I should see `this.is.a.test` on the log.
 
-<a class="image-popup">
-![976f157f.png](/assets/images/posts/ethereal-htb-walkthrough/976f157f.png)
-</a>
+
+{% include image.html image_alt="976f157f.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/976f157f.png" %}
+
 
 Awesome. I can exfiltrate data through DNS!
 
@@ -323,9 +323,9 @@ WindowsPowerShell
 
 Going deeper into the OpenSSL directory reveals the `openssl.exe` binary.
 
-<a class="image-popup">
-![d87da0ed.png](/assets/images/posts/ethereal-htb-walkthrough/d87da0ed.png)
-</a>
+
+{% include image.html image_alt="d87da0ed.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/d87da0ed.png" %}
+
 
 ### Remote Command Execution
 
@@ -363,9 +363,9 @@ whoami
 
 Here comes the moment of truth...
 
-<a class="image-popup">
-![516883df.png](/assets/images/posts/ethereal-htb-walkthrough/516883df.png)
-</a>
+
+{% include image.html image_alt="516883df.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/516883df.png" %}
+
 
 And, we have remote command execution! Although we have remote command execution, it feels like submitting instructions in a punched card. Nostalgic but painful.
 
@@ -411,9 +411,9 @@ Now, how do I transfer the LNK file over to the box? I can `echo` the `base64`-e
 & echo TAAAAAEU...Y28AAAAA > c:\users\public\desktop\shortcuts\evil.lnk.b64
 ```
 
-<a class="image-popup">
-![10fbd4c2.png](/assets/images/posts/ethereal-htb-walkthrough/10fbd4c2.png)
-</a>
+
+{% include image.html image_alt="10fbd4c2.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/10fbd4c2.png" %}
+
 
 The next task would be to base64-decode it back to the LNK file. How do I do that? `openssl`! My `cmd` now looks like this.
 
@@ -425,23 +425,23 @@ type "Visual Studio 2017.lnk"
 
 A while later, this appears...
 
-<a class="image-popup">
-![05fa9fc0.png](/assets/images/posts/ethereal-htb-walkthrough/05fa9fc0.png)
-</a>
+
+{% include image.html image_alt="05fa9fc0.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/05fa9fc0.png" %}
+
 
 Naughty `jorge` is the one *double-clicking* the shortcut! I see...I need to repeat the steps of echoing commands to the SSL server listening at `73/tcp`, with one exception. I can't control when the commands get executed because we'll have to wait for `jorge` to *double-click* the shortcut.
 
 During enumeration of `jorge`'s account, I found `user.txt` at the desktop.
 
-<a class="image-popup">
-![249560b1.png](/assets/images/posts/ethereal-htb-walkthrough/249560b1.png)
-</a>
+
+{% include image.html image_alt="249560b1.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/249560b1.png" %}
+
 
 I also found out that there are two mounted volumes in the box.
 
-<a class="image-popup">
-![3ff07810.png](/assets/images/posts/ethereal-htb-walkthrough/3ff07810.png)
-</a>
+
+{% include image.html image_alt="3ff07810.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/3ff07810.png" %}
+
 
 Further enumeration of D: drive reveals another note at `D:\DEV\MSIs\note.txt`.
 
@@ -491,33 +491,33 @@ But before we compile the WiX file to MSI, we need to issue a software publisher
 
 Run the following commands to generate the SPC.
 
-<a class="image-popup">
-![spc](/assets/images/posts/ethereal-htb-walkthrough/spc.png)
-</a>
+
+{% include image.html image_alt="spc" image_src="/0897384e-6467-45ea-ae19-7741a9614523/spc.png" %}
+
 
 `makecert.exe` will prompt you for a password to protect the generated private key. You'll see something like this. Use any password you like.
 
-<a class="image-popup">
-![makecert](/assets/images/posts/ethereal-htb-walkthrough/makecert.png)
-</a>
+
+{% include image.html image_alt="makecert" image_src="/0897384e-6467-45ea-ae19-7741a9614523/makecert.png" %}
+
 
 We can now proceed to create the MSI file with a candlelight dinner, first with `candle.exe`.
 
-<a class="image-popup">
-![candle](/assets/images/posts/ethereal-htb-walkthrough/candle.png)
-</a>
+
+{% include image.html image_alt="candle" image_src="/0897384e-6467-45ea-ae19-7741a9614523/candle.png" %}
+
 
 And then `light.exe`.
 
-<a class="image-popup">
-![light](/assets/images/posts/ethereal-htb-walkthrough/light.png)
-</a>
+
+{% include image.html image_alt="light" image_src="/0897384e-6467-45ea-ae19-7741a9614523/light.png" %}
+
 
 Finally, we sign the MSI file with our newly minted SPC.
 
-<a class="image-popup">
-![signtool](/assets/images/posts/ethereal-htb-walkthrough/signtool.png)
-</a>
+
+{% include image.html image_alt="signtool" image_src="/0897384e-6467-45ea-ae19-7741a9614523/signtool.png" %}
+
 
 Let's copy `evil.msi` to the box. On our attacking machine, run the following command.
 
@@ -545,9 +545,9 @@ dir
 
 Upon dropping the MSI file at `D:\DEV\MSIs`, I got `root.txt` moments later, courtesy of Rupal.
 
-<a class="image-popup">
-![38fc552f.png](/assets/images/posts/ethereal-htb-walkthrough/38fc552f.png)
-</a>
+
+{% include image.html image_alt="38fc552f.png" image_src="/0897384e-6467-45ea-ae19-7741a9614523/38fc552f.png" %}
+
 
 :dancer:
 

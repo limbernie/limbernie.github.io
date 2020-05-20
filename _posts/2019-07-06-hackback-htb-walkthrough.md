@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Hackback, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -86,7 +86,7 @@ PORT      STATE SERVICE     REASON          VERSION
 |     Vary: Cookie
 |     Date: Sun, 24 Mar 2019 16:36:43 GMT
 |     Content-Length: 38
-|     href="/login?next=%2F">Found</a>.
+|     href="/login?next=%2F">Found.
 |   HTTPOptions:
 |     HTTP/1.0 302 Found
 |     Location: /login?next=%2F
@@ -110,43 +110,43 @@ Turns out to be a bunch of `http` and `ssl/http` services. Here's how they look 
 
 _80/tcp_
 
-<a class="image-popup">
-![5e59f1fb.png](/assets/images/posts/hackback-htb-walkthrough/5e59f1fb.png)
-</a>
+
+{% include image.html image_alt="5e59f1fb.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/5e59f1fb.png" %}
+
 
 _6666/tcp_
 
-<a class="image-popup">
-![3943e7e5.png](/assets/images/posts/hackback-htb-walkthrough/3943e7e5.png)
-</a>
+
+{% include image.html image_alt="3943e7e5.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/3943e7e5.png" %}
+
 
 _64831/tcp_
 
-<a class="image-popup">
-![fee3d677.png](/assets/images/posts/hackback-htb-walkthrough/fee3d677.png)
-</a>
+
+{% include image.html image_alt="fee3d677.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/fee3d677.png" %}
+
 
 ### GoPhish
 
 GoPhish sure looks interesting. By the way, the default credential (`admin:gophish`) allows us to log in. The following email templates also show the virtual hosts that need to be added to `/etc/hosts`.
 
-<a class="image-popup">
-![77bb0860.png](/assets/images/posts/hackback-htb-walkthrough/77bb0860.png)
-</a>
+
+{% include image.html image_alt="77bb0860.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/77bb0860.png" %}
+
 
 ### Obfuscated JavaScript
 
 Among the virtual hosts, only `admin.hackback.htb` offers a real clue on where to proceed. Here's how it looks like.
 
-<a class="image-popup">
-![5967ea3f.png](/assets/images/posts/hackback-htb-walkthrough/5967ea3f.png)
-</a>
+
+{% include image.html image_alt="5967ea3f.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/5967ea3f.png" %}
+
 
 And check out the HTML source!
 
-<a class="image-popup">
-![2fedb33f.png](/assets/images/posts/hackback-htb-walkthrough/2fedb33f.png)
-</a>
+
+{% include image.html image_alt="2fedb33f.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/2fedb33f.png" %}
+
 
 `gobuster` is quick to find the hidden JavaScript.
 
@@ -172,9 +172,9 @@ http://admin.hackback.htb/js/private.js (Status: 200)
 
 Here's how the hidden JavaScript looks like.
 
-<a class="image-popup">
-![6c280d16.png](/assets/images/posts/hackback-htb-walkthrough/6c280d16.png)
-</a>
+
+{% include image.html image_alt="6c280d16.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/6c280d16.png" %}
+
 
 The script is encrypted with a simple Caesar cipher. `tr` can easily decipher it.
 
@@ -282,9 +282,9 @@ var w = 'Nothing more to say';
 
 Running it reveals the secret path to be `/2bb6916122f1da34dcd916421e531578`.
 
-<a class="image-popup">
-![f26f48a6.png](/assets/images/posts/hackback-htb-walkthrough/f26f48a6.png)
-</a>
+
+{% include image.html image_alt="f26f48a6.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/f26f48a6.png" %}
+
 
 Let's use `wfuzz` on the path and see what we can find.
 
@@ -410,9 +410,9 @@ Array
 
 The login attempts to the site `www.hackthebox.htb` are recorded in the log bearing my session.
 
-<a class="image-popup">
-![7c6cd0d4.png](/assets/images/posts/hackback-htb-walkthrough/7c6cd0d4.png)
-</a>
+
+{% include image.html image_alt="7c6cd0d4.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/7c6cd0d4.png" %}
+
 
 Using `curl`, we can display the contents of the log.
 
@@ -429,15 +429,15 @@ where,
 
 _Logging in to the site_
 
-<a class="image-popup">
-![98cec581.png](/assets/images/posts/hackback-htb-walkthrough/98cec581.png)
-</a>
+
+{% include image.html image_alt="98cec581.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/98cec581.png" %}
+
 
 _Login attempt recorded_
 
-<a class="image-popup">
-![1a39fbe9.png](/assets/images/posts/hackback-htb-walkthrough/1a39fbe9.png)
-</a>
+
+{% include image.html image_alt="1a39fbe9.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/1a39fbe9.png" %}
+
 
 I smell PHP log poisoning...
 
@@ -460,15 +460,15 @@ By combining ASP.NET and PHP, I was able to upload a rudimentary [shell](https:/
 
 _Additional services?_
 
-<a class="image-popup">
-![990dab96.png](/assets/images/posts/hackback-htb-walkthrough/990dab96.png)
-</a>
+
+{% include image.html image_alt="990dab96.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/990dab96.png" %}
+
 
 _Firewall rules_
 
-<a class="image-popup">
-![6a265da1.png](/assets/images/posts/hackback-htb-walkthrough/6a265da1.png)
-</a>
+
+{% include image.html image_alt="6a265da1.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/6a265da1.png" %}
+
 
 You can see that only TCP ports `80,6666,64831` are allowed inbound, and nothing else. Outbound connections are denied altogether.
 
@@ -476,17 +476,17 @@ With that in mind, let's set up [ReGeorg](https://github.com/sensepost/reGeorg),
 
 _Set up SOCKS tunnel with ReGeorg_
 
-<a class="image-popup">
-![87293734.png](/assets/images/posts/hackback-htb-walkthrough/87293734.png)
-</a>
+
+{% include image.html image_alt="87293734.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/87293734.png" %}
+
 
 I've chosen the ASP.NET `tunnel.aspx` because obviously many of the PHP functions were disabled.
 
 Once that's done, we can use `proxychains` to access the additional services. But first, we need some credentials from `C:\inetpub\wwwroot\new_phish\web.config.old`.
 
-<a class="image-popup">
-![bdebac49.png](/assets/images/posts/hackback-htb-walkthrough/d368339b.png)
-</a>
+
+{% include image.html image_alt="bdebac49.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/d368339b.png" %}
+
 
 ### WinRM/WSMan and PowerShell
 
@@ -518,9 +518,9 @@ end
 
 I'm able to execute PowerShell commands as `simple` in the box!
 
-<a class="image-popup">
-![c4343fcd.png](/assets/images/posts/hackback-htb-walkthrough/c4343fcd.png)
-</a>
+
+{% include image.html image_alt="c4343fcd.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/c4343fcd.png" %}
+
 
 In conjuntion with `cmd.rb`, I wrote another Python script (I'm not too familiar with Ruby) to simulate a PowerShell session.
 
@@ -547,33 +547,33 @@ if __name__ == "__main__":
   s.cmdloop("Windows PowerShell\nCopyright (C) Microsoft Corporation. All rights reserved.\n")
 ```
 
-<a class="image-popup">
-![ff2613c9.png](/assets/images/posts/hackback-htb-walkthrough/ff2613c9.png)
-</a>
+
+{% include image.html image_alt="ff2613c9.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/ff2613c9.png" %}
+
 
 During enumeration of `simple`'s account, I notice a phenomenon going on at `c:\util\scripts`. The presence of `clean.ini` suggests that `hacker` reads and parses this file when `dellog.bat` is executed every five minutes (I also notice `hacker` logs in every 5 minutes).
 
-<a class="image-popup">
-![f71769c7.png](/assets/images/posts/hackback-htb-walkthrough/f71769c7.png)
-</a>
+
+{% include image.html image_alt="f71769c7.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/f71769c7.png" %}
+
 
 Here's the layout of `c:\util\scripts`. Note that `dellog.bat` is hidden.
 
-<a class="image-popup">
-![137c5940.png](/assets/images/posts/hackback-htb-walkthrough/137c5940.png)
-</a>
+
+{% include image.html image_alt="137c5940.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/137c5940.png" %}
+
 
 This is how `dellog.bat` looks like. I don't have the permissions to read `dellog.ps1` but I believe the parsing of `clean.ini` is done here.
 
-<a class="image-popup">
-![4116c2ec.png](/assets/images/posts/hackback-htb-walkthrough/4116c2ec.png)
-</a>
+
+{% include image.html image_alt="4116c2ec.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/4116c2ec.png" %}
+
 
 This is how `clean.ini` looks like.
 
-<a class="image-popup">
-![6d574f8e.png](/assets/images/posts/hackback-htb-walkthrough/6d574f8e.png)
-</a>
+
+{% include image.html image_alt="6d574f8e.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/6d574f8e.png" %}
+
 
 Long story short, I deleted `clean.ini` to observe the effect it has on `dellog.ps1`—`LogFile` parameter introduces a command execution vulnerability (after a couple of resets). Check this out:
 
@@ -611,55 +611,55 @@ Invoke-PowerShellTcp -Bind -Port 8888
 
 Once that's done, we just have to wait for `hacker` to execute our 'payload'.
 
-<a class="image-popup">
-![b05469d5.png](/assets/images/posts/hackback-htb-walkthrough/b05469d5.png)
-</a>
+
+{% include image.html image_alt="b05469d5.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/b05469d5.png" %}
+
 
 Although the firewall only allows inbound connections to three ports, we still have our tunnel going on. As such, we can simply `nc` to the box through the tunnel.
 
-<a class="image-popup">
-![b595cb6a.png](/assets/images/posts/hackback-htb-walkthrough/b595cb6a.png)
-</a>
+
+{% include image.html image_alt="b595cb6a.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/b595cb6a.png" %}
+
 
 Voila! Honestly, that's a lot of work for `user.txt` :triumph:
 
-<a class="image-popup">
-![a6ba50d2.png](/assets/images/posts/hackback-htb-walkthrough/a6ba50d2.png)
-</a>
+
+{% include image.html image_alt="a6ba50d2.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/a6ba50d2.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `hacker`'s account, I notice a suspicious-looking service `UserLogger` that `hacker` is able to start/stop.
 
-<a class="image-popup">
-![d051c48c.png](/assets/images/posts/hackback-htb-walkthrough/d051c48c.png)
-</a>
+
+{% include image.html image_alt="d051c48c.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/d051c48c.png" %}
+
 
 Look at the [ACE](https://docs.microsoft.com/en-us/windows/desktop/secauthz/ace-strings) string highlighted above. Notice that `hacker` doesn't have full control to the service, but that's good enough for me. Here's why.
 
-<a class="image-popup">
-![4ec78b8b.png](/assets/images/posts/hackback-htb-walkthrough/4ec78b8b.png)
-</a>
+
+{% include image.html image_alt="4ec78b8b.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/4ec78b8b.png" %}
+
 
 I downloaded the executable `c:\windows\system32\UserLogger.exe` and reverse-engineered it. It's packed by UPX, which can be easily unpacked with UPX, of course.
 
-<a class="image-popup">
-![5284026a.png](/assets/images/posts/hackback-htb-walkthrough/5284026a.png)
-</a>
+
+{% include image.html image_alt="5284026a.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/5284026a.png" %}
+
 
 The service accepts an argument! When SCM (Service Control Manager) starts the service with an argument, i.e. the path of the logfile, the service proceeds to elevate the logfile's permissions to Full Control for Everyone.
 
 With that in mind, let's do something like this.
 
-<a class="image-popup">
-![5bb55fe7.png](/assets/images/posts/hackback-htb-walkthrough/5bb55fe7.png)
-</a>
+
+{% include image.html image_alt="5bb55fe7.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/5bb55fe7.png" %}
+
 
 The colon `:` at the end of the path allows us to ignore or bypass the pesky `.log` from appending or concatenating itself to the path, writing to the Alternate Data Stream (ADS) of the file instead. Time to read `root.txt`!
 
-<a class="image-popup">
-![6f86081e.png](/assets/images/posts/hackback-htb-walkthrough/6f86081e.png)
-</a>
+
+{% include image.html image_alt="6f86081e.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/6f86081e.png" %}
+
 
 Only to get trolled, bad. :angry:
 
@@ -667,31 +667,31 @@ Only to get trolled, bad. :angry:
 
 Recall the service turning the permissions to Full Control for Everyone on the file path? Perhaps, it would work on a folder path as well? Let's give it a shot.
 
-<a class="image-popup">
-![d0cb7683.png](/assets/images/posts/hackback-htb-walkthrough/d0cb7683.png)
-</a>
+
+{% include image.html image_alt="d0cb7683.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/d0cb7683.png" %}
+
 
 Holy smoke, I can access the folder!
 
-<a class="image-popup">
-![5d94c4b5.png](/assets/images/posts/hackback-htb-walkthrough/5d94c4b5.png)
-</a>
+
+{% include image.html image_alt="5d94c4b5.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/5d94c4b5.png" %}
+
 
 Too bad there's no auto-inheritance.
 
-<a class="image-popup">
-![0c91268f.png](/assets/images/posts/hackback-htb-walkthrough/0c91268f.png)
-</a>
+
+{% include image.html image_alt="0c91268f.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/0c91268f.png" %}
+
 
 I can also create any folder in `C:\Users\Administrator`. Let's create a `test` folder. Once that's done, I can copy `root.txt` to this `test` folder where `hacker` has full control over it.
 
-<a class="image-popup">
-![10ce0122.png](/assets/images/posts/hackback-htb-walkthrough/10ce0122.png)
-</a>
 
-<a class="image-popup">
-![0400029d.png](/assets/images/posts/hackback-htb-walkthrough/0400029d.png)
-</a>
+{% include image.html image_alt="10ce0122.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/10ce0122.png" %}
+
+
+
+{% include image.html image_alt="0400029d.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/0400029d.png" %}
+
 
 The creators can't be that evil. I'm sure the actual flag is hidden in an Alternate Data Stream (ADS). Because I suck at guessing, let's list down all the streams.
 
@@ -732,9 +732,9 @@ Length        : 35
 
 Of course, `flag.txt` is the name of the stream. Silly me. Reading the ADS is now a piece of cake.
 
-<a class="image-popup">
-![e02e9e02.png](/assets/images/posts/hackback-htb-walkthrough/e02e9e02.png)
-</a>
+
+{% include image.html image_alt="e02e9e02.png" image_src="/ac4b4983-03a8-46fd-acb9-d56362db4287/e02e9e02.png" %}
+
 
 :dancer:
 

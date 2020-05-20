@@ -53,11 +53,20 @@ layout: default
     {% if post.image.feature %}
     <div class="post-image-feature">
         <img data-srcset=
+                {% if post.image.feature contains "http" %}
+        	    "{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,f_auto,q_auto' }}/{{ post.image.feature }} 480w, 
+				 {{ cloudinary | replace: 'upload', 'fetch' | append: 'w_800,ar_16:9,c_pad,f_auto,q_auto' }}/{{ post.image.feature }}" 
+                {% else %}
 				"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ post.image.feature }} 480w, 
 				 {{ cloudinary | append: 'w_800,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ post.image.feature }}" 
+                {% endif %}
 			 data-sizes="(max-width: 800px) 480px, 800px" 
              data-src=
+                {% if post.image.feature contains "http" %}
+				"{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,f_auto,q_auto' }}/{{ post.image.feature }}" 
+                {% else %}
 				"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ post.image.feature }}" 
+                {% endif %}
              class="feature-image lazyload" 
              alt="" width="800" height="450">
       {% if post.image.credit %}

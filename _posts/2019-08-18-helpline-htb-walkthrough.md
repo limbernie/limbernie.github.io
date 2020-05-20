@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Helpline, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -105,23 +105,23 @@ PORT      STATE SERVICE    REASON          VERSION
 
 Interesting. Basically, we only have WinRM and `http` services to explore. Let's start with the `http` service. Here's how it looks like.
 
-<a class="image-popup">
-![3bf902a7.png](/assets/images/posts/helpline-htb-walkthrough/3bf902a7.png)
-</a>
+
+{% include image.html image_alt="3bf902a7.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/3bf902a7.png" %}
+
 
 ### ManageEngine ServiceDesk Plus 9.3
 
 This version of ServiceDesk Plus is susceptible to [CVE-2019-10008](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-10008), which allows session hijacking and privilege escalation from guest to administrator. And I have just the perfect exploit (EDB-ID [46659](https://www.exploit-db.com/exploits/46659)) for it.
 
-<a class="image-popup">
-![22b25875.png](/assets/images/posts/helpline-htb-walkthrough/22b25875.png)
-</a>
+
+{% include image.html image_alt="22b25875.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/22b25875.png" %}
+
 
 Set the cookies in my browser (with the Cookie Manager Firefox add-on) as suggested and then navigate to the site.
 
-<a class="image-popup">
-![2013a328.png](/assets/images/posts/helpline-htb-walkthrough/2013a328.png)
-</a>
+
+{% include image.html image_alt="2013a328.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/2013a328.png" %}
+
 
 Bam. I'm the `administrator` yo~
 
@@ -137,53 +137,53 @@ Surprise, surprise. ServiceDesk Plus (or SDP) has super powers—the software is
 
 _Go to Admin->Helpdesk Customizer->Custom Triggers_
 
-<a class="image-popup">
-![9be99be9.png](/assets/images/posts/helpline-htb-walkthrough/9be99be9.png)
-</a>
+
+{% include image.html image_alt="9be99be9.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/9be99be9.png" %}
+
 
 _Execute Script_
 
-<a class="image-popup">
-![98b39381.png](/assets/images/posts/helpline-htb-walkthrough/98b39381.png)
-</a>
+
+{% include image.html image_alt="98b39381.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/98b39381.png" %}
+
 
 The plan is to create a trigger to transfer a copy of `nc.exe` to the machine, and another to execute `nc.exe` as a reverse shell back to me.
 
-<a class="image-popup">
-![d8d1ada5.png](/assets/images/posts/helpline-htb-walkthrough/d8d1ada5.png)
-</a>
+
+{% include image.html image_alt="d8d1ada5.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/d8d1ada5.png" %}
+
 
 You can see from above that I'm using the PowerShell `Invoke-WebRequest` cmdlet to download `nc.exe` from my attacking machine and saving it to `C:\Windows\tracing\nc.exe`. I have a SimpleHTTPServer set up on my attacking machine to host `nc.exe`. For the life of me, I have no clue why `C:\Windows\tracing` is world-writable but it works toward our advantage. The next trigger is to run the reverse shell. Both triggers will be activated when the subject of the new request starts with "avengers" "endgame" respectively.
 
 Now, let's go to the Requests page to create our "Avengers: Endgame" requests.
 
-<a class="image-popup">
-![ad7c8dee.png](/assets/images/posts/helpline-htb-walkthrough/ad7c8dee.png)
-</a>
+
+{% include image.html image_alt="ad7c8dee.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/ad7c8dee.png" %}
+
 
 _Creating the "avengers" request_
 
-<a class="image-popup">
-![aba8a740.png](/assets/images/posts/helpline-htb-walkthrough/aba8a740.png)
-</a>
+
+{% include image.html image_alt="aba8a740.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/aba8a740.png" %}
+
 
 Nothing fancy. Create a new request with subject "avengers" and set the priority to High. Once created, the download will begin.
 
-<a class="image-popup">
-![ef69d463.png](/assets/images/posts/helpline-htb-walkthrough/ef69d463.png)
-</a>
+
+{% include image.html image_alt="ef69d463.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/ef69d463.png" %}
+
 
 Similarly, create another new request with subject "endgame" and set the priority to High and wait for your reverse shell.
 
-<a class="image-popup">
-![5a48342f.png](/assets/images/posts/helpline-htb-walkthrough/5a48342f.png)
-</a>
+
+{% include image.html image_alt="5a48342f.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/5a48342f.png" %}
+
 
 Boom. And this is not the only surprise.
 
-<a class="image-popup">
-![719aba65.png](/assets/images/posts/helpline-htb-walkthrough/719aba65.png)
-</a>
+
+{% include image.html image_alt="719aba65.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/719aba65.png" %}
+
 
 Unbelievable.
 
@@ -191,25 +191,25 @@ Unbelievable.
 
 It's pretty easy to find `user.txt`. `root.txt` should be at the usual location.
 
-<a class="image-popup">
-![20353e88.png](/assets/images/posts/helpline-htb-walkthrough/20353e88.png)
-</a>
+
+{% include image.html image_alt="20353e88.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/20353e88.png" %}
+
 
 Time to claim it.
 
-<a class="image-popup">
-![83d3dcfd.png](/assets/images/posts/helpline-htb-walkthrough/83d3dcfd.png)
-</a>
+
+{% include image.html image_alt="83d3dcfd.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/83d3dcfd.png" %}
+
 
 What the hell is going on? I'm `SYSTEM` yo??!! Turns out that both files are encrypted.
 
-<a class="image-popup">
-![1846c6e0.png](/assets/images/posts/helpline-htb-walkthrough/1846c6e0.png)
-</a>
 
-<a class="image-popup">
-![34642297.png](/assets/images/posts/helpline-htb-walkthrough/34642297.png)
-</a>
+{% include image.html image_alt="1846c6e0.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/1846c6e0.png" %}
+
+
+
+{% include image.html image_alt="34642297.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/34642297.png" %}
+
 
 Only specific accounts are able to decrypt the files. I need credentials...
 
@@ -221,9 +221,9 @@ Saving them is not the issue. You can easily do that with `reg save hklm\sam` fo
 
 Our SDP is a web application and the web server serves static resources like images, right?
 
-<a class="image-popup">
-![e0d6dd51.png](/assets/images/posts/helpline-htb-walkthrough/e0d6dd51.png)
-</a>
+
+{% include image.html image_alt="e0d6dd51.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/e0d6dd51.png" %}
+
 
 All we have to do is to find where the file is located and we can save our hives over there.
 
@@ -235,9 +235,9 @@ E:\ManageEngine\ServiceDesk\applications\extracted\AdventNetServiceDesk.eear\Adv
 
 Bingo. And since I'm `SYSTEM`, saving the hives shouldn't be a problem.
 
-<a class="image-popup">
-![1e59a17f.png](/assets/images/posts/helpline-htb-walkthrough/1e59a17f.png)
-</a>
+
+{% include image.html image_alt="1e59a17f.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/1e59a17f.png" %}
+
 
 Once that's done, we can download the files to my attacking machine.
 
@@ -249,17 +249,17 @@ Once that's done, we can download the files to my attacking machine.
 
 It's dumping time!
 
-<a class="image-popup">
-![62da879b.png](/assets/images/posts/helpline-htb-walkthrough/62da879b.png)
-</a>
+
+{% include image.html image_alt="62da879b.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/62da879b.png" %}
+
 
 ### Pass-the-Hash is <s>Dead</s>
 
 What do we do with the hashes. Well, we can always crack them.
 
-<a class="image-popup">
-![83bae8f2.png](/assets/images/posts/helpline-htb-walkthrough/83bae8f2.png)
-</a>
+
+{% include image.html image_alt="83bae8f2.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/83bae8f2.png" %}
+
 
 Hmm. Only `zachary`'s password is cracked. Perhaps a more efficient way is to pass-the-hash to a tool like FreeRDP. Before we do that, we need to disable Windows Defender and turn on Remote Desktop Services with PowerShell to give ourselves more options.
 
@@ -293,27 +293,27 @@ PS> Set-ItemProperty -Path 'HKLM:\\System\\CurrentControlSet\\Control\\Terminal 
 
 During my enumeration, I noticed that `leo` is logged on to the physical console, probably through automatic logon.
 
-<a class="image-popup">
-![a17b2b83.png](/assets/images/posts/helpline-htb-walkthrough/a17b2b83.png)
-</a>
+
+{% include image.html image_alt="a17b2b83.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/a17b2b83.png" %}
+
 
 And since I'm `SYSTEM`, I can make use of `tscon.exe` to hijack that session into my own. How do I do that? I can pass the `administrator`'s NTLM hash to FreeRDP instead of a password. That will create an RDP session and with `tscon.exe`, I can hand over `leo`'s session over to the newly created session.
 
-<a class="image-popup">
-![357adc29.png](/assets/images/posts/helpline-htb-walkthrough/357adc29.png)
-</a>
+
+{% include image.html image_alt="357adc29.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/357adc29.png" %}
+
 
 A RDP session is created, albeit access is denied. Do not click "OK".
 
-<a class="image-popup">
-![00591a68.png](/assets/images/posts/helpline-htb-walkthrough/00591a68.png)
-</a>
+
+{% include image.html image_alt="00591a68.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/00591a68.png" %}
+
 
 Turn over to the Windows shell.
 
-<a class="image-popup">
-![11fd2a0f.png](/assets/images/posts/helpline-htb-walkthrough/11fd2a0f.png)
-</a>
+
+{% include image.html image_alt="11fd2a0f.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/11fd2a0f.png" %}
+
 
 You can see the newly created RDP session. Now issue the `tscon.exe` command like so:
 
@@ -323,121 +323,121 @@ C:\> tscon 1 /dest:rdp-tcp#2
 
 The FreeRDP X window that's already open will switch to Leo's session and there's another encrypted file on Leo's desktop.
 
-<a class="image-popup">
-![43e432d0.png](/assets/images/posts/helpline-htb-walkthrough/43e432d0.png)
-</a>
+
+{% include image.html image_alt="43e432d0.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/43e432d0.png" %}
+
 
 Damn. It's suppose to unlock! Anyways, we have `SYSTEM` privileges remember? One of the oldest tricks in the book is to replace `magnify.exe` with `cmd.exe`.
 
-<a class="image-popup">
-![865a4bd0.png](/assets/images/posts/helpline-htb-walkthrough/865a4bd0.png)
-</a>
+
+{% include image.html image_alt="865a4bd0.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/865a4bd0.png" %}
+
 
 What's going on?
 
-<a class="image-popup">
-![9334e5ae.png](/assets/images/posts/helpline-htb-walkthrough/9334e5ae.png)
-</a>
+
+{% include image.html image_alt="9334e5ae.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/9334e5ae.png" %}
+
 
 You can see that the creator has removed `SYSTEM`'s full control permissions. Here's an ugly hack. Take ownership of the file, grant `Everyone` full control to `magnify.exe` and then delete it.
 
-<a class="image-popup">
-![7a06ad69.png](/assets/images/posts/helpline-htb-walkthrough/7a06ad69.png)
-</a>
+
+{% include image.html image_alt="7a06ad69.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/7a06ad69.png" %}
+
 
 Clicking the Magnifier pops up a beautiful `SYSTEM` shell in the RDP session.
 
-<a class="image-popup">
-![b8d0f2e9.png](/assets/images/posts/helpline-htb-walkthrough/b8d0f2e9.png)
-</a>
+
+{% include image.html image_alt="b8d0f2e9.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/b8d0f2e9.png" %}
+
 
 What's so special with this shell? This shell opens Windows yo~
 
-<a class="image-popup">
-![a4af6a65.png](/assets/images/posts/helpline-htb-walkthrough/a4af6a65.png)
-</a>
+
+{% include image.html image_alt="a4af6a65.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/a4af6a65.png" %}
+
 
 I know `leo` is able to login automatically without entering password. Here, I open up the Registry Editor and navigate to `HKLM\Software\Microsoft\Windows NT\CurrentVersion\WinLogon` to check out his password. With that, simply add `leo` to the **Remote Desktop Users** group and I can unlock the screen without changing anything.
 
-<a class="image-popup">
-![04f1e86f.png](/assets/images/posts/helpline-htb-walkthrough/04f1e86f.png)
-</a>
+
+{% include image.html image_alt="04f1e86f.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/04f1e86f.png" %}
+
 
 Something's strange is going on. Even `leo` has limited permissions over `admin-pass.xml`.
 
-<a class="image-popup">
-![fe2433a4.png](/assets/images/posts/helpline-htb-walkthrough/fe2433a4.png)
-</a>
+
+{% include image.html image_alt="fe2433a4.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/fe2433a4.png" %}
+
 
 That's why even `leo` can't decrypt `admin-pass.xml`.
 
-<a class="image-popup">
-![1de7b343.png](/assets/images/posts/helpline-htb-walkthrough/1de7b343.png)
-</a>
+
+{% include image.html image_alt="1de7b343.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/1de7b343.png" %}
+
 
 Well, that's an easy fix. Although `leo` lacks the permission to decrypt the file, he's still the file owner after all. As such, we can still grant `leo` full control over the file.
 
-<a class="image-popup">
-![51b7a599.png](/assets/images/posts/helpline-htb-walkthrough/51b7a599.png)
-</a>
+
+{% include image.html image_alt="51b7a599.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/51b7a599.png" %}
+
 
 Now, we should be able to decrypt `admin-pass.xml`.
 
-<a class="image-popup">
-![bea361b2.png](/assets/images/posts/helpline-htb-walkthrough/bea361b2.png)
-</a>
+
+{% include image.html image_alt="bea361b2.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/bea361b2.png" %}
+
 
 Here's how it looks like.
 
-<a class="image-popup">
-![1f1aac16.png](/assets/images/posts/helpline-htb-walkthrough/1f1aac16.png)
-</a>
+
+{% include image.html image_alt="1f1aac16.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/1f1aac16.png" %}
+
 
 #### Getting `root.txt`
 
 Turns out that this is the Data Protection API blob (displayed as a hexstring) for the `administrator`'s password. We can decrypt the blob with the masterkey using `mimikatz dpapi` module. And to get to the masterkey, follow the `mimikatz` [howto](https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files) on decrypting EFS files. Once it's decrypted, the `administrator`'s password is revealed.
 
-<a class="image-popup">
-![eff6d88f.png](/assets/images/posts/helpline-htb-walkthrough/eff6d88f.png)
-</a>
+
+{% include image.html image_alt="eff6d88f.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/eff6d88f.png" %}
+
 
 Armed with this password, we can decrypt `root.txt`. Similar to `admin-pass.xml`, we have to give ourselves full control over the file to be able to decrypt.
 
-<a class="image-popup">
-![48fa9674.png](/assets/images/posts/helpline-htb-walkthrough/48fa9674.png)
-</a>
+
+{% include image.html image_alt="48fa9674.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/48fa9674.png" %}
+
 
 #### Getting `user.txt`
 
 For the first time, getting `user.txt` feels harder than `root.txt` due to the lack of hints. Well, there's a extremely subtle hint with the user `zachary`.
 
-<a class="image-popup">
-![9d9a3f2e.png](/assets/images/posts/helpline-htb-walkthrough/9d9a3f2e.png)
-</a>
+
+{% include image.html image_alt="9d9a3f2e.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/9d9a3f2e.png" %}
+
 
 This sure is a strange group. I think the creator is telling us to look into Windows Events.
 
-<a class="image-popup">
-![87417078.png](/assets/images/posts/helpline-htb-walkthrough/87417078.png)
-</a>
+
+{% include image.html image_alt="87417078.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/87417078.png" %}
+
 
 The only place I could think of where events contain password strings is the Security event, particularly the Process Creation tasks. Let's filter the events.
 
-<a class="image-popup">
-![d2a03c8d.png](/assets/images/posts/helpline-htb-walkthrough/d2a03c8d.png)
-</a>
+
+{% include image.html image_alt="d2a03c8d.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/d2a03c8d.png" %}
+
 
 Then look for the string `tolu`.
 
-<a class="image-popup">
-![d07c6ad6.png](/assets/images/posts/helpline-htb-walkthrough/d07c6ad6.png)
-</a>
+
+{% include image.html image_alt="d07c6ad6.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/d07c6ad6.png" %}
+
 
 There you go. Armed with `tolu`'s password, we can decrypt `user.txt`.
 
-<a class="image-popup">
-![3d0fd014.png](/assets/images/posts/helpline-htb-walkthrough/3d0fd014.png)
-</a>
+
+{% include image.html image_alt="3d0fd014.png" image_src="/f813f9bc-f48f-4bda-bc43-b7585e12dbfb/3d0fd014.png" %}
+
 
 :dancer:
 

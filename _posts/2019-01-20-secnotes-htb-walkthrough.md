@@ -17,10 +17,10 @@ This post documents the complete walkthrough of SecNotes, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -88,31 +88,31 @@ Host script results:
 
 It's a Windows box alright. But, let's go with the `http` services: `80/tcp` and `8808/tcp`. This is how they look like.
 
-<a class="image-popup">
-![fd6bd2e1.png](/assets/images/posts/secnotes-htb-walkthrough/fd6bd2e1.png)
-</a>
 
-<a class="image-popup">
-![ae7f7c8e.png](/assets/images/posts/secnotes-htb-walkthrough/ae7f7c8e.png)
-</a>
+{% include image.html image_alt="fd6bd2e1.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/fd6bd2e1.png" %}
+
+
+
+{% include image.html image_alt="ae7f7c8e.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/ae7f7c8e.png" %}
+
 
 Notice the login page allows new sign up? Let's go ahead and open Burp, and sign up a `dick` user for ourselves.
 
-<a class="image-popup">
-![6a4036f5.png](/assets/images/posts/secnotes-htb-walkthrough/6a4036f5.png)
-</a>
+
+{% include image.html image_alt="6a4036f5.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/6a4036f5.png" %}
+
 
 Login time.
 
-<a class="image-popup">
-![c91382bf.png](/assets/images/posts/secnotes-htb-walkthrough/c91382bf.png)
-</a>
+
+{% include image.html image_alt="c91382bf.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/c91382bf.png" %}
+
 
 It's obvious that user `tyler` is present in the system. If we re-login with `tyler`, this is what happens.
 
-<a class="image-popup">
-![b6096c25.png](/assets/images/posts/secnotes-htb-walkthrough/b6096c25.png)
-</a>
+
+{% include image.html image_alt="b6096c25.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/b6096c25.png" %}
+
 
 ### 2nd-order SQL Injection
 
@@ -154,15 +154,15 @@ Requests/sec.: 5.179139
 
 Long story short, I tried all the payloads and `' or 1=1 or ''='` manage bypass the login and display the following notes. :triumph:
 
-<a class="image-popup">
-![ad70d8fa.png](/assets/images/posts/secnotes-htb-walkthrough/ad70d8fa.png)
-</a>
+
+{% include image.html image_alt="ad70d8fa.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/ad70d8fa.png" %}
+
 
 It's the credentials that's interesting!
 
-<a class="image-popup">
-![4171ae04.png](/assets/images/posts/secnotes-htb-walkthrough/4171ae04.png)
-</a>
+
+{% include image.html image_alt="4171ae04.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/4171ae04.png" %}
+
 
 Armed with this new information, we can mount the file share.
 
@@ -176,9 +176,9 @@ We can mount the file share with `mount` of course.
 
 What do we have here?
 
-<a class="image-popup">
-![2a831a0b.png](/assets/images/posts/secnotes-htb-walkthrough/2a831a0b.png)
-</a>
+
+{% include image.html image_alt="2a831a0b.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/2a831a0b.png" %}
+
 
 Appears to be the `wwwroot` of the other `http` service: `8808/tcp`. And since the site is running PHP, let's copy a reverse shell written in PHP over to the new site. We can generate the reverse shell with `msfvenom` like so.
 
@@ -193,15 +193,15 @@ Saved as: rev.php
 
 Visit http://10.10.10.97:8808/rev.php.
 
-<a class="image-popup">
-![df14467b.png](/assets/images/posts/secnotes-htb-walkthrough/df14467b.png)
-</a>
+
+{% include image.html image_alt="df14467b.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/df14467b.png" %}
+
 
 Meanwhile at my `nc` listener...
 
-<a class="image-popup">
-![be9c59ae.png](/assets/images/posts/secnotes-htb-walkthrough/be9c59ae.png)
-</a>
+
+{% include image.html image_alt="be9c59ae.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/be9c59ae.png" %}
+
 
 Awesome, but the reverse shell is pretty unstable. We need a resilient shell to conduct further enumeration.
 
@@ -209,57 +209,57 @@ Let's transfer a `nc` for Windows over. If you are using Kali Linux, it's at `/u
 
 Now, once the PHP reverse shell connects back, launch `nc.exe` to connect back to me at a different port, say `4321/tcp`.
 
-<a class="image-popup">
-![8b9c4675.png](/assets/images/posts/secnotes-htb-walkthrough/8b9c4675.png)
-</a>
 
-<a class="image-popup">
-![0e7bd373.png](/assets/images/posts/secnotes-htb-walkthrough/0e7bd373.png)
-</a>
+{% include image.html image_alt="8b9c4675.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/8b9c4675.png" %}
+
+
+
+{% include image.html image_alt="0e7bd373.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/0e7bd373.png" %}
+
 
 `user.txt` is at `tyler`'s desktop.
 
-<a class="image-popup">
-![4a6d69c3.png](/assets/images/posts/secnotes-htb-walkthrough/4a6d69c3.png)
-</a>
+
+{% include image.html image_alt="4a6d69c3.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/4a6d69c3.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `tyler`'s account, I notice a shortcut (LNK) pointing to `bash.exe` at the Windows System32 directory.
 
-<a class="image-popup">
-![357d9fe1.png](/assets/images/posts/secnotes-htb-walkthrough/357d9fe1.png)
-</a>
+
+{% include image.html image_alt="357d9fe1.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/357d9fe1.png" %}
+
 
 Furthermore, `\Distros\Ubuntu\ubuntu.exe` is present too.
 
-<a class="image-popup">
-![9d69985b.png](/assets/images/posts/secnotes-htb-walkthrough/9d69985b.png)
-</a>
+
+{% include image.html image_alt="9d69985b.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/9d69985b.png" %}
+
 
 This led me to believe Windows Subsystem for Linux (WSL) is installed. Perhaps `bash.exe` is around somewhere as well?
 
-<a class="image-popup">
-![ba9df166.png](/assets/images/posts/secnotes-htb-walkthrough/ba9df166.png)
-</a>
+
+{% include image.html image_alt="ba9df166.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/ba9df166.png" %}
+
 
 Sweet. Let's copy that to `tyler`'s desktop and launch `bash.exe -i`.
 
-<a class="image-popup">
-![8c22458c.png](/assets/images/posts/secnotes-htb-walkthrough/8c22458c.png)
-</a>
+
+{% include image.html image_alt="8c22458c.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/8c22458c.png" %}
+
 
 What do you know? I'm `root`! Man, I'm like a duck to water in the Linux environment.
 
-<a class="image-popup">
-![a76d0199.png](/assets/images/posts/secnotes-htb-walkthrough/a76d0199.png)
-</a>
+
+{% include image.html image_alt="a76d0199.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/a76d0199.png" %}
+
 
 Armed with the administrator password, we can now mount the C$ volume and access `root.txt`.
 
-<a class="image-popup">
-![26458f3a.png](/assets/images/posts/secnotes-htb-walkthrough/26458f3a.png)
-</a>
+
+{% include image.html image_alt="26458f3a.png" image_src="/899d5167-9d46-41c7-83e5-6bcfcc43550a/26458f3a.png" %}
+
 
 :dancer:
 

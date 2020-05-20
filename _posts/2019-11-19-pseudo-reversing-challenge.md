@@ -7,7 +7,7 @@ category: CTF
 tags: ["Hack The Box", Pseudo, Reversing, retired]
 comments: true
 image:
-  feature: pseudo-reversing-walkthrough.jpg
+  feature: https://res.cloudinary.com/limbernie/image/upload/img/pseudo-reversing-walkthrough.jpg
 ---
 
 This post documents my attempt to complete Pseudo, a retired challenge created by [RoliSoft][1], and hosted at [Hack The Box][2]. If you are uncomfortable with spoilers, please stop reading now.
@@ -33,9 +33,9 @@ The challenge is located [here](https://www.hackthebox.eu/home/challenges/downlo
 
 There is one unknown file in the archive file.
 
-<a class="image-popup">
-![79a80293.png](/assets/images/challenges/pseudo-reversing-walkthrough/79a80293.png)
-</a>
+
+{% include image.html image_alt="79a80293.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/79a80293.png" %}
+
 
 The file is an ELF for `aarch64` architecture. It probably won't run on my Kali Linux.
 
@@ -93,15 +93,15 @@ qemu-system-aarch64 \
 
 I chose to run the configuration on `xterm` for aesthetic reason.
 
-<a class="image-popup">
-![09d6146e.png](/assets/images/challenges/pseudo-reversing-walkthrough/09d6146e.png)
-</a>
+
+{% include image.html image_alt="09d6146e.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/09d6146e.png" %}
+
 
 Let's see if I can log in to it.
 
-<a class="image-popup">
-![1cac7182.png](/assets/images/challenges/pseudo-reversing-walkthrough/1cac7182.png)
-</a>
+
+{% include image.html image_alt="1cac7182.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/1cac7182.png" %}
+
 
 Awesome. It's like having my own AWS EC2 instance!
 
@@ -109,15 +109,15 @@ Awesome. It's like having my own AWS EC2 instance!
 
 Because the file is stripped of all information (a.k.a "packed"), debugging it straight away won't do us any good. Let's check out the file headers.
 
-<a class="image-popup">
-![d635bf9c.png](/assets/images/challenges/pseudo-reversing-walkthrough/d635bf9c.png)
-</a>
+
+{% include image.html image_alt="d635bf9c.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/d635bf9c.png" %}
+
 
 Here's our clue that it's packed. Notice that it has two ELF magic numbers? And, also "UPX"?
 
-<a class="image-popup">
-![35d50b29.png](/assets/images/challenges/pseudo-reversing-walkthrough/35d50b29.png)
-</a>
+
+{% include image.html image_alt="35d50b29.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/35d50b29.png" %}
+
 
 Woohoo, we can unpack it.
 
@@ -125,15 +125,15 @@ Woohoo, we can unpack it.
 
 I read with interest that [GEF](https://github.com/hugsy/gef) supports ARM, so that's what I'm going to use.
 
-<a class="image-popup">
-![f1f1c8cb.png](/assets/images/challenges/pseudo-reversing-walkthrough/f1f1c8cb.png)
-</a>
+
+{% include image.html image_alt="f1f1c8cb.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/f1f1c8cb.png" %}
+
 
 Awesome. Finally we have something! Let's place a breakpoint at the entry point and reverse it away.
 
-<a class="image-popup">
-![5c1c5cd4.png](/assets/images/challenges/pseudo-reversing-walkthrough/5c1c5cd4.png)
-</a>
+
+{% include image.html image_alt="5c1c5cd4.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/5c1c5cd4.png" %}
+
 
 Damn, it's `aarch64` alright. I'm in unchartered territory man.
 
@@ -141,21 +141,21 @@ Damn, it's `aarch64` alright. I'm in unchartered territory man.
 
 Because the executable is statically linked, it took a combination of radare2 (`aaaa`) and IDA Pro (call graphs) to locate the `main` function. This is how the `main` function looks like.
 
-<a class="image-popup">
-![b4f9742c.png](/assets/images/challenges/pseudo-reversing-walkthrough/b4f9742c.png)
-</a>
+
+{% include image.html image_alt="b4f9742c.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/b4f9742c.png" %}
+
 
 At the beginning of the function, there's a check for the terminal size. If the column size is less than or equal to 158, an Internet Zoolander meme is printed out.
 
-<a class="image-popup">
-![ac09374d.png](/assets/images/challenges/pseudo-reversing-walkthrough/ac09374d.png)
-</a>
+
+{% include image.html image_alt="ac09374d.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/ac09374d.png" %}
+
 
 Here's how the Assembly code for the terminal check looks like. It uses `ioctl`.
 
-<a class="image-popup">
-![432c19fc.png](/assets/images/challenges/pseudo-reversing-walkthrough/432c19fc.png)
-</a>
+
+{% include image.html image_alt="432c19fc.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/432c19fc.png" %}
+
 
 Long story short, the instructions in the rounded reactangle are bytecode commands. I managed to decipher three of the commands.
 
@@ -171,29 +171,29 @@ This command uses `malloc` to allocate five bytes of space for the string `USER`
 
 This command reads the password from `stdin` and transforms each character by subtracting 94 (or `0x5e`) from the character's ordinal number.
 
-<a class="image-popup">
-![b83901ae.png](/assets/images/challenges/pseudo-reversing-walkthrough/b83901ae.png)
-</a>
+
+{% include image.html image_alt="b83901ae.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/b83901ae.png" %}
+
 
 #### 0xD2 - Check Password
 
 This command checks the transformed input password with the transformed actual password. The instruction that compares each character is shown below.
 
-<a class="image-popup">
-![17b70a33.png](/assets/images/challenges/pseudo-reversing-walkthrough/17b70a33.png)
-</a>
+
+{% include image.html image_alt="17b70a33.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/17b70a33.png" %}
+
 
 The first five registers are shown below.
 
-<a class="image-popup">
-![46fbe81b.png](/assets/images/challenges/pseudo-reversing-walkthrough/46fbe81b.png)
-</a>
+
+{% include image.html image_alt="46fbe81b.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/46fbe81b.png" %}
+
 
 The comparison goes on for sixteen characters. This is the transformed password.
 
-<a class="image-popup">
-![3f70b4ec.png](/assets/images/challenges/pseudo-reversing-walkthrough/3f70b4ec.png)
-</a>
+
+{% include image.html image_alt="3f70b4ec.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/3f70b4ec.png" %}
+
 
 If the password is incorrect, the program goes into an infinite loop until you terminates it.
 
@@ -208,9 +208,9 @@ Since we knew how the password is transformed, I wrote a simple shell one-liner 
 
 Armed with the password, let's get that flag.
 
-<a class="image-popup">
-![ea63fa3a.png](/assets/images/challenges/pseudo-reversing-walkthrough/ea63fa3a.png)
-</a>
+
+{% include image.html image_alt="ea63fa3a.png" image_src="/eef15791-610f-4136-bb1d-55a0e10903f7/ea63fa3a.png" %}
+
 
 The flags is `HTB{vms_4ll_th3_w4y}`.
 

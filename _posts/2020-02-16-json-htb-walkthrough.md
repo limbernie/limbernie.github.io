@@ -103,29 +103,29 @@ Host script results:
 
 Interesting list of services. I think the creator is telling us look at the `http` service first. Here's how it looks like.
 
-<a class="image-popup">
-![87f2df7e.png](/assets/images/posts/json-htb-walkthrough/87f2df7e.png)
-</a>
+
+{% include image.html image_alt="87f2df7e.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/87f2df7e.png" %}
+
 
 ### JSON Deserialization Attack
 
 During my capture of the HTTP traffic with Burp, I was pleasantly surprised to find out I could log in with the credential (`admin:admin`). It was here that I noticed two XHRs to `/api/token` and `/api/Account`.
 
-<a class="image-popup">
-![1f7a5477.png](/assets/images/posts/json-htb-walkthrough/1f7a5477.png)
-</a>
+
+{% include image.html image_alt="1f7a5477.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/1f7a5477.png" %}
+
 
 The XHR to `/api/Account` had something funky going on. Send the request to Repeater. You'll notice that there's a **Bearer** header accompanying the XHR. The value is `base64`-encoded. What if we empty the value?
 
-<a class="image-popup">
-![0dd191c7.png](/assets/images/posts/json-htb-walkthrough/0dd191c7.png)
-</a>
+
+{% include image.html image_alt="0dd191c7.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/0dd191c7.png" %}
+
 
 That's interesting. Now, what if we put in some strange `base64`-encoded string?
 
-<a class="image-popup">
-![b75dc5f3.png](/assets/images/posts/json-htb-walkthrough/b75dc5f3.png)
-</a>
+
+{% include image.html image_alt="b75dc5f3.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/b75dc5f3.png" %}
+
 
 ```
 {"Message":"An error has occurred.","ExceptionMessage":"Cannot deserialize Json.Net Object","ExceptionType":"System.Exception","StackTrace":null}
@@ -149,29 +149,29 @@ According to the GitHub repository of ysoserial.net, this gadget (`ObjectDataPro
 
 Of course, we need to `base64`-encode the above and shuttle it into the **Bearer** header.
 
-<a class="image-popup">
-![179717f8.png](/assets/images/posts/json-htb-walkthrough/179717f8.png)
-</a>
+
+{% include image.html image_alt="179717f8.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/179717f8.png" %}
+
 
 And voila!
 
-<a class="image-popup">
-![0cafbc53.png](/assets/images/posts/json-htb-walkthrough/0cafbc53.png)
-</a>
+
+{% include image.html image_alt="0cafbc53.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/0cafbc53.png" %}
+
 
 The file `user.txt` is at `c:\users\userpool\desktop`.
 
-<a class="image-popup">
-![7b7a4cb7.png](/assets/images/posts/json-htb-walkthrough/7b7a4cb7.png)
-</a>
+
+{% include image.html image_alt="7b7a4cb7.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/7b7a4cb7.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `userpool`'s account, I notice a suspicious-looking service FilesToSync at Program Files, along with a pair of encrypted credentials.
 
-<a class="image-popup">
-![b39c4b08.png](/assets/images/posts/json-htb-walkthrough/b39c4b08.png)
-</a>
+
+{% include image.html image_alt="b39c4b08.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/b39c4b08.png" %}
+
 
 The service appears to synchronize files between two locations through FTP. Suffice to say, I grabbed a copy of `SyncLocation.exe` to my machine for further analysis.
 
@@ -179,21 +179,21 @@ The service appears to synchronize files between two locations through FTP. Suff
 
 It turns out that `SyncLocation.exe` is a .Net assembly executable, which can be easily decompiled to its source code using [dnSpy](https://github.com/0xd4d/dnSpy). I'm looking for the method to decrypt those credentials.
 
-<a class="image-popup">
-![d47d2741.png](/assets/images/posts/json-htb-walkthrough/d47d2741.png)
-</a>
+
+{% include image.html image_alt="d47d2741.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/d47d2741.png" %}
+
 
 Using [.NET Fiddle](https://dotnetfiddle.net/), I was able to decrypt the credentials.
 
-<a class="image-popup">
-![02610a99.png](/assets/images/posts/json-htb-walkthrough/02610a99.png)
-</a>
+
+{% include image.html image_alt="02610a99.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/02610a99.png" %}
+
 
 The credential is (`superadmin:funnyhtb`). Armed with these, I was able to retrieve `root.txt`.
 
-<a class="image-popup">
-![ee93a86c.png](/assets/images/posts/json-htb-walkthrough/ee93a86c.png)
-</a>
+
+{% include image.html image_alt="ee93a86c.png" image_src="/f1e9916f-7585-483f-93d1-ced83d574809/ee93a86c.png" %}
+
 
 :dancer:
 

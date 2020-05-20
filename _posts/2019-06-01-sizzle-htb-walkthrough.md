@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Sizzle, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -308,9 +308,9 @@ Alternatively, we can use `smbmap` to achieve the same result.
 
 Let's move on to the `http` service. Here's how it looks like.
 
-<a class="image-popup">
-![7d0169ae.png](/assets/images/posts/sizzle-htb-walkthrough/7d0169ae.png)
-</a>
+
+{% include image.html image_alt="7d0169ae.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/7d0169ae.png" %}
+
 
 Sizzling. I certainly like me some crispy bacon! Let's see what we can find with `wfuzz`
 
@@ -342,9 +342,9 @@ Requests/sec.: 98.32761
 
 It appears that Microsoft Active Directory Certificate Services is enabled with `/certenroll` and `/certsrv`. And guess what, `/certsrv` requires NTLM Authentication.
 
-<a class="image-popup">
-![afb0fc24.png](/assets/images/posts/sizzle-htb-walkthrough/afb0fc24.png)
-</a>
+
+{% include image.html image_alt="afb0fc24.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/afb0fc24.png" %}
+
 
 ### Shell Command File Attack
 
@@ -362,15 +362,15 @@ Command=ToggleDesktop
 
 Before we put the file to the file share, let's start Responder.
 
-<a class="image-popup">
-![11901669.png](/assets/images/posts/sizzle-htb-walkthrough/11901669.png)
-</a>
+
+{% include image.html image_alt="11901669.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/11901669.png" %}
+
 
 Almost immediately after I put `1.scf` to `\Users\Public`, I got the hash of `amanda`.
 
-<a class="image-popup">
-![e3d5fb91.png](/assets/images/posts/sizzle-htb-walkthrough/e3d5fb91.png)
-</a>
+
+{% include image.html image_alt="e3d5fb91.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/e3d5fb91.png" %}
+
 
 Sending the hash to John the Ripper reveals the password of `amanda` to be `Ashare1972`.
 
@@ -380,27 +380,27 @@ Armed with the credential (`amanda:Ashare1972`), I can now access Microsoft Acti
 
 Here's how it looks like.
 
-<a class="image-popup">
-![a809c79d.png](/assets/images/posts/sizzle-htb-walkthrough/a809c79d.png)
-</a>
+
+{% include image.html image_alt="a809c79d.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/a809c79d.png" %}
+
 
 Request for a user certificate.
 
-<a class="image-popup">
-![fb10e96a.png](/assets/images/posts/sizzle-htb-walkthrough/fb10e96a.png)
-</a>
+
+{% include image.html image_alt="fb10e96a.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/fb10e96a.png" %}
+
 
 Install the user certificate.
 
-<a class="image-popup">
-![e350506f.png](/assets/images/posts/sizzle-htb-walkthrough/e350506f.png)
-</a>
+
+{% include image.html image_alt="e350506f.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/e350506f.png" %}
+
 
 Once you click **Install this certificate**, your browser's personal certificate should look like this.
 
-<a class="image-popup">
-![5ce2c26f.png](/assets/images/posts/sizzle-htb-walkthrough/5ce2c26f.png)
-</a>
+
+{% include image.html image_alt="5ce2c26f.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/5ce2c26f.png" %}
+
 
 What next? PowerShell Remoting!
 
@@ -417,21 +417,21 @@ And since we already have a user certificate used for client authentication, let
 
 Believe me, it's actually easier to use the certmgr MMC snap-in to import the certificate to the Current User certificate store.
 
-<a class="image-popup">
-![Import Certificate](/assets/images/posts/sizzle-htb-walkthrough/cert_import.png)
-</a>
+
+{% include image.html image_alt="Import Certificate" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/cert_import.png" %}
+
 
 Once that's done, we can fire up a PowerShell and check for the certificate thumbprint.
 
-<a class="image-popup">
-![Certificate Thumbprint](/assets/images/posts/sizzle-htb-walkthrough/cert_thumbprint.png)
-</a>
+
+{% include image.html image_alt="Certificate Thumbprint" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/cert_thumbprint.png" %}
+
 
 Copy the thumbprint and execute the following commands to get a remote shell into Sizzle as `amanda`.
 
-<a class="image-popup">
-![PSRemoting](/assets/images/posts/sizzle-htb-walkthrough/ps_remoting.png)
-</a>
+
+{% include image.html image_alt="PSRemoting" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/ps_remoting.png" %}
+
 
 Boom. A low-privilege shell!
 
@@ -439,39 +439,39 @@ Boom. A low-privilege shell!
 
 The PowerShell session I got is using constrained language, and many of the good stuff from PowerSploit won't run. As such, I need to downgrade the session to Version 2.
 
-<a class="image-popup">
-![PSVersion](/assets/images/posts/sizzle-htb-walkthrough/ps_version.png)
-</a>
+
+{% include image.html image_alt="PSVersion" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/ps_version.png" %}
+
 
 Let's run a reverse shell back to myself with the following PowerShell [script](https://gist.github.com/egre55/c058744a4240af6515eb32b2d33fbed3).
 
 First, we run Python's SimpleHTTPServer module to host the file.
 
-<a class="image-popup">
-![SimpleHTTPServer](/assets/images/posts/sizzle-htb-walkthrough/simplehttpserver.png)
-</a>
+
+{% include image.html image_alt="SimpleHTTPServer" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/simplehttpserver.png" %}
+
 
 Then, we download the script with the Invoke-WebRequest cmdlet.
 
-<a class="image-popup">
-![Invoke-WebRequest](/assets/images/posts/sizzle-htb-walkthrough/invoke-webrequest.png)
-</a>
+
+{% include image.html image_alt="Invoke-WebRequest" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/invoke-webrequest.png" %}
+
 
 Execute a `nc` listener.
 
-<a class="image-popup">
-![nc](/assets/images/posts/sizzle-htb-walkthrough/nc.png)
-</a>
+
+{% include image.html image_alt="nc" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/nc.png" %}
+
 
 Execute the reverse shell in Version 2.
 
-<a class="image-popup">
-![PowerShell Version 2](/assets/images/posts/sizzle-htb-walkthrough/ps_v2.png)
-</a>
 
-<a class="image-popup">
-![PowerShell Version 2](/assets/images/posts/sizzle-htb-walkthrough/ps_v2_2.png)
-</a>
+{% include image.html image_alt="PowerShell Version 2" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/ps_v2.png" %}
+
+
+
+{% include image.html image_alt="PowerShell Version 2" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/ps_v2_2.png" %}
+
 
 Awesome!
 
@@ -479,47 +479,47 @@ Awesome!
 
 Now, we can download and execute PowerView on the session!
 
-<a class="image-popup">
-![6a068b42.png](/assets/images/posts/sizzle-htb-walkthrough/6a068b42.png)
-</a>
+
+{% include image.html image_alt="6a068b42.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/6a068b42.png" %}
+
 
 The explanation of kerberoasting is beyond the scope of this write-up. You can read about [kerberoasting](https://adsecurity.org/?p=3458) from Active Directory Security.
 
 Now, we can execute Invoke-Kerberoast but first, as strange as that sounds, we need to impersonate `amanda`. Didn't we already have a session as `amanda`? Here's why.
 
-<a class="image-popup">
-![271ee353.png](/assets/images/posts/sizzle-htb-walkthrough/271ee353.png)
-</a>
+
+{% include image.html image_alt="271ee353.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/271ee353.png" %}
+
 
 Using Invoke-UserImpersonation is the same as running `runas /netonly`, just like we are executing Invoke-Kerberoast as `amanda` remotely.
 
-<a class="image-popup">
-![9ee19afb.png](/assets/images/posts/sizzle-htb-walkthrough/9ee19afb.png)
-</a>
+
+{% include image.html image_alt="9ee19afb.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/9ee19afb.png" %}
+
 
 Well, well, well. What do we have here? `mrlky`'s Kerberos hash! With that, we can easily get `mrlky`'s password.
 
-<a class="image-popup">
-![7187d8ca.png](/assets/images/posts/sizzle-htb-walkthrough/7187d8ca.png)
-</a>
+
+{% include image.html image_alt="7187d8ca.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/7187d8ca.png" %}
+
 
 Long story short, I repeated the same steps above to generate a user certification for `mrlky` used for client authentication and got myself a PowerShell Remoting session.
 
-<a class="image-popup">
-![55162f91.png](/assets/images/posts/sizzle-htb-walkthrough/55162f91.png)
-</a>
+
+{% include image.html image_alt="55162f91.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/55162f91.png" %}
+
 
 Here's the session.
 
-<a class="image-popup">
-![2157a302.png](/assets/images/posts/sizzle-htb-walkthrough/2157a302.png)
-</a>
+
+{% include image.html image_alt="2157a302.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/2157a302.png" %}
+
 
 The `user.txt` is at `mrlky`'s "the other" desktop.
 
-<a class="image-popup">
-![16070007.png](/assets/images/posts/sizzle-htb-walkthrough/16070007.png)
-</a>
+
+{% include image.html image_alt="16070007.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/16070007.png" %}
+
 
 ## Privilege Escalation
 
@@ -527,53 +527,53 @@ During enumeration of `mrlky`'s account, I ran SharpHound on the session. The st
 
 _Downgrading PowerShell_
 
-<a class="image-popup">
-![bb1d7ec3.png](/assets/images/posts/sizzle-htb-walkthrough/bb1d7ec3.png)
-</a>
+
+{% include image.html image_alt="bb1d7ec3.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/bb1d7ec3.png" %}
+
 
 _Downgraded PowerShell_
 
-<a class="image-popup">
-![8d00a779.png](/assets/images/posts/sizzle-htb-walkthrough/8d00a779.png)
-</a>
+
+{% include image.html image_alt="8d00a779.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/8d00a779.png" %}
+
 
 With that, we can run BloodHound.
 
-<a class="image-popup">
-![2bc01fd9.png](/assets/images/posts/sizzle-htb-walkthrough/2bc01fd9.png)
-</a>
+
+{% include image.html image_alt="2bc01fd9.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/2bc01fd9.png" %}
+
 
 Once the data is collected, an archive of all the data points in JSON is saved.
 
-<a class="image-popup">
-![4f3e48d3.png](/assets/images/posts/sizzle-htb-walkthrough/4f3e48d3.png)
-</a>
+
+{% include image.html image_alt="4f3e48d3.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/4f3e48d3.png" %}
+
 
 I'll leave it as an exercise how to exfiltrate the ZIP file out. Here's the graphical view of BloodHound when the data is integrated into the database, and after I ran the **Find Principals with DCSync Rights** pre-built query.
 
-<a class="image-popup">
-![092e04e4.png](/assets/images/posts/sizzle-htb-walkthrough/092e04e4.png)
-</a>
+
+{% include image.html image_alt="092e04e4.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/092e04e4.png" %}
+
 
 Did you see the rights that `mrlky` have? Again, Active Directory Security does a far, far better job at explaining [DCSync](https://adsecurity.org/?p=1729) than I ever could. Well, in short, it's something like zone transfer, telling the domain controller, "Hey, I want to be updated about the changes you made".
 
 DCSync came out of Mimikatz, so that's what I'm going to use.
 
-<a class="image-popup">
-![8859e885.png](/assets/images/posts/sizzle-htb-walkthrough/8859e885.png)
-</a>
+
+{% include image.html image_alt="8859e885.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/8859e885.png" %}
+
 
 Bam! `administrator`'s NTLM hashes are in sight. During my research, I found out that Impacket's `secretsdump.py` can do the same. :wink:
 
 Well, with the `administrator`'s NTLM hash, I can use pass-the-hash method to access C$ share and retrieve `root.txt` from there.
 
-<a class="image-popup">
-![c93596a5.png](/assets/images/posts/sizzle-htb-walkthrough/c93596a5.png)
-</a>
 
-<a class="image-popup">
-![66f354bd.png](/assets/images/posts/sizzle-htb-walkthrough/66f354bd.png)
-</a>
+{% include image.html image_alt="c93596a5.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/c93596a5.png" %}
+
+
+
+{% include image.html image_alt="66f354bd.png" image_src="/b38cedee-7fd7-4dd6-9895-161ae2f6885d/66f354bd.png" %}
+
 
 :dancer:
 

@@ -17,10 +17,10 @@ This post documents the complete walkthrough of LaCasaDePapel, a retired vulnera
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -73,29 +73,29 @@ It's pretty trivial to initiate the backdoor. Any attempts to log in with a user
 
 _Open the backdoor_
 
-<a class="image-popup">
-![0719d368.png](/assets/images/posts/lacasadepapel-htb-walkthrough/0719d368.png)
-</a>
+
+{% include image.html image_alt="0719d368.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/0719d368.png" %}
+
 
 _Connect to the backdoor_
 
-<a class="image-popup">
-![f4fef185.png](/assets/images/posts/lacasadepapel-htb-walkthrough/f4fef185.png)
-</a>
+
+{% include image.html image_alt="f4fef185.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/f4fef185.png" %}
+
 
 We'll leave the Psy Shell for a while and take a look at the `http` and `https` services.
 
 _`80/tcp`_
 
-<a class="image-popup">
-![a11bf985.png](/assets/images/posts/lacasadepapel-htb-walkthrough/a11bf985.png)
-</a>
+
+{% include image.html image_alt="a11bf985.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/a11bf985.png" %}
+
 
 _`443/tcp`_
 
-<a class="image-popup">
-![42f50941.png](/assets/images/posts/lacasadepapel-htb-walkthrough/42f50941.png)
-</a>
+
+{% include image.html image_alt="42f50941.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/42f50941.png" %}
+
 
 Looks like I need to generate some kind of client certificate in order to access the `https` service.
 
@@ -103,29 +103,29 @@ Looks like I need to generate some kind of client certificate in order to access
 
 Back in our Psy Shell, check what's in store for us.
 
-<a class="image-popup">
-![3439fae5.png](/assets/images/posts/lacasadepapel-htb-walkthrough/3439fae5.png)
-</a>
+
+{% include image.html image_alt="3439fae5.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/3439fae5.png" %}
+
 
 Sure, we can generate a client certificate. If only we can find the CA certificate. Wait a tick, it's a two-way SSL right? I can download or export a copy of CA certificate from the site.
 
-<a class="image-popup">
-![290070d3.png](/assets/images/posts/lacasadepapel-htb-walkthrough/290070d3.png)
-</a>
+
+{% include image.html image_alt="290070d3.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/290070d3.png" %}
+
 
 Let's hit that Export button to grab a copy of the so-called CA certificate. Ok, that was easy, what's step two? We generate a certificate signing request (CSR) with `openssl`.
 
 _Generate my own private key_
 
-<a class="image-popup">
-![9754161e.png](/assets/images/posts/lacasadepapel-htb-walkthrough/9754161e.png)
-</a>
+
+{% include image.html image_alt="9754161e.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/9754161e.png" %}
+
 
 _Generate my certificate signing request_
 
-<a class="image-popup">
-![1e9b18ea.png](/assets/images/posts/lacasadepapel-htb-walkthrough/1e9b18ea.png)
-</a>
+
+{% include image.html image_alt="1e9b18ea.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/1e9b18ea.png" %}
+
 
 Awesome. We have all the ingredients ready to cook ourselves a client certificate. Now back to our Psy Shell.
 
@@ -133,61 +133,61 @@ Awesome. We have all the ingredients ready to cook ourselves a client certificat
 
 We can `base64_decode` our `$caCert` and `$useCsr` in the Psy Shell like so.
 
-<a class="image-popup">
-![265b35e1.png](/assets/images/posts/lacasadepapel-htb-walkthrough/265b35e1.png)
-</a>
+
+{% include image.html image_alt="265b35e1.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/265b35e1.png" %}
+
 
 Do likewise for our CSR.
 
-<a class="image-popup">
-![8690d3ea.png](/assets/images/posts/lacasadepapel-htb-walkthrough/8690d3ea.png)
-</a>
+
+{% include image.html image_alt="8690d3ea.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/8690d3ea.png" %}
+
 
 Repeat the steps listed in the private `sign()` function.
 
 _Grab the CA key_
 
-<a class="image-popup">
-![8eefdfdb.png](/assets/images/posts/lacasadepapel-htb-walkthrough/8eefdfdb.png)
-</a>
+
+{% include image.html image_alt="8eefdfdb.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/8eefdfdb.png" %}
+
 
 _Sign our client certificate_
 
-<a class="image-popup">
-![48551577.png](/assets/images/posts/lacasadepapel-htb-walkthrough/48551577.png)
-</a>
+
+{% include image.html image_alt="48551577.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/48551577.png" %}
+
 
 _Export the client certificate_
 
-<a class="image-popup">
-![d87fe7a8.png](/assets/images/posts/lacasadepapel-htb-walkthrough/d87fe7a8.png)
-</a>
+
+{% include image.html image_alt="d87fe7a8.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/d87fe7a8.png" %}
+
 
 Copy the client certificate in the PEM format to my attacking machine and combine with the private key generated earlier to a PCKS#12 certificate format because that's what Firefox accepts.
 
-<a class="image-popup">
-![8a336748.png](/assets/images/posts/lacasadepapel-htb-walkthrough/8a336748.png)
-</a>
+
+{% include image.html image_alt="8a336748.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/8a336748.png" %}
+
 
 Import the client certificate to Firefox.
 
-<a class="image-popup">
-![d79d838a.png](/assets/images/posts/lacasadepapel-htb-walkthrough/d79d838a.png)
-</a>
+
+{% include image.html image_alt="d79d838a.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/d79d838a.png" %}
+
 
 We can now access the `https` service.
 
-<a class="image-popup">
-![a610aabd.png](/assets/images/posts/lacasadepapel-htb-walkthrough/a610aabd.png)
-</a>
+
+{% include image.html image_alt="a610aabd.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/a610aabd.png" %}
+
 
 ### Directory Traversal Vulnerability
 
 It's not long before I spotted a directory traversal vulnerability with `server.js`. Not only that, I can also download any file as `berlin`.
 
-<a class="image-popup">
-![cd1e84f6.png](/assets/images/posts/lacasadepapel-htb-walkthrough/cd1e84f6.png)
-</a>
+
+{% include image.html image_alt="cd1e84f6.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/cd1e84f6.png" %}
+
 
 Towards that end, I wrote a real simple `bash` script to read any file as `berlin`.
 
@@ -208,17 +208,17 @@ curl -s \
 
 Here's `user.txt`.
 
-<a class="image-popup">
-![13c35673.png](/assets/images/posts/lacasadepapel-htb-walkthrough/13c35673.png)
-</a>
+
+{% include image.html image_alt="13c35673.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/13c35673.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `berlin`'s account, I chanced upon the fact that `berlin`'s SSH key pair is available for download.
 
-<a class="image-popup">
-![feed4d9a.png](/assets/images/posts/lacasadepapel-htb-walkthrough/feed4d9a.png)
-</a>
+
+{% include image.html image_alt="feed4d9a.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/feed4d9a.png" %}
+
 
 Needless to say, I went ahead to download the key pair. Now, this is where I was stucked for a while. Who would have guessed that `berlin`'s key can log in to `professor`'s SSH account when you have no access to `professor`'s `.ssh/authorized_keys`? Not unless you watch the TV show and know the relationship between Professor and Berlin.
 
@@ -232,9 +232,9 @@ echo y | rm memcached.ini; echo "[program:memcached]" > memcached.ini; echo "com
 
 A minute later, a root shell pops up and the rest is history...
 
-<a class="image-popup">
-![84b22297.png](/assets/images/posts/lacasadepapel-htb-walkthrough/84b22297.png)
-</a>
+
+{% include image.html image_alt="84b22297.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/84b22297.png" %}
+
 
 :dancer:
 
@@ -242,9 +242,9 @@ A minute later, a root shell pops up and the rest is history...
 
 It doesn't have to be `memcached.ini`, you know. Any `ini` file will do because of this.
 
-<a class="image-popup">
-![97e7d4aa.png](/assets/images/posts/lacasadepapel-htb-walkthrough/97e7d4aa.png)
-</a>
+
+{% include image.html image_alt="97e7d4aa.png" image_src="/3a3c2bb2-c138-4b2b-b4bf-81b283be2d8a/97e7d4aa.png" %}
+
 
 [1]: https://www.hackthebox.eu/home/machines/profile/181
 [2]: https://www.hackthebox.eu/home/users/profile/4615

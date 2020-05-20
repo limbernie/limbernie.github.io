@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Zipper, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -77,107 +77,107 @@ Requests/sec.: 29.81187
 
 Hmm, interesting. This is how it looks like.
 
-<a class="image-popup">
-![688737d1.png](/assets/images/posts/zipper-htb-walkthrough/688737d1.png)
-</a>
+
+{% include image.html image_alt="688737d1.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/688737d1.png" %}
+
 
 Hmm. Guest login is allowed.
 
-<a class="image-popup">
-![56758d40.png](/assets/images/posts/zipper-htb-walkthrough/56758d40.png)
-</a>
+
+{% include image.html image_alt="56758d40.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/56758d40.png" %}
+
 
 I knew I had to try my luck at the login when I saw Zapper's Backup Script.
 
-<a class="image-popup">
-![755eae7f.png](/assets/images/posts/zipper-htb-walkthrough/755eae7f.png)
-</a>
+
+{% include image.html image_alt="755eae7f.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/755eae7f.png" %}
+
 
 I tried (`zapper:zapper`).
 
-<a class="image-popup">
-![c0c5384c.png](/assets/images/posts/zipper-htb-walkthrough/c0c5384c.png)
-</a>
+
+{% include image.html image_alt="c0c5384c.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/c0c5384c.png" %}
+
 
 And this is the result.
 
-<a class="image-popup">
-![4ee00943.png](/assets/images/posts/zipper-htb-walkthrough/4ee00943.png)
-</a>
+
+{% include image.html image_alt="4ee00943.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/4ee00943.png" %}
+
 
 A quick check with Zabbix 3.0 documentation reveals that GUI access although enabled by default, can be disabled. Alternatively, one can still access the Zabbix server through the web-based application programming interface (or [API](https://www.zabbix.com/documentation/3.0/manual/api)). In fact, the Zabbix CLI Tools [Wiki](https://zabbix.org/wiki/Zabbix_CLI_Tools) provides links to a couple of Zabbix CLI tools that allows us to interact with the Zabbix server through a text-based interface.
 
 I've chosen `zabbix-cli` simply because it's available in the Kali repository. The instructions to install, configure `zabbix-cli` is beyond the scope of this write-up.
 
-<a class="image-popup">
-![7ef55747.png](/assets/images/posts/zipper-htb-walkthrough/7ef55747.png)
-</a>
+
+{% include image.html image_alt="7ef55747.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/7ef55747.png" %}
+
 
 Voila. I have access to the Zabbix server.
 
-<a class="image-popup">
-![6b6aba6e.png](/assets/images/posts/zipper-htb-walkthrough/6b6aba6e.png)
-</a>
+
+{% include image.html image_alt="6b6aba6e.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/6b6aba6e.png" %}
+
 
 I'll create a user and place it at the "Zabbix administrators" user group, where GUI access is allowed.
 
-<a class="image-popup">
-![8ab1c558.png](/assets/images/posts/zipper-htb-walkthrough/8ab1c558.png)
-</a>
+
+{% include image.html image_alt="8ab1c558.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/8ab1c558.png" %}
+
 
 I created a user `ironman` with the password `marvelstud10s`.
 
-<a class="image-popup">
-![065bc9a5.png](/assets/images/posts/zipper-htb-walkthrough/065bc9a5.png)
-</a>
+
+{% include image.html image_alt="065bc9a5.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/065bc9a5.png" %}
+
 
 There you have it. The good thing about Zabbix is the ability to create and run scripts.
 
-<a class="image-popup">
-![c901f164.png](/assets/images/posts/zipper-htb-walkthrough/c901f164.png)
-</a>
+
+{% include image.html image_alt="c901f164.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/c901f164.png" %}
+
 
 Let's create a reverse shell script with `nc` like so.
 
-<a class="image-popup">
-![a3ea4dc4.png](/assets/images/posts/zipper-htb-walkthrough/a3ea4dc4.png)
-</a>
+
+{% include image.html image_alt="a3ea4dc4.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/a3ea4dc4.png" %}
+
 
 The script can be triggered by clicking on any host to bring up the context menu like so.
 
-<a class="image-popup">
-![a26f8031.png](/assets/images/posts/zipper-htb-walkthrough/a26f8031.png)
-</a>
+
+{% include image.html image_alt="a26f8031.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/a26f8031.png" %}
+
 
 I have shell. Too bad it's a shell to the Zabbix server container.
 
-<a class="image-popup">
-![e4d85da0.png](/assets/images/posts/zipper-htb-walkthrough/e4d85da0.png)
-</a>
+
+{% include image.html image_alt="e4d85da0.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/e4d85da0.png" %}
+
 
 I wonder what this means.
 
-<a class="image-popup">
-![1b94fe82.png](/assets/images/posts/zipper-htb-walkthrough/1b94fe82.png)
-</a>
+
+{% include image.html image_alt="1b94fe82.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/1b94fe82.png" %}
+
 
 Anyway, I found a `/backups` directory containing two password-protected 7-zip files.
 
-<a class="image-popup">
-![7dcee928.png](/assets/images/posts/zipper-htb-walkthrough/7dcee928.png)
-</a>
+
+{% include image.html image_alt="7dcee928.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/7dcee928.png" %}
+
 
 I also found a copy of `backup_script.sh` lying around.
 
-<a class="image-popup">
-![ef6a93a3.png](/assets/images/posts/zipper-htb-walkthrough/ef6a93a3.png)
-</a>
+
+{% include image.html image_alt="ef6a93a3.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/ef6a93a3.png" %}
+
 
 The password is in `backup_script.sh`!
 
-<a class="image-popup">
-![db8e3bd0.png](/assets/images/posts/zipper-htb-walkthrough/db8e3bd0.png)
-</a>
+
+{% include image.html image_alt="db8e3bd0.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/db8e3bd0.png" %}
+
 
 Let's keep the password in mind. It might be useful later.
 
@@ -185,9 +185,9 @@ Let's keep the password in mind. It might be useful later.
 
 I found the key to getting a low-privilege shell while exploring the Zabbix server. I noticed that there's a host Zipper installed with a Zabbix Agent, and one can create an item to instruct the agent to run system commands like so!
 
-<a class="image-popup">
-![f37793ae.png](/assets/images/posts/zipper-htb-walkthrough/f37793ae.png)
-</a>
+
+{% include image.html image_alt="f37793ae.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/f37793ae.png" %}
+
 
 I generated a reverse shell with `msfvenom`. Prior to this, I've experimented with various commands and verified that the host is running 32-bit Ubuntu. Next, to facilitate transfer of the reverse shell, I host the executable with Python's SimpleHTTPServer.
 
@@ -198,67 +198,67 @@ I generated a reverse shell with `msfvenom`. Prior to this, I've experimented wi
 
 The moment I caught the reverse shell, I immediately deleted the item to prevent the command from running again.
 
-<a class="image-popup">
-![ae58be7b.png](/assets/images/posts/zipper-htb-walkthrough/ae58be7b.png)
-</a>
+
+{% include image.html image_alt="ae58be7b.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/ae58be7b.png" %}
+
 
 Let's upgrade the shell to a full TTY since Python 3 is available.
 
-<a class="image-popup">
-![c494c229.png](/assets/images/posts/zipper-htb-walkthrough/c494c229.png)
-</a>
+
+{% include image.html image_alt="c494c229.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/c494c229.png" %}
+
 
 I'm in Zipper alright! Recall the password earlier? Let's see if we can `su` to `zapper`.
 
-<a class="image-popup">
-![22f6a11b.png](/assets/images/posts/zipper-htb-walkthrough/22f6a11b.png)
-</a>
+
+{% include image.html image_alt="22f6a11b.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/22f6a11b.png" %}
+
 
 Perfect. `user.txt` is in `zapper`'s home directory.
 
-<a class="image-popup">
-![10518a8d.png](/assets/images/posts/zipper-htb-walkthrough/10518a8d.png)
-</a>
+
+{% include image.html image_alt="10518a8d.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/10518a8d.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `zapper`'s account, I notice a `setuid` executable at `/home/zapper/utils`.
 
-<a class="image-popup">
-![5450d341.png](/assets/images/posts/zipper-htb-walkthrough/5450d341.png)
-</a>
+
+{% include image.html image_alt="5450d341.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/5450d341.png" %}
+
 
 The privilege escalation is pretty straight forward. The executable uses `system(3)` library function to run `systemctl`. It's the classic Linux executable search path attack. Check out the path to `systemctl` and the `$PATH` environment variable.
 
-<a class="image-popup">
-![094663d5.png](/assets/images/posts/zipper-htb-walkthrough/094663d5.png)
-</a>
+
+{% include image.html image_alt="094663d5.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/094663d5.png" %}
+
 
 The `system(3)` library function essentially searches for `systemctl` in the first path that it finds. What happens if we place a malicious `systemctl` executable in a path we control? Privilege escalation!
 
 Let's write a malicious `systemctl` like so.
 
-<a class="image-popup">
-![52c8fe46.png](/assets/images/posts/zipper-htb-walkthrough/52c8fe46.png)
-</a>
+
+{% include image.html image_alt="52c8fe46.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/52c8fe46.png" %}
+
 
 Compile the code with `gcc` and export `PATH` with `/tmp` as the first path to search.
 
-<a class="image-popup">
-![ce130c84.png](/assets/images/posts/zipper-htb-walkthrough/ce130c84.png)
-</a>
+
+{% include image.html image_alt="ce130c84.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/ce130c84.png" %}
+
 
 Executing `zabbix-service` is all that's left to be `root`.
 
-<a class="image-popup">
-![4154a6f6.png](/assets/images/posts/zipper-htb-walkthrough/4154a6f6.png)
-</a>
+
+{% include image.html image_alt="4154a6f6.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/4154a6f6.png" %}
+
 
 Getting `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![6a5f402a.png](/assets/images/posts/zipper-htb-walkthrough/6a5f402a.png)
-</a>
+
+{% include image.html image_alt="6a5f402a.png" image_src="/736c413d-3bf5-4f8a-811e-5780357787d0/6a5f402a.png" %}
+
 
 :dancer:
 

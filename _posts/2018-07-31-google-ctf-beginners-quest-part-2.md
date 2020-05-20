@@ -56,47 +56,47 @@ Click or tap on the circles above to go to the respective challenge and its writ
 
 There’s no attachment in this challenge. Instead, we are to continue from the previous challenge.
 
-![Admin UI 3](/assets/images/posts/google-ctf-beginners-quest-part-2/16fd4b17.png)
+{% include image.html image_alt="Admin UI 3" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/16fd4b17.png" %}
 
 Let's go to where we left off in **Admin UI 2** and see what happens after the authentication.
 
-![command_line](/assets/images/posts/google-ctf-beginners-quest-part-2/b67b2326.png)
+{% include image.html image_alt="command_line" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/b67b2326.png" %}
 
 The execution flow goes to the function `command_line()` after authentication as you can see above.
 
-![getsx](/assets/images/posts/google-ctf-beginners-quest-part-2/3ff7c576.png)
+{% include image.html image_alt="getsx" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/3ff7c576.png" %}
 
 Here, we are at the function `getsx()`, which reads from `stdin`, and the argument is the address of a buffer that stores the input. Notice that there's no argument for the size of the input to read? I smell buffer overflow in the stack!
 
 Let's create a pattern with `pattern_create`.
 
-![pattern_create](/assets/images/posts/google-ctf-beginners-quest-part-2/9dba718b.png)
+{% include image.html image_alt="pattern_create" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/9dba718b.png" %}
 
 And use that to determine the offset where we can control the return address.
 
-![pattern](/assets/images/posts/google-ctf-beginners-quest-part-2/72e99c50.png)
+{% include image.html image_alt="pattern" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/72e99c50.png" %}
 
 We need to `continue` the execution flow in `gdb` until we exit the `command_line` function with the `quit` command. We'll hit a segmentation fault because the return address is non-existent. We can then use the `pattern_offset` command to determine the offset.
 
-![offset](/assets/images/posts/google-ctf-beginners-quest-part-2/84db8cb2.png)
+{% include image.html image_alt="offset" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/84db8cb2.png" %}
 
 The offset is 56 bytes but what should we overwrite the return address with?
 
-![debug_shell](/assets/images/posts/google-ctf-beginners-quest-part-2/e8c2f21e.png)
+{% include image.html image_alt="debug_shell" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e8c2f21e.png" %}
 
 There's an interesting function `debug_shell` that wraps around the `system` library function to execute a shell command, but what is this command?
 
-![/bin/sh](/assets/images/posts/google-ctf-beginners-quest-part-2/73f6c542.png)
+{% include image.html image_alt="/bin/sh" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/73f6c542.png" %}
 
 Awesome. The offset controls the return address, which in turn allows us to return to `debug_shell` at `0x41414227` to execute `/bin/sh`. Sounds like a plan.
 
 For the exploit to work, we've to supply printable ASCII characters onto the limited shell—the return address `0x41414227` is `'BAA` in little-endian ASCII.
 
-![shell](/assets/images/posts/google-ctf-beginners-quest-part-2/09550697.png)
+{% include image.html image_alt="shell" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/09550697.png" %}
 
 We got shell!
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/df6171df.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/df6171df.png" %}
 
 The flag is `CTF{c0d3ExEc?W411_pL4y3d}`.
 
@@ -104,19 +104,19 @@ The flag is `CTF{c0d3ExEc?W411_pL4y3d}`.
 
 There’s no attachment in this challenge. Instead, we are to follow the link.
 
-![Router-UI](/assets/images/posts/google-ctf-beginners-quest-part-2/23a995c1.png)
+{% include image.html image_alt="Router-UI" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/23a995c1.png" %}
 
 Looking at the instructions, it appears this challenge has something to do with enticing Wintermuted to click on a link; stealing session token through XSS; and bypassing the Chrome XSS Auditor. This is how `https://router-ui.web.ctfcompetition.com/` looks like.
 
-![web-router-ui](/assets/images/posts/google-ctf-beginners-quest-part-2/95492525.png)
+{% include image.html image_alt="web-router-ui" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/95492525.png" %}
 
 Anyhow, let's go with (`admin:password`) and see what happens.
 
-![admin:password](/assets/images/posts/google-ctf-beginners-quest-part-2/591c4eee.png)
+{% include image.html image_alt="admin:password" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/591c4eee.png" %}
 
 Hmm. Wrong credentials but interesting output. Notice that a double slash ("//") separates the username and password? When was the last time you see a double slash ("//")? If the answer is "URL", you are right!
 
-![RFC3986](/assets/images/posts/google-ctf-beginners-quest-part-2/c1309d25.png)
+{% include image.html image_alt="RFC3986" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/c1309d25.png" %}
 
 This is what RFC 3986: Uniform Resource Identifier (URI) has to [say](https://tools.ietf.org/html/rfc3986#page-17).
 
@@ -155,11 +155,11 @@ This is how it looks like.
 
 Now that we've set up the stage, it's time to test it out!
 
-![Email](/assets/images/posts/google-ctf-beginners-quest-part-2/4689404d.png)
+{% include image.html image_alt="Email" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/4689404d.png" %}
 
 Once we've sent the email, Wintermuted will click on the link because who doesn't like cats?
 
-![Token](/assets/images/posts/google-ctf-beginners-quest-part-2/d755adf7.png)
+{% include image.html image_alt="Token" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/d755adf7.png" %}
 
 On the web server I control (I'm using Python SimpleHTTPServer module), we can see the HTTP requests that Wintermuted makes. And what do you see?
 
@@ -169,17 +169,17 @@ flag=Try%20the%20session%20cookie;%20session=Avaev8thDieM6Quauoh2TuDeaez9Weja
 
 We see two cookies: `flag` and `session`. Let's pop them into the cookie manager.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/e5ea6bdc.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e5ea6bdc.png" %}
 
-![session](/assets/images/posts/google-ctf-beginners-quest-part-2/8a3866db.png)
+{% include image.html image_alt="session" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/8a3866db.png" %}
 
 Now, we are able to login to `https://router-ui.web.ctfcompetition.com/`.
 
-![web-router-ui](/assets/images/posts/google-ctf-beginners-quest-part-2/ac446f17.png)
+{% include image.html image_alt="web-router-ui" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/ac446f17.png" %}
 
 The flag is in the password `<input>` field.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/07dbbcdf.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/07dbbcdf.png" %}
 
 The flag is `CTF{Kao4pheitot7Ahmu}`.
 
@@ -187,7 +187,7 @@ The flag is `CTF{Kao4pheitot7Ahmu}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/9522120f36028c8ab86a37394903b100ce90b81830cee9357113c54fd3fc84bf)
 
-![Firmware](/assets/images/posts/google-ctf-beginners-quest-part-2/38530508.png)
+{% include image.html image_alt="Firmware" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/38530508.png" %}
 
 Let’s unzip `firmware.zip`.
 
@@ -211,7 +211,7 @@ challenge.ext4: Linux rev 1.0 ext4 filesystem data, UUID=00ed61e1-1230-4818-bffa
 
 How do I mount a filesystem in a file? With `mount` of course!
 
-![mount](/assets/images/posts/google-ctf-beginners-quest-part-2/f3f264ed.png)
+{% include image.html image_alt="mount" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/f3f264ed.png" %}
 
 There's already something interesting for the curious.
 
@@ -226,7 +226,7 @@ The flag is `CTF{I_kn0W_tH15_Fs}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/f7e577b61f5b98aa3c0e453e83c60729f6ce3ef15c59fc76d64490377f5a0b5b).
 
-![Gatekeeper](/assets/images/posts/google-ctf-beginners-quest-part-2/716c4f41.png)
+{% include image.html image_alt="Gatekeeper" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/716c4f41.png" %}
 
 Let's unzip `gatekeeper.zip`.
 
@@ -268,23 +268,23 @@ CTF{% raw %}{%s}{% endraw %}
 
 These strings looked interesting. Now, let's run the program and look at its output.
 
-![./gatekeeper](/assets/images/posts/google-ctf-beginners-quest-part-2/b605198d.png)
+{% include image.html image_alt="./gatekeeper" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/b605198d.png" %}
 
 Hmm. We need to supply username and password as arguments to the program. Let's go with `test:test`.
 
-![test:test](/assets/images/posts/google-ctf-beginners-quest-part-2/60f671e1.png)
+{% include image.html image_alt="test:test" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/60f671e1.png" %}
 
 Notice something? It didn't say incorrect username or password, which suggests that the program evaluates the username and password one after another. Recall the interesting strings from above. Let's pop in `0n3_W4rM` as the username and see what happens.
 
-![Username](/assets/images/posts/google-ctf-beginners-quest-part-2/cd103f60.png)
+{% include image.html image_alt="Username" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/cd103f60.png" %}
 
 The username `0n3_W4rM` is correct. :smirk: Perhaps the password in the interesting strings as well? Let's go with `zLl1ks_d4m_T0g_I` and see what happens.
 
-![Wrong Password](/assets/images/posts/google-ctf-beginners-quest-part-2/fd3a49c1.png)
+{% include image.html image_alt="Wrong Password" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/fd3a49c1.png" %}
 
 Oops, wrong password. What if I reverse the password?
 
-![Right Password](/assets/images/posts/google-ctf-beginners-quest-part-2/a8d87e04.png)
+{% include image.html image_alt="Right Password" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/a8d87e04.png" %}
 
 Look Ma, no assembly. :grin:
 
@@ -294,31 +294,31 @@ The flag is `CTF{I_g0T_m4d_sk1lLz}`.
 
 There’s no attachment in this challenge. Instead, there’s a hint to connect to `media-db.ctfcompetition.com` at port 1337 with `nc`.
 
-![Media-DB](/assets/images/posts/google-ctf-beginners-quest-part-2/a1efd784.png)
+{% include image.html image_alt="Media-DB" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/a1efd784.png" %}
 
 Let's do that.
 
-![nc](/assets/images/posts/google-ctf-beginners-quest-part-2/37aff8cf.png)
+{% include image.html image_alt="nc" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/37aff8cf.png" %}
 
 I discover my first clue after playing around with the interface. Media-DB is running on Python code `media-db.py`.
 
-![IndexError](/assets/images/posts/google-ctf-beginners-quest-part-2/51f757a8.png)
+{% include image.html image_alt="IndexError" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/51f757a8.png" %}
 
 The next clue comes after much persuasive coaxing by a well-known character in SQLi—the single quote. Well, two well-known characters actually—the backslash as well.
 
-![sqlite3.OperationalError](/assets/images/posts/google-ctf-beginners-quest-part-2/d001d38c.png)
+{% include image.html image_alt="sqlite3.OperationalError" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/d001d38c.png" %}
 
 Media-DB is running on Python and SQLite. But, how do we proceed knowing this information? As you can see from above, the mechanism behind **Option 4) shuffle artist** is to display column `artist` and `song` from the table `media` after you have added a song through **Option 1) add song**.
 
-![Look Ma No Hands](/assets/images/posts/google-ctf-beginners-quest-part-2/4153bcb0.png)
+{% include image.html image_alt="Look Ma No Hands" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/4153bcb0.png" %}
 
 Using `UNION`, we can glean hidden information in other tables. First, we need to find the available tables.
 
-![Schema](/assets/images/posts/google-ctf-beginners-quest-part-2/46fa7811.png)
+{% include image.html image_alt="Schema" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/46fa7811.png" %}
 
 This is the database schema. Armed with this knowledge, we can dump out all the information in the database.
 
-![OAuth Token](/assets/images/posts/google-ctf-beginners-quest-part-2/1cf0f579.png)
+{% include image.html image_alt="OAuth Token" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/1cf0f579.png" %}
 
 The flag is `CTF{fridge_cast_oauth_token_cahn4Quo}`.
 
@@ -326,7 +326,7 @@ The flag is `CTF{fridge_cast_oauth_token_cahn4Quo}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/cf6c6160966eae95b4313f05ad33b9794d2817b06766a5261d952990ad27a6a6). And there's a hint to connect to `motd.ctfcompeetition.com` at port 1337 with `nc`.
 
-![Message of the Day](/assets/images/posts/google-ctf-beginners-quest-part-2/d39c410a.png)
+{% include image.html image_alt="Message of the Day" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/d39c410a.png" %}
 
 Let's unzip `motd.zip`.
 
@@ -342,15 +342,15 @@ Archive:  motd.zip
 
 I'm guessing `motd` is the binary running behind `motd.ctfcompetition.com`, and we've to exploit it to `pwn` this challenge.
 
-![motd](/assets/images/posts/google-ctf-beginners-quest-part-2/4761425f.png)
+{% include image.html image_alt="motd" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/4761425f.png" %}
 
 After playing around with the online version, the flag should be behind **4 - Get admin MOTD**. Disassembling `motd` confirms my hunch. There's a `read_flag` function in `motd`.
 
-![read_flag](/assets/images/posts/google-ctf-beginners-quest-part-2/e805442f.png)
+{% include image.html image_alt="read_flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e805442f.png" %}
 
 Other functions correspond to the options as well.
 
-![Functions](/assets/images/posts/google-ctf-beginners-quest-part-2/7707e9b9.png)
+{% include image.html image_alt="Functions" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/7707e9b9.png" %}
 
 Well, to `pwn` this challenge, we need a way to enter user-supplied input to the binary. We have two such functions, `set_admin_motd` and `set_motd`.
 
@@ -358,11 +358,11 @@ The function `set_admin_motd` merely prints out a TODO message to stdout. That l
 
 _Unsafe function `gets`._
 
-![set_motd](/assets/images/posts/google-ctf-beginners-quest-part-2/fd888683.png)
+{% include image.html image_alt="set_motd" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/fd888683.png" %}
 
 While I was stepping through `set_motd`, I noticed the use of an unsafe function `gets`. This is what the manpage of `gets` has to say.
 
-![gets](/assets/images/posts/google-ctf-beginners-quest-part-2/9aef997f.png)
+{% include image.html image_alt="gets" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/9aef997f.png" %}
 
 Woohoo! A buffer overflow exploit—this means that I can send an input to overwrite the return address, but which address should I use? The address of `read_flag` of course.
 
@@ -370,19 +370,19 @@ Not so fast, Captain Obvious.
 
 We also need to consider the offset that lets us control the return address. Let's see how we can determine the offset.
 
-![pattern_create](/assets/images/posts/google-ctf-beginners-quest-part-2/cb6c0580.png)
+{% include image.html image_alt="pattern_create" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/cb6c0580.png" %}
 
 First, let's create a 300-byte pattern. This is how the pattern looks like.
 
-![buf](/assets/images/posts/google-ctf-beginners-quest-part-2/9fd3f1a1.png)
+{% include image.html image_alt="buf" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/9fd3f1a1.png" %}
 
 After we supply the pattern as input to `gets`, let the program `continue` in `gdb`. We'll soon encounter a segmentation fault.
 
-![segfault](/assets/images/posts/google-ctf-beginners-quest-part-2/1b5a729a.png)
+{% include image.html image_alt="segfault" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/1b5a729a.png" %}
 
 Use `pattern_offset` to look for the pattern at the top of the stack, to determine the offset.
 
-![pattern_offset](/assets/images/posts/google-ctf-beginners-quest-part-2/ca140d4c.png)
+{% include image.html image_alt="pattern_offset" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/ca140d4c.png" %}
 
 We now have all the ingredients to bake our exploit.
 
@@ -395,7 +395,7 @@ We now have all the ingredients to bake our exploit.
 
 Time to run the exploit.
 
-![sploit](/assets/images/posts/google-ctf-beginners-quest-part-2/5db0404c.png)
+{% include image.html image_alt="sploit" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/5db0404c.png" %}
 
 The flag is `CTF{m07d_1s_r3t_2_r34d_fl4g}`
 
@@ -403,7 +403,7 @@ The flag is `CTF{m07d_1s_r3t_2_r34d_fl4g}`
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/3fecb3de10be268f896adbb2ac7ddb29a8a8a05de6085abc9d0edb53f5a64259). And there's a hint to connect to `poetry.ctfcompetition.com` at port 1337 with `nc`.
 
-![Poetry](/assets/images/posts/google-ctf-beginners-quest-part-2/e9a4b357.png)
+{% include image.html image_alt="Poetry" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e9a4b357.png" %}
 
 Let's unzip `poetry.zip`.
 
@@ -419,17 +419,17 @@ Archive:  poetry.zip
 
 This challenge is slightly different. Connecting to `poetry.ctfcompetition.com` at port 1337 gives you a shell as `user` with an empty prompt string.
 
-![shell](/assets/images/posts/google-ctf-beginners-quest-part-2/614f9167.png)
+{% include image.html image_alt="shell" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/614f9167.png" %}
 
 The attached file is at `/home/poetry/poetry`. The attached `poetry` and the online `poetry` have the same SHA256 hash.
 
 _SHA256 hash of attached `poetry`_
 
-![poetry](/assets/images/posts/google-ctf-beginners-quest-part-2/9339057b.png)
+{% include image.html image_alt="poetry" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/9339057b.png" %}
 
 _SHA256 hash of online `poetry`_
 
-![poetry](/assets/images/posts/google-ctf-beginners-quest-part-2/6258900e.png)
+{% include image.html image_alt="poetry" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/6258900e.png" %}
 
 Having the identical executable will assist us in determining how to exploit it.
 
@@ -510,7 +510,7 @@ Now that we've set the stage, let's proceed with the exploit.
 
 Create a hardlink to `/home/poetry/poetry`. Let's call it `x` for exploit.
 
-![hardlink](/assets/images/posts/google-ctf-beginners-quest-part-2/959dc85c.png)
+{% include image.html image_alt="hardlink" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/959dc85c.png" %}
 
 Hardlink is a link to the same file with the same inode number (5). You can see that `x` is also `setuid` to `poetry`. Hardlink is not enabled by default for security reason (at least on my GNU/Linux distribution), which you'll see why later. You can temporarily enable it by setting:
 
@@ -520,17 +520,17 @@ Hardlink is a link to the same file with the same inode number (5). You can see 
 
 Next, we open a file descriptor to the hardlink in the current shell. Note that we have not executed the hardlink. We are merely 'recording' everything about the hardlink in the file descriptor.
 
-![fd](/assets/images/posts/google-ctf-beginners-quest-part-2/c793920d.png)
+{% include image.html image_alt="fd" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/c793920d.png" %}
 
 Delete the hardlink.
 
-![delete](/assets/images/posts/google-ctf-beginners-quest-part-2/606b234f.png)
+{% include image.html image_alt="delete" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/606b234f.png" %}
 
 You can see from above, there's a `(deleted)` appended to `x`. The symbolic link appears broken but the hardlink is actually still present in the file descriptor.
 
 Rename `recite` to `x (deleted)`. Execute `/proc/$$/fd/3` with `exec`.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/cfd26c0f.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/cfd26c0f.png" %}
 
 When we execute the file descriptor, it's the same as executing `x`— a hardlink to `poetry` (same owner, same `setuid`). When `readlink` reads `/proc/self/exe`, it's actually reading `/proc/$$/fd/3`—itself a symbolic link to `x (deleted)`, which is then supplied to `execv` as an argument for execution. Guess what, `x (deleted)` is now our `recite` program and `recite` dutifully prints out the flag.
 
@@ -540,7 +540,7 @@ The flag is `CTF{CV3-2009-1894}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/0915d9f2952cfce0d7c39fc8690dd808323b0a2e261bfe65fc95edeac7f2c24f). And there’s a hint to connect to `env.ctfcompetition.com` at port 1337 with `nc`.
 
-![Filter Env](/assets/images/posts/google-ctf-beginners-quest-part-2/8b9d1127.png)
+{% include image.html image_alt="Filter Env" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/8b9d1127.png" %}
 
 Let's unzip `filterenv.zip`.
 
@@ -556,7 +556,7 @@ Archive:  env.zip
 
 This challenge is slightly different. Connecting to `env.ctfcompetition.com` at port 1337 gives you a shell as `user` with an empty prompt string.
 
-![shell](/assets/images/posts/google-ctf-beginners-quest-part-2/f5720a62.png)
+{% include image.html image_alt="shell" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/f5720a62.png" %}
 
 We have the executable `filterenv` and it's `setuid` to `adminimum`. The flag is also readable by `adminimum` alone. I'm assuming the file `filterenv.c` in the attachment is the source code to `filterenv`.
 
@@ -598,7 +598,7 @@ Armed with this information, we can provide two identical unsafe environment var
 
 Let's use the `LD_PRELOAD` environment variable. This is what `ld.so(8)` says about `LD_PRELOAD`.
 
-![LD_PRELOAD](/assets/images/posts/google-ctf-beginners-quest-part-2/65b9ef7e.png)
+{% include image.html image_alt="LD_PRELOAD" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/65b9ef7e.png" %}
 
 This should work because `execvp` takes the extern variable `environ` as the environment. Also, `/usr/bin/id` is a dynamically-linked executable and the dynamic loader will honor the `LD_PRELOAD` environment variable.
 
@@ -637,7 +637,7 @@ $ gunzip /tmp/readflag.so.gz
 ```
 Let's give it a shot.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/dfba227c.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/dfba227c.png" %}
 
 The flag is `CTF{H3ll0-Kingc0p3}`.
 
@@ -645,7 +645,7 @@ The flag is `CTF{H3ll0-Kingc0p3}`.
 
 The attachement is [here](https://storage.googleapis.com/gctf-2018-attachments/6662358181e0d4bf5fabd94f2dd5d41ab7c90685617a4b0fbb12df5be6044a59). And there’s a hint to connect to `fridge-todo-list.ctfcompetition.com` at port 1337 with `nc`.
 
-![Frdige Todo List](/assets/images/posts/google-ctf-beginners-quest-part-2/05b8fc58.png)
+{% include image.html image_alt="Frdige Todo List" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/05b8fc58.png" %}
 
 Let's unzip `todo.zip`.
 
@@ -668,25 +668,25 @@ This challenge requires us to play the role of a bug hunter. We need to find the
 
 It wasn't long before I chanced upon a bug. The program accepts negative integer and there's different output depending on the input.
 
-![bug](/assets/images/posts/google-ctf-beginners-quest-part-2/e9db3708.png)
+{% include image.html image_alt="bug" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e9db3708.png" %}
 
 The bug is there when you look at the code responsible for printing the TODO entry.
 
-![print_todo](/assets/images/posts/google-ctf-beginners-quest-part-2/264d2151.png)
+{% include image.html image_alt="print_todo" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/264d2151.png" %}
 
 Because `todos` is an array, it's also a pointer. As such, we are able to read arbitrary memory address, at TODO_LENGTH (48 bytes) boundary with the format string parameter `%s` in the `printf` function.
 
 Here we are, at the point where `idx = -2` and before the TODO entry gets print out. You can see the address of `todos` and `todos[idx*TODO_LENGTH]`.
 
-![gdb](/assets/images/posts/google-ctf-beginners-quest-part-2/b44b8f03.png)
+{% include image.html image_alt="gdb" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/b44b8f03.png" %}
 
 If printing the TODO entry is reading memory at user-controlled address, then storing the TODO entry is writing memory at user-controlled address. Let's look at the `store_todo` function.
 
-![store_todo](/assets/images/posts/google-ctf-beginners-quest-part-2/e0b454fa.png)
+{% include image.html image_alt="store_todo" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e0b454fa.png" %}
 
 Here's what we see when we look at the memory address of the sections in the program.
 
-![sections](/assets/images/posts/google-ctf-beginners-quest-part-2/0c085cf8.png)
+{% include image.html image_alt="sections" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/0c085cf8.png" %}
 
 The `.got.plt` section is the global offset table (GOT) for the procedure linkage table (PLT) where it contains the resolved target addresses or unresolved addresses from the PLT, waiting to trigger the target address resolution routine when called.
 
@@ -694,13 +694,13 @@ Look how close `todos` (`0x555555559140`) is to the `.got.plt` section (`0x55555
 
 The `.got.plt` section is a common target for exploitation because you can change a function to some other executable code you control. Let's look at the available PLT functions.
 
-![PLT functions](/assets/images/posts/google-ctf-beginners-quest-part-2/e11b8b94.png)
+{% include image.html image_alt="PLT functions" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/e11b8b94.png" %}
 
 From the functions above, `atoi@plt` should be the target. Why?
 
 If you look at the source code, you can see that `atoi@plt` takes in a string as an argument from `stdin`, after every option gets completed in the while loop. If `atoi@plt` changes to `system@plt`, and the argument is `/bin/sh`, guess what will happen? You get a shell.
 
-![read_int](/assets/images/posts/google-ctf-beginners-quest-part-2/b757f5c6.png)
+{% include image.html image_alt="read_int" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/b757f5c6.png" %}
 
 To do that, we need to determine the following in a position-independent way:
 
@@ -709,13 +709,13 @@ To do that, we need to determine the following in a position-independent way:
 
 The GOT of `write@plt` remains unresolved until it's used to write the `todos` array to file at the end of the program.
 
-![GOT of write@plt](/assets/images/posts/google-ctf-beginners-quest-part-2/347e36db.png)
+{% include image.html image_alt="GOT of write@plt" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/347e36db.png" %}
 
 We can use `-6` as the index to read the memory at `0x555555559020`, the GOT of `write@plt`, where `0x555555559140` is the address of `todos`.
 
 Assuming the offsets remain unchanged, `system@plt` (`0x555555555070`) is at `0x2a` away from the unresolved address of `write@plt` (`0x55555555046`).
 
-![GOT of atoi@plt](/assets/images/posts/google-ctf-beginners-quest-part-2/56f2ab77.png)
+{% include image.html image_alt="GOT of atoi@plt" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/56f2ab77.png" %}
 
 We can use `-4` as the index to write to the memory at `0x555555559088`, the GOT of `atoi@plt`, where `0x555555559140` is the address of `todos`. Note that we need eight junk bytes to jump over `0x555555559080` to write to `0x555555559088`.
 
@@ -765,11 +765,11 @@ t.interact()
 
 Let's give it a shot.
 
-![CountZero](/assets/images/posts/google-ctf-beginners-quest-part-2/720eb6c1.png)
+{% include image.html image_alt="CountZero" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/720eb6c1.png" %}
 
 Now that we know Wintermuted is CountZero, let's look at the TODO list the right way.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/5aee6825.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/5aee6825.png" %}
 
 The flag is `CTF{goo.gl/cjHknW}`.
 
@@ -777,7 +777,7 @@ The flag is `CTF{goo.gl/cjHknW}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/575142163b9bf4762ce4e2412ff05ee855dc7644b402522f79e39af017d99955).
 
-![Holey Beep](/assets/images/posts/google-ctf-beginners-quest-part-2/00269e20.png)
+{% include image.html image_alt="Holey Beep" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/00269e20.png" %}
 
 Let's unzip `holey_beep.zip`.
 
@@ -793,7 +793,7 @@ Archive:  holey_beep.zip
 
 There's no source code in this challenge. I've no choice but to put my reverse engineering skills to good use.
 
-![functions](/assets/images/posts/google-ctf-beginners-quest-part-2/fe73ece8.png)
+{% include image.html image_alt="functions" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/fe73ece8.png" %}
 
 This is my result of reversing engineering the executable back to source code. I'm confident this is close to the original source code. The compiled executable is almost identical to `holey_beep` line for line after disassembly.
 
@@ -899,6 +899,6 @@ $ chmod +x woot
 
 Let's give it a shot.
 
-![flag](/assets/images/posts/google-ctf-beginners-quest-part-2/f077de25.png)
+{% include image.html image_alt="flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-2/f077de25.png" %}
 
 The flag is `CTF{the_cake_wasnt_a_lie}`.

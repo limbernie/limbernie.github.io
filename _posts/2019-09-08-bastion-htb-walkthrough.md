@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Bastion, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -94,9 +94,9 @@ Host script results:
 
 And since SMB is enabled, let's see if there are file shares.
 
-<a class="image-popup">
-![77dfaf57.png](/assets/images/posts/bastion-htb-walkthrough/77dfaf57.png)
-</a>
+
+{% include image.html image_alt="77dfaf57.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/77dfaf57.png" %}
+
 
 `Backups` looks interesting, which I have read, write access by the way. Let's mount it.
 
@@ -158,9 +158,9 @@ Among the XML files, this one is interesting.
 ```
 It appears that we have two backup file systems in VHD, presumably one for the boot partition and the other for the C: volume.
 
-<a class="image-popup">
-![3b31ea9b.png](/assets/images/posts/bastion-htb-walkthrough/3b31ea9b.png)
-</a>
+
+{% include image.html image_alt="3b31ea9b.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/3b31ea9b.png" %}
+
 
 Of course, we are interested in the C: volume.
 
@@ -178,45 +178,45 @@ guestmount -a '/root/Downloads/bastion/backups/WindowsImageBackup/L4mpje-PC/Back
 
 It'll take a while because we are mounting over SMB. Once it's done, it should look something like this.
 
-<a class="image-popup">
-![2b76aa92.png](/assets/images/posts/bastion-htb-walkthrough/2b76aa92.png)
-</a>
+
+{% include image.html image_alt="2b76aa92.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/2b76aa92.png" %}
+
 
 ### Credentials Recovery
 
 Now that we have access to the backup file system, what files should we get? Credentials are stored in the SAM file as NTLM hashes, protected by the SYSKEY which in turn is stored in the SYSTEM registry hive. We can recover these credentials using Impacket's `secretsdump.py`. The required files SAM, SECURITY, and SYSTEM can all be found in `C:\Windows\System32\config`.
 
-<a class="image-popup">
-![e5a48961.png](/assets/images/posts/bastion-htb-walkthrough/e5a48961.png)
-</a>
+
+{% include image.html image_alt="e5a48961.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/e5a48961.png" %}
+
 
 Once we have copied the three files, we can recover the credentials with `secretsdump.py` like so.
 
-<a class="image-popup">
-![44d6b33b.png](/assets/images/posts/bastion-htb-walkthrough/44d6b33b.png)
-</a>
+
+{% include image.html image_alt="44d6b33b.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/44d6b33b.png" %}
+
 
 ## Low-Privilege Shell
 
 If I had to guess, I would say that's the password to `L4mpje`'s SSH account.
 
-<a class="image-popup">
-![51462ee4.png](/assets/images/posts/bastion-htb-walkthrough/51462ee4.png)
-</a>
+
+{% include image.html image_alt="51462ee4.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/51462ee4.png" %}
+
 
 No surprise, the file `user.txt` is at the desktop.
 
-<a class="image-popup">
-![be653196.png](/assets/images/posts/bastion-htb-walkthrough/be653196.png)
-</a>
+
+{% include image.html image_alt="be653196.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/be653196.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `L4mpje`'s account, I noticed mRemoteNG installed. mRemoteNG is _the next generation of mRemote, open source, tabbed, multi-protocol, remote connections manager._ During my research into mRemoteNG, I also found out that mRemoteNG stores its connection details such as IP address, protocol, and more importantly to us, credentials (albeit encrypted) in a connections file named `confcons.xml`.
 
-<a class="image-popup">
-![edd5bd5e.png](/assets/images/posts/bastion-htb-walkthrough/edd5bd5e.png)
-</a>
+
+{% include image.html image_alt="edd5bd5e.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/edd5bd5e.png" %}
+
 
 It's just a matter of copying the file with `scp` to my attacking machine for further analysis.
 
@@ -236,27 +236,27 @@ And this is how the file looks like.
 
 Well, notice the encrypted credentials for `Administrator`?. I noted the credentials are encrypted with AES in the GCM mode with 1000 iterations. I'm not sure how strong is the encryption but it's best we don't try. A more efficient way is to load the connections file into a running mRemoteNG.
 
-<a class="image-popup">
-![5b20b834.png](/assets/images/posts/bastion-htb-walkthrough/5b20b834.png)
-</a>
+
+{% include image.html image_alt="5b20b834.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/5b20b834.png" %}
+
 
 I believe we just have to change the hostname/IP to 10.10.10.134 and the protocol to SSH, and we should be able to get ourselves a `root` shell without having to decrypt the credentials.
 
-<a class="image-popup">
-![a5dfc8fe.png](/assets/images/posts/bastion-htb-walkthrough/a5dfc8fe.png)
-</a>
+
+{% include image.html image_alt="a5dfc8fe.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/a5dfc8fe.png" %}
+
 
 Time to connect.
 
-<a class="image-popup">
-![730caeb8.png](/assets/images/posts/bastion-htb-walkthrough/730caeb8.png)
-</a>
+
+{% include image.html image_alt="730caeb8.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/730caeb8.png" %}
+
 
 Awesome. The rest is trivial.
 
-<a class="image-popup">
-![bd40047e.png](/assets/images/posts/bastion-htb-walkthrough/bd40047e.png)
-</a>
+
+{% include image.html image_alt="bd40047e.png" image_src="/f8a5d78d-b117-4d2a-bc2d-c5bc9403c1ad/bd40047e.png" %}
+
 
 :dancer:
 

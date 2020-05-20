@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Arkham, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -165,9 +165,9 @@ And because it has a Batman theme to it, I'll create a custom wordlist from rock
 
 Time for cracking.
 
-<a class="image-popup">
-![862efd25.png](/assets/images/posts/arkham-htb-walkthrough/862efd25.png)
-</a>
+
+{% include image.html image_alt="862efd25.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/862efd25.png" %}
+
 
 Boom!
 
@@ -187,29 +187,29 @@ It'll prompt you for the password, which is `batmanforever`. Once that's done, w
 
 It's the backup of the Tomcat instance at `8080/tcp`.
 
-<a class="image-popup">
-![b5f8ee81.png](/assets/images/posts/arkham-htb-walkthrough/b5f8ee81.png)
-</a>
+
+{% include image.html image_alt="b5f8ee81.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/b5f8ee81.png" %}
+
 
 ### Apache MyFaces Serialization Remote Command Execution
 
 From the look of `faces-config.xml`, it appears that Apache MyFaces 1.2 is in use. This is further confirmed by this link on the `http` service at `8080/tcp`.
 
-<a class="image-popup">
-![25eb8dd9.png](/assets/images/posts/arkham-htb-walkthrough/25eb8dd9.png)
-</a>
+
+{% include image.html image_alt="25eb8dd9.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/25eb8dd9.png" %}
+
 
 Check out the HTML source of `userSubscribe.faces`.
 
-<a class="image-popup">
-![31a66dde.png](/assets/images/posts/arkham-htb-walkthrough/31a66dde.png)
-</a>
+
+{% include image.html image_alt="31a66dde.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/31a66dde.png" %}
+
 
 Research into Apache MyFaces 1.2 led me to this [page](http://myfaces.apache.org/shared12/myfaces-shared-core/apidocs/org/apache/myfaces/shared/util/StateUtils.html). The view state above is a base64-encoded, DES encrypted Java serialized object. The important thing about this page is the default values used.
 
-<a class="image-popup">
-![9acae796.png](/assets/images/posts/arkham-htb-walkthrough/9acae796.png)
-</a>
+
+{% include image.html image_alt="9acae796.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/9acae796.png" %}
+
 
 To the end, I wrote some Python code to test it out.
 
@@ -265,15 +265,15 @@ def encrypt_viewstate(viewstate, secret):
 
 From `web.xml.bak` we got the secret, which is the same for both DES and HMAC-SHA1.
 
-<a class="image-popup">
-![52d81155.png](/assets/images/posts/arkham-htb-walkthrough/52d81155.png)
-</a>
+
+{% include image.html image_alt="52d81155.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/52d81155.png" %}
+
 
 Let's give it a shot.
 
-<a class="image-popup">
-![128b9cfd.png](/assets/images/posts/arkham-htb-walkthrough/128b9cfd.png)
-</a>
+
+{% include image.html image_alt="128b9cfd.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/128b9cfd.png" %}
+
 
 It's a serialized Java object indeed!
 
@@ -287,15 +287,15 @@ The Apache MyFaces 1.2 project page lists the Commons Collections framework as o
 
 The first payload is to copy a `nc.exe` to the current directory or folder, wherever that may be, using PowerShell.
 
-<a class="image-popup">
-![38294c3a.png](/assets/images/posts/arkham-htb-walkthrough/38294c3a.png)
-</a>
+
+{% include image.html image_alt="38294c3a.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/38294c3a.png" %}
+
 
 Next, we copy the `base64`-encoded string and put it into the view state parameter for the Tomcat back-end to deserialize it.
 
-<a class="image-popup">
-![a6849087.png](/assets/images/posts/arkham-htb-walkthrough/a6849087.png)
-</a>
+
+{% include image.html image_alt="a6849087.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/a6849087.png" %}
+
 
 I think we achieved remote command execution! Our next payload will be to run a reverse shell back to us.
 
@@ -305,23 +305,23 @@ I think we achieved remote command execution! Our next payload will be to run a 
 
 Here's the `base64`-encoded payload.
 
-<a class="image-popup">
-![fb9a0e79.png](/assets/images/posts/arkham-htb-walkthrough/fb9a0e79.png)
-</a>
+
+{% include image.html image_alt="fb9a0e79.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/fb9a0e79.png" %}
+
 
 Let's do the same thing: replace with the original view state with our own.
 
-<a class="image-popup">
-![88ba8e22.png](/assets/images/posts/arkham-htb-walkthrough/88ba8e22.png)
-</a>
+
+{% include image.html image_alt="88ba8e22.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/88ba8e22.png" %}
+
 
 And we have ourselves a low-privilege shell! We can also enter into a PowerShell session.
 
 The `user.txt` is in `Alfred`'s desktop.
 
-<a class="image-popup">
-![0e9b0819.png](/assets/images/posts/arkham-htb-walkthrough/0e9b0819.png)
-</a>
+
+{% include image.html image_alt="0e9b0819.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/0e9b0819.png" %}
+
 
 ## Privilege Escalation
 
@@ -335,33 +335,33 @@ We can use `pffexport` to export the mails, if any.
 
 There's only one email in the Drafts folder. Here's how it looks like.
 
-<a class="image-popup">
-![208b7ec5.png](/assets/images/posts/arkham-htb-walkthrough/208b7ec5.png)
-</a>
+
+{% include image.html image_alt="208b7ec5.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/208b7ec5.png" %}
+
 
 Armed with `Batman`'s password, we can now log in to his account. `Batman` is an administrator by the way! One more thing, `Batman` is also a member of the Remote Management Users group. As such, I can use PowerShell Remoting to enter into a PowerShell session with his credentials.
 
-<a class="image-popup">
-![778649e4.png](/assets/images/posts/arkham-htb-walkthrough/778649e4.png)
-</a>
+
+{% include image.html image_alt="778649e4.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/778649e4.png" %}
+
 
 Recall my `nc.exe` is still somewhere in the file system? Let's use it to run another reverse shell back to me, this time as `Batman`.
 
-<a class="image-popup">
-![c47ebd00.png](/assets/images/posts/arkham-htb-walkthrough/c47ebd00.png)
-</a>
+
+{% include image.html image_alt="c47ebd00.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/c47ebd00.png" %}
+
 
 And here's my reverse shell.
 
-<a class="image-popup">
-![bc1b3c8b.png](/assets/images/posts/arkham-htb-walkthrough/bc1b3c8b.png)
-</a>
+
+{% include image.html image_alt="bc1b3c8b.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/bc1b3c8b.png" %}
+
 
 With that, getting `root.txt` is trivial.
 
-<a class="image-popup">
-![153338c8.png](/assets/images/posts/arkham-htb-walkthrough/153338c8.png)
-</a>
+
+{% include image.html image_alt="153338c8.png" image_src="/89c1de95-c353-4395-a1d5-e3dc9d923db1/153338c8.png" %}
+
 
 :dancer:
 

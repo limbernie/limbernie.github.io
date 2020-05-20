@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Dab, a retired vulnerable [VM][1
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -74,29 +74,29 @@ PORT     STATE SERVICE REASON         VERSION
 
 Well, there's nothing in `ftp` except for an image.
 
-<a class="image-popup">
-![5598951f.png](/assets/images/posts/dab-htb-walkthrough/5598951f.png)
-</a>
+
+{% include image.html image_alt="5598951f.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/5598951f.png" %}
+
 
 This is how the image looks like. Duh!
 
-<a class="image-popup">
-![e0f85be5.png](/assets/images/posts/dab-htb-walkthrough/e0f85be5.png)
-</a>
+
+{% include image.html image_alt="e0f85be5.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/e0f85be5.png" %}
+
 
 ### Directory/File Enumeration
 
 Time to move on to the `http` services, starting with `80/tcp`.
 
-<a class="image-popup">
-![123ed84f.png](/assets/images/posts/dab-htb-walkthrough/123ed84f.png)
-</a>
+
+{% include image.html image_alt="123ed84f.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/123ed84f.png" %}
+
 
 Bummer. I'm not going to brute-force something I have no knowledge of. `8080/tcp` is next.
 
-<a class="image-popup">
-![83abd8cf.png](/assets/images/posts/dab-htb-walkthrough/83abd8cf.png)
-</a>
+
+{% include image.html image_alt="83abd8cf.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/83abd8cf.png" %}
+
 
 This is easier to brute-force. At least I know that I need to introduce a `password` cookie. :laughing:
 
@@ -122,9 +122,9 @@ Finishing pending requests...
 
 The value for the `password` cookie is `secret`. This is how the site looks like after inserting the `password` cookie.
 
-<a class="image-popup">
-![2cba17c0.png](/assets/images/posts/dab-htb-walkthrough/2cba17c0.png)
-</a>
+
+{% include image.html image_alt="2cba17c0.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/2cba17c0.png" %}
+
 
 ### Memcached
 
@@ -240,9 +240,9 @@ END
 
 The `users` key caught my eye immediately.
 
-<a class="image-popup">
-![678f22ca.png](/assets/images/posts/dab-htb-walkthrough/678f22ca.png)
-</a>
+
+{% include image.html image_alt="678f22ca.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/678f22ca.png" %}
+
 
 The response was a hash map of username as key and the MD5 hash of the password as value. Cool, now I can transform the output as an input compatible for John the Ripper cracking.
 
@@ -290,47 +290,47 @@ irma:strength
 
 Using `hydra` to validate the credentials, you'll discover that the credential (`genevieve:Princess1`) works for both `ftp` and `ssh`.
 
-<a class="image-popup">
-![e5519558.png](/assets/images/posts/dab-htb-walkthrough/e5519558.png)
-</a>
+
+{% include image.html image_alt="e5519558.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/e5519558.png" %}
+
 
 There you have it. While we are here, `user.txt` is located at `genevieve`'s home directory.
 
-<a class="image-popup">
-![32ff2a2d.png](/assets/images/posts/dab-htb-walkthrough/32ff2a2d.png)
-</a>
+
+{% include image.html image_alt="32ff2a2d.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/32ff2a2d.png" %}
+
 
 ## Privilege Escalation
 
 The path to privilege escalation is not hard to find; it's the way to do it that's harder.
 
-<a class="image-popup">
-![c1cdfc4b.png](/assets/images/posts/dab-htb-walkthrough/c1cdfc4b.png)
-</a>
+
+{% include image.html image_alt="c1cdfc4b.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/c1cdfc4b.png" %}
+
 
 You can see that `/usr/bin/myexec` is `setuid` to `root`. Running it reveals a login prompt, which isn't difficult to bypass. Just run it with `ltrace` and the password is shown, like so:
 
-<a class="image-popup">
-![78c493bc.png](/assets/images/posts/dab-htb-walkthrough/78c493bc.png)
-</a>
+
+{% include image.html image_alt="78c493bc.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/78c493bc.png" %}
+
 
 Running `ltrace` again with the correct password reveals another important clue.
 
-<a class="image-popup">
-![cf425ce9.png](/assets/images/posts/dab-htb-walkthrough/cf425ce9.png)
-</a>
+
+{% include image.html image_alt="cf425ce9.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/cf425ce9.png" %}
+
 
 Running `ldd` reveals the use of a dynamic shared object or library.
 
-<a class="image-popup">
-![1496d8c9.png](/assets/images/posts/dab-htb-walkthrough/1496d8c9.png)
-</a>
+
+{% include image.html image_alt="1496d8c9.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/1496d8c9.png" %}
+
 
 Earlier on, I notice that `ldconfig` and `ldconf.real` are also `setuid` to `root`. Pivoting on that, I found a special place to put our own shared object to bypass the original `seclogin()` function to do something more malevolent. I also discover a `cron` job that deletes files created within two minutes in `/tmp` at every minute. The window of opportunity is one minute. We need to act fast!
 
-<a class="image-popup">
-![d89a711d.png](/assets/images/posts/dab-htb-walkthrough/d89a711d.png)
-</a>
+
+{% include image.html image_alt="d89a711d.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/d89a711d.png" %}
+
 
 With that in mind, let's go about creating our own shared object with the following code:
 
@@ -363,17 +363,17 @@ cp libseclogin.so /tmp; ldconfig; myexec
 
 Boom. We have a `root` shell.
 
-<a class="image-popup">
-![0acf598a.png](/assets/images/posts/dab-htb-walkthrough/0acf598a.png)
-</a>
+
+{% include image.html image_alt="0acf598a.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/0acf598a.png" %}
+
 
 ### Root Dance
 
 Getting `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![a213f581.png](/assets/images/posts/dab-htb-walkthrough/a213f581.png)
-</a>
+
+{% include image.html image_alt="a213f581.png" image_src="/cf03319f-a3c7-48c7-bf76-211a3be4935e/a213f581.png" %}
+
 
 :dancer:
 

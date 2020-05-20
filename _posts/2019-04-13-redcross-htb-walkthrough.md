@@ -17,10 +17,10 @@ This post documents the complete walkthrough of RedCross, a retired vulnerable [
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -45,21 +45,21 @@ Discovered open port 22/tcp on 10.10.10.113
 
 `masscan` finds `22/tcp`, `80/tcp` and `443/tcp` open. This is how the site looks like in a browser.
 
-<a class="image-popup">
-![67989600.png](/assets/images/posts/redcross-htb-walkthrough/67989600.png)
-</a>
+
+{% include image.html image_alt="67989600.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/67989600.png" %}
+
 
 Interesting. It seems to redirect to `https://intra.redcross.htb/`. Let's map `10.10.10.113` to `intra.redcross.htb` in `/etc/hosts` and then try again.
 
-<a class="image-popup">
-![d8236038.png](/assets/images/posts/redcross-htb-walkthrough/d8236038.png)
-</a>
+
+{% include image.html image_alt="d8236038.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/d8236038.png" %}
+
 
 Awesome. This must be the first attack surface. As I was casually glancing over the HTML source, I noticed the presence of a directory `/pages`.
 
-<a class="image-popup">
-![84e1d04b.png](/assets/images/posts/redcross-htb-walkthrough/84e1d04b.png)
-</a>
+
+{% include image.html image_alt="84e1d04b.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/84e1d04b.png" %}
+
 
 This seems to suggest that I should fuzz for directories.
 
@@ -115,73 +115,73 @@ Finishing pending requests...
 
 I got what I wanted so there's really no need to complete the fuzz. Here's how it looks like.
 
-<a class="image-popup">
-![346670f2.png](/assets/images/posts/redcross-htb-walkthrough/346670f2.png)
-</a>
+
+{% include image.html image_alt="346670f2.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/346670f2.png" %}
+
 
 It gives the details on how to request for credentials on the contact page. Let's try it out.
 
-<a class="image-popup">
-![1ff6bad5.png](/assets/images/posts/redcross-htb-walkthrough/1ff6bad5.png)
-</a>
 
-<a class="image-popup">
-![608bea6e.png](/assets/images/posts/redcross-htb-walkthrough/608bea6e.png)
-</a>
+{% include image.html image_alt="1ff6bad5.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/1ff6bad5.png" %}
+
+
+
+{% include image.html image_alt="608bea6e.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/608bea6e.png" %}
+
 
 Damn. I could have guessed it! The guest credentials work alright.
 
-<a class="image-popup">
-![7da91105.png](/assets/images/posts/redcross-htb-walkthrough/7da91105.png)
-</a>
+
+{% include image.html image_alt="7da91105.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/7da91105.png" %}
+
 
 It's interesting to note a database error when I tried to filter with a single quote.
 
-<a class="image-popup">
-![b23de08b.png](/assets/images/posts/redcross-htb-walkthrough/b23de08b.png)
-</a>
+
+{% include image.html image_alt="b23de08b.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/b23de08b.png" %}
+
 
 Let's try again with a percent sign which is wildcard in MySQL.
 
-<a class="image-popup">
-![5b3cbd7c.png](/assets/images/posts/redcross-htb-walkthrough/5b3cbd7c.png)
-</a>
+
+{% include image.html image_alt="5b3cbd7c.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/5b3cbd7c.png" %}
+
 
 What do we have here? Internal messages and usernames! The messages appear to be discussing about an Admin Web Panel.
 
-<a class="image-popup">
-![68152774.png](/assets/images/posts/redcross-htb-walkthrough/68152774.png)
-</a>
 
-<a class="image-popup">
-![03e73bfe.png](/assets/images/posts/redcross-htb-walkthrough/03e73bfe.png)
-</a>
+{% include image.html image_alt="68152774.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/68152774.png" %}
+
+
+
+{% include image.html image_alt="03e73bfe.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/03e73bfe.png" %}
+
 
 Let's map `10.10.10.113` to `admin.redcross.htb` in `/etc/hosts` too.
 
-<a class="image-popup">
-![d2e925f3.png](/assets/images/posts/redcross-htb-walkthrough/d2e925f3.png)
-</a>
+
+{% include image.html image_alt="d2e925f3.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/d2e925f3.png" %}
+
 
 Sweet. Another attack surface.
 
 _intra.redcross.htb_
 
-<a class="image-popup">
-![b6653069.png](/assets/images/posts/redcross-htb-walkthrough/b6653069.png)
-</a>
+
+{% include image.html image_alt="b6653069.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/b6653069.png" %}
+
 
 _admin.redcross.htb_
 
-<a class="image-popup">
-![b44fc1bb.png](/assets/images/posts/redcross-htb-walkthrough/b44fc1bb.png)
-</a>
+
+{% include image.html image_alt="b44fc1bb.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/b44fc1bb.png" %}
+
 
 Notice a different set of cookies for the `admin` vhost? Maybe a session replay attack will work here? Let's reuse the session already established in `intra` and apply it to `admin`.
 
-<a class="image-popup">
-![5ed464de.png](/assets/images/posts/redcross-htb-walkthrough/5ed464de.png)
-</a>
+
+{% include image.html image_alt="5ed464de.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/5ed464de.png" %}
+
 
 Sweet.
 
@@ -189,31 +189,31 @@ Sweet.
 
 There's a functionality in the admin panel to add users to a `chroot`'d jail in SSH.
 
-<a class="image-popup">
-![a424cf2a.png](/assets/images/posts/redcross-htb-walkthrough/a424cf2a.png)
-</a>
+
+{% include image.html image_alt="a424cf2a.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/a424cf2a.png" %}
+
 
 Let's go ahead and add ourselves to the list.
 
-<a class="image-popup">
-![18316344.png](/assets/images/posts/redcross-htb-walkthrough/18316344.png)
-</a>
 
-<a class="image-popup">
-![466d52b9.png](/assets/images/posts/redcross-htb-walkthrough/466d52b9.png)
-</a>
+{% include image.html image_alt="18316344.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/18316344.png" %}
+
+
+
+{% include image.html image_alt="466d52b9.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/466d52b9.png" %}
+
 
 I can log in alright, to a jail. :disappointed:
 
-<a class="image-popup">
-![73366ecb.png](/assets/images/posts/redcross-htb-walkthrough/73366ecb.png)
-</a>
+
+{% include image.html image_alt="73366ecb.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/73366ecb.png" %}
+
 
 Well, all is not lost. Penelope left a gift.
 
-<a class="image-popup">
-![37fa6db1.png](/assets/images/posts/redcross-htb-walkthrough/37fa6db1.png)
-</a>
+
+{% include image.html image_alt="37fa6db1.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/37fa6db1.png" %}
+
 
 For brevity's sake, I'll not display the source code. Suffice to say, the source code will help us in achieving privilege escalation later on.
 
@@ -221,9 +221,9 @@ For brevity's sake, I'll not display the source code. Suffice to say, the source
 
 Moving on to the Admin Panel and despite what **Network Access** sounds like, it has nothing to do with access control. It actually contains an input validation vulnerability that we can exploit for remote command execution.
 
-<a class="image-popup">
-![5a233225.png](/assets/images/posts/redcross-htb-walkthrough/5a233225.png)
-</a>
+
+{% include image.html image_alt="5a233225.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/5a233225.png" %}
+
 
 If I have to guess, I would say that the **Network Access** makes use of the `iptctl` binary to control `iptables`. I'm also betting `ipctl` is `setuid` to `root`.
 
@@ -237,9 +237,9 @@ The PHP code could look something like this whenever it receives a request to de
 
 What if the web application doesn't do a good job in input validation?
 
-<a class="image-popup">
-![6623fed5.png](/assets/images/posts/redcross-htb-walkthrough/6623fed5.png)
-</a>
+
+{% include image.html image_alt="6623fed5.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/6623fed5.png" %}
+
 
 It's apparent from above that it doesn't. :laughing: Time to test out remote command execution!
 
@@ -263,27 +263,27 @@ Host the reverse shell like so.
 
 Run a remote command like this.
 
-<a class="image-popup">
-![be14d39b.png](/assets/images/posts/redcross-htb-walkthrough/be14d39b.png)
-</a>
+
+{% include image.html image_alt="be14d39b.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/be14d39b.png" %}
+
 
 The remote command execution works!
 
-<a class="image-popup">
-![99da6e56.png](/assets/images/posts/redcross-htb-walkthrough/99da6e56.png)
-</a>
+
+{% include image.html image_alt="99da6e56.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/99da6e56.png" %}
+
 
 Time for shell.
 
-<a class="image-popup">
-![8fe097cc.png](/assets/images/posts/redcross-htb-walkthrough/8fe097cc.png)
-</a>
+
+{% include image.html image_alt="8fe097cc.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/8fe097cc.png" %}
+
 
 Meanwhile at my `nc` listener, a reverse shell arrives...
 
-<a class="image-popup">
-![029d828f.png](/assets/images/posts/redcross-htb-walkthrough/029d828f.png)
-</a>
+
+{% include image.html image_alt="029d828f.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/029d828f.png" %}
+
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) our shell to a full TTY.
 
@@ -295,39 +295,39 @@ The intra-messaging app uses MySQL to store the messages and user authentication
 
 _Snippet of actions.php_
 
-<a class="image-popup">
-![d12b5afe.png](/assets/images/posts/redcross-htb-walkthrough/d12b5afe.png)
-</a>
+
+{% include image.html image_alt="d12b5afe.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/d12b5afe.png" %}
+
 
 You can clearly see the credentials to access the database.
 
-<a class="image-popup">
-![4fce14ec.png](/assets/images/posts/redcross-htb-walkthrough/4fce14ec.png)
-</a>
+
+{% include image.html image_alt="4fce14ec.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/4fce14ec.png" %}
+
 
 The best part is—you can modify the `passwd_table` table. Here's how it looks like.
 
-<a class="image-popup">
-![b9ae27f2.png](/assets/images/posts/redcross-htb-walkthrough/b9ae27f2.png)
-</a>
+
+{% include image.html image_alt="b9ae27f2.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/b9ae27f2.png" %}
+
 
 Good. The `dick` user I created earlier is still around. Let's change the columns to our advantage.
 
-<a class="image-popup">
-![ff7e6984.png](/assets/images/posts/redcross-htb-walkthrough/ff7e6984.png)
-</a>
+
+{% include image.html image_alt="ff7e6984.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/ff7e6984.png" %}
+
 
 Notice I change the `gid` to `sudo` and the home directory to `root`. Let's log in to `dick`'s account again and make ourselves `root`.
 
-<a class="image-popup">
-![908ac3bf.png](/assets/images/posts/redcross-htb-walkthrough/908ac3bf.png)
-</a>
+
+{% include image.html image_alt="908ac3bf.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/908ac3bf.png" %}
+
 
 Getting `root.txt` with a `root` shell is so damn easy.
 
-<a class="image-popup">
-![8d49cbb7.png](/assets/images/posts/redcross-htb-walkthrough/8d49cbb7.png)
-</a>
+
+{% include image.html image_alt="8d49cbb7.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/8d49cbb7.png" %}
+
 
 :dancer:
 
@@ -335,9 +335,9 @@ Getting `root.txt` with a `root` shell is so damn easy.
 
 For completeness' sake, here's `user.txt`.
 
-<a class="image-popup">
-![824dd2b3.png](/assets/images/posts/redcross-htb-walkthrough/824dd2b3.png)
-</a>
+
+{% include image.html image_alt="824dd2b3.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/824dd2b3.png" %}
+
 
 In fact, `penelope` is running Haraka 2.8.8 on `1025/tcp`. We can make use of EDB-ID [41162](https://www.exploit-db.com/exploits/41162) to gain a low-privilege shell as `penelope` to read `user.txt`.
 
@@ -349,15 +349,15 @@ I first noted a buffer overrun (BOF) vulnerability in the `interactive` function
 
 Let's take a look at the source code just before we enter the `interactive` function.
 
-<a class="image-popup">
-![116f3169.png](/assets/images/posts/redcross-htb-walkthrough/116f3169.png)
-</a>
+
+{% include image.html image_alt="116f3169.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/116f3169.png" %}
+
 
 Now, let's take a good look at the `interactive` function.
 
-<a class="image-popup">
-![c38708f7.png](/assets/images/posts/redcross-htb-walkthrough/c38708f7.png)
-</a>
+
+{% include image.html image_alt="c38708f7.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/c38708f7.png" %}
+
 
 Good thing the binary is a non position-independent executable (PIE), and as such, function address in the procedure linkage table (PLT) doesn't change. Another blessing was the binary contained plenty of ROP gadgets for use. I was able to write `sh` using `strcpy@plt` to an address within `bss`, which also doesn't change. Lastly, I used `setuid@plt` and `execvp@plt` to spawn a `root` shell.
 
@@ -449,9 +449,9 @@ f.close
 
 Use the exploit code to generate our payload and then upload it to the box. Run the following command to escalate privilege to `root`.
 
-<a class="image-popup">
-![03394494.png](/assets/images/posts/redcross-htb-walkthrough/03394494.png)
-</a>
+
+{% include image.html image_alt="03394494.png" image_src="/3f2f16e1-3e09-421c-a378-406237c3b3a9/03394494.png" %}
+
 
 [1]: https://www.hackthebox.eu/home/machines/profile/162
 [2]: https://www.hackthebox.eu/home/users/profile/9631

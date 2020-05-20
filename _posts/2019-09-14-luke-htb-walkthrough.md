@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Luke, a retired vulnerable [VM][
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -105,9 +105,9 @@ Derry
 
 Here's how the `http` service looks like.
 
-<a class="image-popup">
-![22012944.png](/assets/images/posts/luke-htb-walkthrough/22012944.png)
-</a>
+
+{% include image.html image_alt="22012944.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/22012944.png" %}
+
 
 #### Directory/File Enumeration
 
@@ -137,43 +137,43 @@ File found: /login.php - 200
 
 _`login.php`_
 
-<a class="image-popup">
-![80aa07ca.png](/assets/images/posts/luke-htb-walkthrough/80aa07ca.png)
-</a>
+
+{% include image.html image_alt="80aa07ca.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/80aa07ca.png" %}
+
 
 _`config.php`_
 
-<a class="image-popup">
-![227ab12d.png](/assets/images/posts/luke-htb-walkthrough/227ab12d.png)
-</a>
+
+{% include image.html image_alt="227ab12d.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/227ab12d.png" %}
+
 
 Not too shabby. We got credentials (`root:Zk6heYCyv6ZE9Xcg`) for the database. We also got a directory `/management` protected by Basic authentication.
 
-<a class="image-popup">
-![3ab6bf88.png](/assets/images/posts/luke-htb-walkthrough/3ab6bf88.png)
-</a>
+
+{% include image.html image_alt="3ab6bf88.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/3ab6bf88.png" %}
+
 
 ### Node.js Express Framework
 
 There's Node.js Express Framework at `3000/tcp`.
 
-<a class="image-popup">
-![fb72caea.png](/assets/images/posts/luke-htb-walkthrough/fb72caea.png)
-</a>
+
+{% include image.html image_alt="fb72caea.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/fb72caea.png" %}
+
 
 There are two interesting endpoints: `login` and `users`, found through directory enumeration.
 
 _`login`_
 
-<a class="image-popup">
-![2962cad1.png](/assets/images/posts/luke-htb-walkthrough/2962cad1.png)
-</a>
+
+{% include image.html image_alt="2962cad1.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/2962cad1.png" %}
+
 
 _`users`_
 
-<a class="image-popup">
-![88ce89ac.png](/assets/images/posts/luke-htb-walkthrough/88ce89ac.png)
-</a>
+
+{% include image.html image_alt="88ce89ac.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/88ce89ac.png" %}
+
 
 Now that we got `Zk6heYCyv6ZE9Xcg` as password, let's use `wfuzz` as a cracker of sorts and see if we can proceed further with `3000/tcp`.
 
@@ -250,59 +250,59 @@ curl -s \
 
 Running `test.sh` without argument yields a welcome message.
 
-<a class="image-popup">
-![3d096d5d.png](/assets/images/posts/luke-htb-walkthrough/3d096d5d.png)
-</a>
+
+{% include image.html image_alt="3d096d5d.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/3d096d5d.png" %}
+
 
 Running `test.sh` with `users` yields the users and their roles.
 
-<a class="image-popup">
-![5e1f8108.png](/assets/images/posts/luke-htb-walkthrough/5e1f8108.png)
-</a>
+
+{% include image.html image_alt="5e1f8108.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/5e1f8108.png" %}
+
 
 Taking it up a notch reveals some very interesting results.
 
 _./test.sh users/admin_
 
-<a class="image-popup">
-![8ed8e4c9.png](/assets/images/posts/luke-htb-walkthrough/8ed8e4c9.png)
-</a>
+
+{% include image.html image_alt="8ed8e4c9.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/8ed8e4c9.png" %}
+
 
 _./test.sh users/derry_
 
-<a class="image-popup">
-![a6d3a637.png](/assets/images/posts/luke-htb-walkthrough/a6d3a637.png)
-</a>
+
+{% include image.html image_alt="a6d3a637.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/a6d3a637.png" %}
+
 
 _./test.sh users/yuri_
 
-<a class="image-popup">
-![d698ddcd.png](/assets/images/posts/luke-htb-walkthrough/d698ddcd.png)
-</a>
+
+{% include image.html image_alt="d698ddcd.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/d698ddcd.png" %}
+
 
 _./test.sh users/dory_
 
-<a class="image-popup">
-![f8e407f0.png](/assets/images/posts/luke-htb-walkthrough/f8e407f0.png)
-</a>
+
+{% include image.html image_alt="f8e407f0.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/f8e407f0.png" %}
+
 
 Let's consolidate these usersnames and passwords, and feed them to Hydra just to see what gives.
 
-<a class="image-popup">
-![53a38b19.png](/assets/images/posts/luke-htb-walkthrough/53a38b19.png)
-</a>
+
+{% include image.html image_alt="53a38b19.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/53a38b19.png" %}
+
 
 Damn. That was easy. :laughing: Let's check it out.
 
-<a class="image-popup">
-![e1fc465f.png](/assets/images/posts/luke-htb-walkthrough/e1fc465f.png)
-</a>
+
+{% include image.html image_alt="e1fc465f.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/e1fc465f.png" %}
+
 
 Well well, what have we here?
 
-<a class="image-popup">
-![949ebead.png](/assets/images/posts/luke-htb-walkthrough/949ebead.png)
-</a>
+
+{% include image.html image_alt="949ebead.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/949ebead.png" %}
+
 
 Looks like we have the `root` password to the Ajenti Control Panel. :triumph:
 
@@ -310,15 +310,15 @@ Looks like we have the `root` password to the Ajenti Control Panel. :triumph:
 
 Last but not least, it appears that we have an Ajenti installation at `8000/tcp` as well.
 
-<a class="image-popup">
-![19f6c925.png](/assets/images/posts/luke-htb-walkthrough/19f6c925.png)
-</a>
+
+{% include image.html image_alt="19f6c925.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/19f6c925.png" %}
+
 
 Time to check out those Ajenti credentials we got earlier on!
 
-<a class="image-popup">
-![96fb537b.png](/assets/images/posts/luke-htb-walkthrough/96fb537b.png)
-</a>
+
+{% include image.html image_alt="96fb537b.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/96fb537b.png" %}
+
 
 Boom. We are in the endgame now.
 
@@ -328,15 +328,15 @@ We can easily open a terminal as `root` to capture both `user.txt` and `root.txt
 
 _`user.txt`_
 
-<a class="image-popup">
-![9c8911ca.png](/assets/images/posts/luke-htb-walkthrough/9c8911ca.png)
-</a>
+
+{% include image.html image_alt="9c8911ca.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/9c8911ca.png" %}
+
 
 _`root.txt`_
 
-<a class="image-popup">
-![c241a01a.png](/assets/images/posts/luke-htb-walkthrough/c241a01a.png)
-</a>
+
+{% include image.html image_alt="c241a01a.png" image_src="/008e4109-e6ea-4533-bdac-e3b6fc65b663/c241a01a.png" %}
+
 
 Easy peasy lemon squeezy.
 

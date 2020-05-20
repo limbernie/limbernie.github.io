@@ -73,9 +73,9 @@ PORT     STATE SERVICE      REASON          VERSION
 
 Nothing really interesting stands out. Here's how the site looks like. Bitcoin, eh?
 
-<a class="image-popup">
-![df81f624.png](/assets/images/posts/bankrobber-htb-walkthrough/df81f624.png)
-</a>
+
+{% include image.html image_alt="df81f624.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/df81f624.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -126,9 +126,9 @@ Progress: 8536 / 17771 (48.03%)^C
 
 What have we here? `notes.txt` sure looks interesting.
 
-<a class="image-popup">
-![f5112cac.png](/assets/images/posts/bankrobber-htb-walkthrough/f5112cac.png)
-</a>
+
+{% include image.html image_alt="f5112cac.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/f5112cac.png" %}
+
 
 ### PHP Page Analysis
 
@@ -220,9 +220,9 @@ Combined with GNU Parallel, we get a poor man version's of a multi-threaded brut
 
 Let's check it out.
 
-<a class="image-popup">
-![2ed0a32c.png](/assets/images/posts/bankrobber-htb-walkthrough/2ed0a32c.png)
-</a>
+
+{% include image.html image_alt="2ed0a32c.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/2ed0a32c.png" %}
+
 
 Awesome.
 
@@ -230,17 +230,17 @@ Awesome.
 
 Long story short. The creators left a PHP backdoor that can only be executed from `localhost`.
 
-<a class="image-popup">
-![10720d21.png](/assets/images/posts/bankrobber-htb-walkthrough/10720d21.png)
-</a>
+
+{% include image.html image_alt="10720d21.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/10720d21.png" %}
+
 
 Recall `notes.txt`? It says that only comments from `localhost` are not encoded. This means that we may be able to inject JavaScript into the backend and run it as `localhost`. But where to inject the JavaScript?
 
 Earlier on, I went ahead to register a new user. In the user's page there's a feature that allows one to transfer E-coins with a custom comment to the recipient.
 
-<a class="image-popup">
-![861cf35b.png](/assets/images/posts/bankrobber-htb-walkthrough/861cf35b.png)
-</a>
+
+{% include image.html image_alt="861cf35b.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/861cf35b.png" %}
+
 
 Here's a simple JavaScript to demonstrate the callback capabilities of the remote backend.
 
@@ -248,33 +248,33 @@ Here's a simple JavaScript to demonstrate the callback capabilities of the remot
 <script>var img = new Image(); img.src = "http://10.10.15.23/hacked.png";</script>
 ```
 
-<a class="image-popup">
-![cfc55918.png](/assets/images/posts/bankrobber-htb-walkthrough/cfc55918.png)
-</a>
+
+{% include image.html image_alt="cfc55918.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/cfc55918.png" %}
+
 
 We already knew that admin has an ID of 1 previously. We also need to set up a SimpleHTTPServer for testing purposes. Once we hit the transfer button, we are greeted with a popup alert.
 
-<a class="image-popup">
-![45cd508f.png](/assets/images/posts/bankrobber-htb-walkthrough/45cd508f.png)
-</a>
+
+{% include image.html image_alt="45cd508f.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/45cd508f.png" %}
+
 
 That's the signal to login to the admin page.
 
-<a class="image-popup">
-![92913034.png](/assets/images/posts/bankrobber-htb-walkthrough/92913034.png)
-</a>
+
+{% include image.html image_alt="92913034.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/92913034.png" %}
+
 
 Once you hit accept, a HTTP GET comes knocking on our door, requesting for `hacked.png`.
 
-<a class="image-popup">
-![b25df392.png](/assets/images/posts/bankrobber-htb-walkthrough/b25df392.png)
-</a>
+
+{% include image.html image_alt="b25df392.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/b25df392.png" %}
+
 
 Sweet. But first, let's take a peek at how the backdoor remote command execution (`system.js`) is implemented.
 
-<a class="image-popup">
-![896c1641.png](/assets/images/posts/bankrobber-htb-walkthrough/896c1641.png)
-</a>
+
+{% include image.html image_alt="896c1641.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/896c1641.png" %}
+
 
 Well, I could use XHR to reach http://localhost/admin/backdoorchecker.php. That should work. Check it out.
 
@@ -294,41 +294,41 @@ hello();
 
 Let's minify the JavaScript while we are at it.
 
-<a class="image-popup">
-![7936b333.png](/assets/images/posts/bankrobber-htb-walkthrough/7936b333.png)
-</a>
+
+{% include image.html image_alt="7936b333.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/7936b333.png" %}
+
 
 Bombs away. Moments later, see who came knocking on my door, with PowerShell no less. :wink:
 
-<a class="image-popup">
-![6ddfe67d.png](/assets/images/posts/bankrobber-htb-walkthrough/6ddfe67d.png)
-</a>
+
+{% include image.html image_alt="6ddfe67d.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/6ddfe67d.png" %}
+
 
 ## Low-Privilege Shell
 
 With that in mind, we can probably execute some kind of reverse [shell](https://gist.github.com/egre55/c058744a4240af6515eb32b2d33fbed3).
 
-<a class="image-popup">
-![d84ca684.png](/assets/images/posts/bankrobber-htb-walkthrough/d84ca684.png)
-</a>
+
+{% include image.html image_alt="d84ca684.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/d84ca684.png" %}
+
 
 Bam! The file `user.txt` is at Cortin's desktop.
 
-<a class="image-popup">
-![f0c5e13d.png](/assets/images/posts/bankrobber-htb-walkthrough/f0c5e13d.png)
-</a>
+
+{% include image.html image_alt="f0c5e13d.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/f0c5e13d.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of Cortin's account, I notice a weird service `bankapp`, listening at `910/tcp`. The executable path is `C:\bankv2.exe`. And since the port wasn't discovered during our port scan, it can only mean that this service is listening through `localhost` or the loopback interface.
 
-<a class="image-popup">
-![a42df46a.png](/assets/images/posts/bankrobber-htb-walkthrough/a42df46a.png)
-</a>
 
-<a class="image-popup">
-![cf2c3444.png](/assets/images/posts/bankrobber-htb-walkthrough/cf2c3444.png)
-</a>
+{% include image.html image_alt="a42df46a.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/a42df46a.png" %}
+
+
+
+{% include image.html image_alt="cf2c3444.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/cf2c3444.png" %}
+
 
 With that in mind, let's transfer a copy of `plink.exe` a SSH client over. Using remote port-forwarding, we can "forward" `910/tcp` over to my attacking machine hosting the SSH service.
 
@@ -338,9 +338,9 @@ start ssh -R 910:127.0.0.1:910 -pw <password> root@10.10.15.48 -N
 
 Once that's done, we should be able to connect to `910/tcp` locally on our attacking machine.
 
-<a class="image-popup">
-![bea16b92.png](/assets/images/posts/bankrobber-htb-walkthrough/bea16b92.png)
-</a>
+
+{% include image.html image_alt="bea16b92.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/bea16b92.png" %}
+
 
 #### Breaking `bankv2.exe`
 
@@ -367,27 +367,27 @@ fi
 
 See? Easy.
 
-<a class="image-popup">
-![3ad896c0.png](/assets/images/posts/bankrobber-htb-walkthrough/3ad896c0.png)
-</a>
+
+{% include image.html image_alt="3ad896c0.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/3ad896c0.png" %}
+
 
 Long story short, the program is susceptible to a command injection vulnerability, after 32 bytes of string input. Prior to that, I've already copied `nc.exe` over to `C:\users\cortin\appdata\nc.exe`, so we'll launch a reverse shell from there.
 
-<a class="image-popup">
-![966210fe.png](/assets/images/posts/bankrobber-htb-walkthrough/966210fe.png)
-</a>
+
+{% include image.html image_alt="966210fe.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/966210fe.png" %}
+
 
 And a shell with `SYSTEM` privilege appears...
 
-<a class="image-popup">
-![2bffd339.png](/assets/images/posts/bankrobber-htb-walkthrough/2bffd339.png)
-</a>
+
+{% include image.html image_alt="2bffd339.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/2bffd339.png" %}
+
 
 Getting `root.txt` is trivial with a `SYSTEM` shell.
 
-<a class="image-popup">
-![5979da90.png](/assets/images/posts/bankrobber-htb-walkthrough/5979da90.png)
-</a>
+
+{% include image.html image_alt="5979da90.png" image_src="/346430ba-0b8e-4f9e-b28d-b6dbeafad790/5979da90.png" %}
+
 
 :dancer:
 

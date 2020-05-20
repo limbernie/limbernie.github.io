@@ -68,9 +68,9 @@ You know the machine is a tough nut to crack when there aren't many services to 
 
 I'm going to make a guess here.
 
-<a class="image-popup">
-![1e6856f7.png](/assets/images/posts/smasher2-htb-walkthrough/1e6856f7.png)
-</a>
+
+{% include image.html image_alt="1e6856f7.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/1e6856f7.png" %}
+
 
 Lucky! :laughing: I'd better put `wonderfulsessionmanager.smasher2.htb` into `/etc/hosts`.
 
@@ -78,9 +78,9 @@ Lucky! :laughing: I'd better put `wonderfulsessionmanager.smasher2.htb` into `/e
 
 Here's how the `http` service looks like.
 
-<a class="image-popup">
-![7678ecab.png](/assets/images/posts/smasher2-htb-walkthrough/7678ecab.png)
-</a>
+
+{% include image.html image_alt="7678ecab.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/7678ecab.png" %}
+
 
 Right off the bat we know that Python 2.7 has something to do with the site.
 
@@ -145,15 +145,15 @@ I'm making a second guess here. I don't want to run the script against the entir
 
 I got lucky. It took about 35 mins.
 
-<a class="image-popup">
-![f9752e72.png](/assets/images/posts/smasher2-htb-walkthrough/f9752e72.png)
-</a>
+
+{% include image.html image_alt="f9752e72.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/f9752e72.png" %}
+
 
 With that, we can finally see what's behind `/backup`.
 
-<a class="image-popup">
-![e29b58ae.png](/assets/images/posts/smasher2-htb-walkthrough/e29b58ae.png)
-</a>
+
+{% include image.html image_alt="e29b58ae.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/e29b58ae.png" %}
+
 
 <div class="filename"><span>auth.py</span></div>
 
@@ -315,9 +315,9 @@ Analysis of `ses.so` tells me that it doesn't matter what the password is for DS
 
 Brute-force (after 976 attempts) triggers a segfault in one of the threads. I guess that's where the timeout occurs at `wonderfulsessionmanager.smasher2.htb` as well. This is also where the username is revealed in the `$rsi` register when I attached `gdb` to the process `python auth.py` running locally on my machine.
 
-<a class="image-popup">
-![1ae17c69.png](/assets/images/posts/smasher2-htb-walkthrough/1ae17c69.png)
-</a>
+
+{% include image.html image_alt="1ae17c69.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/1ae17c69.png" %}
+
 
 Armed with this insight, I wrote another `bash` script to brute-force only the username.
 
@@ -358,9 +358,9 @@ fi
 rm -rf $SESS
 ~~~~
 
-<a class="image-popup">
-![28bcbc94.png](/assets/images/posts/smasher2-htb-walkthrough/28bcbc94.png)
-</a>
+
+{% include image.html image_alt="28bcbc94.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/28bcbc94.png" %}
+
 
 Damn. The username is Administrator? I got kicked hard in the balls man, this one!
 
@@ -407,43 +407,43 @@ I suspect that OWASP ModSecurity Core Rule Set (CRS) is turned on because I can'
 
 It's actually pretty easy to bypass CRS with `bash` wildcards such as `[]`, `$`, and `*`. You can even bypass CRS and execure  and even string commands and arguments by wrapping them in single quote, e.g. `'e''c''h''o'`  For the record, `base64` is not prohibited.
 
-<a class="image-popup">
-![adb46146.png](/assets/images/posts/smasher2-htb-walkthrough/adb46146.png)
-</a>
+
+{% include image.html image_alt="adb46146.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/adb46146.png" %}
+
 
 ## Privilege Escalation
 
 I'll just let myself in through SSH by injecting a SSH public key I control to `/home/dzonerzy/.ssh/authorized_keys`.
 
-<a class="image-popup">
-![ab5150c2.png](/assets/images/posts/smasher2-htb-walkthrough/ab5150c2.png)
-</a>
+
+{% include image.html image_alt="ab5150c2.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/ab5150c2.png" %}
+
 
 There you have it.
 
-<a class="image-popup">
-![de0deba7.png](/assets/images/posts/smasher2-htb-walkthrough/de0deba7.png)
-</a>
+
+{% include image.html image_alt="de0deba7.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/de0deba7.png" %}
+
 
 ### Kernel Driver Exploitation
 
 During enumeration of `dzonerzy`'s account, I noticed a `README` file which hinted at a double-free vulnerability.
 
-<a class="image-popup">
-![9721fc14.png](/assets/images/posts/smasher2-htb-walkthrough/9721fc14.png)
-</a>
+
+{% include image.html image_alt="9721fc14.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/9721fc14.png" %}
+
 
 Putting on my forensic investigator's hat, I noticed that `README` was last modified on **Feb 16 2019 @ 0116hrs**. Let's find out what files are modified before that time.
 
-<a class="image-popup">
-![96b54209.png](/assets/images/posts/smasher2-htb-walkthrough/96b54209.png)
-</a>
+
+{% include image.html image_alt="96b54209.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/96b54209.png" %}
+
 
 Something doesn't look right. Why is there a kernel driver modified so near the `README` file? I better copy the file to my machine for further analysis. Looking at the `strings` in the file tells me that I should probably look into the kernel driver.
 
-<a class="image-popup">
-![85e493e6.png](/assets/images/posts/smasher2-htb-walkthrough/85e493e6.png)
-</a>
+
+{% include image.html image_alt="85e493e6.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/85e493e6.png" %}
+
 
 #### Ubuntu 18.04.2 LTS (4.15.0-45-generic)
 
@@ -451,71 +451,71 @@ We need to set up a target machine that is identical to the machine where the dr
 
 _Kernel Image_
 
-<a class="image-popup">
-![f09782cd.png](/assets/images/posts/smasher2-htb-walkthrough/f09782cd.png)
-</a>
+
+{% include image.html image_alt="f09782cd.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/f09782cd.png" %}
+
 
 _OS Information_
 
-<a class="image-popup">
-![d766c110.png](/assets/images/posts/smasher2-htb-walkthrough/d766c110.png)
-</a>
+
+{% include image.html image_alt="d766c110.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/d766c110.png" %}
+
 
 #### Live Debugging of `dhid.ko`
 
 Suffice to say, I've set up a virtual machine (Ubuntu 18.04.2 LTS running 4.15.0-45 kernel) loaded with all the good stuff, e.g. `dhid.ko`,  `gdb` and the kernel image debug symbols a.k.a [vmlinux](https://hadibrais.wordpress.com/2017/03/13/installing-ubuntu-kernel-debugging-symbols/).
 
-<a class="image-popup">
-![e29b6fe1.png](/assets/images/posts/smasher2-htb-walkthrough/e29b6fe1.png)
-</a>
+
+{% include image.html image_alt="e29b6fe1.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/e29b6fe1.png" %}
+
 
 I'm able to load the driver in my target machine, alright.
 
-<a class="image-popup">
-![2b11434a.png](/assets/images/posts/smasher2-htb-walkthrough/2b11434a.png)
-</a>
+
+{% include image.html image_alt="2b11434a.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/2b11434a.png" %}
+
 
 Check out `/proc/kallsyms`. See, `dhid` sure is loaded.
 
-<a class="image-popup">
-![0565de81.png](/assets/images/posts/smasher2-htb-walkthrough/0565de81.png)
-</a>
+
+{% include image.html image_alt="0565de81.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/0565de81.png" %}
+
 
 Time to load the kernel debug symbols into `gdb`.
 
-<a class="image-popup">
-![19b5e028.png](/assets/images/posts/smasher2-htb-walkthrough/19b5e028.png)
-</a>
+
+{% include image.html image_alt="19b5e028.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/19b5e028.png" %}
+
 
 Where's my jiffies at? This is proof that the kernel debug symbols were loaded.
 
-<a class="image-popup">
-![f93b609e.png](/assets/images/posts/smasher2-htb-walkthrough/f93b609e.png)
-</a>
+
+{% include image.html image_alt="f93b609e.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/f93b609e.png" %}
+
 
 Let's load the dynamic symbols of `dhid.ko` into `gdb` as well. We can get those symbols from `/sys/modules/dhid/sections`.
 
-<a class="image-popup">
-![60de8da1.png](/assets/images/posts/smasher2-htb-walkthrough/60de8da1.png)
-</a>
+
+{% include image.html image_alt="60de8da1.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/60de8da1.png" %}
+
 
 We are going to load three sections of `dhid.ko` into `gdb`: `.text`, `.bss`, and `.data`. The memory addresses are in their respective files.
 
-<a class="image-popup">
-![afb9993d.png](/assets/images/posts/smasher2-htb-walkthrough/afb9993d.png)
-</a>
+
+{% include image.html image_alt="afb9993d.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/afb9993d.png" %}
+
 
 Use `gdb` command `add-symbol-file` to load the sections. First argument must be `.text` section, followed by the sections that we want to load.
 
-<a class="image-popup">
-![4c744cf2.png](/assets/images/posts/smasher2-htb-walkthrough/4c744cf2.png)
-</a>
+
+{% include image.html image_alt="4c744cf2.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/4c744cf2.png" %}
+
 
 We want to view the `fops` structure first. It contains function pointers or handlers to various operations, such as `.open`, `.read`, `.write`, `.mmap`, `.release`, etc.
 
-<a class="image-popup">
-![e570a03d.png](/assets/images/posts/smasher2-htb-walkthrough/e570a03d.png)
-</a>
+
+{% include image.html image_alt="e570a03d.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/e570a03d.png" %}
+
 
 #### Disassembly of `dhid.ko`
 
@@ -523,27 +523,27 @@ Let's see what we can discover from the disassembly of the various functions.
 
 _dev_open_
 
-<a class="image-popup">
-![13d6086e.png](/assets/images/posts/smasher2-htb-walkthrough/13d6086e.png)
-</a>
+
+{% include image.html image_alt="13d6086e.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/13d6086e.png" %}
+
 
 _dev_release_
 
-<a class="image-popup">
-![6cf56430.png](/assets/images/posts/smasher2-htb-walkthrough/6cf56430.png)
-</a>
+
+{% include image.html image_alt="6cf56430.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/6cf56430.png" %}
+
 
 _dev_read_
 
-<a class="image-popup">
-![8179dc83.png](/assets/images/posts/smasher2-htb-walkthrough/8179dc83.png)
-</a>
+
+{% include image.html image_alt="8179dc83.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/8179dc83.png" %}
+
 
 _dev_mmap_
 
-<a class="image-popup">
-![76c72975.png](/assets/images/posts/smasher2-htb-walkthrough/76c72975.png)
-</a>
+
+{% include image.html image_alt="76c72975.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/76c72975.png" %}
+
 
 You might ask how the hell do I know the address of the kernel functions. Well, I don't. I wrote a script that simply `grep` address from `/proc/kallsymc`.
 
@@ -635,27 +635,27 @@ int main(int argc, char *argv[]) {
 
 Let's do a sanity check with safe values.
 
-<a class="image-popup">
-![900cffae.png](/assets/images/posts/smasher2-htb-walkthrough/900cffae.png)
-</a>
+
+{% include image.html image_alt="900cffae.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/900cffae.png" %}
+
 
 Look at the mapped address.
 
-<a class="image-popup">
-![61eab7aa.png](/assets/images/posts/smasher2-htb-walkthrough/61eab7aa.png)
-</a>
+
+{% include image.html image_alt="61eab7aa.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/61eab7aa.png" %}
+
 
 Compare this to a vulnerability check with unsafe values.
 
-<a class="image-popup">
-![391721f0.png](/assets/images/posts/smasher2-htb-walkthrough/391721f0.png)
-</a>
+
+{% include image.html image_alt="391721f0.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/391721f0.png" %}
+
 
 Now, look at the mapped address.
 
-<a class="image-popup">
-![90a5cc24.png](/assets/images/posts/smasher2-htb-walkthrough/90a5cc24.png)
-</a>
+
+{% include image.html image_alt="90a5cc24.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/90a5cc24.png" %}
+
 
 #### Writing the Exploit
 
@@ -762,9 +762,9 @@ int main(int argc, char *argv[]) {
 
 Time to test it out on the remote machine!
 
-<a class="image-popup">
-![86b490f0.png](/assets/images/posts/smasher2-htb-walkthrough/86b490f0.png)
-</a>
+
+{% include image.html image_alt="86b490f0.png" image_src="/5c05301f-9f98-407d-be22-6e29559ab628/86b490f0.png" %}
+
 
 :dancer:
 

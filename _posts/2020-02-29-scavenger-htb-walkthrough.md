@@ -106,9 +106,9 @@ Sweet. So far so good. All the subdomains corroborates with the open ports. We'd
 
 Next up, we have WHOIS. Check out this little gem.
 
-<a class="image-popup">
-![06db5e00.png](/assets/images/posts/scavenger-htb-walkthrough/06db5e00.png)
-</a>
+
+{% include image.html image_alt="06db5e00.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/06db5e00.png" %}
+
 
 Sure looks authentic. But, did you see the first line?
 
@@ -162,15 +162,15 @@ Let's do a zone transfer on all of them and add them to `/etc/hosts`.
 
 While I was exploring the `rentahacker.htb` domain, I chanced upon an interesting comment in the blog.
 
-<a class="image-popup">
-![47df2080.png](/assets/images/posts/scavenger-htb-walkthrough/47df2080.png)
-</a>
+
+{% include image.html image_alt="47df2080.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/47df2080.png" %}
+
 
 Moving on to the bug tracker subdomain `sec03.rentahacker.htb`, I see this.
 
-<a class="image-popup">
-![47a09ce6.png](/assets/images/posts/scavenger-htb-walkthrough/47a09ce6.png)
-</a>
+
+{% include image.html image_alt="47a09ce6.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/47a09ce6.png" %}
+
 
 That got me thinking, "maybe the hacker left a backdoor?".
 
@@ -220,9 +220,9 @@ Requests/sec.: 83.75290
 
 Bam. There we go.
 
-<a class="image-popup">
-![36f4bf1d.png](/assets/images/posts/scavenger-htb-walkthrough/36f4bf1d.png)
-</a>
+
+{% include image.html image_alt="36f4bf1d.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/36f4bf1d.png" %}
+
 
 I wrote a very simple bash script to display the output in terminal instead.
 
@@ -242,35 +242,35 @@ curl -s \
 
 During enumeration of `ib01c03`'s account, I saw an email responding to `rentahacker.htb` email about their site being defaced.
 
-<a class="image-popup">
-![9d39fcbd.png](/assets/images/posts/scavenger-htb-walkthrough/9d39fcbd.png)
-</a>
+
+{% include image.html image_alt="9d39fcbd.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/9d39fcbd.png" %}
+
 
 In the email, `supersechosting.htb` talked about working on another incident and guess what, FTP credentials to log into their FTP server.
 
 Armed with this credential, I was able to retrieve important information about the incident happening over at pwnhats.htb (or `ib01c01`).
 
-<a class="image-popup">
-![620ede25.png](/assets/images/posts/scavenger-htb-walkthrough/620ede25.png)
-</a>
+
+{% include image.html image_alt="620ede25.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/620ede25.png" %}
+
 
 Among the information gathered by `supersechosting.htb` was a network packet capture. And in it lies the credentials to access PrestaShop's back office secret URL.
 
-<a class="image-popup">
-![30939915.png](/assets/images/posts/scavenger-htb-walkthrough/30939915.png)
-</a>
+
+{% include image.html image_alt="30939915.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/30939915.png" %}
+
 
 Here's the secret back office URL.
 
-<a class="image-popup">
-![0c53e264.png](/assets/images/posts/scavenger-htb-walkthrough/0c53e264.png)
-</a>
+
+{% include image.html image_alt="0c53e264.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/0c53e264.png" %}
+
 
 While I was exploring the back office, I noticed something strange going on at the customer service options page, particularly with the IMAP settings. A little googling brought me to this blog [post](https://lab.wallarm.com/rce-in-php-or-how-to-bypass-disable-functions-in-php-installations-6ccdbf4f52bb). It was explaining how a vulnerability in `imap_open()` can be abused to gain remote code execution, and the real-life example given was PrestaShop 1.7.4.4!
 
-<a class="image-popup">
-![8bd84dee.png](/assets/images/posts/scavenger-htb-walkthrough/8bd84dee.png)
-</a>
+
+{% include image.html image_alt="8bd84dee.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/8bd84dee.png" %}
+
 
 Long story short, the vulnerability arises because `rsh` is symbolic-linked to `ssh`. And the IMAP URL is passed to `ssh` in its entirety. That's why you see `-oProxyCommand` above.
 
@@ -297,9 +297,9 @@ curl -s \
 
 The file `user.txt` is in `ib01c01`'s home directory.
 
-<a class="image-popup">
-![8016b522.png](/assets/images/posts/scavenger-htb-walkthrough/8016b522.png)
-</a>
+
+{% include image.html image_alt="8016b522.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/8016b522.png" %}
+
 
 ## Privilege Escalation
 
@@ -448,21 +448,21 @@ The rootkit code is taken from [here](https://0x00sec.org/t/kernel-rootkits-gett
 
 We can see that the LKM is loaded.
 
-<a class="image-popup">
-![0334cf99.png](/assets/images/posts/scavenger-htb-walkthrough/0334cf99.png)
-</a>
+
+{% include image.html image_alt="0334cf99.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/0334cf99.png" %}
+
 
 And the character device `/dev/ttyR0` has `666` permissions.
 
-<a class="image-popup">
-![4458061b.png](/assets/images/posts/scavenger-htb-walkthrough/4458061b.png)
-</a>
+
+{% include image.html image_alt="4458061b.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/4458061b.png" %}
+
 
 The **magic** password `g0tR0ot` didn't work for me though.
 
-<a class="image-popup">
-![3810d064.png](/assets/images/posts/scavenger-htb-walkthrough/3810d064.png)
-</a>
+
+{% include image.html image_alt="3810d064.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/3810d064.png" %}
+
 
 Maybe there's another **magic** password? I copied the loaded KVM to my machine and ran it through `r2`.
 
@@ -470,21 +470,21 @@ Maybe there's another **magic** password? I copied the loaded KVM to my machine 
 # ./ib01c01.sh "base64 ../.../root.ko" > root.ko.b64
 ```
 
-<a class="image-popup">
-![c3ced05c.png](/assets/images/posts/scavenger-htb-walkthrough/c3ced05c.png)
-</a>
+
+{% include image.html image_alt="c3ced05c.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/c3ced05c.png" %}
+
 
 Looks like `g3tPr1v` could be the **magic** password. Let's give it a shot.
 
-<a class="image-popup">
-![d98b39e7.png](/assets/images/posts/scavenger-htb-walkthrough/d98b39e7.png)
-</a>
+
+{% include image.html image_alt="d98b39e7.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/d98b39e7.png" %}
+
 
 With that, getting `root.txt` is a breeze.
 
-<a class="image-popup">
-![b8dcf476.png](/assets/images/posts/scavenger-htb-walkthrough/b8dcf476.png)
-</a>
+
+{% include image.html image_alt="b8dcf476.png" image_src="/d2fa076e-05e6-4e08-93f8-225223643d3c/b8dcf476.png" %}
+
 
 :dancer:
 

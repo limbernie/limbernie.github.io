@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Frolic, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -92,15 +92,15 @@ Well, this is how the two `http` services look like.
 
 _`1880/tcp`_
 
-<a class="image-popup">
-![121b8358.png](/assets/images/posts/frolic-htb-walkthrough/121b8358.png)
-</a>
+
+{% include image.html image_alt="121b8358.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/121b8358.png" %}
+
 
 _`9999/tcp`_
 
-<a class="image-popup">
-![9aa5e98e.png](/assets/images/posts/frolic-htb-walkthrough/9aa5e98e.png)
-</a>
+
+{% include image.html image_alt="9aa5e98e.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/9aa5e98e.png" %}
+
 
 ### Directory/Files Enumeration
 
@@ -132,33 +132,33 @@ Requests/sec.: 48.98690
 
 ***This is how `/admin` looks like.***
 
-<a class="image-popup">
-![88846467.png](/assets/images/posts/frolic-htb-walkthrough/88846467.png)
-</a>
+
+{% include image.html image_alt="88846467.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/88846467.png" %}
+
 
 The login page is controlled by a poorly coded JavaScript like so.
 
-<a class="image-popup">
-![7468cbfb.png](/assets/images/posts/frolic-htb-walkthrough/7468cbfb.png)
-</a>
+
+{% include image.html image_alt="7468cbfb.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/7468cbfb.png" %}
+
 
 Heck. I don't even need to enter to the password. A successful login attempt gets redirected to `success.html`.
 
-<a class="image-popup">
-![3de4cc3e.png](/assets/images/posts/frolic-htb-walkthrough/3de4cc3e.png)
-</a>
+
+{% include image.html image_alt="3de4cc3e.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/3de4cc3e.png" %}
+
 
 The above is uttered in [Orangutan](https://esolangs.org/wiki/ook!) words, which after decoding looks like this.
 
-<a class="image-popup">
-![b978c3fc.png](/assets/images/posts/frolic-htb-walkthrough/b978c3fc.png)
-</a>
+
+{% include image.html image_alt="b978c3fc.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/b978c3fc.png" %}
+
 
 Lame. I know. And this is how `/asdiSIAJJ0QWE9JAS` looks like.
 
-<a class="image-popup">
-![af53b274.png](/assets/images/posts/frolic-htb-walkthrough/af53b274.png)
-</a>
+
+{% include image.html image_alt="af53b274.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/af53b274.png" %}
+
 
 This is getting lamer. That's the `base64` encoding of a password-protected Zip file.
 
@@ -166,21 +166,21 @@ Long story short, the password to unzip the file is `password`. Duh??!!
 
 And, the final message is in [Brainfuck](https://esolangs.org/wiki/brainfuck).
 
-<a class="image-popup">
-![40fe89b1.png](/assets/images/posts/frolic-htb-walkthrough/40fe89b1.png)
-</a>
+
+{% include image.html image_alt="40fe89b1.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/40fe89b1.png" %}
+
 
 It reveals what appears to be a password.
 
-<a class="image-popup">
-![574e65ac.png](/assets/images/posts/frolic-htb-walkthrough/574e65ac.png)
-</a>
+
+{% include image.html image_alt="574e65ac.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/574e65ac.png" %}
+
 
 ***This is how `/backup` looks like.***
 
-<a class="image-popup">
-![1b5ecdd4.png](/assets/images/posts/frolic-htb-walkthrough/1b5ecdd4.png)
-</a>
+
+{% include image.html image_alt="1b5ecdd4.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/1b5ecdd4.png" %}
+
 
 The two files `password.txt` and `user.txt` are available. However, I don't know what value they provide at this point. Or, maybe not at all.
 
@@ -215,23 +215,23 @@ Requests/sec.: 49.19287
 
 The directory `/dev/backup` provides a hint to a new directory: `/playsms`. Here's how it looks like.
 
-<a class="image-popup">
-![688bc7ed.png](/assets/images/posts/frolic-htb-walkthrough/688bc7ed.png)
-</a>
+
+{% include image.html image_alt="688bc7ed.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/688bc7ed.png" %}
+
 
 ### playSMS Remote Code Execution
 
 An attack surface finally emerges! The credential to log in to the web application is (`admin:idkwhatispass`)
 
-<a class="image-popup">
-![fd7e2141.png](/assets/images/posts/frolic-htb-walkthrough/fd7e2141.png)
-</a>
+
+{% include image.html image_alt="fd7e2141.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/fd7e2141.png" %}
+
 
 I'm assuming this is the vulnerable version which is susceptible to remote code execution. In which case, there's a ready-made [exploit](https://github.com/jasperla/CVE-2017-9101) just for it.
 
-<a class="image-popup">
-![b9dd9234.png](/assets/images/posts/frolic-htb-walkthrough/b9dd9234.png)
-</a>
+
+{% include image.html image_alt="b9dd9234.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/b9dd9234.png" %}
+
 
 In equally lame situation, the exploit works and we have ourselves an interactive shell.
 
@@ -250,51 +250,51 @@ reset
 
 The `user.txt` is in `ayush`'s home directory.
 
-<a class="image-popup">
-![249d3546.png](/assets/images/posts/frolic-htb-walkthrough/249d3546.png)
-</a>
+
+{% include image.html image_alt="249d3546.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/249d3546.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `www-data`'s account, I noticed a `setuid` executable at `/home/ayush/.binary/rop`.
 
-<a class="image-popup">
-![c5906e2e.png](/assets/images/posts/frolic-htb-walkthrough/c5906e2e.png)
-</a>
+
+{% include image.html image_alt="c5906e2e.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/c5906e2e.png" %}
+
 
 If the name of the executable is anything to go by, I'm guessing that the privilege escalation has something to do with return-oriented programming (or [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming)).
 
 I also noted that address space layout randomization (or [ASLR](https://en.wikipedia.org/wiki/Address_space_layout_randomization)) is disabled, which is going to help us in getting root. Here's how to check.
 
-<a class="image-popup">
-![815a951e.png](/assets/images/posts/frolic-htb-walkthrough/815a951e.png)
-</a>
+
+{% include image.html image_alt="815a951e.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/815a951e.png" %}
+
 
 In order to better analyze the executable, I transfer it over to my attacking machine where I have my PEDA for GDB installed.
 
-<a class="image-popup">
-![73cb711c.png](/assets/images/posts/frolic-htb-walkthrough/73cb711c.png)
-</a>
+
+{% include image.html image_alt="73cb711c.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/73cb711c.png" %}
+
 
 Here, I have a breakpoint set up at `0x8048508` with `b *vuln+16` and running the program with `r $(perl -e 'print "A" x100')`, which is to run the executable with a 100 `A`s.
 
-<a class="image-popup">
-![8e8eec92.png](/assets/images/posts/frolic-htb-walkthrough/8e8eec92.png)
-</a>
+
+{% include image.html image_alt="8e8eec92.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/8e8eec92.png" %}
+
 
 A couple of instructions down, I'm at `0x8048527` before the 100 `A`s get printed to `stdout`. Notice the buffer containing the 100 `A`s is at `0xffffd258`.
 
-<a class="image-popup">
-![c27d68b9.png](/assets/images/posts/frolic-htb-walkthrough/c27d68b9.png)
-</a>
+
+{% include image.html image_alt="c27d68b9.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/c27d68b9.png" %}
+
 
 Here, just before EIP executes the next instruction (`ret`), notice the return address is at `0xffffd28c`, which is 52 bytes (`0xffffd28c - 0xffffd258`) away from the buffer of 100 `A`s. We can control the return address through buffer overflow!
 
 The general exploit construct looks like this: `./rop $(perl -e 'print "A" x 52 . "<4-byte return address>"')`. Let's run the proof-of-concept with `strace`.
 
-<a class="image-popup">
-![bb1aa20b.png](/assets/images/posts/frolic-htb-walkthrough/bb1aa20b.png)
-</a>
+
+{% include image.html image_alt="bb1aa20b.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/bb1aa20b.png" %}
+
 
 Recall that ASLR is disabled? And, because the executable is linked dynamically with `libc`, we can perform a specific ROP technique known as `ret2libc`.
 
@@ -325,17 +325,17 @@ $TARGET $(perl -e "print 'A' x 52 . \"$RET_ADDR\" . \"JUNK\" . \"$PAYLOAD_ADDR\"
 
 Copy `ret2libc.sh` to the target host where we have `rwx` permissions, e.g. `/tmp`, and run the exploit script.
 
-<a class="image-popup">
-![338577f4.png](/assets/images/posts/frolic-htb-walkthrough/338577f4.png)
-</a>
+
+{% include image.html image_alt="338577f4.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/338577f4.png" %}
+
 
 Voila!
 
 Getting `root.txt` is a piece of cake when you have `root` shell.
 
-<a class="image-popup">
-![91ad77cf.png](/assets/images/posts/frolic-htb-walkthrough/91ad77cf.png)
-</a>
+
+{% include image.html image_alt="91ad77cf.png" image_src="/e62b5b76-4a2f-4274-810b-595b3ca4eeb6/91ad77cf.png" %}
+
 
 :dancer:
 

@@ -17,10 +17,10 @@ This post documents the complete walkthrough of CTF, a retired vulnerable [VM][1
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -63,9 +63,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Bummer. Nothing unusual stands out. Let's check out the `http` service. Here's how it looks like.
 
-<a class="image-popup">
-![b702c930.png](/assets/images/posts/ctf-htb-walkthrough/b702c930.png)
-</a>
+
+{% include image.html image_alt="b702c930.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/b702c930.png" %}
+
 
 There's some kind of **Fail2Ban** thing going on here I guess, so brute-force actions that result in HTTP response >= 400 is out of the question. :no_good:
 
@@ -73,9 +73,9 @@ There's some kind of **Fail2Ban** thing going on here I guess, so brute-force ac
 
 It turns out that our next hint lies in the HTML comments of the login page.
 
-<a class="image-popup">
-![b4ea9535.png](/assets/images/posts/ctf-htb-walkthrough/b4ea9535.png)
-</a>
+
+{% include image.html image_alt="b4ea9535.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/b4ea9535.png" %}
+
 
 Attribute and schema? Sure sounds a lot like Lightweight Directory Access Protocol (or LDAP). And, what's the deal with the token string with 81-digits?
 
@@ -85,15 +85,15 @@ I explored the login page for a bit and here's what I observe.
 
 _Wrong username_
 
-<a class="image-popup">
-![53cd18fe.png](/assets/images/posts/ctf-htb-walkthrough/53cd18fe.png)
-</a>
+
+{% include image.html image_alt="53cd18fe.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/53cd18fe.png" %}
+
 
 _Right username_
 
-<a class="image-popup">
-![bd4e702c.png](/assets/images/posts/ctf-htb-walkthrough/bd4e702c.png)
-</a>
+
+{% include image.html image_alt="bd4e702c.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/bd4e702c.png" %}
+
 
 You may notice that the login page checks for the username first and if it's correct, it then checks for the One-Time Pin (OTP). Normally, OTP comes in 4-digit, 6-digit and 8-digit formats.
 
@@ -103,15 +103,15 @@ At first, I tried using a single asterisk. I didn't get any feedback. I took it 
 
 _Double URL encoding the asterisk_
 
-<a class="image-popup">
-![0ff66ec2.png](/assets/images/posts/ctf-htb-walkthrough/0ff66ec2.png)
-</a>
+
+{% include image.html image_alt="0ff66ec2.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/0ff66ec2.png" %}
+
 
 _The wildcard does its magic!_
 
-<a class="image-popup">
-![e1e880c7.png](/assets/images/posts/ctf-htb-walkthrough/e1e880c7.png)
-</a>
+
+{% include image.html image_alt="e1e880c7.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/e1e880c7.png" %}
+
 
 Armed with this insight and using a LDAP query such as `*)(cn=*`, I wrote a script to help me enumerate the valid attributes from the schema.
 
@@ -234,91 +234,91 @@ done
 echo -e "\n[+] Token string is: $TOKEN"
 ```
 
-<a class="image-popup">
-![0ab438a3.png](/assets/images/posts/ctf-htb-walkthrough/0ab438a3.png)
-</a>
+
+{% include image.html image_alt="0ab438a3.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/0ab438a3.png" %}
+
 
 ### Software Token
 
 Now that we have the token string, we can import the token string into `stoken`. According to the manual, `stoken` is  a software token compatible with RSA SecurID 128-bit (AES) tokens. We can use it to generate the OTPs.
 
-<a class="image-popup">
-![f6d5e7f3.png](/assets/images/posts/ctf-htb-walkthrough/f6d5e7f3.png)
-</a>
+
+{% include image.html image_alt="f6d5e7f3.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/f6d5e7f3.png" %}
+
 
 You can choose any password you like. I've chosen `hello` as my password.
 
-<a class="image-popup">
-![09c8657b.png](/assets/images/posts/ctf-htb-walkthrough/09c8657b.png)
-</a>
+
+{% include image.html image_alt="09c8657b.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/09c8657b.png" %}
+
 
 Again, you are can choose any PIN you like. I've chosen `0000` as my PIN.
 
-<a class="image-popup">
-![ae6c1635.png](/assets/images/posts/ctf-htb-walkthrough/ae6c1635.png)
-</a>
+
+{% include image.html image_alt="ae6c1635.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/ae6c1635.png" %}
+
 
 Once that's done, you'll see the software token, which gives it more of a token device feel, if you will. :laughing:
 
-<a class="image-popup">
-![e2f0c212.png](/assets/images/posts/ctf-htb-walkthrough/e2f0c212.png)
-</a>
+
+{% include image.html image_alt="e2f0c212.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/e2f0c212.png" %}
+
 
 We can now proceed to login to the site. I'm using the following query to bypass authentication.
 
-<a class="image-popup">
-![776f960b.png](/assets/images/posts/ctf-htb-walkthrough/776f960b.png)
-</a>
+
+{% include image.html image_alt="776f960b.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/776f960b.png" %}
+
 
 I sent in the login request with Burp's Repeater.
 
-<a class="image-popup">
-![8231a783.png](/assets/images/posts/ctf-htb-walkthrough/8231a783.png)
-</a>
+
+{% include image.html image_alt="8231a783.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/8231a783.png" %}
+
 
 With that, my session should be authenticated and I can use my browser instead.
 
-<a class="image-popup">
-![a6511ade.png](/assets/images/posts/ctf-htb-walkthrough/a6511ade.png)
-</a>
+
+{% include image.html image_alt="a6511ade.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/a6511ade.png" %}
+
 
 Boom. I'm now at a page which appears to execute commands. Too bad, I'm not privileged enough.
 
-<a class="image-popup">
-![effc5cbf.png](/assets/images/posts/ctf-htb-walkthrough/effc5cbf.png)
-</a>
+
+{% include image.html image_alt="effc5cbf.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/effc5cbf.png" %}
+
 
 To bypass that, recall the valid attributes that I've enumerated previously? According to its description, `gidNumber` is _an integer uniquely identifying a group in an administrative domain_. With that in mind, we can try the following query.
 
-<a class="image-popup">
-![7b8a72dc.png](/assets/images/posts/ctf-htb-walkthrough/7b8a72dc.png)
-</a>
+
+{% include image.html image_alt="7b8a72dc.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/7b8a72dc.png" %}
+
 
 Again, let's send the login request with Burp's Repeater.
 
-<a class="image-popup">
-![6d74ef1f.png](/assets/images/posts/ctf-htb-walkthrough/6d74ef1f.png)
-</a>
+
+{% include image.html image_alt="6d74ef1f.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/6d74ef1f.png" %}
+
 
 We should be able to execute commands right from the browser.
 
-<a class="image-popup">
-![97b8e9e4.png](/assets/images/posts/ctf-htb-walkthrough/97b8e9e4.png)
-</a>
+
+{% include image.html image_alt="97b8e9e4.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/97b8e9e4.png" %}
+
 
 Perfect. I'm very interested to look at the PHP code of `login.php` and `page.php` to see what's the LDAP filter. As an added bonus, guess what's in there? Credentials!
 
-<a class="image-popup">
-![b291cf9b.png](/assets/images/posts/ctf-htb-walkthrough/b291cf9b.png)
-</a>
+
+{% include image.html image_alt="b291cf9b.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/b291cf9b.png" %}
+
 
 Armed with the credential (`ldapuser:e398e27d5c4ad45086fe431120932a01`), I can give myself a shell via SSH.
 
 The `user.txt` is at `ldapuser`'s home directory.
 
-<a class="image-popup">
-![59b372c8.png](/assets/images/posts/ctf-htb-walkthrough/59b372c8.png)
-</a>
+
+{% include image.html image_alt="59b372c8.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/59b372c8.png" %}
+
 
 ## Privilege Escalation
 
@@ -360,9 +360,9 @@ If I had to guess, I would say that there's a `cron` job running as `root`, exec
 
 Another interesting bit of information I gathered is that the so-called honeypot at `/var/www/html/uploads` is only writable by `apache`.
 
-<a class="image-popup">
-![5d071d1e.png](/assets/images/posts/ctf-htb-walkthrough/5d071d1e.png)
-</a>
+
+{% include image.html image_alt="5d071d1e.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/5d071d1e.png" %}
+
 
 &hellip;
 
@@ -378,15 +378,15 @@ Then the command `7za a backup.zip -t7z @listfile.txt` adds all the files ending
 
 On one hand, if we run `tail -f /backup/error.log` in the shell, we can capture the diagnostic messages sent by `7za` before it gets truncated. On the other hand, we can trick `7za` to spit out diagnostic messages by creating the following file and creating a symbolic link to `/root/root.txt`.
 
-<a class="image-popup">
-![53549f63.png](/assets/images/posts/ctf-htb-walkthrough/53549f63.png)
-</a>
+
+{% include image.html image_alt="53549f63.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/53549f63.png" %}
+
 
 One minute later, we should see the `root.txt` on the shell.
 
-<a class="image-popup">
-![2e241a15.png](/assets/images/posts/ctf-htb-walkthrough/2e241a15.png)
-</a>
+
+{% include image.html image_alt="2e241a15.png" image_src="/64bbf229-1cb0-4b7f-9a19-bc9825568cc8/2e241a15.png" %}
+
 
 :dancer:
 

@@ -62,9 +62,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Looks like `http` service is the only way to gain a foothold. This is what the site looks like.
 
-<a class="image-popup">
-![53d3f69c.png](/assets/images/posts/ai-htb-walkthrough/53d3f69c.png)
-</a>
+
+{% include image.html image_alt="53d3f69c.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/53d3f69c.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -102,23 +102,23 @@ http://10.10.10.163/uploads (Status: 301)
 
 In addition to the presence of `ai.php`, there are `db.php` and `intelligence.php`. What's really interesting is the page `intelligence.php`. It seems to be suggesting that the input we should give is to be encoded as a WAV file.
 
-<a class="image-popup">
-![79066f86.png](/assets/images/posts/ai-htb-walkthrough/79066f86.png)
-</a>
+
+{% include image.html image_alt="79066f86.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/79066f86.png" %}
+
 
 ### Microsoft Speech API / Windows Speech Recognition
 
 If you look closely at the bottom of `intelligence.php`, it says "**We mostly use similar approach as Microsoft does.**", which suggests Microsoft Speech API and Windows Speech Recognition. Pivoting on this insight, I came to this piece of Windows Speech Recognition [documentation](https://support.microsoft.com/en-us/help/12427/windows-speech-recognition-commands#1TC=windows-vista) suggesting how to voice certain special characters that are not on `intelligence.php`.
 
-<a class="image-popup">
-![2821340c.png](/assets/images/posts/ai-htb-walkthrough/2821340c.png)
-</a>
+
+{% include image.html image_alt="2821340c.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/2821340c.png" %}
+
 
 Now, onto the other side of the equation...Text-to-Speech (or TTS). For that, I'm using SAPI5 TTSAPP from [eSpeak](http://espeak.sourceforge.net/).
 
-<a class="image-popup">
-![b6a02332.png](/assets/images/posts/ai-htb-walkthrough/b6a02332.png)
-</a>
+
+{% include image.html image_alt="b6a02332.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/b6a02332.png" %}
+
 
 This neat little application allows me to save the voice commands directly as WAV files. Perfect.
 
@@ -126,17 +126,17 @@ This neat little application allows me to save the voice commands directly as WA
 
 Armed with the ability to generate voice commands as WAV files, I build a library of WAV primitives, which allows me to concatenate together a SQL injection string using `sox`.
 
-<a class="image-popup">
-![8ffac3ef.png](/assets/images/posts/ai-htb-walkthrough/8ffac3ef.png)
-</a>
+
+{% include image.html image_alt="8ffac3ef.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/8ffac3ef.png" %}
+
 
 Here's a demostration how it works.
 
 #### Database Discovery - MySQL
 
-<a class="image-popup">
-![482acc34.png](/assets/images/posts/ai-htb-walkthrough/482acc34.png)
-</a>
+
+{% include image.html image_alt="482acc34.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/482acc34.png" %}
+
 
 #### UNION-based SQL Injection
 
@@ -144,9 +144,9 @@ Here's a demostration how it works.
 # sox single_quote.wav space.wav union.wav space.wav select.wav space.wav version.wav open_paren.wav close_paren.wav space.wav sql_comment.wav sqli.wav
 ```
 
-<a class="image-popup">
-![a4e12b59.png](/assets/images/posts/ai-htb-walkthrough/a4e12b59.png)
-</a>
+
+{% include image.html image_alt="a4e12b59.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/a4e12b59.png" %}
+
 
 #### Information Leakage - Credentials
 
@@ -156,15 +156,15 @@ Now for the big one. By the way, I have to guess the table name, which is the on
 # sox single_quote.wav space.wav union.wav space.wav select.wav space.wav username.wav from.wav users.wav space.wav sql_comment.wav sqli.wav
 ```
 
-<a class="image-popup">
-![31a94bfd.png](/assets/images/posts/ai-htb-walkthrough/31a94bfd.png)
-</a>
+
+{% include image.html image_alt="31a94bfd.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/31a94bfd.png" %}
+
 
 And now for the password.
 
-<a class="image-popup">
-![b45b010a.png](/assets/images/posts/ai-htb-walkthrough/b45b010a.png)
-</a>
+
+{% include image.html image_alt="b45b010a.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/b45b010a.png" %}
+
 
 Voila. The credentials are (`alexa:H,Sq9t6}a<)?q93_`).
 
@@ -172,29 +172,29 @@ Voila. The credentials are (`alexa:H,Sq9t6}a<)?q93_`).
 
 SSH is the only way in at this point.
 
-<a class="image-popup">
-![884bbd64.png](/assets/images/posts/ai-htb-walkthrough/884bbd64.png)
-</a>
+
+{% include image.html image_alt="884bbd64.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/884bbd64.png" %}
+
 
 There you go. The file `user.txt` is `alexa`'s home directory.
 
-<a class="image-popup">
-![15318160.png](/assets/images/posts/ai-htb-walkthrough/15318160.png)
-</a>
+
+{% include image.html image_alt="15318160.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/15318160.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `alexa`'s account, I notice that Apache Tomcat is running as `root`. That's almost assuredly the tell-tale sign of privilege escalation. Here's why.
 
-<a class="image-popup">
-![1dbf6a27.png](/assets/images/posts/ai-htb-walkthrough/1dbf6a27.png)
-</a>
+
+{% include image.html image_alt="1dbf6a27.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/1dbf6a27.png" %}
+
 
 Let's see what other ports are listening. This step is important and it'll become evident later.
 
-<a class="image-popup">
-![db2fbab6.png](/assets/images/posts/ai-htb-walkthrough/db2fbab6.png)
-</a>
+
+{% include image.html image_alt="db2fbab6.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/db2fbab6.png" %}
+
 
 ### Java Debug Wire Protocol (JDWP)
 
@@ -208,25 +208,25 @@ There's no `jdb` on the box. Fret not, we can perform a local port forwarding wh
 
 Once that's done, we can connect to the debugee (Tomcat) with our `jdb`.
 
-<a class="image-popup">
-![e7a47cb5.png](/assets/images/posts/ai-htb-walkthrough/e7a47cb5.png)
-</a>
+
+{% include image.html image_alt="e7a47cb5.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/e7a47cb5.png" %}
+
 
 Mind you, the Tomcat instance is killed and launched every two minutes, so the window of opportunity is pretty short.
 
 #### Listing all threads
 
-<a class="image-popup">
-![cf8eb7cc.png](/assets/images/posts/ai-htb-walkthrough/cf8eb7cc.png)
-</a>
+
+{% include image.html image_alt="cf8eb7cc.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/cf8eb7cc.png" %}
+
 
 We are interested in `main` because that's where all the action originates.
 
 #### Suspend all threads / Enter a thread / View the stack
 
-<a class="image-popup">
-![cd41bef1.png](/assets/images/posts/ai-htb-walkthrough/cd41bef1.png)
-</a>
+
+{% include image.html image_alt="cd41bef1.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/cd41bef1.png" %}
+
 
 Let's place a breakpoint in `java.net.ServerSock.accept`. According to the [documentation](https://docs.oracle.com/javase/7/docs/api/java/net/ServerSocket.html#accept()), ***it listens for a connection to be made and accepts. It blocks until a connection is made***. Recall the step where we list the listening ports? Because we don't know which port `ServerSocket` is bound to, we may need to try ports `8005/tcp` or `8009/tcp` to trigger the breakpoint.
 
@@ -234,9 +234,9 @@ Let's place a breakpoint in `java.net.ServerSock.accept`. According to the [docu
 
 The `ServerSocket` object was bound to `8005/tcp`.
 
-<a class="image-popup">
-![c12b8778.png](/assets/images/posts/ai-htb-walkthrough/c12b8778.png)
-</a>
+
+{% include image.html image_alt="c12b8778.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/c12b8778.png" %}
+
 
 Awesome!
 
@@ -250,21 +250,21 @@ Let's get that `root` shell! We can use `msfvenom` to generate a reverse shell l
 
 I'll leave it as an exercise how that to transfer the file over to the box.
 
-<a class="image-popup">
-![d7c1ce33.png](/assets/images/posts/ai-htb-walkthrough/d7c1ce33.png)
-</a>
+
+{% include image.html image_alt="d7c1ce33.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/d7c1ce33.png" %}
+
 
 Over at my `nc` listener, a reverse shell appears...
 
-<a class="image-popup">
-![185031b3.png](/assets/images/posts/ai-htb-walkthrough/185031b3.png)
-</a>
+
+{% include image.html image_alt="185031b3.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/185031b3.png" %}
+
 
 With that, getting `root.txt` is trivial.
 
-<a class="image-popup">
-![42781b75.png](/assets/images/posts/ai-htb-walkthrough/42781b75.png)
-</a>
+
+{% include image.html image_alt="42781b75.png" image_src="/37f3475d-8422-41b9-871e-6466dd67de6e/42781b75.png" %}
+
 
 :dancer:
 

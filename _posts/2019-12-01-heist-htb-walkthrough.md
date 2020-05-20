@@ -72,27 +72,27 @@ PORT      STATE SERVICE       REASON          VERSION
 
 `nmap` finds RPC, SMB and WinRM open but SMB is not leaking any public shares. We'll just have to explore the `http` service first, which appears to be running PHP. This is what the site looks like.
 
-<a class="image-popup">
-![97389986.png](/assets/images/posts/heist-htb-walkthrough/97389986.png)
-</a>
+
+{% include image.html image_alt="97389986.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/97389986.png" %}
+
 
 The site allows guest login. Check it out.
 
-<a class="image-popup">
-![b3097952.png](/assets/images/posts/heist-htb-walkthrough/b3097952.png)
-</a>
+
+{% include image.html image_alt="b3097952.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/b3097952.png" %}
+
 
 And there's an attachment!
 
-<a class="image-popup">
-![4e6be641.png](/assets/images/posts/heist-htb-walkthrough/4e6be641.png)
-</a>
+
+{% include image.html image_alt="4e6be641.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/4e6be641.png" %}
+
 
 There is one type-5 cisco password hash and two type-7 password hashes. The type-5 password hash is simply MD5, which John the Ripper can easily crack.
 
-<a class="image-popup">
-![0be52d2e.png](/assets/images/posts/heist-htb-walkthrough/0be52d2e.png)
-</a>
+
+{% include image.html image_alt="0be52d2e.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/0be52d2e.png" %}
+
 
 For the two type-7 hashes, I found an online [cracker](http://www.ifm.net.nz/cookbooks/passwordcracker.html) that'll reveal the passwords instanteanously.
 
@@ -108,17 +108,17 @@ admin: Q4)sJu\Y8qz*A3?d
 
 For one, we know that this credential (`hazard:stealh1agent`) is valid from `smbmap`.
 
-<a class="image-popup">
-![c1d55bc2.png](/assets/images/posts/heist-htb-walkthrough/c1d55bc2.png)
-</a>
+
+{% include image.html image_alt="c1d55bc2.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/c1d55bc2.png" %}
+
 
 You might ask what's next? Well, WinRM is open, isn't it? We can make use of the WinRM Ruby library, combined with a Python shell to "simulate" a PowerShell session.
 
 Unfortunately, that isn't the correct credential. We need to determine more usernames. Enter Impacket's `lookupsid.py`. This nifty script, combined with `hazard`'s credential will help us in gathering the username we need.
 
-<a class="image-popup">
-![b54e3aec.png](/assets/images/posts/heist-htb-walkthrough/b54e3aec.png)
-</a>
+
+{% include image.html image_alt="b54e3aec.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/b54e3aec.png" %}
+
 
 Long story short, this credential (`chase:Q4)sJu\Y8qz*A3?d`) is the right combination.
 
@@ -175,17 +175,17 @@ Let's give it a shot.
 
 ### Low-Privileged Shell
 
-<a class="image-popup">
-![94fc420a.png](/assets/images/posts/heist-htb-walkthrough/94fc420a.png)
-</a>
+
+{% include image.html image_alt="94fc420a.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/94fc420a.png" %}
+
 
 It's all fine and dandy but it's also kinda slow. I'd personally suggest checking [Evil-WinRM](https://github.com/Hackplayers/evil-winrm) which is a far more superior shell, if you haven't already done so.
 
 The file `user.txt` is at `chase`'s desktop.
 
-<a class="image-popup">
-![60897bc1.png](/assets/images/posts/heist-htb-walkthrough/60897bc1.png)
-</a>
+
+{% include image.html image_alt="60897bc1.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/60897bc1.png" %}
+
 
 ## Privilege Escalation
 
@@ -226,9 +226,9 @@ Done:
 
 Something tells me that `chase` is constantly checking `issues.php`.
 
-<a class="image-popup">
-![c60711f7.png](/assets/images/posts/heist-htb-walkthrough/c60711f7.png)
-</a>
+
+{% include image.html image_alt="c60711f7.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/c60711f7.png" %}
+
 
 Now, if we can dump out the process memory, maybe we can search for the password from it? Long story short, SysInternal's ProcDump didn't work for me so I went for [`Out-Minidump.ps1`](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Out-Minidump.ps1) instead.
 
@@ -240,27 +240,27 @@ Out-Minidump -Process (Get-Process -ID 6636) -DumpFilePath C:\Windows\Tracing
 
 I chose to dump out process 6636 because it got the most number of handles. Next, I host it with Python's SimpleHTTPServer and download to the machine using `certutil.exe`.
 
-<a class="image-popup">
-![fe6c4403.png](/assets/images/posts/heist-htb-walkthrough/fe6c4403.png)
-</a>
+
+{% include image.html image_alt="fe6c4403.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/fe6c4403.png" %}
+
 
 Time to dump it!
 
-<a class="image-popup">
-![003042c7.png](/assets/images/posts/heist-htb-walkthrough/003042c7.png)
-</a>
+
+{% include image.html image_alt="003042c7.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/003042c7.png" %}
+
 
 Sweet. Let\s see if we can find we want.
 
-<a class="image-popup">
-![f79e74c2.png](/assets/images/posts/heist-htb-walkthrough/f79e74c2.png)
-</a>
+
+{% include image.html image_alt="f79e74c2.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/f79e74c2.png" %}
+
 
 We can clearly see the credential (`admin@support.htb:4dD!5}x/re8]FBuZ`). Armed with `administrator`'s password, we can get the shell we deserve.
 
-<a class="image-popup">
-![bd15d4db.png](/assets/images/posts/heist-htb-walkthrough/bd15d4db.png)
-</a>
+
+{% include image.html image_alt="bd15d4db.png" image_src="/3e3f243a-f58a-4daf-acd3-ad18f57074f1/bd15d4db.png" %}
+
 
 :dancer:
 

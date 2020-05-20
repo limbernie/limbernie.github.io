@@ -72,17 +72,17 @@ Interesting. `80/tcp` and `9200/tcp` appear to be Nginx `http` services. This is
 
 _`80/tcp`_
 
-<a class="image-popup">
-![5a95d4ce.png](/assets/images/posts/haystack-htb-walkthrough/5a95d4ce.png)
-</a>
+
+{% include image.html image_alt="5a95d4ce.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/5a95d4ce.png" %}
+
 
 Needle in a haystack indeed :laughing:
 
 _`9200/tcp`_
 
-<a class="image-popup">
-![b5a9da1e.png](/assets/images/posts/haystack-htb-walkthrough/b5a9da1e.png)
-</a>
+
+{% include image.html image_alt="b5a9da1e.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/b5a9da1e.png" %}
+
 
 Now, this is interesting. Elasticsearch is in the house.
 
@@ -92,17 +92,17 @@ Let's see how we can find the needle in the haystack.
 
 #### Listing all the indices in the node
 
-<a class="image-popup">
-![f6e78db9.png](/assets/images/posts/haystack-htb-walkthrough/f6e78db9.png)
-</a>
+
+{% include image.html image_alt="f6e78db9.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/f6e78db9.png" %}
+
 
 Notice the size of the indices? Keep that in mind because we are going to use it later.
 
 #### Listing all the documents in an index
 
-<a class="image-popup">
-![5598a9a6.png](/assets/images/posts/haystack-htb-walkthrough/5598a9a6.png)
-</a>
+
+{% include image.html image_alt="5598a9a6.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/5598a9a6.png" %}
+
 
 By default, Elasticsearch displays ten results. In order to include all the results, we need the `size` parameter. Let's switch to `curl` and download the two indices.
 
@@ -117,29 +117,29 @@ OK, what's next? In order to search for the needle in the haystack, we need to k
 
 Check out the `strings` in the file.
 
-<a class="image-popup">
-![de11d407.png](/assets/images/posts/haystack-htb-walkthrough/698df47d.png)
-</a>
+
+{% include image.html image_alt="de11d407.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/698df47d.png" %}
+
 
 This string is `base64`-decoded to ***la aguja en el pajar es "clave"***. Damn, what does it even mean? Google Translate to the rescue.
 
-<a class="image-popup">
-![71114c93.png](/assets/images/posts/haystack-htb-walkthrough/71114c93.png)
-</a>
+
+{% include image.html image_alt="71114c93.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/71114c93.png" %}
+
 
 Duh? :fu:
 
 Anyways, that line is cliché and it looks like it's straight out of a book of quotations. :wink: With that in mind, let's see what we can find in the `quotes` index.
 
-<a class="image-popup">
-![b916c77e.png](/assets/images/posts/haystack-htb-walkthrough/b916c77e.png)
-</a>
+
+{% include image.html image_alt="b916c77e.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/b916c77e.png" %}
+
 
 There's more.
 
-<a class="image-popup">
-![1302bba6.png](/assets/images/posts/haystack-htb-walkthrough/1302bba6.png)
-</a>
+
+{% include image.html image_alt="1302bba6.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/1302bba6.png" %}
+
 
 They are decoded to the following:
 
@@ -150,17 +150,17 @@ user: security
 
 This must the key to SSH login. What do you know, the file `user.txt` is at the home directory.
 
-<a class="image-popup">
-![c70e59ba.png](/assets/images/posts/haystack-htb-walkthrough/c70e59ba.png)
-</a>
+
+{% include image.html image_alt="c70e59ba.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/c70e59ba.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `security`'s account, I noticed Kibana 6.4.2 is installed. This version coincides with the version first seen at the `9200/tcp` page.
 
-<a class="image-popup">
-![7bc39698.png](/assets/images/posts/haystack-htb-walkthrough/7bc39698.png)
-</a>
+
+{% include image.html image_alt="7bc39698.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/7bc39698.png" %}
+
 
 This version is susceptible to a Local File Inclusion (LFI) that can be exploited to gain remote access, according to this [discovery](https://www.cyberark.com/threat-research-blog/execute-this-i-know-you-have-it/).
 
@@ -193,21 +193,21 @@ $ curl -s "http://127.0.0.1:5601/api/console/api_server?sense_version=%40%40SENS
 
 You should get a reverse shell as `kibana`.
 
-<a class="image-popup">
-![326409da.png](/assets/images/posts/haystack-htb-walkthrough/326409da.png)
-</a>
+
+{% include image.html image_alt="326409da.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/326409da.png" %}
+
 
 You must be thinking, "what good is a shell as `kibana`?". Well, check out the permissions that `kibana` has.
 
-<a class="image-popup">
-![e26584b7.png](/assets/images/posts/haystack-htb-walkthrough/e26584b7.png)
-</a>
+
+{% include image.html image_alt="e26584b7.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/e26584b7.png" %}
+
 
 And, check out the contents of `/etc/logstash/conf.d`.
 
-<a class="image-popup">
-![b4d8661e.png](/assets/images/posts/haystack-htb-walkthrough/b4d8661e.png)
-</a>
+
+{% include image.html image_alt="b4d8661e.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/b4d8661e.png" %}
+
 
 First of all, the machine is running an Elasticsearch, Logstash, and Kibana (ELK) stack. Secondly, the input, filter and output plugins are geared towards execution.
 
@@ -215,9 +215,9 @@ First of all, the machine is running an Elasticsearch, Logstash, and Kibana (ELK
 
 In addition, Logstash is running as `root`. The creator is so kind! :roll_eyes:
 
-<a class="image-popup">
-![cd961a11.png](/assets/images/posts/haystack-htb-walkthrough/cd961a11.png)
-</a>
+
+{% include image.html image_alt="cd961a11.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/cd961a11.png" %}
+
 
 Armed with that insight, here's how we are going to get our `root` shell.
 
@@ -226,15 +226,15 @@ Armed with that insight, here's how we are going to get our `root` shell.
 2. `echo "Ejecutar comando: /dev/shm/lame" > /opt/kibana/logstash_lame`
 2. Wait and profit...
 
-<a class="image-popup">
-![8e17b5f3.png](/assets/images/posts/haystack-htb-walkthrough/8e17b5f3.png)
-</a>
+
+{% include image.html image_alt="8e17b5f3.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/8e17b5f3.png" %}
+
 
 There you have it. Getting `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![e0a66a2b.png](/assets/images/posts/haystack-htb-walkthrough/e0a66a2b.png)
-</a>
+
+{% include image.html image_alt="e0a66a2b.png" image_src="/553fa2a2-61b4-43df-98c3-49805e7e1ec1/e0a66a2b.png" %}
+
 
 :dancer:
 

@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Access, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -65,21 +65,21 @@ PORT   STATE SERVICE REASON          VERSION
 
 Since anonymous FTP is allowed, let's check it out first.
 
-<a class="image-popup">
-![ee418d6f.png](/assets/images/posts/access-htb-walkthrough/ee418d6f.png)
-</a>
+
+{% include image.html image_alt="ee418d6f.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/ee418d6f.png" %}
+
 
 There's a huge file in the `Backups` directory—`backup.mdb`. It appears to be a Microsoft Access Jet Database (MDB) file.
 
-<a class="image-popup">
-![0ce46389.png](/assets/images/posts/access-htb-walkthrough/0ce46389.png)
-</a>
+
+{% include image.html image_alt="0ce46389.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/0ce46389.png" %}
+
 
 There's also a big file—`Access Control.zip`, in the `Engineers` directory.
 
-<a class="image-popup">
-![ea05e083.png](/assets/images/posts/access-htb-walkthrough/ea05e083.png)
-</a>
+
+{% include image.html image_alt="ea05e083.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/ea05e083.png" %}
+
 
 The archive file is password-protected and it appears to contain a Personal Storage Table (PST) file in it.
 
@@ -87,15 +87,15 @@ The archive file is password-protected and it appears to contain a Personal Stor
 
 I know there are Linux tools to read MDB and PST files but for the sake of convenience, let's use Microsoft Office to open them. I'll use Microsoft Access to read the MDB file. Here's what I found in the `auth_user` table.
 
-<a class="image-popup">
-![access.png](/assets/images/posts/access-htb-walkthrough/access.png)
-</a>
+
+{% include image.html image_alt="access.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/access.png" %}
+
 
 The password `access4u@security` is the one to extract the PST file from the archive. I'll use Microsoft Outlook to read the PST file. There's only one email in the mailbox.
 
-<a class="image-popup">
-![outlook.png](/assets/images/posts/access-htb-walkthrough/outlook.png)
-</a>
+
+{% include image.html image_alt="outlook.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/outlook.png" %}
+
 
 Another credential (`security:4Cc3ssC0ntr0ller`) in the bag!
 
@@ -103,17 +103,17 @@ Another credential (`security:4Cc3ssC0ntr0ller`) in the bag!
 
 Let's give the credential a shot with the Telnet service.
 
-<a class="image-popup">
-![16c6c1e1.png](/assets/images/posts/access-htb-walkthrough/16c6c1e1.png)
-</a>
+
+{% include image.html image_alt="16c6c1e1.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/16c6c1e1.png" %}
+
 
 Awesome.
 
 The file `user.txt` is at `security`'s desktop.
 
-<a class="image-popup">
-![0c8d6cb5.png](/assets/images/posts/access-htb-walkthrough/0c8d6cb5.png)
-</a>
+
+{% include image.html image_alt="0c8d6cb5.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/0c8d6cb5.png" %}
+
 
 ## Privilege Escalation
 
@@ -124,15 +124,15 @@ $WebClient = New-Object System.Net.WebClient
 $WebClient.DownloadFile($Args[0],$Args[1])
 ```
 
-<a class="image-popup">
-![7638e0eb.png](/assets/images/posts/access-htb-walkthrough/7638e0eb.png)
-</a>
+
+{% include image.html image_alt="7638e0eb.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/7638e0eb.png" %}
+
 
 Next, generate a reverse shell in PowerShell with `msfvenom` like so.
 
-<a class="image-popup">
-![bfe9f363.png](/assets/images/posts/access-htb-walkthrough/bfe9f363.png)
-</a>
+
+{% include image.html image_alt="bfe9f363.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/bfe9f363.png" %}
+
 
 Run the following commands in the `telnet` session to transfer `rev.ps1` over.
 
@@ -148,15 +148,15 @@ powershell -ExecutionPolicy Bypass -NoExit -File rev.ps1
 
 The `-NoExit` switch indicates that we don't want to exit from the thread. We should get a reverse shell in our `nc` listener.
 
-<a class="image-popup">
-![5f59bc8d.png](/assets/images/posts/access-htb-walkthrough/5f59bc8d.png)
-</a>
+
+{% include image.html image_alt="5f59bc8d.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/5f59bc8d.png" %}
+
 
 During enumeration of `security`'s account, I ran the `cmdkey` command to list the stored credentials in the box and this is what I saw.
 
-<a class="image-popup">
-![d1e7b1c4.png](/assets/images/posts/access-htb-walkthrough/d1e7b1c4.png)
-</a>
+
+{% include image.html image_alt="d1e7b1c4.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/d1e7b1c4.png" %}
+
 
 Perfect. This means that I can use the `/savecred` switch in `runas` to impersonate Administrator without knowing the password! Now, let's claim the prize with the following command:
 
@@ -164,9 +164,9 @@ Perfect. This means that I can use the `/savecred` switch in `runas` to imperson
 C:\Windows\System32\runas.exe /user:ACCESS\Administrator /savecred "C:\Windows\System32\cmd.exe /c TYPE C:\Users\Administrator\Desktop\root.txt > C:\Users\security\Downloads\root.txt"
 ```
 
-<a class="image-popup">
-![6874f21f.png](/assets/images/posts/access-htb-walkthrough/6874f21f.png)
-</a>
+
+{% include image.html image_alt="6874f21f.png" image_src="/7fed0dbf-8034-4ae6-9c37-204415d681a3/6874f21f.png" %}
+
 
 :dancer:
 

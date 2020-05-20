@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Irked, a retired vulnerable [VM]
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -79,21 +79,21 @@ Hmm. IRC? Is this what it's about?
 
 So, the IRC daemon is UnrealIRCd 3.2.8.1.
 
-<a class="image-popup">
-![3d5cf3fb.png](/assets/images/posts/irked-htb-walkthrough/3d5cf3fb.png)
-</a>
+
+{% include image.html image_alt="3d5cf3fb.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/3d5cf3fb.png" %}
+
 
 This particular version is susceptible to a remote code executation vulnerability as per EDB-ID [13853](https://www.exploit-db.com/exploits/13853) and it's extremely easy to exploit with `nc`.
 
-<a class="image-popup">
-![79ae3f2d.png](/assets/images/posts/irked-htb-walkthrough/79ae3f2d.png)
-</a>
+
+{% include image.html image_alt="79ae3f2d.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/79ae3f2d.png" %}
+
 
 Meanwhile at my `nc` listener...
 
-<a class="image-popup">
-![350c9327.png](/assets/images/posts/irked-htb-walkthrough/350c9327.png)
-</a>
+
+{% include image.html image_alt="350c9327.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/350c9327.png" %}
+
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
@@ -101,21 +101,21 @@ Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interac
 
 During enumeration of `ircd`'s account, I notice a `setuid` executable. Look at the timestamp on this guy.
 
-<a class="image-popup">
-![71fe007d.png](/assets/images/posts/irked-htb-walkthrough/71fe007d.png)
-</a>
+
+{% include image.html image_alt="71fe007d.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/71fe007d.png" %}
+
 
 I ran the executable and spotted something very interesting. A `setuid` executable trying to run another executable that's missing? I smell privilege escalation.
 
-<a class="image-popup">
-![2a95e3aa.png](/assets/images/posts/irked-htb-walkthrough/2a95e3aa.png)
-</a>
+
+{% include image.html image_alt="2a95e3aa.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/2a95e3aa.png" %}
+
 
 Simply `echo` the following Python code to `/tmp/listusers` and make it executable should do the trick.
 
-<a class="image-popup">
-![4b9f47d2.png](/assets/images/posts/irked-htb-walkthrough/4b9f47d2.png)
-</a>
+
+{% include image.html image_alt="4b9f47d2.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/4b9f47d2.png" %}
+
 
 Getting `user.txt` and `root.txt` should be easy with a `root` shell.
 
@@ -125,37 +125,37 @@ Getting `user.txt` and `root.txt` should be easy with a `root` shell.
 
 I thought it was interesting to share an additional observation during my enumeration of `ircd`'s account. I was looking for `user.txt` and found a text file `.backup` at `/home/djmardov/Documents`.
 
-<a class="image-popup">
-![ac818761.png](/assets/images/posts/irked-htb-walkthrough/ac818761.png)
-</a>
+
+{% include image.html image_alt="ac818761.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/ac818761.png" %}
+
 
 The content of the file `.backup` is as follows.
 
-<a class="image-popup">
-![baf0c966.png](/assets/images/posts/irked-htb-walkthrough/baf0c966.png)
-</a>
+
+{% include image.html image_alt="baf0c966.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/baf0c966.png" %}
+
 
 It appears that some kind of steganography is going on here. If I have to guess, I would say that something is hidden in this image and that the password is `UPupDOWNdownLRlrBAbaSSss`. Damn, that's the [Konami Code](https://en.wikipedia.org/wiki/Konami_Code)!
 
-<a class="image-popup">
-![92895787.png](/assets/images/posts/irked-htb-walkthrough/92895787.png)
-</a>
+
+{% include image.html image_alt="92895787.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/92895787.png" %}
+
 
 Anyways, the box doesn't have any stego tools installed, so I enlisted the help of an online [tool](https://futureboy.us/stegano/decinput.html) to do the job of ***unhiding***, if you will.
 
-<a class="image-popup">
-![20c047a7.png](/assets/images/posts/irked-htb-walkthrough/20c047a7.png)
-</a>
 
-<a class="image-popup">
-![a584a579.png](/assets/images/posts/irked-htb-walkthrough/a584a579.png)
-</a>
+{% include image.html image_alt="20c047a7.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/20c047a7.png" %}
+
+
+
+{% include image.html image_alt="a584a579.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/a584a579.png" %}
+
 
 There you have it. That must be `djmardov`'s password.
 
-<a class="image-popup">
-![95c5c2a0.png](/assets/images/posts/irked-htb-walkthrough/95c5c2a0.png)
-</a>
+
+{% include image.html image_alt="95c5c2a0.png" image_src="/c8c23ee8-1d24-4d04-b558-14339c8a6570/95c5c2a0.png" %}
+
 
 [1]: https://www.hackthebox.eu/home/machines/profile/163
 [2]: https://www.hackthebox.eu/home/users/profile/624

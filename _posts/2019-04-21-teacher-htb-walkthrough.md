@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Teacher, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -83,27 +83,27 @@ Requests/sec.: 96.46924
 
 The site is running Moodle. [Moodle](https://github.com/moodle/moodle) is the world's open source learning platform. Moodle has its fair share of SQLi and RCE vulnerabilities but would require authenticated access.
 
-<a class="image-popup">
-![d31325ca.png](/assets/images/posts/teacher-htb-walkthrough/d31325ca.png)
-</a>
+
+{% include image.html image_alt="d31325ca.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/d31325ca.png" %}
+
 
 While I was hunting around for a credential, something caught my eye at the Teacher's gallery page.
 
-<a class="image-popup">
-![7f34d280.png](/assets/images/posts/teacher-htb-walkthrough/7f34d280.png)
-</a>
+
+{% include image.html image_alt="7f34d280.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/7f34d280.png" %}
+
 
 I got double F's! Something funky is going on here...
 
-<a class="image-popup">
-![0cf66884.png](/assets/images/posts/teacher-htb-walkthrough/0cf66884.png)
-</a>
+
+{% include image.html image_alt="0cf66884.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/0cf66884.png" %}
+
 
 `5.png` is not an image. It's a text file.
 
-<a class="image-popup">
-![51d6ef0b.png](/assets/images/posts/teacher-htb-walkthrough/51d6ef0b.png)
-</a>
+
+{% include image.html image_alt="51d6ef0b.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/51d6ef0b.png" %}
+
 
 Gotcha!
 
@@ -150,9 +150,9 @@ Requests/sec.: 5.304409
 
 The credential is (`giovanni:Th4C00lTheacha#`).
 
-<a class="image-popup">
-![ca2fc9fc.png](/assets/images/posts/teacher-htb-walkthrough/ca2fc9fc.png)
-</a>
+
+{% include image.html image_alt="ca2fc9fc.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/ca2fc9fc.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -160,27 +160,27 @@ Following the instructions from this [post](https://blog.ripstech.com/2018/moodl
 
 First, create a calculated question like so.
 
-<a class="image-popup">
-![4cd4b5a0.png](/assets/images/posts/teacher-htb-walkthrough/4cd4b5a0.png)
-</a>
+
+{% include image.html image_alt="4cd4b5a0.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/4cd4b5a0.png" %}
+
 
 Create the formula like so.
 
-<a class="image-popup">
-![ef16f0d5.png](/assets/images/posts/teacher-htb-walkthrough/ef16f0d5.png)
-</a>
+
+{% include image.html image_alt="ef16f0d5.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/ef16f0d5.png" %}
+
 
 Then execute remote commands on the host to run a reverse shell back to me using `nc`.
 
-<a class="image-popup">
-![213a07a8.png](/assets/images/posts/teacher-htb-walkthrough/213a07a8.png)
-</a>
+
+{% include image.html image_alt="213a07a8.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/213a07a8.png" %}
+
 
 There you have it, a low-privilege shell.
 
-<a class="image-popup">
-![400efef7.png](/assets/images/posts/teacher-htb-walkthrough/400efef7.png)
-</a>
+
+{% include image.html image_alt="400efef7.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/400efef7.png" %}
+
 
 Let's upgrade our shell with a pseudo-TTY using Python and then `stty raw -echo; fg; reset`.
 
@@ -188,41 +188,41 @@ Let's upgrade our shell with a pseudo-TTY using Python and then `stty raw -echo;
 
 I'm aware that Moodle connects to a database backend to store all the good stuff. The database settings are in `config.php` at the Moodle directory.
 
-<a class="image-popup">
-![30e91902.png](/assets/images/posts/teacher-htb-walkthrough/30e91902.png)
-</a>
+
+{% include image.html image_alt="30e91902.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/30e91902.png" %}
+
 
 Let's connect to the database.
 
-<a class="image-popup">
-![b4d16fec.png](/assets/images/posts/teacher-htb-walkthrough/b4d16fec.png)
-</a>
+
+{% include image.html image_alt="b4d16fec.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/b4d16fec.png" %}
+
 
 Cracking the MD5 hash is easy.
 
-<a class="image-popup">
-![1dc2b446.png](/assets/images/posts/teacher-htb-walkthrough/1dc2b446.png)
-</a>
+
+{% include image.html image_alt="1dc2b446.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/1dc2b446.png" %}
+
 
 This is the password to `giovanni`'s account. `user.txt` is in the home directory.
 
-<a class="image-popup">
-![2a856c44.png](/assets/images/posts/teacher-htb-walkthrough/2a856c44.png)
-</a>
+
+{% include image.html image_alt="2a856c44.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/2a856c44.png" %}
+
 
 During enumeration of `giovanni`'s account, I noticed the pressence of `work` directory and `/usr/bin/backup.sh` referred to it.
 
-<a class="image-popup">
-![dc87e44b.png](/assets/images/posts/teacher-htb-walkthrough/dc87e44b.png)
-</a>
+
+{% include image.html image_alt="dc87e44b.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/dc87e44b.png" %}
+
 
 If I had to guess, I would say this is inside a `cron` job ran with `root` privileges since `giovanni` has no permissions to edit it.
 
 But, look at the last line. It changes the permissions of any file to `rwxrwxrwx`. What if I put a symbolic link to `/etc/passwd` in it?
 
-<a class="image-popup">
-![39075b90.png](/assets/images/posts/teacher-htb-walkthrough/39075b90.png)
-</a>
+
+{% include image.html image_alt="39075b90.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/39075b90.png" %}
+
 
 Boom! Anyone can edit `/etc/passwd`. Let's give ourselves `root` access.
 
@@ -231,15 +231,15 @@ $ sed -r '1h;x;2s/root:x/toor:to5bce5sr7eK6/' /etc/passwd > /tmp/passwd
 $ cp /tmp/passwd /etc/passwd
 ```
 
-<a class="image-popup">
-![7a326bec.png](/assets/images/posts/teacher-htb-walkthrough/7a326bec.png)
-</a>
+
+{% include image.html image_alt="7a326bec.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/7a326bec.png" %}
+
 
 With a `root` shell, getting `root.txt` is a breeze.
 
-<a class="image-popup">
-![f6295439.png](/assets/images/posts/teacher-htb-walkthrough/f6295439.png)
-</a>
+
+{% include image.html image_alt="f6295439.png" image_src="/8b223cc1-4095-45cd-ab6d-0e3265cc766a/f6295439.png" %}
+
 
 :dancer:
 

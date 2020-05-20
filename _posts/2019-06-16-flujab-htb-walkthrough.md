@@ -17,10 +17,10 @@ This post documents the complete walkthrough of FluJab, a retired vulnerable [VM
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -100,27 +100,27 @@ PORT     STATE SERVICE  REASON         VERSION
 
 Hmm. `nmap` can't determine the SSH version. That's strange.
 
-<a class="image-popup">
-![e907cfcb.png](/assets/images/posts/flujab-htb-walkthrough/e907cfcb.png)
-</a>
+
+{% include image.html image_alt="e907cfcb.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/e907cfcb.png" %}
+
 
 This tells me that something is blocking my advances, maybe a firewall or TCP wrapper. Check out the traffic.
 
-<a class="image-popup">
-![b271c093.png](/assets/images/posts/flujab-htb-walkthrough/b271c093.png)
-</a>
+
+{% include image.html image_alt="b271c093.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/b271c093.png" %}
+
 
 Definitely looks like a TCP wrapper. In any case, I'll keep this in mind and kick off the exploration with the `http` service. This is how it looks like.
 
-<a class="image-popup">
-![b0c0232f.png](/assets/images/posts/flujab-htb-walkthrough/b0c0232f.png)
-</a>
+
+{% include image.html image_alt="b0c0232f.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/b0c0232f.png" %}
+
 
 There's a suggestion on how to get rid of the error. Looks alot like CloudFlare error, don't you think so? :smirk:
 
-<a class="image-popup">
-![c3f2cbb0.png](/assets/images/posts/flujab-htb-walkthrough/c3f2cbb0.png)
-</a>
+
+{% include image.html image_alt="c3f2cbb0.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/c3f2cbb0.png" %}
+
 
 Check out the valid alternative names for the SSL certificate.
 
@@ -164,15 +164,15 @@ To navigate around the site requires the use of Burp's Repeater or you'll hit ma
 
 To cancel an appointment, provide a ten-digit [NHS number](https://en.wikipedia.org/wiki/NHS_number) in this format: `NHS-\d{3}-\d{3}-\d{4}`, where `\d` represents a digit from 0 to 9.
 
-<a class="image-popup">
-![4a7a5e06.png](/assets/images/posts/flujab-htb-walkthrough/4a7a5e06.png)
-</a>
+
+{% include image.html image_alt="4a7a5e06.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/4a7a5e06.png" %}
+
 
 Once you hit the "Cancel Appointment" button, this is what you'll see.
 
-<a class="image-popup">
-![790bf020.png](/assets/images/posts/flujab-htb-walkthrough/790bf020.png)
-</a>
+
+{% include image.html image_alt="790bf020.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/790bf020.png" %}
+
 
 This is the first clue. Remember the `Modus` cookie? That's where you modify the cookie to configure a valid SMTP server in order to bypass this error and capture the next clue.
 
@@ -184,35 +184,35 @@ Modus=Q29uZmlndXJlPVRydWU%3D
 
 Supply the modified cookie to your browser and you should see the following when you navigate to `/?smtp_config`.
 
-<a class="image-popup">
-![44f744f2.png](/assets/images/posts/flujab-htb-walkthrough/44f744f2.png)
-</a>
+
+{% include image.html image_alt="44f744f2.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/44f744f2.png" %}
+
 
 I'm assuming you know how to use Burp. At this point, you should send the previous request to Burp's Repeater so that you can modify the mailserver field to a SMTP server you control. Ah, you get the idea, don't you? :smile:
 
-<a class="image-popup">
-![992039f3.png](/assets/images/posts/flujab-htb-walkthrough/992039f3.png)
-</a>
+
+{% include image.html image_alt="992039f3.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/992039f3.png" %}
+
 
 Once that's done, try to cancel another appointment. You'll get a cancellation notice from the duty nurse like so. You might ask how the hell do you set up a SMTP server? Well, Python `smtpd` module is all you need.
 
-<a class="image-popup">
-![238e6ca0.png](/assets/images/posts/flujab-htb-walkthrough/238e6ca0.png)
-</a>
+
+{% include image.html image_alt="238e6ca0.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/238e6ca0.png" %}
+
 
 That's our second clue. Here's how the logic works. When you cancel an appointment tied to a NHS number, the application checks for the NHS number in the backend, and sends a notice with the NHS number as the reference number in the email's subject. I smell SQL injection...
 
 That's a tiny problem. Automated SQLi queries doesn't work because the response is totally blind, or out-of-band. You only get to see whether the injection works from the email subject. Let's try the following query.
 
-<a class="image-popup">
-![6b847537.png](/assets/images/posts/flujab-htb-walkthrough/6b847537.png)
-</a>
+
+{% include image.html image_alt="6b847537.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/6b847537.png" %}
+
 
 Boom, we have injection in `nhsnum`.
 
-<a class="image-popup">
-![0c96da90.png](/assets/images/posts/flujab-htb-walkthrough/0c96da90.png)
-</a>
+
+{% include image.html image_alt="0c96da90.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/0c96da90.png" %}
+
 
 I've worked out the following UNION-based queries to manually extract information from the database.
 
@@ -244,9 +244,9 @@ nhsnum=' UNION SELECT 1,2,GROUP_CONCAT(User SEPARATOR ','),4,5 FROM mysql.user;#
 
 Using a combination of the above queries, I was able to streamline to the following result.
 
-<a class="image-popup">
-![ac91df80.png](/assets/images/posts/flujab-htb-walkthrough/ac91df80.png)
-</a>
+
+{% include image.html image_alt="ac91df80.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/ac91df80.png" %}
+
 
 ```
 1:sysadm:administrator:syadmin@flujab.htb:sysadmin-console-01.flujab.htb:a3e30cce47580888f1f185798aca22ff10be617f4a982d67643bb56448508602
@@ -254,9 +254,9 @@ Using a combination of the above queries, I was able to streamline to the follow
 
 We got ourselves a SHA256 password hash! Keep my fingers crossed that rockyou would suffice.
 
-<a class="image-popup">
-![f6849d38.png](/assets/images/posts/flujab-htb-walkthrough/f6849d38.png)
-</a>
+
+{% include image.html image_alt="f6849d38.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/f6849d38.png" %}
+
 
 Pretty fast!
 
@@ -264,77 +264,77 @@ Pretty fast!
 
 We can now proceed to the next clue, armed with the credential (`sysadm:th3doct0r`) and the access host. Suffice to say, we need to put `sysadmin-console-01.flujab.htb` into `/etc/hosts` as well.
 
-<a class="image-popup">
-![10c3ded1.png](/assets/images/posts/flujab-htb-walkthrough/10c3ded1.png)
-</a>
+
+{% include image.html image_alt="10c3ded1.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/10c3ded1.png" %}
+
 
 Notice that Ajenti is on another open port (`8080/tcp`) discovered earlier?
 
-<a class="image-popup">
-![850c8d54.png](/assets/images/posts/flujab-htb-walkthrough/850c8d54.png)
-</a>
+
+{% include image.html image_alt="850c8d54.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/850c8d54.png" %}
+
 
 Let's cut to the chase. You can use Ajenti's web interface or the REST API to read/write files as `sysadm` of course.
 
-<a class="image-popup">
-![7bf9054f.png](/assets/images/posts/flujab-htb-walkthrough/7bf9054f.png)
-</a>
+
+{% include image.html image_alt="7bf9054f.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/7bf9054f.png" %}
+
 
 The API is available as AngularJS modules.
 
-<a class="image-popup">
-![79ee2cb7.png](/assets/images/posts/flujab-htb-walkthrough/79ee2cb7.png)
-</a>
+
+{% include image.html image_alt="79ee2cb7.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/79ee2cb7.png" %}
+
 
 ## Low-Privilege Shell
 
 Let's use both methods to get ourselves a shell...
 
-<a class="image-popup">
-![f50b55c7.png](/assets/images/posts/flujab-htb-walkthrough/f50b55c7.png)
-</a>
+
+{% include image.html image_alt="f50b55c7.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/f50b55c7.png" %}
+
 
 You can see from above that there's an alternate `AuthorizedKeysFile` path. Bear in mind the path is relative to a user's home directory. And, since I'm logged in as `sysadm` I can write to `/home/sysadm/access` the contents of a SSH public key I control.
 
-<a class="image-popup">
-![7b5ac36e.png](/assets/images/posts/flujab-htb-walkthrough/7b5ac36e.png)
-</a>
+
+{% include image.html image_alt="7b5ac36e.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/7b5ac36e.png" %}
+
 
 Copy and paste the content of the public key to `/home/sysadm/access` using the web interface.
 
-<a class="image-popup">
-![8351b2bc.png](/assets/images/posts/flujab-htb-walkthrough/8351b2bc.png)
-</a>
+
+{% include image.html image_alt="8351b2bc.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/8351b2bc.png" %}
+
 
 Let's change the file mode of `access` with the `chmod` function. Take note that the `chmod` takes an argument `mode` in integer packed in JSON. Unix file mode `600` is in octal, which is `384` in decimal. The request below reflects that.
 
-<a class="image-popup">
-![7f3b19a2.png](/assets/images/posts/flujab-htb-walkthrough/7f3b19a2.png)
-</a>
+
+{% include image.html image_alt="7f3b19a2.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/7f3b19a2.png" %}
+
 
 One more thing. Recall that `nmap` couldn't determine the SSH version? This is why.
 
-<a class="image-popup">
-![929fa6a8.png](/assets/images/posts/flujab-htb-walkthrough/929fa6a8.png)
-</a>
+
+{% include image.html image_alt="929fa6a8.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/929fa6a8.png" %}
+
 
 However, we can bypass it, if and only if, we can modify `/etc/hosts.allow`. That's because `/etc/hosts.allow` takes precedence over `/etc/hosts.deny`. Guess what? We have the permissions to edit it. :triumph:
 
-<a class="image-popup">
-![a37c35b8.png](/assets/images/posts/flujab-htb-walkthrough/a37c35b8.png)
-</a>
+
+{% include image.html image_alt="a37c35b8.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/a37c35b8.png" %}
+
 
 Strangely, I need two directives to completely bypass `/etc/hosts.deny`. Once that's done, we can login as `sysadm` via SSH.
 
-<a class="image-popup">
-![056db148.png](/assets/images/posts/flujab-htb-walkthrough/056db148.png)
-</a>
+
+{% include image.html image_alt="056db148.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/056db148.png" %}
+
 
 During enumeration of `sysadm`'s account, I notice in `/etc/ssh/deprecated_keys` a notice that says the public keys in that directory were compromised and are kept there for audit purposes
 
-<a class="image-popup">
-![8fe3729c.png](/assets/images/posts/flujab-htb-walkthrough/8fe3729c.png)
-</a>
+
+{% include image.html image_alt="8fe3729c.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/8fe3729c.png" %}
+
 
 Yeah, right...One of the public keys is still being used by a certain doctor. Cheeky bastard.
 
@@ -360,23 +360,23 @@ rsa/4096/dead0b5b829ea2e3d22f47a7cbde17a6-23269
 
 Time to log in!
 
-<a class="image-popup">
-![3f44591b.png](/assets/images/posts/flujab-htb-walkthrough/3f44591b.png)
-</a>
+
+{% include image.html image_alt="3f44591b.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/3f44591b.png" %}
+
 
 The `user.txt` is found in `drno`'s home directory.
 
-<a class="image-popup">
-![d3064752.png](/assets/images/posts/flujab-htb-walkthrough/d3064752.png)
-</a>
+
+{% include image.html image_alt="d3064752.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/d3064752.png" %}
+
 
 ## Privilege Escalation
 
 Privilege escalation is pretty straight forward from here.
 
-<a class="image-popup">
-![2dc3462d.png](/assets/images/posts/flujab-htb-walkthrough/2dc3462d.png)
-</a>
+
+{% include image.html image_alt="2dc3462d.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/2dc3462d.png" %}
+
 
 Simply follow the steps outlined in EDB-ID [41154](https://www.exploit-db.com/exploits/41154). As there's no `gcc` in the remote box, remove the lines that attempt to write and compile source codes. Instead, compile them in your attacking machine and `scp` them to `/tmp` in the remote box.
 
@@ -402,15 +402,15 @@ screen -ls # screen itself is setuid, so...
 /tmp/rootshell
 ```
 
-<a class="image-popup">
-![295c2be7.png](/assets/images/posts/flujab-htb-walkthrough/295c2be7.png)
-</a>
+
+{% include image.html image_alt="295c2be7.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/295c2be7.png" %}
+
 
 Heck. I don't even need to pwn the `drno` account. Anyway, getting the `root.txt` with a `root` shell is trivial.
 
-<a class="image-popup">
-![f850e86c.png](/assets/images/posts/flujab-htb-walkthrough/f850e86c.png)
-</a>
+
+{% include image.html image_alt="f850e86c.png" image_src="/2dcdadbe-3a4e-4f03-b58e-2582885b52ba/f850e86c.png" %}
+
 
 :dancer:
 

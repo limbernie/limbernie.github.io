@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Writeup, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -64,13 +64,13 @@ PORT   STATE SERVICE REASON         VERSION
 
 Hmm. There's an entry in `robots.txt`, calling me to check it out. Here's how it looks like.
 
-<a class="image-popup">
-![1e44a210.png](/assets/images/posts/writeup-htb-walkthrough/1e44a210.png)
-</a>
 
-<a class="image-popup">
-![f450fad8.png](/assets/images/posts/writeup-htb-walkthrough/f450fad8.png)
-</a>
+{% include image.html image_alt="1e44a210.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/1e44a210.png" %}
+
+
+
+{% include image.html image_alt="f450fad8.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/f450fad8.png" %}
+
 
 Pretty HTML :laughing:
 
@@ -78,15 +78,15 @@ Pretty HTML :laughing:
 
 If you check out the HTML source of `/writeup`, you'll see that CMS Made Simple was used.
 
-<a class="image-popup">
-![181486ab.png](/assets/images/posts/writeup-htb-walkthrough/181486ab.png)
-</a>
+
+{% include image.html image_alt="181486ab.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/181486ab.png" %}
+
 
 And because this box is pretty new, you have to look for a relatively new exploit as well. For that, look no further than EDB-ID [46635](https://www.exploit-db.com/exploits/46635). Running the exploit is pretty self-explanatory.
 
-<a class="image-popup">
-![95f85e2b.png](/assets/images/posts/writeup-htb-walkthrough/95f85e2b.png)
-</a>
+
+{% include image.html image_alt="95f85e2b.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/95f85e2b.png" %}
+
 
 Once that's done, we can go ahead and recover the password from the salted MD5 hash with John the Ripper.
 
@@ -104,9 +104,9 @@ UserFormat = dynamic_1017  type = dynamic_1017: md5($s.$p) (long salt)
 ...
 ```
 
-<a class="image-popup">
-![4b9f53a8.png](/assets/images/posts/writeup-htb-walkthrough/4b9f53a8.png)
-</a>
+
+{% include image.html image_alt="4b9f53a8.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/4b9f53a8.png" %}
+
 
 It was super quick!
 
@@ -114,9 +114,9 @@ It was super quick!
 
 Perhaps the credential (`jkr:raykayjay9`) is meant for SSH? Well, there's only one way to find out.
 
-<a class="image-popup">
-![b3438b93.png](/assets/images/posts/writeup-htb-walkthrough/b3438b93.png)
-</a>
+
+{% include image.html image_alt="b3438b93.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/b3438b93.png" %}
+
 
 Baam. Straight to `user.txt`.
 
@@ -124,37 +124,37 @@ Baam. Straight to `user.txt`.
 
 During enumeration of `jkr`'s account, I noticed that it's in the `staff` group, which is pretty unusual. Check out what the `staff` group can do.
 
-<a class="image-popup">
-![44c65da7.png](/assets/images/posts/writeup-htb-walkthrough/44c65da7.png)
-</a>
+
+{% include image.html image_alt="44c65da7.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/44c65da7.png" %}
+
 
 This means that `jkr` as a member of `staff`, can write stuff to `/usr/local/bin` and `/usr/local/sbin`! Now, I just need something to execute stuff from these two directories. Enter `pspy`.
 
 See what happens when I log in.
 
-<a class="image-popup">
-![0a2b35b3.png](/assets/images/posts/writeup-htb-walkthrough/0a2b35b3.png)
-</a>
+
+{% include image.html image_alt="0a2b35b3.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/0a2b35b3.png" %}
+
 
 Classic search path hijacking. Armed with this knowledge, we can create the following "fake" `run-parts`.
 
-<a class="image-popup">
-![26e46c2f.png](/assets/images/posts/writeup-htb-walkthrough/26e46c2f.png)
-</a>
+
+{% include image.html image_alt="26e46c2f.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/26e46c2f.png" %}
+
 
 It creates a `.ssh` directory in `/root` if it doesn't exist and then `echo` a SSH public key I control to `authorized_keys`. Lastly, we simply pass all the original options and arguments to the real `run-parts`.
 
 Let's test this concept.
 
-<a class="image-popup">
-![254e65e8.png](/assets/images/posts/writeup-htb-walkthrough/254e65e8.png)
-</a>
+
+{% include image.html image_alt="254e65e8.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/254e65e8.png" %}
+
 
 Awesome. Getting `root.txt` is trivial.
 
-<a class="image-popup">
-![368f5c1f.png](/assets/images/posts/writeup-htb-walkthrough/368f5c1f.png)
-</a>
+
+{% include image.html image_alt="368f5c1f.png" image_src="/470670e2-503a-4307-bc82-bc0676affe05/368f5c1f.png" %}
+
 
 :dancer:
 

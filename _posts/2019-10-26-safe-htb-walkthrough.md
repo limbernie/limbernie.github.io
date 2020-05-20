@@ -94,21 +94,21 @@ PORT     STATE SERVICE REASON         VERSION
 
 `1337/tcp` sure looks like some kind of `echo` service. Well, I'm going to check out the `http` service first. And, this is how it looks like.
 
-<a class="image-popup">
-![85b8c013.png](/assets/images/posts/safe-htb-walkthrough/85b8c013.png)
-</a>
+
+{% include image.html image_alt="85b8c013.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/85b8c013.png" %}
+
 
 Nothing really exciting with the default Apache page or is that so? Check out the HTML source.
 
-<a class="image-popup">
-![1ee133e1.png](/assets/images/posts/safe-htb-walkthrough/1ee133e1.png)
-</a>
+
+{% include image.html image_alt="1ee133e1.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/1ee133e1.png" %}
+
 
 I smell remote code execution (RCE) in `myapp`.
 
 ### Vulnerability Anlysis of `myapp`
 
-`myapp` is indeed at http://10.10.10.147/myapp.
+`myapp` is indeed at `http://10.10.10.147/myapp`.
 
 ```
 # wget http://10.10.10.147/myapp
@@ -118,27 +118,27 @@ myapp: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, 
 
 Looks like someone has submitted the file to VirusTotal for a quick look.
 
-<a class="image-popup">
-![621e2876.png](/assets/images/posts/safe-htb-walkthrough/621e2876.png)
-</a>
 
-On top of that, someone has also submitted to ropshell.com for ROP gadgets.
+{% include image.html image_alt="621e2876.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/621e2876.png" %}
 
-<a class="image-popup">
-![ead45588.png](/assets/images/posts/safe-htb-walkthrough/ead45588.png)
-</a>
+
+On top of that, someone has also submitted to `ropshell.com` for ROP gadgets.
+
+
+{% include image.html image_alt="ead45588.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/ead45588.png" %}
+
 
 A quick `checksec` in PEDA shows that NX is enabled (non-executable stack).
 
-<a class="image-popup">
-![2c2d224a.png](/assets/images/posts/safe-htb-walkthrough/2c2d224a.png)
-</a>
+
+{% include image.html image_alt="2c2d224a.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/2c2d224a.png" %}
+
 
 If I have to guess, I would say this is a simple ROP exploit. Don't take my word for it. Look at the `main()` function of `myapp`.
 
-<a class="image-popup">
-![87b73f8e.png](/assets/images/posts/safe-htb-walkthrough/87b73f8e.png)
-</a>
+
+{% include image.html image_alt="87b73f8e.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/87b73f8e.png" %}
+
 
 ### Exploit Development
 
@@ -153,15 +153,15 @@ Long story short, the offset to control the return address is 120 bytes. Here's 
 
 You should see something like this.
 
-<a class="image-popup">
-![88110186.png](/assets/images/posts/safe-htb-walkthrough/88110186.png)
-</a>
+
+{% include image.html image_alt="88110186.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/88110186.png" %}
+
 
 Use `pattern_offset` to determine the offset.
 
-<a class="image-popup">
-![a165b5d3.png](/assets/images/posts/safe-htb-walkthrough/a165b5d3.png)
-</a>
+
+{% include image.html image_alt="a165b5d3.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/a165b5d3.png" %}
+
 
 Armed with that knowledge, you can write a ROP exploit with `pwntools` like so.
 
@@ -196,35 +196,35 @@ I've chosen to write the string "/bin/bash" at `.bss` because its address doesn'
 
 Let's give it a go.
 
-<a class="image-popup">
-![8b20e99a.png](/assets/images/posts/safe-htb-walkthrough/8b20e99a.png)
-</a>
+
+{% include image.html image_alt="8b20e99a.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/8b20e99a.png" %}
+
 
 Sweet. The `user.txt` is at `user`'s home directory.
 
-<a class="image-popup">
-![c26b1848.png](/assets/images/posts/safe-htb-walkthrough/c26b1848.png)
-</a>
+
+{% include image.html image_alt="c26b1848.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/c26b1848.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `user`'s account, I noticed the presence of a KeePass database and five image files in the home directory as well.
 
-<a class="image-popup">
-![8924871a.png](/assets/images/posts/safe-htb-walkthrough/8924871a.png)
-</a>
+
+{% include image.html image_alt="8924871a.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/8924871a.png" %}
+
 
 This feels strangely familiar to BigHead. Well, in any case, let's grab these files to my attacking machine but note that there's no `nc` in this machine. We'll just have to transfer our `nc` over.
 
-<a class="image-popup">
-![f2aa8982.png](/assets/images/posts/safe-htb-walkthrough/f2aa8982.png)
-</a>
+
+{% include image.html image_alt="f2aa8982.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/f2aa8982.png" %}
+
 
 We can transfer the files now. And just like BigHead, one of the image files is the key file. We just need to crack the master password.
 
-<a class="image-popup">
-![8a33e563.png](/assets/images/posts/safe-htb-walkthrough/8a33e563.png)
-</a>
+
+{% include image.html image_alt="8a33e563.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/8a33e563.png" %}
+
 
 The master password is `bullshit`. Yeah.
 
@@ -232,21 +232,21 @@ The master password is `bullshit`. Yeah.
 
 Armed with the master password and the key file, we can open the KeePass database.
 
-<a class="image-popup">
-![b39109ff.png](/assets/images/posts/safe-htb-walkthrough/b39109ff.png)
-</a>
+
+{% include image.html image_alt="b39109ff.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/b39109ff.png" %}
+
 
 Simply copy the `root` password to the clipboard and we are done.
 
-<a class="image-popup">
-![0586e79e.png](/assets/images/posts/safe-htb-walkthrough/0586e79e.png)
-</a>
+
+{% include image.html image_alt="0586e79e.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/0586e79e.png" %}
+
 
 The `root` password is `u3v2249dl9ptv465cogl3cnpo3fyhk`.
 
-<a class="image-popup">
-![56f40503.png](/assets/images/posts/safe-htb-walkthrough/56f40503.png)
-</a>
+
+{% include image.html image_alt="56f40503.png" image_src="/4ad507a3-53ed-486c-8b1a-691ce59ddc6b/56f40503.png" %}
+
 
 :dancer:
 

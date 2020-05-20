@@ -63,29 +63,29 @@ PORT   STATE SERVICE REASON         VERSION
 
 Well, I'm left with `http` service to explore. Here's how it looks like in my browser.
 
-<a class="image-popup">
-![ca84f425.png](/assets/images/posts/ellingson-htb-walkthrough/ca84f425.png)
-</a>
+
+{% include image.html image_alt="ca84f425.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/ca84f425.png" %}
+
 
 ### Interactive Werkzeug Debugger
 
 It isn't long before I chance upon the interactive debugger. Turns out the site is powered by Flask, though it isn't clear from the outset.
 
-<a class="image-popup">
-![98e5f768.png](/assets/images/posts/ellingson-htb-walkthrough/98e5f768.png)
-</a>
+
+{% include image.html image_alt="98e5f768.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/98e5f768.png" %}
+
 
 Man, this is as good as a Python shell. :triumph:
 
-<a class="image-popup">
-![2b5f6893.png](/assets/images/posts/ellingson-htb-walkthrough/2b5f6893.png)
-</a>
+
+{% include image.html image_alt="2b5f6893.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/2b5f6893.png" %}
+
 
 Long story short, the debugger is ran with `hal`'s permissions. As such, we can write a SSH public key we control to `/home/hal/.ssh/authorized_keys` like so.
 
-<a class="image-popup">
-![1f247e39.png](/assets/images/posts/ellingson-htb-walkthrough/1f247e39.png)
-</a>
+
+{% include image.html image_alt="1f247e39.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/1f247e39.png" %}
+
 
 Play nice, append and leave a newline for the next contender.
 
@@ -93,65 +93,65 @@ Play nice, append and leave a newline for the next contender.
 
 With that, we can log in to SSH as `hal`.
 
-<a class="image-popup">
-![39813f57.png](/assets/images/posts/ellingson-htb-walkthrough/39813f57.png)
-</a>
+
+{% include image.html image_alt="39813f57.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/39813f57.png" %}
+
 
 During enumeration of `hal`'s account, I notice that `hal` is part of the `adm` group.
 
-<a class="image-popup">
-![3139866c.png](/assets/images/posts/ellingson-htb-walkthrough/3139866c.png)
-</a>
+
+{% include image.html image_alt="3139866c.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/3139866c.png" %}
+
 
 `hal` is able to read `/var/backups/shadow.bak`.
 
-<a class="image-popup">
-![73610fa0.png](/assets/images/posts/ellingson-htb-walkthrough/73610fa0.png)
-</a>
+
+{% include image.html image_alt="73610fa0.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/73610fa0.png" %}
+
 
 John the Ripper is able to crack two of the passwords.
 
-<a class="image-popup">
-![50a6ac05.png](/assets/images/posts/ellingson-htb-walkthrough/50a6ac05.png)
-</a>
+
+{% include image.html image_alt="50a6ac05.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/50a6ac05.png" %}
+
 
 I was able to `su` as `margo` with the credential (`margo:iamgod$08`).
 
-<a class="image-popup">
-![d773e705.png](/assets/images/posts/ellingson-htb-walkthrough/d773e705.png)
-</a>
+
+{% include image.html image_alt="d773e705.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/d773e705.png" %}
+
 
 The file `user.txt` is in `margo`'s home directory.
 
-<a class="image-popup">
-![e694ab9c.png](/assets/images/posts/ellingson-htb-walkthrough/e694ab9c.png)
-</a>
+
+{% include image.html image_alt="e694ab9c.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/e694ab9c.png" %}
+
 
 ## Privilege Escalation
 
 During enumeration of `margo`'s account, I found a `setuid` executable at `/usr/bin/garbage`.
 
-<a class="image-popup">
-![b0c7e54e.png](/assets/images/posts/ellingson-htb-walkthrough/b0c7e54e.png)
-</a>
+
+{% include image.html image_alt="b0c7e54e.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/b0c7e54e.png" %}
+
 
 Disassembly of the file reveals that only `root(0)`, `margo(1002)` and `theplague(1000)` can access the executable.
 
-<a class="image-popup">
-![d4fb756c.png](/assets/images/posts/ellingson-htb-walkthrough/d4fb756c.png)
-</a>
+
+{% include image.html image_alt="d4fb756c.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/d4fb756c.png" %}
+
 
 At first I thought that bypassing the access password and getting to the console allows me to launch commands.
 
-<a class="image-popup">
-![99dd0b49.png](/assets/images/posts/ellingson-htb-walkthrough/99dd0b49.png)
-</a>
+
+{% include image.html image_alt="99dd0b49.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/99dd0b49.png" %}
+
 
 Boy, it's not that simple.
 
-<a class="image-popup">
-![679ef3ce.png](/assets/images/posts/ellingson-htb-walkthrough/679ef3ce.png)
-</a>
+
+{% include image.html image_alt="679ef3ce.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/679ef3ce.png" %}
+
 
 Any option besides Exit goes into an endless loop of doing nothing except printing garbage. Oh, I see the pun here. :smirk:
 
@@ -159,29 +159,29 @@ Any option besides Exit goes into an endless loop of doing nothing except printi
 
 Bypassing the access password is not the be all and end all for this exploitation. Lucky for us, getting the access password from `stdin` was implemented with `gets(3)`, a well-known dangerous function that causes buffer overflow due to a lack of size check.
 
-<a class="image-popup">
-![cc32dc64.png](/assets/images/posts/ellingson-htb-walkthrough/cc32dc64.png)
-</a>
+
+{% include image.html image_alt="cc32dc64.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/cc32dc64.png" %}
+
 
 #### Offset
 
 Let's take a look at how to calculate the offset required to control the return address with simple math.
 
-<a class="image-popup">
-![5177163d.png](/assets/images/posts/ellingson-htb-walkthrough/5177163d.png)
-</a>
+
+{% include image.html image_alt="5177163d.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/5177163d.png" %}
+
 
 :point_up: Here we have the return address `<main+41>` at the top of the stack after stepping into the `auth` function. Take note the stack address.
 
-<a class="image-popup">
-![9dd033c4.png](/assets/images/posts/ellingson-htb-walkthrough/9dd033c4.png)
-</a>
+
+{% include image.html image_alt="9dd033c4.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/9dd033c4.png" %}
+
 
 :point_up: Here we have the buffer where the character(s) from `stdin` are stored. Note that we have not executed the function.
 
-<a class="image-popup">
-![92ad7417.png](/assets/images/posts/ellingson-htb-walkthrough/92ad7417.png)
-</a>
+
+{% include image.html image_alt="92ad7417.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/92ad7417.png" %}
+
 
 :point_up: Simply calculate the difference between the two memory addresses and you get the offset required to control the return address. In this case, the offset is 136 bytes.
 
@@ -191,9 +191,9 @@ To further demonstrate that we do indeed have control over the return address, l
 # perl -e 'print "A" x 136 . "B" x 6' > input
 ```
 
-<a class="image-popup">
-![4c80d6ac.png](/assets/images/posts/ellingson-htb-walkthrough/4c80d6ac.png)
-</a>
+
+{% include image.html image_alt="4c80d6ac.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/4c80d6ac.png" %}
+
 
 There you have it.
 
@@ -315,21 +315,21 @@ Let's give it a shot. Generate the payload and send it to `margo` using `scp`.
 
 Log in to `margo`'s account via SSH and navigate to `/tmp` (that's where our payload is) and let the magic begins. We'll see if we can read `/etc/shadow`.
 
-<a class="image-popup">
-![15d31617.png](/assets/images/posts/ellingson-htb-walkthrough/15d31617.png)
-</a>
+
+{% include image.html image_alt="15d31617.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/15d31617.png" %}
+
 
 Amazing. Where's the `root` password hash?
 
-<a class="image-popup">
-![ab1de2c0.png](/assets/images/posts/ellingson-htb-walkthrough/ab1de2c0.png)
-</a>
+
+{% include image.html image_alt="ab1de2c0.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/ab1de2c0.png" %}
+
 
 I see. `root` logs in via the password-protected private key. Anyways, I'm not going to crack anything. Let's just retrieve `root.txt` and call it a day.
 
-<a class="image-popup">
-![85410364.png](/assets/images/posts/ellingson-htb-walkthrough/85410364.png)
-</a>
+
+{% include image.html image_alt="85410364.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/85410364.png" %}
+
 
 :dancer:
 
@@ -384,9 +384,9 @@ p.recvuntil("access denied.")
 log.success("Enjoy your shell!")
 p.interactive()
 ```
-<a class="image-popup">
-![24f133ef.png](/assets/images/posts/ellingson-htb-walkthrough/24f133ef.png)
-</a>
+
+{% include image.html image_alt="24f133ef.png" image_src="/3b69ee97-9d1e-43c2-935c-5b942b3d7310/24f133ef.png" %}
+
 
 [1]: https://www.hackthebox.eu/home/machines/profile/189
 [2]: https://www.hackthebox.eu/home/users/profile/30224

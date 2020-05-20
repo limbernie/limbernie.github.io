@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Lightweight, a retired vulnerabl
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -61,29 +61,29 @@ PORT    STATE SERVICE REASON         VERSION
 
 `nmap` finds `22/tcp`, `80/tcp` and surprise, surprise, `389/tcp` open. At this point in time, my best bet is to start with the `http` service. This is how it looks like.
 
-<a class="image-popup">
-![cb5e03fc.png](/assets/images/posts/lightweight-htb-walkthrough/cb5e03fc.png)
-</a>
+
+{% include image.html image_alt="cb5e03fc.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/cb5e03fc.png" %}
+
 
 ## Low-Privilege Shell
 
 Instead of going straight for directories/files enumeration, it pays to explore the site in greater details by carefully reading the instructions.
 
-<a class="image-popup">
-![8b104113.png](/assets/images/posts/lightweight-htb-walkthrough/8b104113.png)
-</a>
+
+{% include image.html image_alt="8b104113.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/8b104113.png" %}
+
 
 If you play your cards correctly, you'll use `10.10.14.2` to login instead.
 
-<a class="image-popup">
-![4ac0edad.png](/assets/images/posts/lightweight-htb-walkthrough/4ac0edad.png)
-</a>
+
+{% include image.html image_alt="4ac0edad.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/4ac0edad.png" %}
+
 
 Let's do that.
 
-<a class="image-popup">
-![b1f0ac36.png](/assets/images/posts/lightweight-htb-walkthrough/b1f0ac36.png)
-</a>
+
+{% include image.html image_alt="b1f0ac36.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/b1f0ac36.png" %}
+
 
 ## Privilege Escalation
 
@@ -197,43 +197,43 @@ You can see that the `crypt`-hashed, `base64`-encoded passwords of `ldapuser1` a
 
 How do we get the passwords then? LDAPv3 uses various authentication methods and simple authentication is where plaintext username and password are sent over the wire, susceptible to network sniffing.
 
-<a class="image-popup">
-![3cc96c70.png](/assets/images/posts/lightweight-htb-walkthrough/3cc96c70.png)
-</a>
+
+{% include image.html image_alt="3cc96c70.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/3cc96c70.png" %}
+
 
 You can see that `tcpdump` has the capabilities to basically capture all network traffic even in a low-privileged account, such as the one I'm using.
 
 How do we trigger the authentication then? By going to `status.php` because it took time to load. Something must be going on behind the scenes.
 
-<a class="image-popup">
-![a32107ca.png](/assets/images/posts/lightweight-htb-walkthrough/a32107ca.png)
-</a>
+
+{% include image.html image_alt="a32107ca.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/a32107ca.png" %}
+
 
 Once the page is loaded, a LDAP request is sent from the page to the LDAP server with the username and password sent in plaintext.
 
-<a class="image-popup">
-![e4f1a700.png](/assets/images/posts/lightweight-htb-walkthrough/e4f1a700.png)
-</a>
+
+{% include image.html image_alt="e4f1a700.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/e4f1a700.png" %}
+
 
 We should be able to log in to `ldapuser2`'s account.
 
-<a class="image-popup">
-![6f8aeec9.png](/assets/images/posts/lightweight-htb-walkthrough/6f8aeec9.png)
-</a>
+
+{% include image.html image_alt="6f8aeec9.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/6f8aeec9.png" %}
+
 
 Bingo.
 
 `user.txt` is at `ldapuser2`'s home directory.
 
-<a class="image-popup">
-![911fe765.png](/assets/images/posts/lightweight-htb-walkthrough/911fe765.png)
-</a>
+
+{% include image.html image_alt="911fe765.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/911fe765.png" %}
+
 
 In the same location, there's a password-protected 7z archive as well.
 
-<a class="image-popup">
-![9d40ceba.png](/assets/images/posts/lightweight-htb-walkthrough/9d40ceba.png)
-</a>
+
+{% include image.html image_alt="9d40ceba.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/9d40ceba.png" %}
+
 
 I copy the file over to my attacking machine for offline cracking using `base64` like so.
 
@@ -249,39 +249,39 @@ Copy and paste the `base64` string over to my attacking machine and `base64` dec
 
 Use `7z2john` to generate a hash and send it to John the Ripper for cracking.
 
-<a class="image-popup">
-![7bb83fa4.png](/assets/images/posts/lightweight-htb-walkthrough/7bb83fa4.png)
-</a>
+
+{% include image.html image_alt="7bb83fa4.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/7bb83fa4.png" %}
+
 
 It's the backup of the PHP files used in the site. In `status.php`, you'll find the password of `ldapuser1`.
 
-<a class="image-popup">
-![e6457731.png](/assets/images/posts/lightweight-htb-walkthrough/e6457731.png)
-</a>
+
+{% include image.html image_alt="e6457731.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/e6457731.png" %}
+
 
 Awesome.
 
-<a class="image-popup">
-![c743f039.png](/assets/images/posts/lightweight-htb-walkthrough/c743f039.png)
-</a>
+
+{% include image.html image_alt="c743f039.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/c743f039.png" %}
+
 
 The `openssl` here has super powers! It can basically do anything.
 
-<a class="image-popup">
-![494f80c4.png](/assets/images/posts/lightweight-htb-walkthrough/494f80c4.png)
-</a>
+
+{% include image.html image_alt="494f80c4.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/494f80c4.png" %}
+
 
 With that in mind, let's encrypt/decrypt `/etc/sudoers` to `/tmp`, include `ldapuser1` to `sudo` list with some `sed` magic, and then encrypt/decrypt it back to `/etc/sudoers`.
 
-<a class="image-popup">
-![3d242375.png](/assets/images/posts/lightweight-htb-walkthrough/3d242375.png)
-</a>
+
+{% include image.html image_alt="3d242375.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/3d242375.png" %}
+
 
 Awesome. We can now `sudo` ourselves as `root` and retrieve `root.txt`.
 
-<a class="image-popup">
-![e67321c4.png](/assets/images/posts/lightweight-htb-walkthrough/e67321c4.png)
-</a>
+
+{% include image.html image_alt="e67321c4.png" image_src="/1da16dfc-94c0-4a64-be4b-e44cac3e691c/e67321c4.png" %}
+
 
 :dancer:
 

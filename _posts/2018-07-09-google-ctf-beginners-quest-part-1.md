@@ -48,7 +48,7 @@ _A special shoutout to [ktbonefish](https://www.reddit.com/u/ktbonefish), [tsuro
 
 Let's start with the first challenge—Letter. The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/5a0fad5699f75dee39434cc26587411b948e0574a545ef4157e5bf4700e9d62a).
 
-![Letter](/assets/images/posts/google-ctf-beginners-quest-part-1/38765a0d.png)
+{% include image.html image_alt="Letter" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/38765a0d.png" %}
 
 First, let's rename the file as `letter.zip`. I'll do the same for any challenge that comes with an attachment; I'll download the attachment and rename it as `<challenge>.zip`. For example, if the next challenge is **Floppy**, I'll rename the attachment as `floppy.zip`.
 
@@ -64,7 +64,7 @@ Archive:  letter.zip
 
 The file `letter.zip` contains a PDF file `challenge.pdf`. This is how `challenge.pdf` looks like in a modern browser.
 
-![challenge.pdf](/assets/images/posts/google-ctf-beginners-quest-part-1/c1f48a50.png)
+{% include image.html image_alt="challenge.pdf" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/c1f48a50.png" %}
 
 The challenge is to read the password. That's trivial. Select the password field, copy it, and then paste it, say in a terminal.
 
@@ -74,7 +74,7 @@ The flag is `CTF{ICanReadDis}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/4e69382f661878c7da8f8b6b8bf73a20acd6f04ec253020100dfedbd5083bb39).
 
-![Floppy](/assets/images/posts/google-ctf-beginners-quest-part-1/720dc921.png)
+{% include image.html image_alt="Floppy" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/720dc921.png" %}
 
 Let's unzip `floppy.zip`.
 
@@ -126,7 +126,7 @@ The flag is `CTF{qeY80sU6Ktko8BJW}`.
 
 There's no attachment in this challenge. The challenge is basically an exercise in compiling [DOSBox](https://www.dosbox.com/) debugger and debugging a 16-bit DOS application, for those old enough to recognize the ".com" extension in `www.com`.
 
-![Floppy 2](/assets/images/posts/google-ctf-beginners-quest-part-1/fd7a52f2.png)
+{% include image.html image_alt="Floppy 2" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/fd7a52f2.png" %}
 
 The trick to enabling debugger in DOSBox is to specify `--enable-debug=heavy` during configuration of compile options. Having said that, the steps for compiling DOSBox is beyond the scope of this article.
 
@@ -134,29 +134,29 @@ The debugger will appear beside DOSBox upon execution.
 
 _The DOSBox command prompt._
 
-![DOSBox](/assets/images/posts/google-ctf-beginners-quest-part-1/cb693a12.png)
+{% include image.html image_alt="DOSBox" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/cb693a12.png" %}
 
 _The DOSBox debugger._
 
-![DOSBox Debugger](/assets/images/posts/google-ctf-beginners-quest-part-1/868cac24.png)
+{% include image.html image_alt="DOSBox Debugger" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/868cac24.png" %}
 
 The next step is to mount the directory containing `www.com` as a virtual C: drive with the `MOUNT` command.
 
-![Mount Virtual Drive](/assets/images/posts/google-ctf-beginners-quest-part-1/8c0bd606.png)
+{% include image.html image_alt="Mount Virtual Drive" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/8c0bd606.png" %}
 
 Once the virtual drive is mounted, we can start to debug `www.com` with the `DEBUG` command.
 
-![Enter Debug Mode](/assets/images/posts/google-ctf-beginners-quest-part-1/43c6994f.png)
+{% include image.html image_alt="Enter Debug Mode" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/43c6994f.png" %}
 
 _The debugger pauses at the first instruction of the debugged application._
 
-![Pause Debugger](/assets/images/posts/google-ctf-beginners-quest-part-1/68b0b2f0.png)
+{% include image.html image_alt="Pause Debugger" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/68b0b2f0.png" %}
 
 According to [Wikipedia](https://en.wikipedia.org/wiki/COM_file), the COM binary format stores all its code and data in one segment. This is clear in the debugger view above—both the code and data segment are at `0x1FE`.
 
 As you can see in the image below, the flag is in display. `int 21` accesses the [DOS API](https://en.wikipedia.org/wiki/MS-DOS_API#DOS_INT_21h_services) and the `AH` register contains `09h` which is the command to print the string "The Foobanizer9000 is no longer on the OffHub DMZ." to `stdout`.
 
-![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/9e5c5f68.png)
+{% include image.html image_alt="Flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/9e5c5f68.png" %}
 
 The flag is `CTF{g00do1dDOS-FTW}`.
 
@@ -164,21 +164,21 @@ The flag is `CTF{g00do1dDOS-FTW}`.
 
 There's no attachment in this challenge. Instead, there's a hint to connect to `moar.ctfcompetition.com` at port 1337 with `nc`.
 
-![Moar](/assets/images/posts/google-ctf-beginners-quest-part-1/a05ddef8.png)
+{% include image.html image_alt="Moar" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/a05ddef8.png" %}
 
 Let's do that.
 
-![nc](/assets/images/posts/google-ctf-beginners-quest-part-1/ec2efe5b.png)
+{% include image.html image_alt="nc" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/ec2efe5b.png" %}
 
 The man page of `socat` is in display. A common method to execute shell command is to prepend the command with a bang (!).
 
-![Shell Command](/assets/images/posts/google-ctf-beginners-quest-part-1/607e0a0b.png)
+{% include image.html image_alt="Shell Command" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/607e0a0b.png" %}
 
 Awesome.
 
 The flag is in `/home/moar/disable_dmz.sh`.
 
-![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/a58ddf24.png)
+{% include image.html image_alt="Flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/a58ddf24.png" %}
 
 The flag is `CTF{SOmething-CATastr0phic}`.
 
@@ -186,23 +186,23 @@ The flag is `CTF{SOmething-CATastr0phic}`.
 
 There's no attachment in this challenge. Instead, there's a hint to connect to `mngmnt-iface.ctfcompetition.com` at port 1337 with `nc`.
 
-![Admin UI](/assets/images/posts/google-ctf-beginners-quest-part-1/5aa004e3.png)
+{% include image.html image_alt="Admin UI" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/5aa004e3.png" %}
 
 This is how the interface looks like.
 
-![Interface](/assets/images/posts/google-ctf-beginners-quest-part-1/ef2df23c.png)
+{% include image.html image_alt="Interface" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/ef2df23c.png" %}
 
 The first clue lies in **Option 2 - Read EULA/patch notes** as I request for a non-existent file path. The error suggests some kind of directory traversal vulnerability is in place.
 
-![Error](/assets/images/posts/google-ctf-beginners-quest-part-1/1e4b55c5.png)
+{% include image.html image_alt="Error" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/1e4b55c5.png" %}
 
 I was able to read `/etc/passwd`.
 
-![/etc/passwd](/assets/images/posts/google-ctf-beginners-quest-part-1/1d870198.png)
+{% include image.html image_alt="/etc/passwd" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/1d870198.png" %}
 
 If I had to guess, I would say the flag is at `/home/user`.
 
-![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/03072e8a.png)
+{% include image.html image_alt="Flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/03072e8a.png" %}
 
 The flag is `CTF{I_luv_buggy_sOFtware}`.
 
@@ -210,7 +210,7 @@ The flag is `CTF{I_luv_buggy_sOFtware}`.
 
 There's no attachment in this challenge. Instead, we are to continue from the previous challenge.
 
-![Admin UI 2](/assets/images/posts/google-ctf-beginners-quest-part-1/00550c00.png)
+{% include image.html image_alt="Admin UI 2" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/00550c00.png" %}
 
 The challenge lies in guessing the location of the binary and how to get a pristine copy for reverse engineering. After a couple of rounds of guessing, the binary is at `/home/user/main`.
 
@@ -235,33 +235,33 @@ Here comes the next challenge—reverse engineering. The obvious place to look f
 
 _Comparison of the first password with the file `flag`._
 
-![primary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/b6d12561.png)
+{% include image.html image_alt="primary_login" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/b6d12561.png" %}
 
 The first password is whatever that's in the file `flag`, which happens to be the flag for **Admin UI**. The second password is a bit more hidden.
 
 _Checking the length of the second password._
 
-![secondary_login](/assets/images/posts/google-ctf-beginners-quest-part-1/146dcbf5.png)
+{% include image.html image_alt="secondary_login" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/146dcbf5.png" %}
 
 Turns out it doesn't matter what the second password is—as long as it's thirty-five characters long—you'll have access to a limited shell.
 
-![Authenticated](/assets/images/posts/google-ctf-beginners-quest-part-1/45147773.png)
+{% include image.html image_alt="Authenticated" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/45147773.png" %}
 
 Well, this still doesn't give us the flag. We've to dig deeper in the memory.
 
 _XOR operation with `0xc7`._
 
-![xor](/assets/images/posts/google-ctf-beginners-quest-part-1/0f9c83d6.png)
+{% include image.html image_alt="xor" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/0f9c83d6.png" %}
 
 This will go on for thirty-five times—at least we know the flag has thirty-five characters.
 
 _The encrypted flag is at RSP._
 
-![secondary_login()](/assets/images/posts/google-ctf-beginners-quest-part-1/d5f78721.png)
+{% include image.html image_alt="secondary_login()" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/d5f78721.png" %}
 
 The XOR routine, hidden in the `secondary_login` function, encrypts the flag with `0xc7`, and place it at the stack. To get to the bytes at the stack, I place a breakpoint at `*secondary_login+229` where we can then examine the bytes with `x/35b $rsp`.
 
-![Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/9612527b.png)
+{% include image.html image_alt="Flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/9612527b.png" %}
 
 Let's save the output above to `dump`.
 
@@ -303,7 +303,7 @@ The flag is `CTF{Two_PasSworDz_Better_th4n_1_k?}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/7ad5a7d71a7ac5f5056bb95dd326603e77a38f25a76a1fb7f7e6461e7d27b6a3).
 
-![OCR is Cool](/assets/images/posts/google-ctf-beginners-quest-part-1/bde8ed42.png)
+{% include image.html image_alt="OCR is Cool" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/bde8ed42.png" %}
 
 Let's unzip `OCR_is_cool.zip`.
 
@@ -319,7 +319,7 @@ Archive:  ocr_is_cool.zip
 
 This is how `OCR_is_cool.png` looks like—or rather how the encrypted flag looks like.
 
-![Encrypted Flag](/assets/images/posts/google-ctf-beginners-quest-part-1/6291b626.png)
+{% include image.html image_alt="Encrypted Flag" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/6291b626.png" %}
 
 I made the assumption that "VMY" represents "CTF" after encryption. Note the curly braces after "VMY"—another good hint. It's obvious that the contents of the email is not in plaintext, encrypted by some kind of substitution cipher—possibly Caesar cipher.
 
@@ -353,7 +353,7 @@ The flag is `CTF{caesarcipherisasubstitutioncipher}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/2cdc6654fb2f8158cd976d8ffac28218b15d052b5c2853232e4c1bafcb632383).
 
-![Security by Obscurity](/assets/images/posts/google-ctf-beginners-quest-part-1/e3bd9923.png)
+{% include image.html image_alt="Security by Obscurity" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/e3bd9923.png" %}
 
 Let's unzip `security_by_obscurity.zip`.
 
@@ -403,7 +403,7 @@ The flag is `CTF{CompressionIsNotEncryption}`.
 
 The attachment is [here](https://storage.googleapis.com/gctf-2018-attachments/7a50da3856dc766fc167a3a9395e86bdcecabefc1f67c53f0b5d4a660f17cd50).
 
-![JS Safe](/assets/images/posts/google-ctf-beginners-quest-part-1/db9cd26e.png)
+{% include image.html image_alt="JS Safe" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/db9cd26e.png" %}
 
 Let's unzip `js-safe.zip`.
 
@@ -419,33 +419,33 @@ Archive:  js-safe.zip
 
 This is how `js_safe_1.html` looks like in the browser.
 
-![js_safe_1.html](/assets/images/posts/google-ctf-beginners-quest-part-1/897cc75c.png)
+{% include image.html image_alt="js_safe_1.html" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/897cc75c.png" %}
 
 Modern browsers these days come with a JS debugger, and that's what I'm using to tackle this challenge. Whenever the value of the textbox changes, the JS engine calls the asynchronous function `open_safe()`.
 
-![open_safe()](/assets/images/posts/google-ctf-beginners-quest-part-1/92059013.png)
+{% include image.html image_alt="open_safe()" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/92059013.png" %}
 
 We can see from above that the password must match the pattern `/^CTF{([0-9a-zA-Z_@!?-]+)}$/` to proceed. The challenge lies in determining the password to unlock the safe. And guess what—the password is the flag, judging from the password format.
 
 The string inside `CTF{...}` is then supplied as argument to another asynchronous function `x()`. This function is the key to determining the password.
 
-![x()](/assets/images/posts/google-ctf-beginners-quest-part-1/c8d96eec.png)
+{% include image.html image_alt="x()" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/c8d96eec.png" %}
 
 The logic of the function `x()` is in the long string starting with `icff` and ending with `ьcee`—encoded. The decoding regime will iterate the string, four characters at a time—where each character represents the index to the property of the `env` object. Since we are looking at inline JS, we can always include our own code to decode the function `x()`.
 
-![js_safe_2.html](/assets/images/posts/google-ctf-beginners-quest-part-1/4809e649.png)
+{% include image.html image_alt="js_safe_2.html" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/4809e649.png" %}
 
 I've added the above code to display the decoded function in the console. Towards the end of the decoding regime is where the comparison between the supplied hash and the correct hash occurs, `XOR`ing them one byte at a time, checking if it evaluates to zero. SHA256 is the cryptographic function used to create a 32-byte hash.
 
-![Hash Comparison](/assets/images/posts/google-ctf-beginners-quest-part-1/ad79aeab.png)
+{% include image.html image_alt="Hash Comparison" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/ad79aeab.png" %}
 
 Armed with this knowledge, we can add another round of code—three lines to be exact—to extract the bytes of the correct hash.
 
-![js_safe_3.html](/assets/images/posts/google-ctf-beginners-quest-part-1/cebe0cbb.png)
+{% include image.html image_alt="js_safe_3.html" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/cebe0cbb.png" %}
 
 Whenever the function is `ѡ`, we extract the second member of the first argument, resulting in the following hash getting printed to the console.
 
-![Password Hash](/assets/images/posts/google-ctf-beginners-quest-part-1/a537ca47.png)
+{% include image.html image_alt="Password Hash" image_src="/assets/images/posts/google-ctf-beginners-quest-part-1/a537ca47.png" %}
 
 We can do a Google search as suggested in the comment of function `x()` or we can crack the hash with John the Ripper.
 

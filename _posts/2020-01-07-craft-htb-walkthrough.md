@@ -83,31 +83,31 @@ PORT     STATE SERVICE  REASON         VERSION
 
 Looks like `6022/tcp` is some kind of SSH written in Go. Let's check the `ssl/http` service first. Here's what it looks like.
 
-<a class="image-popup">
-![8b0451fd.png](/assets/images/posts/craft-htb-walkthrough/8b0451fd.png)
-</a>
+
+{% include image.html image_alt="8b0451fd.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/8b0451fd.png" %}
+
 
 ### Subdomains / Virtual Hosts
 
 The fact that there's a `ssl/http` service suggests the use of subdomain or/and virtual host.
 
-<a class="image-popup">
-![8f6c7149.png](/assets/images/posts/craft-htb-walkthrough/8f6c7149.png)
-</a>
+
+{% include image.html image_alt="8f6c7149.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/8f6c7149.png" %}
+
 
 The site indicates other subdomains and virtual hosts as well.
 
 #### api.craft.htb
 
-<a class="image-popup">
-![f684c8cc.png](/assets/images/posts/craft-htb-walkthrough/f684c8cc.png)
-</a>
+
+{% include image.html image_alt="f684c8cc.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/f684c8cc.png" %}
+
 
 #### gogs.craft.htb
 
-<a class="image-popup">
-![85a7ab02.png](/assets/images/posts/craft-htb-walkthrough/85a7ab02.png)
-</a>
+
+{% include image.html image_alt="85a7ab02.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/85a7ab02.png" %}
+
 
 We should probably add all of them to `/etc/hosts`.
 
@@ -115,25 +115,25 @@ We should probably add all of them to `/etc/hosts`.
 
 Dinesh left his credentials in one of the older commits `10e3ba4f0a`.
 
-<a class="image-popup">
-![fe0df88a.png](/assets/images/posts/craft-htb-walkthrough/fe0df88a.png)
-</a>
+
+{% include image.html image_alt="fe0df88a.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/fe0df88a.png" %}
+
 
 :roll_eyes:
 
 What's scary is Dinesh didn't bother to change his password. This credential can still be used to login to the repo.
 
-<a class="image-popup">
-![7569c175.png](/assets/images/posts/craft-htb-walkthrough/7569c175.png)
-</a>
+
+{% include image.html image_alt="7569c175.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/7569c175.png" %}
+
 
 ### Initial Foothold
 
 I was browsing the repo when I chanced upon the Alcohol by Volume (ABV) issue Dinesh reported and "patched".
 
-<a class="image-popup">
-![952b64ab.png](/assets/images/posts/craft-htb-walkthrough/952b64ab.png)
-</a>
+
+{% include image.html image_alt="952b64ab.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/952b64ab.png" %}
+
 
 He unknowingly introduced a remote code execution bug into the API by using `eval()`. With that in mind, I wrote the following exploit in `bash` using `curl` as the main driver.
 
@@ -164,39 +164,39 @@ Let's get that reverse shell!
 
 Once the payload is sent, the reverse shell comes knocking on my `nc` listener...
 
-<a class="image-popup">
-![e074f09d.png](/assets/images/posts/craft-htb-walkthrough/e074f09d.png)
-</a>
+
+{% include image.html image_alt="e074f09d.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/e074f09d.png" %}
+
 
 The excitement died shortly...because it's a docker container :angry:
 
-<a class="image-popup">
-![fc9cdc32.png](/assets/images/posts/craft-htb-walkthrough/fc9cdc32.png)
-</a>
+
+{% include image.html image_alt="fc9cdc32.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/fc9cdc32.png" %}
+
 
 While I was browsing the repo, I notice that `settings.py` was in `.gitignore`. In fact, all the database connection details can be found in this file. If only I can take a peek at this file. Wait a tick, I can do that!
 
-<a class="image-popup">
-![80a0a960.png](/assets/images/posts/craft-htb-walkthrough/80a0a960.png)
-</a>
+
+{% include image.html image_alt="80a0a960.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/80a0a960.png" %}
+
 
 Notice the database host is `db`? This host has an IP address of `172.20.0.4`.
 
-<a class="image-popup">
-![eced1df4.png](/assets/images/posts/craft-htb-walkthrough/eced1df4.png)
-</a>
+
+{% include image.html image_alt="eced1df4.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/eced1df4.png" %}
+
 
 And the MySQL service is listening as well.
 
-<a class="image-popup">
-![b9c9691a.png](/assets/images/posts/craft-htb-walkthrough/b9c9691a.png)
-</a>
+
+{% include image.html image_alt="b9c9691a.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/b9c9691a.png" %}
+
 
 Now, how the hell do I connect to `db`? There's no `mysql` client here. It's important to leave no stones unturned during the information gathering phase.
 
-<a class="image-popup">
-![ec46ac72.png](/assets/images/posts/craft-htb-walkthrough/ec46ac72.png)
-</a>
+
+{% include image.html image_alt="ec46ac72.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/ec46ac72.png" %}
+
 
 `dbtest.py` to the rescue. We need to make minor changes to the code such that we fetch all results instead of just one. According to the database model, there's should be two tables: `brew` and `user` respectively.
 
@@ -230,9 +230,9 @@ finally:
 
 I simply use SimpleHTTPServer to host the file at my attacking machine while I use `wget` to pull a fresh copy of `dbtest.py` to `/opt/app`. Now, I have a MySQL client of sorts.
 
-<a class="image-popup">
-![0a51ad81.png](/assets/images/posts/craft-htb-walkthrough/0a51ad81.png)
-</a>
+
+{% include image.html image_alt="0a51ad81.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/0a51ad81.png" %}
+
 
 Bam. More credentials. :triumph:
 
@@ -240,27 +240,27 @@ Bam. More credentials. :triumph:
 
 Gilfoyle's credentials are still active.
 
-<a class="image-popup">
-![e4c293f8.png](/assets/images/posts/craft-htb-walkthrough/e4c293f8.png)
-</a>
+
+{% include image.html image_alt="e4c293f8.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/e4c293f8.png" %}
+
 
 Guess what. He has a private repository. Sneaky bastard. All the good stuff are stashed here, including his SSH keys! :imp:
 
-<a class="image-popup">
-![a95605e5.png](/assets/images/posts/craft-htb-walkthrough/a95605e5.png)
-</a>
+
+{% include image.html image_alt="a95605e5.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/a95605e5.png" %}
+
 
 Armed with the SSH private, we can log into Gilfoyle's account.
 
-<a class="image-popup">
-![285295eb.png](/assets/images/posts/craft-htb-walkthrough/285295eb.png)
-</a>
+
+{% include image.html image_alt="285295eb.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/285295eb.png" %}
+
 
 Wait a minute. The private key must be password protected. Maybe it's the same password as the repo access?
 
-<a class="image-popup">
-![22cdce12.png](/assets/images/posts/craft-htb-walkthrough/22cdce12.png)
-</a>
+
+{% include image.html image_alt="22cdce12.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/22cdce12.png" %}
+
 
 Indeed. The file `user.txt` is at his home directory.
 
@@ -268,21 +268,21 @@ Indeed. The file `user.txt` is at his home directory.
 
 During enumeration of private repo, I noticed the use of Vault by HashiCorp. It's a secrets storage server.
 
-<a class="image-popup">
-![08816c67.png](/assets/images/posts/craft-htb-walkthrough/08816c67.png)
-</a>
+
+{% include image.html image_alt="08816c67.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/08816c67.png" %}
+
 
 Notice the UI is disabled? Fret not, we still have CLI. The commands are pretty easy to use. Refer to the [documentation](https://www.vaultproject.io/docs/commands/). Within five minutes of playing with `vault` and looking at `secrets.sh` in the private repo, I managed to gain `root` access.
 
-<a class="image-popup">
-![9b03a04b.png](/assets/images/posts/craft-htb-walkthrough/9b03a04b.png)
-</a>
+
+{% include image.html image_alt="9b03a04b.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/9b03a04b.png" %}
+
 
 Retrieving the file `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![3414a307.png](/assets/images/posts/craft-htb-walkthrough/3414a307.png)
-</a>
+
+{% include image.html image_alt="3414a307.png" image_src="/d226e221-219f-4b50-8ab5-93ec882d5323/3414a307.png" %}
+
 
 :dancer:
 

