@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache" \
+     -H "X-Auth-Email: $X_AUTH_EMAIL" \
+     -H "X-Auth-Key: $X_AUTH_KEY" \
+     -H "Content-Type: application/json" \
+     --data '{"purge_everything":true}'
