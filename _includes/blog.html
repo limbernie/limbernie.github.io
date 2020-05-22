@@ -1,3 +1,4 @@
+{% assign cloudinary = "https://res.cloudinary.com/limbernie/image/upload/" %}
 <script type="application/ld+json">
 {
 	"@context": "http://schema.org",
@@ -16,6 +17,6 @@
 			"https://www.reddit.com/u/{{ site.owner.reddit }}"
 		]
 	},
-	"image" : "{{ site.url }}/img/avatar.png"
+    "image" : "{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ site.owner.logo }}"
 }
 </script>
