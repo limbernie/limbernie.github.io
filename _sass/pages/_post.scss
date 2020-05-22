@@ -163,8 +163,12 @@ div.post-meta {
 }
 
 #page {
-  padding-bottom: 10px; /* 50px; */
-  min-height: 70vh;
+  //@media (orientation: landscape) {
+  //    padding-bottom: 20px; /* 50px; */
+  //}
+  @media (min-width: 850px) {
+      min-height: 70vh;
+  }
   .page-header {
     margin: -1.2rem auto 50px;
   }
@@ -175,13 +179,6 @@ div.post-meta {
   .feature-image {
     border-radius: 0.4em;
   }
-}
-
-#post .screenshot {
-    @media (min-width: 800px) {
-        object-fit: scale-down;
-        object-position: left center;
-    }
 }
 
 // Shares Buttons

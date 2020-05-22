@@ -54,7 +54,7 @@
 }
 
 @media all and (orientation: landscape) {
-	.sidebar { 
+	.content, .sidebar { 
         height: 100vh; /* fallback for browsers that don't support custom properties */
         height: calc(var(--vh, 1vh) * 100);
     }
