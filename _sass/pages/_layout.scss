@@ -283,6 +283,9 @@ footer {
 	padding: 0px;
     margin: 0px;
 	width: 100%;
+    @media (max-width: 240px) {
+        width: 90% !important;
+    }
 	background: transparent url("data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D") repeat scroll 0% 0%;
 	outline: medium none;
 	color: #000;
