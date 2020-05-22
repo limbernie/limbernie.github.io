@@ -37,7 +37,7 @@
   {% capture card %}summary_large_image{% endcapture %}
   {% capture creator %}<meta name="twitter:creator" content="@{{ site.owner.twitter }}" />{% endcapture %}
 {% else %}
-  {% capture image %}{{ site.url }}/img/avatar.png{% endcapture %}
+{% capture image %}{{ cloudinary | append: 'f_auto,q_auto' }}/img/{{ site.owner.logo }}{% endcapture %}
   {% capture card %}summary{% endcapture %}
 {% endif %}
 
