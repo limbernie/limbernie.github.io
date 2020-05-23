@@ -339,7 +339,7 @@ The `user.txt` must be at `r4j`'s home directory. Why do I say that? Well, `john
 
 {% include image.html image_alt="cbf9d20d.png" image_src="/b257ffe0-a524-4c2e-9270-99674181d9c2/cbf9d20d.png" %}
 
-`john` is able to run `/usr/bin/readlogs` as `r4j`. Something funky must be going on there. The binary imports the `printlog` function from liblog.so.
+`john` is able to run `/usr/bin/readlogs` as `r4j`. Something funky must be going on there. The binary imports the `printlog` function from `liblog.so`.
 
 {% include image.html image_alt="5a0f55bc.png" image_src="/b257ffe0-a524-4c2e-9270-99674181d9c2/5a0f55bc.png" %}
 
@@ -347,7 +347,7 @@ I knew it.
 
 {% include image.html image_alt="85d9ce44.png" image_src="/b257ffe0-a524-4c2e-9270-99674181d9c2/85d9ce44.png" %}
 
-I guess anyone can write a **fake** `liblog.so` with a `printlog` function that does something nefarious than just `tail`ing off the last 10 lines of `/var/log/auth.log`. :wink:
+I guess anyone can write a **fake** `liblog.so` with a `printlog` function that does something nefarious than just `tail`'ing off the last 10 lines of `/var/log/auth.log`. :wink:
 
 <div class="filename"><span>test.c</span></div>
 
