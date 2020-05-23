@@ -166,8 +166,11 @@ div.post-meta {
   //@media (orientation: landscape) {
   //    padding-bottom: 20px; /* 50px; */
   //}
-  @media (min-width: 850px) {
+  @media (min-height: 500px) {
       min-height: 70vh;
+  }
+  @media (min-height: 1024px) {
+      min-height: 49vh;
   }
   .page-header {
     margin: -1.2rem auto 50px;
