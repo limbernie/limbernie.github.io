@@ -18,8 +18,8 @@ layout: default
 <div class="post-image-feature">
 	<img data-srcset=
             {% if page.image.feature contains "http" %}
-			"{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,f_auto,q_auto' }}/{{ page.image.feature }} 480w, 
-			 {{ cloudinary | replace: 'upload', 'fetch' | append: 'w_800,ar_16:9,c_pad,f_auto,q_auto' }}/{{ page.image.feature }}" 
+			"{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,b_black,f_auto,q_auto' }}/{{ page.image.feature }} 480w, 
+			 {{ cloudinary | replace: 'upload', 'fetch' | append: 'w_800,ar_16:9,c_pad,b_black,f_auto,q_auto' }}/{{ page.image.feature }}" 
             {% else %}
 			"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }} 480w, 
 			 {{ cloudinary | append: 'w_800,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }}" 
@@ -27,7 +27,7 @@ layout: default
 		 data-sizes="(max-width: 800px) 480px, 800px" 
 	     data-src=
             {% if page.image.feature contains "http" %}
-			"{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,f_auto,q_auto' }}/{{ page.image.feature }}" 
+			"{{ cloudinary | replace: 'upload', 'fetch' | append: 'w_480,ar_16:9,c_pad,b_black,f_auto,q_auto' }}/{{ page.image.feature }}" 
             {% else %}
 			"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,f_auto,q_auto' }}/img/{{ page.image.feature }}" 
             {% endif %}
