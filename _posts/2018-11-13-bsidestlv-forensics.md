@@ -7,7 +7,7 @@ category: CTF
 tags: [BSidesTLV]
 comments: true
 image:
-  feature: bsidestlv.jpg
+  feature: https://res.cloudinary.com/limbernie/image/upload/img/bsidestlv.jpg
 ---
 
 This post documents my attempt to complete [BSidesTLV: 2018 CTF (Forensics)](https://www.vulnhub.com/entry/bsidestlv-2018-ctf,250/). If you are uncomfortable with spoilers, please stop reading now.
