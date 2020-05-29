@@ -87,7 +87,10 @@ layout: default
   {% if page.protect %}
   <div id="encrypted_content">
       <form id="encrypt_form" action="#" method="post">
-          <input id="encrypt_password" type="password" name="password" placeholder="HTB root flag or equivalent" size="30" required autocomplete="off" />
+          <div id="encrypt_container">
+            <input id="encrypt_password" type="password" name="password" placeholder="Enter your password" required autocomplete="off" />
+            <button title="Show password"><i class="far fa-eye"</i></button>
+          </div>
           <input type="submit" value="Unlock" />
       </form>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
