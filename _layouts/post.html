@@ -125,7 +125,7 @@ layout: default
               }
 
               var setInnerHTML = function(elm, html) {
-                    elm.innerHTML = html;
+              		elm.innerHTML = html;
                     Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
                             const newScript = document.createElement("script");
                             Array.from(oldScript.attributes)
@@ -139,8 +139,26 @@ layout: default
                   encryptedContent = document.getElementById('encrypted_content');
                   setInnerHTML(encryptedContent, plainHTML);
                   encryptedContent.id = 'decrypted_content';
-              document.querySelector('.read-time').textContent = readTime;
-          });
+                  document.querySelector('.read-time').textContent = readTime;
+                  $(".image-popup").css("cursor", "zoom-in"), $(".image-popup").magnificPopup && $(".image-popup").magnificPopup({
+						type: "image",
+						closeOnContentClick: !0,
+						closeBtnInside: !1,
+						fixedContentPos: !0,
+						mainClass: "mfp-no-margins mfp-with-zoom",
+						image: {
+							verticalFit: !0,
+							titleSrc: function(e) {
+								var t = e.el.attr("title");
+								if (void 0 !== t) return "<span style='font-size: 0.777777778rem'>" + t + "</span>";
+							}
+						},
+						zoom: {
+							enabled: !0,
+							duration: 300
+						}
+			}), $("img[usemap]").rwdImageMaps && $("img[usemap]").rwdImageMaps(), backToTop($(window).width())
+		  });
       </script>
       <article class="post-content">
           {{ content }}
