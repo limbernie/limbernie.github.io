@@ -50,6 +50,10 @@ layout: default
     </div>
     {% endif %}
 
+    {% if post.protect %}
+    <p class="notice">This content is protected with a password, which is usually the <code>root</code> or <code>Administrator</code> flag/hash/password or something equivalent.</p>
+    {% endif %}
+
     {% if post.image.feature %}
     <div class="post-image-feature">
         <img data-srcset=
