@@ -10,7 +10,7 @@ image:
   feature: player2-htb-walkthrough.png
 ---
 
-This post documents the complete walkthrough of Player2, a retired vulnerable [VM][1] created by [MrR3boot][2] and [b14ckh34rt][3], and hosted at [Hack The Box][4]. If you are uncomfortable with spoilers, please stop reading now.
+This post documents the complete walkthrough of PlayerTwo, a retired vulnerable [VM][1] created by [MrR3boot][2] and [b14ckh34rt][3], and hosted at [Hack The Box][4]. If you are uncomfortable with spoilers, please stop reading now.
 {: .notice}
 
 <!--more-->
