@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Player2: Hack The Box Walkthrough"
+title: "PlayerTwo: Hack The Box Walkthrough"
 date: 2020-06-27 16:56:28 +0000
 last_modified_at: 2020-06-27 16:56:28 +0000
 category: Walkthrough
