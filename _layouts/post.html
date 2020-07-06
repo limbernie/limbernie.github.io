@@ -32,7 +32,7 @@ layout: default
 			"{{ cloudinary | append: 'w_480,ar_16:9,c_fill,b_black,f_auto,q_auto' }}/img/{{ page.image.feature }}" 
             {% endif %}
 	     class="feature-image lazyload" 
-	     alt="" width="800" height="450">
+         alt="" width="800" height="450" title="{{ page.image.title }}">
   {% if page.image.credit %}
   <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
   {% endif %}

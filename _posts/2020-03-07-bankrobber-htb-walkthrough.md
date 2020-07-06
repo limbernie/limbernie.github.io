@@ -2,14 +2,15 @@
 layout: post
 title: "Bankrobber: Hack The Box Walkthrough"
 date: 2020-03-07 16:55:57 +0000
-last_modified_at: 2020-03-07 16:55:57 +0000
+last_modified_at: 2020-07-06 11:31:57 +0000
 category: Walkthrough
 tags: ["Hack The Box", Bankrobber, retired, Windows, Insane]
 comments: true
 image:
   feature: bankrobber-htb-walkthrough.jpg
-  credit: QuinceMedia / Pixabay
-  creditlink: https://pixabay.com/illustrations/piggy-bank-money-save-finance-3625494/
+  credit: Quince Creative
+  creditlink: https://quincemedia.com/
+  title: "3D graphics image by Quince Creative"
 ---
 
 This post documents the complete walkthrough of Bankrobber, a retired vulnerable [VM][1] created by [Cneeliz][2] and [Gioo][3], and hosted at [Hack The Box][4]. If you are uncomfortable with spoilers, please stop reading now.
