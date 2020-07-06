@@ -34,7 +34,7 @@ layout: default
 	     class="feature-image lazyload" 
          alt="" width="800" height="450" title="{{ page.image.title }}">
   {% if page.image.credit %}
-  <span class="image-credit"><a href="{{ page.image.creditlink  }}">{{ page.image.credit }}</a></span>
+  <span class="image-credit"><a href="{{ page.image.creditlink  }}" title="{{ page.image.title }}">{{ page.image.credit }}</a></span>
   {% endif %}
 </div>
 {% endif %}
