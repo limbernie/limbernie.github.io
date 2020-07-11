@@ -165,9 +165,9 @@ Armed with this hypothesis, let's see if we can bypass `admin`'s authentication 
 
 {% include image.html image_alt="acfcdf26.png" image_src="/51943661-30c4-4833-a400-abdf98c127f7/acfcdf26.png" %}
 
-We noted that `name` has a 10 characters limit while `email` has a 20 characters limit. In Burp's Repeater above, we input the `name` field with `admin     1` (11 characters) and the email field with `admin@book.htb      1` (21 characters).
+We noted that `name` has a 10 characters limit while `email` has a 20 characters limit. In Burp's Repeater above, we input the `name` field with `admin_____1` (11 characters, and where `_` represents the space character) and the email field with `admin@book.htb_______1` (21 characters, and where `_` represents the space character).
 
-This will allow us to bypass the existing username check based on email because there's no username `admin@book.htb      1`. Right after this, the `INSERT` query strips the `1` because of the 20 character limit and truncates the rest of the whitespaces and insert `admin@book.htb` into the database with my chosen password (`letmein`). After some testing, the character limit of the `name` field was found to be 11 instead of 10. Sneaky!
+This will allow us to bypass the existing username check based on email because there's no username `admin@book.htb______1`. Right after this, the `INSERT` query strips the `1` because of the 20 character limit and truncates the rest of the whitespaces and insert `admin@book.htb` into the database with my chosen password (`letmein`). After some testing, the character limit of the `name` field was found to be 11 instead of 10. Sneaky!
 
 Now let's see if we can log in to `/admin`.
 
