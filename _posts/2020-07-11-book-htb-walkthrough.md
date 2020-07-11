@@ -5,7 +5,7 @@ date: 2020-07-11 15:02:18 +0000
 last_modified_at: 2020-07-11 15:02:18 +0000
 category: Walkthrough
 tags: ["Hack The Box", Book, retired, Linux, Medium]
-comments: false
+comments: true
 image:
   feature: book-htb-walkthrough.png
 ---
