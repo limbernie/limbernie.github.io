@@ -5,7 +5,7 @@ date: 2020-08-08 17:52:38 +0000
 last_modified_at: 2020-08-08 17:52:38 +0000
 category: Walkthrough
 tags: ["Hack The Box", Fatty, retired, Linux, Insane]
-comments: false
+comments: true
 image:
   feature: fatty-htb-walkthrough.png
 ---
