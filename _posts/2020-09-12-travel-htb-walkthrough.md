@@ -490,7 +490,7 @@ Awesome. The file `user.txt` is at `lynik-admin`'s home directory.
 
 ## Privilege Escalation
 
-During enumeration of lynik-admin's account, I noticed the presence of an immutable file `.ldaprc` that suggests another docker container hosting a LDAP server.
+During enumeration of `lynik-admin`'s account, I noticed the presence of an immutable file `.ldaprc` that suggests another docker container hosting a LDAP server.
 
 <div class="filename"><span>.ldaprc</span></div>
 
