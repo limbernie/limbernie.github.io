@@ -208,7 +208,7 @@ Connection: close
 Content-Length: 1233
 ```
 
-Using any of the usual SQL injection character or keywords such as a single quote (`'`), `SELECT`and `UNION` results in a **403 Forbidden**. In addition, if you send requests to the application server at a fast rate , **403 Forbidden** errors are also observed.
+Using any of the usual SQL injection character or keywords such as a single quote (`'`), `SELECT` and `UNION` results in a **403 Forbidden**. In addition, if you send requests to the application server at a fast rate , **403 Forbidden** errors are also observed.
 
 Digging into the specifications of JSON, I noted that JSON only accepts Unicode character encodings for request and response, e.g. UTF-8, UTF-16 and UTF-32, with UTF-8 being the default for best compatibility.
 
