@@ -229,7 +229,7 @@ And bam, we're in!
 
 {% include image.html image_alt="01761d50.png" image_src="/c8399ad4-5424-4ab4-b255-085e004f3873/01761d50.png" %}
 
-#### LOAD LOCAL INFILE
+#### LOAD DATA LOCAL INFILE
 
 From here on, I'll use Adminer to create a table with one column. This is to populate the table with files that I've read.
 
