@@ -48,7 +48,7 @@ The quest has nineteen challenges as shown in the quest map—each color represe
 <area shape="circle" alt="Media-DB" title="Media-DB" coords="526,38,15" href="#media-db" />
 <area shape="circle" alt="Holey Beep" title="Holey Beep" coords="682,143,21" href="#holey-beep" />
 </map>
-<img src="/google-ctf-beginners-quest-part-2/map.png" usemap="#image-map">
+<img src="/assets/images/posts/google-ctf-beginners-quest-part-2/map.png" usemap="#image-map">
 
 Click or tap on the circles above to go to the respective challenge and its write-up.
 

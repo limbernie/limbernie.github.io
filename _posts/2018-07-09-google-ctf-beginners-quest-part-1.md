@@ -38,7 +38,7 @@ The quest has nineteen challenges as shown in the quest map—each color represe
 <area shape="circle" alt="OCR is Cool" title="OCR is Cool" coords="213,37,14" href="#ocr-is-cool" />
 <area shape="circle" alt="Security by Obscurity" title="Security by Obscurity" coords="291,89,14" href="#security-by-obscurity" />
 </map>
-<img src="/google-ctf-beginners-quest-part-1/map.png" usemap="#image-map">
+<img src="/assets/images/posts/google-ctf-beginners-quest-part-1/map.png" usemap="#image-map">
 
 Click or tap on the circles above to go to the respective challenge and its write-up. If the hyperlink is not working for a challenge, I've not worked on it yet. That's what Part 2 is for. :smile:
 
